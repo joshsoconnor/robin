@@ -1,0 +1,374 @@
+.calendar-screen {
+    width: 100%;
+    flex: 1;
+    min-height: 100%;
+    background-color: var(--bg-main);
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 20px;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Header Row */
+.calendar-top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: max(env(safe-area-inset-top, 20px), 52px) 20px 16px;
+    background: var(--bg-main);
+}
+
+.month-nav {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.month-nav h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--primary-action, #E65C3E);
+    letter-spacing: 0;
+}
+
+.nav-arrows {
+    display: flex;
+    gap: 16px;
+}
+
+.nav-arrows button {
+    background: transparent;
+    border: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--primary-action, #E65C3E);
+}
+
+/* Header UI Controls (Search + Toggle) */
+.header-controls {
+    display: flex;
+    align-items: center;
+    background: var(--bg-main);
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    padding: 4px;
+    gap: 4px;
+}
+
+.header-btn {
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 10px;
+    color: var(--text-tertiary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.header-btn.active {
+    background: var(--bg-card);
+    color: var(--primary-action, #E65C3E);
+    box-shadow: var(--shadow-soft);
+}
+
+.search-input-collapsed {
+    width: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+    transition: width 0.3s;
+    outline: none;
+}
+
+/* New Search Behavior Styles */
+.search-trigger {
+    color: var(--primary-action) !important;
+}
+
+.expanded-search-wrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    background: var(--bg-card);
+    border: 1px solid var(--primary-action);
+    border-radius: 12px;
+    padding: 10px 16px;
+    gap: 12px;
+    box-shadow: var(--shadow-soft);
+    animation: slideInSearch 0.2s ease-out;
+}
+
+@keyframes slideInSearch {
+    from {
+        opacity: 0;
+        transform: translateX(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.search-input-full {
+    flex: 1;
+    border: none;
+    background: transparent;
+    color: var(--text-main);
+    font-size: 16px;
+    outline: none;
+    font-family: inherit;
+}
+
+.search-icon {
+    color: var(--text-tertiary);
+}
+
+.search-close-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-tertiary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.search-close-btn:active {
+    background: var(--bg-main);
+}
+
+/* Main Calendar Card */
+.calendar-card {
+    background: var(--bg-card);
+    border-radius: 12px;
+    margin: 0 16px 24px 16px;
+    padding: 20px 12px;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid var(--border-subtle);
+}
+
+.weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    font-weight: 600;
+    color: var(--text-tertiary);
+    font-size: 12px;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+}
+
+.days-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    row-gap: 12px;
+    column-gap: 4px;
+}
+
+.calendar-day {
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+    background: transparent;
+}
+
+.calendar-day.empty {
+    cursor: default;
+}
+
+.day-circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text-main);
+    transition: all 0.2s;
+}
+
+/* Selected = Themed primary background */
+.calendar-day.selected .day-circle {
+    background: var(--text-main);
+    color: var(--bg-card);
+    box-shadow: var(--shadow-heavy);
+}
+
+/* Today = Subtle themed background */
+.calendar-day.today .day-circle {
+    background: rgba(230, 92, 62, 0.1);
+    color: var(--primary-action, #E65C3E);
+    font-weight: 700;
+}
+
+/* If Today IS Selected, themed background overrides it */
+.calendar-day.today.selected .day-circle {
+    background: var(--text-main);
+    color: var(--bg-card);
+}
+
+/* The blue dot indicator */
+.dot-indicator {
+    width: 4px;
+    height: 4px;
+    background-color: #5c7cfa;
+    /* soft blue */
+    border-radius: 50%;
+    position: absolute;
+    bottom: 2px;
+}
+
+/* Section Header (e.g. "Monday, March 2nd") */
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 24px 20px 16px;
+}
+
+.section-header h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-main);
+    letter-spacing: -0.3px;
+}
+
+.add-entry-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    color: var(--primary-action, #E65C3E);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-soft);
+    cursor: pointer;
+}
+
+/* Compact List View */
+.entries-list {
+    display: flex;
+    flex-direction: column;
+    padding: 0 20px;
+    gap: 12px;
+}
+
+.entry-item {
+    background: var(--bg-card);
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid var(--border-subtle);
+}
+
+.entry-left {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.entry-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #3b82f6;
+    margin-top: 6px;
+    flex-shrink: 0;
+}
+
+.entry-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.entry-header-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.entry-org {
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--text-main);
+}
+
+.entry-badge {
+    background: var(--bg-main);
+    color: var(--text-tertiary);
+    font-size: 11px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 600;
+}
+
+.entry-address {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.entry-time {
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--text-main);
+}
+
+/* Extra content inside list rows (Notes / Videos) */
+.entry-extras {
+    margin-top: 10px;
+    margin-left: 22px;
+    /* indent to align with text */
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.entry-note {
+    font-size: 13px;
+    color: var(--text-secondary);
+    background: var(--bg-main);
+    padding: 8px 12px;
+    border-radius: 8px;
+    border-left: 3px solid var(--border-subtle);
+}
+
+.entry-video-row {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+}
+
+.entry-video-row video {
+    height: 40px;
+    border-radius: 6px;
+    background: #000;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: #999;
+}

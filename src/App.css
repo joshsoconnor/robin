@@ -1,0 +1,101 @@
+.app-container {
+  width: 100%;
+  max-width: 430px;
+  /* Standard mobile app width */
+  height: 100vh;
+  height: 100dvh;
+  background-color: var(--bg-main);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.1);
+}
+
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  /* Space for Bottom Nav Bar + device safe area */
+  padding-bottom: calc(90px + env(safe-area-inset-bottom));
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Hide scrollbar for clean UI */
+.main-content::-webkit-scrollbar {
+  display: none;
+}
+
+.main-content {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+/* Capacitor Native Navigation Overrides */
+body.native-nav-active,
+html.native-nav-active,
+body.native-nav-active #root,
+body.native-nav-active .app-container {
+  background-color: transparent !important;
+  transition: none !important;
+  /* instant — no gray flash */
+}
+
+html.native-nav-active,
+html body.native-nav-active {
+  background-color: transparent !important;
+}
+
+/* Full-screen transparent nav overlay — native map shows through */
+.nav-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 500;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  pointer-events: none;
+}
+
+.nav-overlay>* {
+  pointer-events: auto;
+}
+
+.nav-overlay-exit {
+  position: absolute;
+  top: max(env(safe-area-inset-top, 20px), 64px);
+  left: 16px;
+  background: rgba(0, 0, 0, 0.72);
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  padding: 10px 18px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.nav-overlay-exit:active {
+  opacity: 0.8;
+}
+
+.nav-overlay-label {
+  position: absolute;
+  bottom: max(env(safe-area-inset-bottom, 20px), 36px);
+  left: 16px;
+  right: 16px;
+  background: rgba(0, 0, 0, 0.72);
+  border-radius: 16px;
+  padding: 14px 18px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  text-align: center;
+}

@@ -1,0 +1,432 @@
+/* ── Base ──────────────────────────────────────── */
+.settings-screen {
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-main);
+    overflow-y: auto;
+    padding: max(env(safe-area-inset-top, 20px), 52px) 16px 40px;
+    display: flex;
+    flex-direction: column;
+}
+
+.settings-screen::-webkit-scrollbar {
+    display: none;
+}
+
+.settings-header {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--text-main);
+    margin-bottom: 24px;
+}
+
+/* ── Back Button ──────────────────────────────── */
+.back-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--primary-action);
+    font-size: 15px;
+    font-weight: 600;
+    padding: 0 0 16px;
+}
+
+/* ── Groups ───────────────────────────────────── */
+.settings-group {
+    background: var(--bg-card);
+    border-radius: 20px;
+    margin-bottom: 28px;
+    border: 1px solid var(--border-subtle);
+    box-shadow: var(--shadow-soft);
+}
+
+.settings-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--border-subtle);
+    transition: background-color 0.15s;
+}
+
+.settings-item:last-of-type {
+    border-bottom: none;
+}
+
+.settings-item.clickable:active {
+    background: var(--bg-main);
+}
+
+.settings-item.disabled {
+    opacity: 0.45;
+    pointer-events: none;
+}
+
+.settings-item-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.settings-item-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.settings-icon {
+    color: var(--primary-action);
+    flex-shrink: 0;
+}
+
+.settings-label {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text-main);
+}
+
+.settings-value {
+    font-size: 13px;
+    color: var(--text-tertiary);
+    max-width: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.settings-chevron {
+    color: var(--text-tertiary);
+    flex-shrink: 0;
+}
+
+/* ── iOS Toggle ──────────────────────────────── */
+.toggle-switch {
+    width: 50px;
+    height: 30px;
+    background: var(--border-subtle);
+    border-radius: 30px;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    flex-shrink: 0;
+}
+
+.toggle-switch.active {
+    background: #34C759;
+}
+
+.toggle-switch.disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.toggle-knob {
+    width: 26px;
+    height: 26px;
+    background: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    transition: transform 0.28s cubic-bezier(.175, .885, .32, 1.275);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+}
+
+.toggle-switch.active .toggle-knob {
+    transform: translateX(20px);
+}
+
+/* ── Auth Buttons ────────────────────────────── */
+.settings-actions {
+    margin-top: auto;
+    padding-top: 16px;
+}
+
+.primary-btn {
+    width: 100%;
+    background: var(--primary-action);
+    color: white;
+    padding: 15px;
+    border-radius: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    transition: opacity 0.2s;
+}
+
+.primary-btn:disabled {
+    opacity: 0.5;
+}
+
+.primary-btn:active {
+    opacity: 0.8;
+}
+
+.danger-btn {
+    width: 100%;
+    background: #FF3B30;
+    color: white;
+    padding: 15px;
+    border-radius: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ── Forms ───────────────────────────────────── */
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form-input,
+.form-textarea {
+    width: 100%;
+    padding: 13px 14px;
+    border-radius: 10px;
+    border: 1.5px solid var(--border-subtle);
+    background: var(--bg-card);
+    color: var(--text-main);
+    font-size: 15px;
+    font-family: inherit;
+    transition: border-color 0.2s;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+    outline: none;
+    border-color: var(--primary-action);
+}
+
+.form-input:disabled {
+    opacity: 0.55;
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 110px;
+}
+
+.form-message {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 8px;
+}
+
+.form-message.ok {
+    background: rgba(52, 199, 89, 0.12);
+    color: #1a7d35;
+}
+
+.form-message.err {
+    background: rgba(255, 59, 48, 0.1);
+    color: #c0392b;
+}
+
+/* ── Data List (Entries / Runs / Addresses) ─── */
+.data-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.data-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--bg-card);
+    padding: 13px 14px;
+    border-radius: 12px;
+    border: 1px solid var(--border-subtle);
+    margin-bottom: 6px;
+}
+
+.data-item-icon {
+    flex-shrink: 0;
+}
+
+.data-item-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.data-item-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-main);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.data-item-sub {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    margin-top: 2px;
+}
+
+.data-item-date {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    flex-shrink: 0;
+}
+
+.data-section-label {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text-tertiary);
+    padding: 12px 4px 6px;
+}
+
+/* ── Empty State ─────────────────────────────── */
+.empty-state {
+    text-align: center;
+    color: var(--text-tertiary);
+    padding: 40px 0;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+/* ── Analytics ───────────────────────────────── */
+.analytics-week-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.analytics-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.pill-toggle {
+    display: flex;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.pill-toggle button {
+    padding: 6px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-tertiary);
+    border-radius: 20px;
+    transition: all 0.2s;
+}
+
+.pill-toggle button.active {
+    background: var(--primary-action);
+    color: white;
+}
+
+.analytics-card-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 24px;
+}
+
+.analytics-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 14px;
+    padding: 16px;
+    text-align: center;
+}
+
+.analytics-card-value {
+    font-size: 30px;
+    font-weight: 800;
+    color: var(--primary-action);
+}
+
+.analytics-card-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-tertiary);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.analytics-section-title {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--text-tertiary);
+    margin-bottom: 12px;
+}
+
+.analytics-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.analytics-bar-label {
+    width: 100px;
+    font-size: 13px;
+    color: var(--text-main);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-shrink: 0;
+}
+
+.analytics-bar-track {
+    flex: 1;
+    height: 7px;
+    background: var(--border-subtle);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.analytics-bar-fill {
+    height: 100%;
+    background: var(--primary-action);
+    border-radius: 4px;
+    min-width: 8px;
+    transition: width 0.5s ease;
+}
+
+.analytics-bar-count {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    width: 20px;
+    text-align: right;
+}
+
+.analytics-repeat-badge {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--primary-action);
+    background: rgba(230, 92, 62, 0.12);
+    padding: 3px 8px;
+    border-radius: 20px;
+    flex-shrink: 0;
+}

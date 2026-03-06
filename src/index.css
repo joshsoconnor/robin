@@ -1,0 +1,143 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --bg-main: #F5F5F7;
+  --bg-card: #FFFFFF;
+  --text-main: #1A1A1A;
+  --text-secondary: #666666;
+  --text-tertiary: #A0A0A0;
+  --primary-action: #E65C3E;
+  --shadow-soft: 0 4px 15px rgba(0, 0, 0, 0.05);
+  --shadow-heavy: 0 8px 30px rgba(0, 0, 0, 0.1);
+  --shadow-elevated: 0 8px 25px rgba(230, 92, 62, 0.35);
+  --border-subtle: #EBEBEB;
+}
+
+.dark {
+  --bg-main: #121212;
+  --bg-card: #1E1E1E;
+  --text-main: #FFFFFF;
+  --text-secondary: #A0A0A0;
+  --text-tertiary: #666666;
+  --primary-action: #FF7B5C;
+  --shadow-soft: 0 4px 15px rgba(0, 0, 0, 0.3);
+  --shadow-heavy: 0 8px 30px rgba(0, 0, 0, 0.5);
+  --shadow-elevated: 0 8px 25px rgba(230, 92, 62, 0.2);
+  --border-subtle: #333333;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body,
+#root {
+  background-color: var(--bg-main);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+html,
+body {
+  font-family: 'Inter', sans-serif;
+  color: var(--text-main);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  width: 100%;
+  height: 100%;
+}
+
+#root {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  /* Dark mode background for outside app bounds */
+  background-color: inherit;
+}
+
+/* Base typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+button {
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  border: none;
+  background: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+input {
+  font-family: 'Inter', sans-serif;
+}
+
+/* ── Google Places Autocomplete (Themed) ────── */
+.pac-container {
+  background-color: var(--bg-card);
+  border-radius: 16px;
+  box-shadow: var(--shadow-heavy);
+  border: 1px solid var(--border-subtle);
+  margin-top: 8px;
+  padding: 8px 0;
+  font-family: 'Inter', sans-serif;
+  z-index: 9999;
+  /* Constrain dropdown width to match the input field */
+  left: 16px !important;
+  right: 16px !important;
+  width: calc(100% - 32px) !important;
+}
+
+.pac-item {
+  padding: 12px 16px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  border-top: 1px solid var(--border-subtle);
+  cursor: pointer;
+  background-color: transparent;
+  transition: background-color 0.2s;
+}
+
+.pac-item:first-child {
+  border-top: none;
+}
+
+.pac-item:hover {
+  background-color: var(--bg-main);
+}
+
+.pac-item-query {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.pac-icon {
+  margin-top: 4px;
+  filter: brightness(0.8) contrast(1.2);
+}
+
+/* Dark mode specific for pac-icon to make it visible */
+.dark .pac-icon {
+  filter: invert(1) brightness(0.7);
+}
+
+.pac-matched {
+  color: var(--primary-action);
+}
+
+.pac-item:hover .pac-item-query {
+  color: var(--primary-action);
+}

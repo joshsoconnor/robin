@@ -1,0 +1,61 @@
+.voice-assistant-node:not(.static) {
+    position: fixed;
+    bottom: 110px;
+    right: 16px;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+.voice-assistant-node:not(.static) .mic-btn {
+    pointer-events: auto;
+}
+
+.voice-assistant-node.static {
+    position: static;
+    z-index: auto;
+}
+
+.mic-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--primary-action);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.mic-btn:active {
+    transform: scale(0.95);
+}
+
+.voice-assistant-node.listening .mic-btn {
+    animation: pulse-mic 1.5s infinite;
+    background: #E53935;
+    /* Red color to indicate listening clearly */
+}
+
+.voice-assistant-node.processing .mic-btn {
+    background: #4B5563;
+    /* Grey out when processing */
+    cursor: wait;
+}
+
+@keyframes pulse-mic {
+    0% {
+        box-shadow: 0 0 0 0 rgba(229, 57, 53, 0.7);
+    }
+
+    70% {
+        box-shadow: 0 0 0 20px rgba(229, 57, 53, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(229, 57, 53, 0);
+    }
+}

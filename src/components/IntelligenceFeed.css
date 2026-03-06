@@ -1,0 +1,305 @@
+.intelligence-feed {
+    padding: 24px 20px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Search Header */
+.search-header {
+    margin-bottom: 20px;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    background-color: var(--bg-card);
+    border-radius: 16px;
+    padding: 12px 16px;
+    box-shadow: var(--shadow-soft);
+}
+
+.search-icon {
+    color: var(--text-tertiary);
+    margin-right: 12px;
+}
+
+.search-bar input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    background: transparent;
+    color: var(--text-main);
+}
+
+.search-bar input::placeholder {
+    color: var(--text-tertiary);
+}
+
+/* Horizontal Filters */
+.filters-container {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    /* For scrollbar space */
+    margin-bottom: 24px;
+    /* Hide scrollbar */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.filters-container::-webkit-scrollbar {
+    display: none;
+}
+
+.filter-pill {
+    white-space: nowrap;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    background-color: var(--bg-card);
+    box-shadow: var(--shadow-soft);
+    transition: all 0.2s ease;
+}
+
+.filter-pill.active {
+    background-color: var(--primary-action);
+    color: white;
+}
+
+/* Main Content Area */
+.feed-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    overflow-y: auto;
+    padding-bottom: 20px;
+    flex: 1;
+}
+
+/* Intel Cards Base */
+.intel-card {
+    background-color: var(--bg-card);
+    border-radius: 24px;
+    padding: 24px;
+    box-shadow: var(--shadow-heavy);
+}
+
+/* Gate Code Card */
+.gate-card {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.header-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background-color: rgba(230, 92, 62, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.location-name {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.gate-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--bg-main);
+    padding: 16px 20px;
+    border-radius: 16px;
+}
+
+.gate-code {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: var(--text-main);
+}
+
+.copy-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background-color: var(--primary-action);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-elevated);
+    transition: transform 0.2s ease;
+}
+
+.copy-btn:active {
+    transform: scale(0.9);
+}
+
+/* Busy Times Widget */
+.busy-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-title {
+    font-size: 18px;
+    margin-bottom: 4px;
+}
+
+.card-subtitle {
+    color: var(--text-secondary);
+    font-size: 14px;
+    margin-bottom: 24px;
+}
+
+.bar-chart {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    height: 140px;
+    padding-top: 24px;
+    /* Space for tooltip */
+}
+
+.bar-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    height: 100%;
+}
+
+.bar-wrapper {
+    flex: 1;
+    width: 32px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    background-color: var(--bg-main);
+    border-radius: 8px;
+    position: relative;
+}
+
+.bar {
+    width: 100%;
+    background-color: #E2E2E2;
+    border-radius: 8px;
+    transition: height 0.5s ease;
+}
+
+.bar-now {
+    background-color: var(--primary-action);
+}
+
+.now-tooltip {
+    position: absolute;
+    top: -28px;
+    background-color: var(--text-main);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 6px;
+}
+
+.now-tooltip::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 4px 4px 0;
+    border-style: solid;
+    border-color: var(--text-main) transparent transparent transparent;
+}
+
+.time-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-tertiary);
+}
+
+.header-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.hazard-badge {
+    background: #ff3b3015;
+    color: #ff3b30;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 2px 6px;
+    border-radius: 4px;
+    width: fit-content;
+    margin-top: 2px;
+}
+
+.time-ago {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    font-weight: 500;
+}
+
+.intel-note {
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--text-secondary);
+    margin-top: 8px;
+    margin-bottom: 16px;
+}
+
+.gate-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.gate-icon {
+    color: var(--primary-action);
+}
+
+.copy-btn-small {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background-color: var(--primary-action);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+}
+
+.hazard-detail {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border-subtle);
+    font-size: 14px;
+    color: var(--text-main);
+}
+
+.hazard-card {
+    border-left: 4px solid #ff3b30;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-tertiary);
+    font-size: 15px;
+}

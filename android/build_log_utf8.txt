@@ -1,0 +1,338 @@
+﻿Starting a Gradle Daemon, 6 stopped Daemons could not be reused, use --status for details
+
+> Configure project :app
+WARNING: Using flatDir should be avoided because it doesn't support any meta-data formats.
+
+> Configure project :capacitor-cordova-android-plugins
+WARNING: Using flatDir should be avoided because it doesn't support any meta-data formats.
+
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:mergeDebugNativeDebugMetadata NO-SOURCE
+> Task :capacitor-android:preBuild UP-TO-DATE
+> Task :capacitor-android:preDebugBuild UP-TO-DATE
+> Task :capacitor-android:writeDebugAarMetadata UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:preBuild UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:preDebugBuild UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:writeDebugAarMetadata UP-TO-DATE
+> Task :capacitor-geolocation:preBuild UP-TO-DATE
+> Task :capacitor-geolocation:preDebugBuild UP-TO-DATE
+> Task :capacitor-geolocation:writeDebugAarMetadata UP-TO-DATE
+> Task :app:javaPreCompileDebug
+> Task :capacitor-android:processDebugNavigationResources UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:processDebugNavigationResources UP-TO-DATE
+> Task :capacitor-geolocation:processDebugNavigationResources UP-TO-DATE
+> Task :app:checkDebugAarMetadata
+> Task :app:processDebugNavigationResources
+> Task :app:generateDebugResValues
+> Task :app:compileDebugNavigationResources
+> Task :capacitor-android:generateDebugResValues UP-TO-DATE
+> Task :capacitor-android:generateDebugResources UP-TO-DATE
+> Task :capacitor-android:packageDebugResources UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:generateDebugResValues UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:generateDebugResources UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:packageDebugResources UP-TO-DATE
+> Task :capacitor-geolocation:generateDebugResValues UP-TO-DATE
+> Task :capacitor-geolocation:generateDebugResources UP-TO-DATE
+> Task :capacitor-geolocation:packageDebugResources UP-TO-DATE
+> Task :app:mapDebugSourceSetPaths
+> Task :app:generateDebugResources
+
+> Task :app:mergeDebugResources
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-fil\values.xml:1054:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-hr\values.xml:1121:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-hy\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-hu\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-hr\values.xml:1122:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-hy\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-hu\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-fil\values.xml:1055:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-hi\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-hi\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values\values.xml:2592:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values\values.xml:2593:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-in\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-in\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-b+sr+Latn\values.xml:1121:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-b+sr+Latn\values.xml:1122:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-af\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-af\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-iw\values.xml:1121:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-iw\values.xml:1122:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-zh\values.xml:1054:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-zh\values.xml:1055:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-it\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-am\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-it\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-am\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-ar\values.xml:1253:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-ar\values.xml:1254:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-zh-rHK\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-zh-rHK\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-is\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-is\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-ka\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-ka\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-ca\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-ca\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-az\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-az\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-pt-rPT\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-pt-rPT\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-bg\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-ko\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-kn\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-kn\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-ja\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-ja\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-ko\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-bg\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-sk\values.xml:1165:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-sk\values.xml:1166:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-ru\values.xml:1165:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-ru\values.xml:1166:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-kk\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-kk\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-cs\values.xml:1165:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-cs\values.xml:1166:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-da\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-da\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-bn\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-bn\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-ml\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-th\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-ml\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-th\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-ta\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-ta\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-sl\values.xml:1165:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-sl\values.xml:1166:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-pt-rBR\values.xml:1081:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-pt-rBR\values.xml:1082:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-lt\values.xml:1165:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-lt\values.xml:1166:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-mn\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-mn\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-sv\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-sv\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-sq\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-sq\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-uk\values.xml:1165:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-uk\values.xml:1166:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-de\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-vi\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-vi\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-de\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-ms\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-ms\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-my\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-my\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-fr\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-fr\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-fa\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-fa\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-lv\values.xml:1121:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-lv\values.xml:1122:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-uz\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-uz\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-ro\values.xml:1121:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-ro\values.xml:1122:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-ky\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-ky\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-pl\values.xml:1165:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-pl\values.xml:1166:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-en-rAU\values.xml:1054:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-en-rAU\values.xml:1055:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-fi\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-fi\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-sr\values.xml:1121:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-sr\values.xml:1122:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-km\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-km\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-tl\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-tl\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-el\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-el\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-lo\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-lo\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-pa\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-pa\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-fr-rCA\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-fr-rCA\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-si\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-si\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-ur\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-ur\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-mk\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-te\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-mk\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-te\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-nl\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-nl\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-mr\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-mr\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-ne\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-ne\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-es\values.xml:1079:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-es\values.xml:1080:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-en-rGB\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-en-rGB\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-et\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-et\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-sw\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-sw\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-en-rIN\values.xml:1054:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-en-rIN\values.xml:1055:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-zh-rTW\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-zh-rTW\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+
+> Task :app:packageDebugResources
+> Task :app:createDebugCompatibleScreenManifests
+> Task :app:extractDeepLinksDebug
+> Task :capacitor-android:extractDeepLinksDebug UP-TO-DATE
+> Task :capacitor-android:processDebugManifest UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:extractDeepLinksDebug UP-TO-DATE
+> Task :app:parseDebugLocalResources
+
+> Task :app:mergeDebugResources
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-tr\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-tr\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-es-rES\values.xml:1054:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-es-rES\values.xml:1055:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-nb\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-nb\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-zh-rCN\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-zh-rCN\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-gu\values.xml:1077:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_ABBREVIATED. Did you mean to add the formatted="false" attribute?
+C:\Users\joshs\.gradle\caches\8.14.3\transforms\94afdf040559f76acd20f5285dfbdbad\transformed\jetified-navigation-6.0.0\res\values-gu\values.xml:1078:4: Multiple substitutions specified in non-positional format of string resource string/HEIGHT_FEET_INCHES_LONGFORM. Did you mean to add the formatted="false" attribute?
+
+> Task :capacitor-cordova-android-plugins:processDebugManifest UP-TO-DATE
+> Task :capacitor-geolocation:extractDeepLinksDebug UP-TO-DATE
+> Task :capacitor-geolocation:processDebugManifest UP-TO-DATE
+
+> Task :app:processDebugMainManifest
+[org.chromium.net:cronet-fallback:119.6045.31] C:\Users\joshs\.gradle\caches\8.14.3\transforms\04e1dfd56478312a9209ba5c948025ac\transformed\jetified-cronet-fallback-119.6045.31\AndroidManifest.xml Warning:
+	Namespace 'org.chromium.net' is used in multiple modules and/or libraries: org.chromium.net:cronet-fallback:119.6045.31, org.chromium.net:cronet-common:119.6045.31, org.chromium.net:cronet-api:119.6045.31. Please ensure that all modules and libraries have a unique namespace. For more information, See https://developer.android.com/studio/build/configure-app-module#set-namespace
+
+> Task :app:processDebugManifest
+> Task :capacitor-android:compileDebugLibraryResources UP-TO-DATE
+> Task :capacitor-android:parseDebugLocalResources UP-TO-DATE
+> Task :capacitor-android:generateDebugRFile UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:compileDebugLibraryResources UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:parseDebugLocalResources UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:generateDebugRFile UP-TO-DATE
+> Task :capacitor-geolocation:compileDebugLibraryResources UP-TO-DATE
+> Task :capacitor-geolocation:parseDebugLocalResources UP-TO-DATE
+> Task :capacitor-geolocation:generateDebugRFile UP-TO-DATE
+> Task :capacitor-android:javaPreCompileDebug UP-TO-DATE
+> Task :capacitor-android:compileDebugJavaWithJavac UP-TO-DATE
+> Task :capacitor-android:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:javaPreCompileDebug UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:compileDebugJavaWithJavac NO-SOURCE
+> Task :capacitor-cordova-android-plugins:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :capacitor-geolocation:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :capacitor-geolocation:compileDebugKotlin UP-TO-DATE
+> Task :capacitor-geolocation:javaPreCompileDebug UP-TO-DATE
+> Task :capacitor-geolocation:compileDebugJavaWithJavac NO-SOURCE
+> Task :capacitor-geolocation:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :app:mergeDebugShaders
+> Task :app:compileDebugShaders NO-SOURCE
+> Task :app:generateDebugAssets UP-TO-DATE
+> Task :capacitor-android:mergeDebugShaders UP-TO-DATE
+> Task :capacitor-android:compileDebugShaders NO-SOURCE
+> Task :capacitor-android:generateDebugAssets UP-TO-DATE
+> Task :capacitor-android:mergeDebugAssets UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:mergeDebugShaders UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:compileDebugShaders NO-SOURCE
+> Task :capacitor-cordova-android-plugins:generateDebugAssets UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:mergeDebugAssets UP-TO-DATE
+> Task :capacitor-geolocation:mergeDebugShaders UP-TO-DATE
+> Task :capacitor-geolocation:compileDebugShaders NO-SOURCE
+> Task :capacitor-geolocation:generateDebugAssets UP-TO-DATE
+> Task :capacitor-geolocation:mergeDebugAssets UP-TO-DATE
+> Task :app:mergeDebugAssets
+> Task :capacitor-geolocation:bundleLibRuntimeToJarDebug UP-TO-DATE
+> Task :capacitor-android:bundleLibRuntimeToJarDebug UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:bundleLibRuntimeToJarDebug UP-TO-DATE
+> Task :app:desugarDebugFileDependencies
+> Task :app:processDebugJavaRes NO-SOURCE
+> Task :capacitor-android:processDebugJavaRes NO-SOURCE
+> Task :capacitor-cordova-android-plugins:processDebugJavaRes NO-SOURCE
+> Task :capacitor-geolocation:processDebugJavaRes UP-TO-DATE
+> Task :app:compressDebugAssets
+> Task :capacitor-android:bundleLibRuntimeToDirDebug UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:bundleLibRuntimeToDirDebug UP-TO-DATE
+> Task :app:processDebugManifestForPackage
+> Task :app:checkDebugDuplicateClasses
+> Task :capacitor-geolocation:bundleLibRuntimeToDirDebug
+> Task :app:mergeDebugJniLibFolders
+> Task :capacitor-android:mergeDebugJniLibFolders UP-TO-DATE
+> Task :capacitor-android:mergeDebugNativeLibs NO-SOURCE
+> Task :capacitor-android:copyDebugJniLibsProjectOnly UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:mergeDebugJniLibFolders UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:mergeDebugNativeLibs NO-SOURCE
+> Task :capacitor-cordova-android-plugins:copyDebugJniLibsProjectOnly UP-TO-DATE
+> Task :capacitor-geolocation:mergeDebugJniLibFolders UP-TO-DATE
+> Task :capacitor-geolocation:mergeDebugNativeLibs NO-SOURCE
+> Task :capacitor-geolocation:copyDebugJniLibsProjectOnly UP-TO-DATE
+> Task :app:validateSigningDebug
+> Task :app:writeDebugAppMetadata
+> Task :app:writeDebugSigningConfigVersions
+> Task :app:mergeDebugNativeLibs
+> Task :capacitor-android:checkDebugAarMetadata UP-TO-DATE
+> Task :capacitor-android:stripDebugDebugSymbols NO-SOURCE
+> Task :capacitor-android:copyDebugJniLibsProjectAndLocalJars UP-TO-DATE
+> Task :capacitor-android:extractDebugAnnotations UP-TO-DATE
+> Task :capacitor-android:extractDeepLinksForAarDebug UP-TO-DATE
+> Task :capacitor-android:mergeDebugGeneratedProguardFiles UP-TO-DATE
+> Task :capacitor-android:mergeDebugConsumerProguardFiles UP-TO-DATE
+> Task :capacitor-android:prepareDebugArtProfile UP-TO-DATE
+> Task :capacitor-android:prepareLintJarForPublish UP-TO-DATE
+> Task :capacitor-android:mergeDebugJavaResource UP-TO-DATE
+> Task :capacitor-android:syncDebugLibJars UP-TO-DATE
+> Task :capacitor-android:bundleDebugAar UP-TO-DATE
+> Task :capacitor-android:assembleDebug UP-TO-DATE
+
+> Task :app:stripDebugDebugSymbols
+Unable to strip the following libraries, packaging them as they are: libgmm-jni.so. Run with --info option to learn more.
+
+> Task :capacitor-cordova-android-plugins:stripDebugDebugSymbols NO-SOURCE
+> Task :capacitor-cordova-android-plugins:checkDebugAarMetadata
+> Task :capacitor-cordova-android-plugins:copyDebugJniLibsProjectAndLocalJars
+> Task :capacitor-cordova-android-plugins:extractDebugAnnotations
+> Task :capacitor-cordova-android-plugins:extractDeepLinksForAarDebug UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:mergeDebugGeneratedProguardFiles UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:mergeDebugConsumerProguardFiles UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:prepareDebugArtProfile UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:prepareLintJarForPublish UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:mergeDebugJavaResource
+> Task :capacitor-geolocation:checkDebugAarMetadata
+> Task :capacitor-cordova-android-plugins:syncDebugLibJars
+> Task :capacitor-cordova-android-plugins:bundleDebugAar
+> Task :capacitor-cordova-android-plugins:assembleDebug
+> Task :capacitor-geolocation:stripDebugDebugSymbols NO-SOURCE
+> Task :capacitor-geolocation:copyDebugJniLibsProjectAndLocalJars
+> Task :capacitor-geolocation:extractDebugAnnotations
+> Task :capacitor-geolocation:extractDeepLinksForAarDebug
+> Task :capacitor-geolocation:mergeDebugGeneratedProguardFiles
+> Task :capacitor-geolocation:mergeDebugConsumerProguardFiles
+> Task :capacitor-geolocation:prepareDebugArtProfile
+> Task :capacitor-geolocation:prepareLintJarForPublish
+> Task :capacitor-geolocation:mergeDebugJavaResource
+> Task :app:processDebugResources
+> Task :capacitor-geolocation:syncDebugLibJars
+> Task :app:mergeDebugJavaResource
+> Task :app:compileDebugJavaWithJavac
+> Task :app:dexBuilderDebug
+> Task :capacitor-geolocation:bundleDebugAar
+> Task :capacitor-geolocation:assembleDebug
+> Task :app:mergeDebugGlobalSynthetics
+> Task :app:mergeProjectDexDebug
+> Task :app:mergeLibDexDebug
+> Task :app:mergeExtDexDebug
+> Task :app:packageDebug
+> Task :app:createDebugApkListingFileRedirect
+> Task :app:assembleDebug
+
+BUILD SUCCESSFUL in 52s
+126 actionable tasks: 54 executed, 72 up-to-date

@@ -1,0 +1,9 @@
+Robin Run App
+
+Supabase Password - 4nYlNVUoLVlnnwqZ&
+
+Project URL - https://ysvarxeaboyhawqnirba.supabase.co
+
+Publishable API Key - sb_publishable_246aBWphahIkphTDibhgPQ_gW6l3cG9
+
+Annon Key - eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlzdmFyeGVhYm95aGF3cW5pcmJhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwMjMwMzksImV4cCI6MjA4NzU5OTAzOX0.nC3VoLpBUJAEe-lmvay-5PJo7E_mlNeCDf-JHCXuW3U

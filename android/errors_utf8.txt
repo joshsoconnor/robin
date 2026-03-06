@@ -1,0 +1,150 @@
+﻿> Task :capacitor-cordova-android-plugins:processDebugJavaRes NO-SOURCE
+> Task :app:compressDebugAssets
+> Task :capacitor-android:bundleLibRuntimeToDirDebug UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:bundleLibRuntimeToDirDebug UP-TO-DATE
+> Task :app:mergeDebugJniLibFolders
+> Task :capacitor-android:mergeDebugJniLibFolders UP-TO-DATE
+> Task :capacitor-android:mergeDebugNativeLibs NO-SOURCE
+> Task :capacitor-android:copyDebugJniLibsProjectOnly UP-TO-DATE
+> Task :app:checkDebugDuplicateClasses
+> Task :capacitor-cordova-android-plugins:mergeDebugJniLibFolders
+> Task :capacitor-cordova-android-plugins:mergeDebugNativeLibs NO-SOURCE
+> Task :capacitor-cordova-android-plugins:copyDebugJniLibsProjectOnly
+> Task :app:validateSigningDebug
+> Task :app:mergeLibDexDebug
+> Task :app:writeDebugAppMetadata
+> Task :app:writeDebugSigningConfigVersions
+> Task :app:mergeDebugNativeLibs
+> Task :app:processDebugResources
+> Task :app:mergeDebugJavaResource
+> Task :capacitor-android:checkDebugAarMetadata
+
+> Task :app:compileDebugJavaWithJavac FAILED
+.\gradlew.bat : C:\Users\jo
+shs\OneDrive\Desktop\Apps\R
+obin\android\app\src\main\j
+ava\com\robin\app\Navigatio
+nPlugin.java:14: error: 
+cannot find symbol
+At line:1 char:306
++ ... rse -Force; 
+.\gradlew.bat 
+assembleDebug 
+--console=plain > 
+build_log.t ...
++                 ~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo         
+     : NotSpecified: (C:\  
+  Users\joshs\...not fin   
+ d symbol:String) [], R    
+emoteException
+    + FullyQualifiedErrorI 
+   d : NativeCommandError
+ 
+import android.support.v4.a
+pp.Fragment;
+                           
+  ^
+  symbol:   class Fragment
+  location: package 
+android.support.v4.app
+C:\Users\joshs\OneDrive\Des
+ktop\Apps\Robin\android\app
+\src\main\java\com\robin\ap
+p\NavigationPlugin.java:15:
+ error: cannot find symbol
+import android.support.v4.a
+pp.FragmentManager;
+                           
+  ^
+  symbol:   class 
+FragmentManager
+  location: package 
+android.support.v4.app
+C:\Users\joshs\OneDrive\Des
+ktop\Apps\Robin\android\app
+\src\main\java\com\robin\ap
+p\NavigationPlugin.java:56:
+ error: cannot find symbol
+                    
+FragmentManager 
+fragmentManager = getActivi
+ty().getSupportFragmentMana
+ger();
+                    ^
+  symbol:   class 
+FragmentManager
+  location: class 
+NavigationPlugin
+3 errors
+
+> Task :app:mergeExtDexDebug
+
+
+[Incubating] Problems report is available at: file:///C:/Users/joshs/OneDrive/Desktop/Apps/Robin/android/build/reports/problems/problems-report.html
+FAILURE: Build failed with 
+an exception.
+
+* What went wrong:
+Execution failed for task '
+:app:compileDebugJavaWithJa
+vac'.
+> Compilation failed; see 
+the compiler output below.
+  C:\Users\joshs\OneDrive\D
+esktop\Apps\Robin\android\a
+pp\src\main\java\com\robin\
+app\NavigationPlugin.java:1
+4: error: cannot find 
+symbol
+  import android.support.v4
+.app.Fragment;
+                           
+    ^
+    symbol:   class 
+Fragment
+    location: package 
+android.support.v4.app
+  C:\Users\joshs\OneDrive\D
+esktop\Apps\Robin\android\a
+pp\src\main\java\com\robin\
+app\NavigationPlugin.java:1
+5: error: cannot find 
+symbol
+  import android.support.v4
+.app.FragmentManager;
+                           
+    ^
+    symbol:   class 
+FragmentManager
+    location: package 
+android.support.v4.app
+  C:\Users\joshs\OneDrive\D
+esktop\Apps\Robin\android\a
+pp\src\main\java\com\robin\
+app\NavigationPlugin.java:5
+6: error: cannot find 
+symbol
+                      
+FragmentManager 
+fragmentManager = getActivi
+ty().getSupportFragmentMana
+ger();
+                      ^
+    symbol:   class 
+FragmentManager
+    location: class 
+NavigationPlugin
+  3 errors
+
+* Try:
+> Check your code and 
+dependencies to fix the 
+compilation error(s)
+> Run with --scan to get 
+full insights.
+
+BUILD FAILED in 25s
+68 actionable tasks: 33 executed, 35 up-to-date
