@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import {
-    User, FileText, Map, HelpCircle, MapPin,
-    BarChart3, LogOut, ChevronRight, Sun, Moon,
-    Package, AlertTriangle, Check
-} from 'lucide-react';
+import { Truck, LogOut, ChevronRight, User, HelpCircle, MapPin, BarChart3, Sun, Moon, Package, AlertTriangle, Check, MoreVertical, FileText, Map } from 'lucide-react';
 import { supabase } from '../lib/supabase';
+import { getSydneyDate, formatDisplayDate } from '../lib/dateUtils';
 import './SettingsScreen.css';
-import { Truck } from 'lucide-react';
 
 type Section = 'main' | 'account' | 'entries' | 'runs' | 'support' | 'addresses' | 'analytics' | 'vehicle';
 
@@ -19,6 +15,10 @@ interface SettingsScreenProps {
     setDeliveryMode: (val: boolean) => void;
     handleLogout: () => void;
     onNavigateToLogin: () => void;
+    routeStops?: any[];
+    activeAddress?: string | null;
+    onUpdateStops?: (stops: any[]) => void;
+    onSwitchToIntel?: (address: string) => void;
 }
 
 // ----- Sub-components -----
@@ -114,10 +114,6 @@ const EntriesSection = () => {
         fetch();
     }, []);
 
-    const fmt = (iso: string) => {
-        const d = new Date(iso);
-        return `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
-    };
 
     if (loading) return <div className="empty-state">Loading…</div>;
     if (entries.length === 0) return <div className="empty-state">No entries yet.</div>;
@@ -137,7 +133,7 @@ const EntriesSection = () => {
                                 : `Video · ${e.category}`}
                         </div>
                     </div>
-                    <div className="data-item-date">{fmt(e.created_at)}</div>
+                    <div className="data-item-date">{formatDisplayDate(e.created_at.split('T')[0])}</div>
                 </div>
             ))}
         </div>
@@ -145,9 +141,14 @@ const EntriesSection = () => {
 };
 
 // ----- Runs Sub-Section -----
-const RunsSection = () => {
+const RunsSection = ({ routeStops, activeAddress, onUpdateStops, onSwitchToIntel }: { routeStops?: any[], activeAddress?: string | null, onUpdateStops?: (stops: any[]) => void, onSwitchToIntel?: (address: string) => void }) => {
     const [deliveries, setDeliveries] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+    const [expandedActive, setExpandedActive] = useState(false);
+    const [expandedRuns, setExpandedRuns] = useState<Record<string, boolean>>({});
+    const [menuOpen, setMenuOpen] = useState<number | null>(null);
+    const [editingIdx, setEditingIdx] = useState<number | null>(null);
+    const [editAddress, setEditAddress] = useState('');
 
     useEffect(() => {
         supabase.from('deliveries').select('*').order('delivery_date', { ascending: false }).then(({ data }) => {
@@ -156,37 +157,188 @@ const RunsSection = () => {
         });
     }, []);
 
-    const fmt = (iso: string) => {
-        const [y, m, d] = iso.split('-');
-        return `${d}/${m}/${y}`;
+
+    const handleAction = async (action: string, idx: number) => {
+        if (!routeStops || !onUpdateStops) return;
+        const newStops = [...routeStops];
+        const stop = newStops[idx];
+        setMenuOpen(null);
+
+        switch (action) {
+            case 'edit':
+                setEditAddress(stop.address);
+                setEditingIdx(idx);
+                break;
+            case 'complete':
+                newStops[idx] = { ...stop, status: 'completed' };
+                onUpdateStops(newStops);
+                if (stop.id) await supabase.from('run_stops').update({ status: 'completed' }).eq('id', stop.id);
+
+                // Add to history so it shows up in the runs list immediately
+                const today = getSydneyDate();
+                await supabase.from('deliveries').insert([{
+                    address: stop.address,
+                    delivery_date: today
+                }]);
+
+                // Refresh local deliveries list
+                supabase.from('deliveries').select('*').order('delivery_date', { ascending: false }).then(({ data }) => {
+                    setDeliveries(data || []);
+                });
+                break;
+            case 'intel':
+                if (onSwitchToIntel) onSwitchToIntel(stop.address);
+                break;
+            case 'delete':
+                if (confirm('Delete this delivery from the run?')) {
+                    const filtered = newStops.filter((_, i) => i !== idx);
+                    onUpdateStops(filtered);
+                    if (stop.id) await supabase.from('run_stops').delete().eq('id', stop.id);
+                }
+                break;
+        }
+    };
+
+    const saveEditSettings = async () => {
+        if (editingIdx === null || !routeStops || !onUpdateStops) return;
+        const newStops = [...routeStops];
+        const stop = newStops[editingIdx];
+
+        newStops[editingIdx] = { ...stop, address: editAddress, lat: undefined, lng: undefined };
+        onUpdateStops(newStops);
+        if (stop.id) await supabase.from('run_stops').update({ address: editAddress }).eq('id', stop.id);
+
+        setEditingIdx(null);
     };
 
     if (loading) return <div className="empty-state">Loading…</div>;
-    if (deliveries.length === 0) return <div className="empty-state">No runs recorded yet.</div>;
+    if (deliveries.length === 0 && (!routeStops || routeStops.length === 0)) return <div className="empty-state">No runs recorded yet.</div>;
 
-    // Group by delivery_date
-    const grouped: Record<string, any[]> = {};
+    // Group by run_id (fallback to delivery_date)
+    const groupedRuns: Record<string, { date: string, items: any[] }> = {};
     deliveries.forEach(d => {
-        if (!grouped[d.delivery_date]) grouped[d.delivery_date] = [];
-        grouped[d.delivery_date].push(d);
+        const runId = d.run_id || d.delivery_date;
+        if (!groupedRuns[runId]) groupedRuns[runId] = { date: d.delivery_date, items: [] };
+        groupedRuns[runId].items.push(d);
     });
+
+    const runList = Object.entries(groupedRuns)
+        .map(([id, data]) => ({ id, ...data }))
+        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+    const activePendingNum = routeStops?.filter(s => s.status === 'pending').length || 0;
 
     return (
         <div className="data-list">
-            {Object.entries(grouped).map(([date, runs]) => (
-                <div key={date}>
-                    <div className="data-section-label">{fmt(date)}</div>
-                    {runs.map((r, i) => (
-                        <div key={i} className="data-item">
-                            <div className="data-item-icon"><Package size={18} color="var(--primary-action)" /></div>
-                            <div className="data-item-body">
-                                <div className="data-item-title">{r.address}</div>
-                                <div className="data-item-sub">Run #{r.id.substring(0, 6)}</div>
+            {/* Active Run Card */}
+            {routeStops && routeStops.length > 0 && (
+                <div className={`data-item active-run-card ${expandedActive ? 'expanded' : ''}`} style={{ display: 'block' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', width: '100%', cursor: 'pointer' }} onClick={() => setExpandedActive(!expandedActive)}>
+                        <div className="data-item-icon" style={{ background: 'var(--primary-action)', borderRadius: 12, padding: 8 }}>
+                            <Truck size={18} color="white" />
+                        </div>
+                        <div className="data-item-body" style={{ marginLeft: 12 }}>
+                            <div className="data-item-title" style={{ fontWeight: 700 }}>Active Run</div>
+                            <div className="data-item-sub">
+                                {activePendingNum} drop{activePendingNum !== 1 ? 's' : ''} remaining
                             </div>
                         </div>
-                    ))}
+                        <div className="settings-chevron" style={{ transform: expandedActive ? 'rotate(90deg)' : 'none', transition: 'transform 0.2s' }}>
+                            <ChevronRight size={18} />
+                        </div>
+                    </div>
+
+                    {expandedActive && (
+                        <div className="active-stops-list" style={{ marginTop: 16, borderTop: '1px solid var(--border-subtle)', paddingTop: 12 }}>
+                            {routeStops.map((s, i) => (
+                                <div key={i} className="active-stop-row" style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10, position: 'relative' }}>
+                                    <div style={{ width: 24, height: 24, borderRadius: 12, background: s.status === 'completed' ? '#eee' : 'var(--bg-main)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 700, border: '1px solid var(--border-subtle)' }}>
+                                        {i + 1}
+                                    </div>
+                                    <div style={{ flex: 1, fontSize: 13, opacity: s.status === 'completed' ? 0.5 : 1 }}>
+                                        <div style={{ fontWeight: 600 }}>{s.address}</div>
+                                        {s.manifest_notes && <div style={{ fontSize: 11, color: 'var(--text-secondary)' }}>📋 {s.manifest_notes}</div>}
+                                    </div>
+
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                                        {s.status === 'completed' && <Check size={14} color="#34C759" />}
+                                        {s.address === activeAddress && <div className="pulse-dot" style={{ width: 8, height: 8, background: 'var(--primary-action)', borderRadius: '50%' }} />}
+
+                                        <button
+                                            onClick={(e) => { e.stopPropagation(); setMenuOpen(menuOpen === i ? null : i); }}
+                                            style={{ background: 'none', border: 'none', padding: 4, color: 'var(--text-secondary)', cursor: 'pointer' }}
+                                        >
+                                            <MoreVertical size={16} />
+                                        </button>
+                                    </div>
+
+                                    {menuOpen === i && (
+                                        <div className="stop-action-menu" style={{
+                                            position: 'absolute', right: 30, top: 0,
+                                            background: 'var(--bg-card)', border: '1px solid var(--border-subtle)',
+                                            borderRadius: 12, boxShadow: '0 4px 12px rgba(0,0,0,0.1)', zIndex: 100,
+                                            padding: '4px 0', minWidth: 140
+                                        }}>
+                                            <button onClick={() => handleAction('edit', i)} className="menu-action-btn">Edit Address</button>
+                                            <button onClick={() => handleAction('complete', i)} className="menu-action-btn">Mark Completed</button>
+                                            <button onClick={() => handleAction('intel', i)} className="menu-action-btn">Show Intel</button>
+                                            <button onClick={() => handleAction('delete', i)} className="menu-action-btn" style={{ color: '#FF3B30' }}>Delete</button>
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            )}
+
+            {runList.map((run) => (
+                <div key={run.id} style={{ marginBottom: 12 }}>
+                    <div className="data-section-label">{formatDisplayDate(run.date)}</div>
+
+                    <div className={`data-item ${expandedRuns[run.id] ? 'expanded' : ''}`} onClick={() => setExpandedRuns(prev => ({ ...prev, [run.id]: !prev[run.id] }))} style={{ cursor: 'pointer', display: 'block' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+                            <div className="data-item-icon"><Package size={18} color="var(--primary-action)" /></div>
+                            <div className="data-item-body" style={{ marginLeft: 12 }}>
+                                <div className="data-item-title" style={{ fontWeight: 600 }}>Runsheet {run.id.substring(0, 8)}</div>
+                                <div className="data-item-sub">{run.items.length} deliveries</div>
+                            </div>
+                            <div className="settings-chevron" style={{ transform: expandedRuns[run.id] ? 'rotate(90deg)' : 'none', transition: 'transform 0.2s' }}>
+                                <ChevronRight size={18} />
+                            </div>
+                        </div>
+
+                        {expandedRuns[run.id] && (
+                            <div style={{ marginTop: 12, borderTop: '1px solid var(--border-subtle)', paddingTop: 12 }}>
+                                {run.items.map((r, i) => (
+                                    <div key={i} style={{ padding: '8px 0', fontSize: 13, borderBottom: i < run.items.length - 1 ? '1px solid var(--border-subtle)' : 'none' }}>
+                                        <div style={{ fontWeight: 500 }}>{r.address}</div>
+                                        <div style={{ color: 'var(--text-secondary)', fontSize: 11 }}>Delivery ID: #{r.id.substring(0, 6)}</div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
                 </div>
             ))}
+
+            {editingIdx !== null && (
+                <div className="edit-modal-overlay">
+                    <div className="edit-modal-content">
+                        <h3>Edit Address</h3>
+                        <textarea
+                            className="edit-address-input"
+                            value={editAddress}
+                            onChange={e => setEditAddress(e.target.value)}
+                            rows={3}
+                        />
+                        <div className="edit-modal-actions">
+                            <button className="edit-cancel-btn" onClick={() => setEditingIdx(null)}>Cancel</button>
+                            <button className="edit-save-btn" onClick={saveEditSettings}>Save Changes</button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
@@ -508,7 +660,7 @@ const VehicleSection = ({ isGuest }: { isGuest: boolean }) => {
 // ================================================
 
 export const SettingsScreen: React.FC<SettingsScreenProps> = ({
-    isGuest, userEmail, isDarkMode, setDarkMode, isDeliveryMode, setDeliveryMode, handleLogout, onNavigateToLogin
+    isGuest, userEmail, isDarkMode, setDarkMode, isDeliveryMode, setDeliveryMode, handleLogout, onNavigateToLogin, routeStops, activeAddress
 }) => {
     const [activeSection, setActiveSection] = useState<Section>('main');
 
@@ -533,7 +685,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
         switch (activeSection) {
             case 'account': return <AccountSection userEmail={userEmail} isGuest={isGuest} onNavigateToLogin={onNavigateToLogin} />;
             case 'entries': return <EntriesSection />;
-            case 'runs': return <RunsSection />;
+            case 'runs': return <RunsSection routeStops={routeStops} activeAddress={activeAddress} />;
             case 'support': return <SupportSection userEmail={userEmail} isGuest={isGuest} />;
             case 'addresses': return <AddressesSection />;
             case 'analytics': return <AnalyticsSection />;

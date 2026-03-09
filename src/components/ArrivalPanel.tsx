@@ -1,16 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { RefreshCw, Square, X, Plus, FileText, Image, ChevronRight, Camera, Video, Trash2 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
+import { getSydneyDate } from '../lib/dateUtils';
 import './ArrivalPanel.css';
 
 interface ArrivalPanelProps {
     address: string;
-    onReRoute: () => void;
-    onEndRoute: () => void;
-    onNextDelivery: () => void;
-    hasNextDelivery: boolean;
+    onReRoute?: () => void;
+    onEndRoute?: () => void;
+    onNextDelivery?: () => void;
+    hasNextDelivery?: boolean;
     nextDeliveryAddress?: string;
     userEmail?: string | null;
+    isAddOnly?: boolean;
 }
 
 export const ArrivalPanel: React.FC<ArrivalPanelProps> = ({
@@ -18,11 +20,12 @@ export const ArrivalPanel: React.FC<ArrivalPanelProps> = ({
     onReRoute,
     onEndRoute,
     onNextDelivery,
-    hasNextDelivery,
+    hasNextDelivery = false,
     nextDeliveryAddress,
     userEmail,
+    isAddOnly = false,
 }) => {
-    const [showDeliveryPanel, setShowDeliveryPanel] = useState(false);
+    const [showDeliveryPanel, setShowDeliveryPanel] = useState(isAddOnly);
     const [activeTab, setActiveTab] = useState<'instructions' | 'media'>('instructions');
 
     // Instructions state
@@ -71,7 +74,7 @@ export const ArrivalPanel: React.FC<ArrivalPanelProps> = ({
         setIsSaving(true);
 
         // Ensure a delivery record exists for today
-        const today = new Date().toISOString().split('T')[0];
+        const today = getSydneyDate();
         const { data: existing } = await supabase
             .from('deliveries')
             .select('id')
@@ -117,7 +120,7 @@ export const ArrivalPanel: React.FC<ArrivalPanelProps> = ({
             photoUrl = publicUrl;
 
             // Ensure delivery record
-            const today = new Date().toISOString().split('T')[0];
+            const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Australia/Sydney', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
             const { data: existing } = await supabase.from('deliveries').select('id').eq('address', address).eq('delivery_date', today);
             if (!existing || existing.length === 0) {
                 await supabase.from('deliveries').insert([{ address, delivery_date: today }]);
@@ -164,7 +167,7 @@ export const ArrivalPanel: React.FC<ArrivalPanelProps> = ({
             videoUrl = publicUrl;
 
             // Ensure delivery record
-            const today = new Date().toISOString().split('T')[0];
+            const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Australia/Sydney', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
             const { data: existing } = await supabase.from('deliveries').select('id').eq('address', address).eq('delivery_date', today);
             if (!existing || existing.length === 0) {
                 await supabase.from('deliveries').insert([{ address, delivery_date: today }]);
@@ -193,7 +196,7 @@ export const ArrivalPanel: React.FC<ArrivalPanelProps> = ({
     // ── Arrival Action Bar (Re-route + End Route) ──
     if (!showDeliveryPanel) {
         return (
-            <div className="arrival-overlay" onClick={(e) => { if (e.target === e.currentTarget) onEndRoute(); }}>
+            <div className="arrival-overlay" onClick={(e) => { if ((e.target as HTMLElement) === e.currentTarget) onEndRoute?.(); }}>
                 <div className="arrival-action-bar" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                     <div className="arrival-arrived-label">✓ Arrived at {shortAddress}</div>
                     <div style={{ display: 'flex', gap: '12px', width: '100%' }}>
@@ -212,7 +215,7 @@ export const ArrivalPanel: React.FC<ArrivalPanelProps> = ({
 
     // ── Delivery Slide-Up Panel ──
     return (
-        <div className="delivery-slideup-overlay" onClick={(e) => { if (e.target === e.currentTarget) setShowDeliveryPanel(false); }}>
+        <div className="delivery-slideup-overlay" onClick={(e) => { if ((e.target as HTMLElement) === e.currentTarget) setShowDeliveryPanel(false); }}>
             <div className="delivery-slideup">
                 <div className="delivery-slideup-handle" />
                 <div className="delivery-slideup-header">
@@ -272,7 +275,28 @@ export const ArrivalPanel: React.FC<ArrivalPanelProps> = ({
                                             <div className="delivery-empty-state">No instructions for this location yet.</div>
                                         ) : (
                                             notes.map((n, i) => (
-                                                <div key={i} className="delivery-note-card">
+                                                <div key={i} className="delivery-note-card" style={{ position: 'relative' }}>
+                                                    {userEmail === 'joshua@rakaviti.com' && (
+                                                        <button
+                                                            className="arrival-delete-media-btn"
+                                                            style={{ top: 12, right: 12 }}
+                                                            onClick={async (e) => {
+                                                                e.stopPropagation();
+                                                                if (window.confirm('Delete this instruction?')) {
+                                                                    const { data, error } = await supabase.from('location_notes').delete().eq('id', n.id).select();
+                                                                    if (error) {
+                                                                        alert('Error deleting note: ' + error.message);
+                                                                    } else if (!data || data.length === 0) {
+                                                                        alert('Deletion failed: Permission denied. Your email: ' + (userEmail || 'Not logged in'));
+                                                                    } else {
+                                                                        setNotes(prev => prev.filter(item => item.id !== n.id));
+                                                                    }
+                                                                }
+                                                            }}
+                                                        >
+                                                            <Trash2 size={14} />
+                                                        </button>
+                                                    )}
                                                     {n.parking_instructions && (
                                                         <>
                                                             <h4>🅿️ Parking</h4>
@@ -316,8 +340,14 @@ export const ArrivalPanel: React.FC<ArrivalPanelProps> = ({
                                                     onClick={async (e) => {
                                                         e.stopPropagation();
                                                         if (window.confirm('Delete this photo?')) {
-                                                            const { error } = await supabase.from('location_photos').delete().eq('id', p.id);
-                                                            if (!error) setPhotos(prev => prev.filter(item => item.id !== p.id));
+                                                            const { data, error } = await supabase.from('location_photos').delete().eq('id', p.id).select();
+                                                            if (error) {
+                                                                alert('Error deleting photo: ' + error.message);
+                                                            } else if (!data || data.length === 0) {
+                                                                alert('Deletion failed: Permission denied. Your email: ' + (userEmail || 'Not logged in'));
+                                                            } else {
+                                                                setPhotos(prev => prev.filter(item => item.id !== p.id));
+                                                            }
                                                         }
                                                     }}
                                                 >
@@ -338,8 +368,14 @@ export const ArrivalPanel: React.FC<ArrivalPanelProps> = ({
                                                     onClick={async (e) => {
                                                         e.stopPropagation();
                                                         if (window.confirm('Delete this video?')) {
-                                                            const { error } = await supabase.from('location_videos').delete().eq('id', v.id);
-                                                            if (!error) setVideos(prev => prev.filter(item => item.id !== v.id));
+                                                            const { data, error } = await supabase.from('location_videos').delete().eq('id', v.id).select();
+                                                            if (error) {
+                                                                alert('Error deleting video: ' + error.message);
+                                                            } else if (!data || data.length === 0) {
+                                                                alert('Deletion failed: Permission denied. Your email: ' + (userEmail || 'Not logged in'));
+                                                            } else {
+                                                                setVideos(prev => prev.filter(item => item.id !== v.id));
+                                                            }
                                                         }
                                                     }}
                                                 >

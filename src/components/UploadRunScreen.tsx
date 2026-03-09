@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { ScanLine, X, CheckCircle, Loader, Plus, GripVertical } from 'lucide-react';
+import { ScanLine, X, CheckCircle, Loader, Plus, GripVertical, MoreVertical } from 'lucide-react';
 import { useMapsLibrary } from '@vis.gl/react-google-maps';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import type { DropResult } from '@hello-pangea/dnd';
@@ -18,6 +18,7 @@ interface EnrichedStop extends ParsedStop {
     status: AddressHistoryStatus;
     hasNotes: boolean;
     hasVideos: boolean;
+    isCompleted?: boolean;
 }
 
 const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
@@ -84,7 +85,9 @@ Rules:
 - Combine multi-line addresses into one string
 - Only include actual delivery stops, not warehouse/depot addresses
 - If there are specific delivery instructions (e.g. "Leave at back door", "Ring bell", "Authority to leave"), include them in manifest_notes
-- If no instructions are present, omit the manifest_notes field entirely`
+- If no instructions are present, omit the manifest_notes field entirely
+- CRITICAL: Pay close attention to unit numbers (e.g. "U 5", "UNIT 5"). If you see "U" followed by a character, it is almost certainly a Unit number.
+- CRITICAL: Avoid common OCR mistakes; do NOT confuse '5' with 'S', '0' with 'O', or '1' with 'I' in the context of address numbers. "U S" is almost always "U 5".`
         },
         ...images.map(img => ({ inline_data: { mime_type: img.mimeType, data: img.base64 } }))
     ];
@@ -181,17 +184,29 @@ async function checkAddressHistory(addresses: string[], currentUserId: string | 
 
 interface UploadRunScreenProps {
     isDarkMode: boolean;
-    onFinalize: (stops: { id: string; address: string; packages: number; status: 'pending' | 'completed' }[]) => void;
+    onFinalize: (stops: any[]) => void;
+    routeStops?: any[];
 }
 
-export const UploadRunScreen: React.FC<UploadRunScreenProps> = ({ isDarkMode, onFinalize }) => {
+export const UploadRunScreen: React.FC<UploadRunScreenProps> = ({ isDarkMode, onFinalize, routeStops }) => {
     const [capturedImages, setCapturedImages] = useState<{ url: string; base64: string; mimeType: string }[]>(() => {
         try { return JSON.parse(sessionStorage.getItem('upload_run_images') || '[]'); } catch { return []; }
     });
     const [stops, setStops] = useState<EnrichedStop[]>(() => {
+        if (routeStops && routeStops.length > 0) {
+            return routeStops.map(s => ({
+                address: s.address,
+                status: 'mine',
+                hasNotes: false,
+                hasVideos: false,
+                isCompleted: s.status === 'completed',
+                manifest_notes: s.manifest_notes
+            }));
+        }
         try { return JSON.parse(sessionStorage.getItem('upload_run_stops') || '[]'); } catch { return []; }
     });
     const [phase, setPhase] = useState<'capture' | 'processing' | 'review'>(() => {
+        if (routeStops && routeStops.length > 0) return 'review';
         return (sessionStorage.getItem('upload_run_phase') as any) || 'capture';
     });
     const [processingStatus, setProcessingStatus] = useState('');
@@ -205,6 +220,9 @@ export const UploadRunScreen: React.FC<UploadRunScreenProps> = ({ isDarkMode, on
 
     const fileInputRef = useRef<HTMLInputElement>(null);
     const manualInputRef = useRef<HTMLInputElement>(null);
+    const [menuOpen, setMenuOpen] = useState<number | null>(null);
+    const [editingIdx, setEditingIdx] = useState<number | null>(null);
+    const [editAddress, setEditAddress] = useState('');
     const places = useMapsLibrary('places');
 
     // Google Places autocomplete on the manual input
@@ -324,7 +342,7 @@ export const UploadRunScreen: React.FC<UploadRunScreenProps> = ({ isDarkMode, on
             id: String(Date.now() + i),
             address: stop.address,
             packages: 1,
-            status: 'pending' as const,
+            status: (stop.isCompleted ? 'completed' : 'pending') as 'completed' | 'pending',
             manifest_notes: stop.manifest_notes,
         }));
         onFinalize(routeStops);
@@ -332,6 +350,39 @@ export const UploadRunScreen: React.FC<UploadRunScreenProps> = ({ isDarkMode, on
 
     const removeStop = (idx: number) => {
         setStops(prev => prev.filter((_, i) => i !== idx));
+        setMenuOpen(null);
+    };
+
+    const handleStopAction = async (action: string, idx: number) => {
+        const newStops = [...stops];
+        const stop = newStops[idx];
+        setMenuOpen(null);
+
+        switch (action) {
+            case 'edit':
+                setEditAddress(stop.address);
+                setEditingIdx(idx);
+                break;
+            case 'complete':
+                newStops[idx] = { ...stop, isCompleted: true };
+                setStops(newStops);
+                break;
+            case 'incomplete':
+                newStops[idx] = { ...stop, isCompleted: false };
+                setStops(newStops);
+                break;
+            case 'delete':
+                removeStop(idx);
+                break;
+        }
+    };
+
+    const saveEdit = () => {
+        if (editingIdx === null) return;
+        const newStops = [...stops];
+        newStops[editingIdx] = { ...newStops[editingIdx], address: editAddress, status: 'new' };
+        setStops(newStops);
+        setEditingIdx(null);
     };
 
     const statusLabel = (status: AddressHistoryStatus) => {
@@ -477,9 +528,9 @@ export const UploadRunScreen: React.FC<UploadRunScreenProps> = ({ isDarkMode, on
                     <div className="review-header">
                         <div>
                             <h1>Run Preview</h1>
-                            <p className="upload-subtitle">{stops.length} stop{stops.length !== 1 ? 's' : ''} · tap to remove</p>
+                            <p className="upload-subtitle">{stops.filter(s => !s.isCompleted).length} stop{stops.filter(s => !s.isCompleted).length !== 1 ? 's' : ''} remaining · 3-dot menu to manage</p>
                         </div>
-                        <button className="rescan-btn" onClick={() => { setPhase('capture'); setStops([]); }}>
+                        <button className="rescan-btn" onClick={() => { setPhase('capture'); }}>
                             Rescan
                         </button>
                     </div>
@@ -492,7 +543,7 @@ export const UploadRunScreen: React.FC<UploadRunScreenProps> = ({ isDarkMode, on
                     </div>
 
                     <p className="upload-subtitle" style={{ marginBottom: 6 }}>
-                        {stops.length} stop{stops.length !== 1 ? 's' : ''} · drag to reorder · tap ✕ to remove
+                        {stops.filter(s => !s.isCompleted).length} stop{stops.filter(s => !s.isCompleted).length !== 1 ? 's' : ''} remaining · drag to reorder · 3-dot menu to manage
                     </p>
                     {/* Stops List with drag-to-reorder */}
                     <DragDropContext onDragEnd={onDragEndReview}>
@@ -509,7 +560,7 @@ export const UploadRunScreen: React.FC<UploadRunScreenProps> = ({ isDarkMode, on
                                                 <div
                                                     ref={drag.innerRef}
                                                     {...drag.draggableProps}
-                                                    className={`stop-row stop-${stop.status}`}
+                                                    className={`stop-row stop-${stop.status} ${stop.isCompleted ? 'is-completed' : ''} ${menuOpen === i ? 'menu-open' : ''}`}
                                                 >
                                                     <span {...drag.dragHandleProps} className="drag-handle">
                                                         <GripVertical size={16} />
@@ -522,6 +573,7 @@ export const UploadRunScreen: React.FC<UploadRunScreenProps> = ({ isDarkMode, on
                                                             <span className="stop-manifest-note">📋 {stop.manifest_notes}</span>
                                                         )}
                                                         <div className="stop-tags">
+                                                            {stop.isCompleted && <span className="tag tag-completed">✓ Completed</span>}
                                                             {statusLabel(stop.status) && (
                                                                 <span className={`tag tag-${stop.status}`}>{statusLabel(stop.status)}</span>
                                                             )}
@@ -529,9 +581,22 @@ export const UploadRunScreen: React.FC<UploadRunScreenProps> = ({ isDarkMode, on
                                                             {stop.hasVideos && <span className="tag tag-info">🎥 Video</span>}
                                                         </div>
                                                     </div>
-                                                    <button className="stop-delete-btn" onClick={() => removeStop(i)}>
-                                                        <X size={15} />
-                                                    </button>
+                                                    <div style={{ position: 'relative' }}>
+                                                        <button className="menu-action-btn" onClick={() => setMenuOpen(menuOpen === i ? null : i)}>
+                                                            <MoreVertical size={18} color="var(--text-secondary)" />
+                                                        </button>
+                                                        {menuOpen === i && (
+                                                            <div className="stop-action-menu">
+                                                                <button onClick={() => handleStopAction('edit', i)}>Edit Address</button>
+                                                                {stop.isCompleted ? (
+                                                                    <button onClick={() => handleStopAction('incomplete', i)}>Mark Incomplete</button>
+                                                                ) : (
+                                                                    <button onClick={() => handleStopAction('complete', i)}>Mark Completed</button>
+                                                                )}
+                                                                <button onClick={() => handleStopAction('delete', i)} style={{ color: 'var(--accent-red)' }}>Delete</button>
+                                                            </div>
+                                                        )}
+                                                    </div>
                                                 </div>
                                             )}
                                         </Draggable>
@@ -545,11 +610,28 @@ export const UploadRunScreen: React.FC<UploadRunScreenProps> = ({ isDarkMode, on
                     {stops.length > 0 && (
                         <div className="finalize-bar">
                             <button className="finalize-run-btn" onClick={handleFinalize}>
-                                Start Run → {stops.length} stops
+                                {stops.some(s => s.isCompleted) ? 'Resume Run' : 'Start Run'} → {stops.filter(s => !s.isCompleted).length} stops
                             </button>
                         </div>
                     )}
                 </>
+            )}
+            {editingIdx !== null && (
+                <div className="edit-modal-overlay">
+                    <div className="edit-modal-content">
+                        <h3>Edit Address</h3>
+                        <textarea
+                            className="edit-address-input"
+                            value={editAddress}
+                            onChange={e => setEditAddress(e.target.value)}
+                            rows={3}
+                        />
+                        <div className="edit-modal-actions">
+                            <button className="edit-cancel-btn" onClick={() => setEditingIdx(null)}>Cancel</button>
+                            <button className="edit-save-btn" onClick={saveEdit}>Save Changes</button>
+                        </div>
+                    </div>
+                </div>
             )}
         </div>
     );

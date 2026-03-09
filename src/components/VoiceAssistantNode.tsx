@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { SpeechRecognition } from '@capacitor-community/speech-recognition';
 import { Geolocation } from '@capacitor/geolocation';
-import { Mic, Loader, MicOff } from 'lucide-react';
+import { Mic, Loader } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { Capacitor, registerPlugin } from '@capacitor/core';
 import './VoiceAssistantNode.css';
@@ -11,9 +11,10 @@ const NavigationSDK = registerPlugin<any>('NavigationSDK');
 interface VoiceAssistantProps {
     routeStops: any[];
     isStatic?: boolean;
+    onAction?: (action: any) => void;
 }
 
-export const VoiceAssistantNode: React.FC<VoiceAssistantProps> = ({ routeStops, isStatic }) => {
+export const VoiceAssistantNode: React.FC<VoiceAssistantProps> = ({ routeStops, isStatic, onAction }) => {
     const [isListening, setIsListening] = useState(false);
     const [isProcessing, setIsProcessing] = useState(false);
     const [supported, setSupported] = useState(false);
@@ -22,6 +23,16 @@ export const VoiceAssistantNode: React.FC<VoiceAssistantProps> = ({ routeStops, 
         const initSpeech = async () => {
             if (!Capacitor.isNativePlatform()) return;
             try {
+                // Setup Navigation Listeners
+                const speakEndListener = await (NavigationSDK as any).addListener('speakEnd', (data: any) => {
+                    console.log('VoiceAssistant: Robin finished speaking', data);
+                    // Check if the response we just gave invited a question
+                    if (window.sessionStorage.getItem('robin_expect_response') === 'true') {
+                        window.sessionStorage.removeItem('robin_expect_response');
+                        startListening();
+                    }
+                });
+
                 const available = await SpeechRecognition.available();
                 if (available.available) {
                     const permission = await SpeechRecognition.checkPermissions();
@@ -30,11 +41,20 @@ export const VoiceAssistantNode: React.FC<VoiceAssistantProps> = ({ routeStops, 
                     }
                     setSupported(true);
                 }
+
+                return () => {
+                    speakEndListener.remove();
+                };
             } catch (err) {
                 console.error('Speech recognition not supported/failed init:', err);
             }
         };
-        initSpeech();
+        const cleanup = initSpeech();
+        return () => {
+            if (cleanup && typeof (cleanup as any).then === 'function') {
+                (cleanup as any).then((cb: any) => cb && cb());
+            }
+        };
     }, []);
 
     const startListening = async () => {
@@ -46,6 +66,12 @@ export const VoiceAssistantNode: React.FC<VoiceAssistantProps> = ({ routeStops, 
             SpeechRecognition.addListener('partialResults', (data: any) => {
                 if (data.matches && data.matches.length > 0) {
                     console.log('Voice captured (partial):', data.matches[0]);
+                }
+            });
+
+            (SpeechRecognition as any).addListener('results', (data: any) => {
+                if (data.matches && data.matches.length > 0) {
+                    console.log('Voice captured (final):', data.matches[0]);
                     processTranscript(data.matches[0]);
                 }
             });
@@ -53,16 +79,17 @@ export const VoiceAssistantNode: React.FC<VoiceAssistantProps> = ({ routeStops, 
             await SpeechRecognition.start({
                 language: 'en-US',
                 maxResults: 1,
-                prompt: 'I am listening...',
+                prompt: 'Robin is listening...',
                 partialResults: true,
-                popup: false,
+                popup: true, // Use native popup for better reliability and visual feedback
             });
 
-            // Automatically stop listening state after a reasonable timeout if no results
-            setTimeout(() => {
+            const timeoutId = setTimeout(() => {
                 setIsListening(false);
                 SpeechRecognition.stop().catch(() => { });
             }, 8000);
+
+            (window as any)._voiceTimeoutId = timeoutId;
 
         } catch (err) {
             console.error('Failed to start listening:', err);
@@ -75,6 +102,9 @@ export const VoiceAssistantNode: React.FC<VoiceAssistantProps> = ({ routeStops, 
 
         if (isListening) {
             try {
+                if ((window as any)._voiceTimeoutId) {
+                    clearTimeout((window as any)._voiceTimeoutId);
+                }
                 await SpeechRecognition.stop();
             } catch (err) {
                 console.error('Failed to stop listening:', err);
@@ -87,16 +117,18 @@ export const VoiceAssistantNode: React.FC<VoiceAssistantProps> = ({ routeStops, 
     };
 
     const processTranscript = async (text: string) => {
-        // Prevent duplicate processing
         if (isProcessing) return;
         setIsListening(false);
         setIsProcessing(true);
 
+        if ((window as any)._voiceTimeoutId) {
+            clearTimeout((window as any)._voiceTimeoutId);
+        }
+
         try {
             await SpeechRecognition.stop();
-        } catch (e) {
-            // Ignore stop errors if already stopped
-        }
+        } catch (e) { }
+
         try {
             let currentLocation = null;
             try {
@@ -119,9 +151,17 @@ export const VoiceAssistantNode: React.FC<VoiceAssistantProps> = ({ routeStops, 
             if (error) throw error;
 
             if (data && data.response) {
+                if (data.response.includes('?') || data.expectResponse) {
+                    window.sessionStorage.setItem('robin_expect_response', 'true');
+                }
+
                 await NavigationSDK.speakText({ text: data.response });
+
+                if (data.action && onAction) {
+                    onAction(data.action);
+                }
             } else {
-                await NavigationSDK.speakText({ text: 'Sorry, I didnt quite get that.' });
+                await NavigationSDK.speakText({ text: "Sorry, I didn't quite get that." });
             }
         } catch (err) {
             console.error('LLM Processing Error:', err);
@@ -131,11 +171,9 @@ export const VoiceAssistantNode: React.FC<VoiceAssistantProps> = ({ routeStops, 
         }
     };
 
-    // We now always show the icon for UI consistency, but clicking it on web triggers a warning.
     const isNative = Capacitor.isNativePlatform();
 
     const handleWebClick = () => {
-        // Just a simple internal alert for web, as the Toast component is top-level in App.tsx
         alert("Robin Voice Co-Pilot is only available in the native mobile app.");
     };
 
@@ -147,8 +185,7 @@ export const VoiceAssistantNode: React.FC<VoiceAssistantProps> = ({ routeStops, 
                 title={isListening ? "Tap to Stop" : "Tap to Speak"}
             >
                 {isProcessing ? <Loader className="spin" size={24} color="white" /> :
-                    isListening ? <MicOff size={24} color="white" /> :
-                        <Mic size={24} color="white" />}
+                    <Mic size={24} color="white" />}
             </button>
         </div>
     );

@@ -149,6 +149,65 @@
     cursor: grabbing;
 }
 
+.menu-action-btn {
+    background: none;
+    border: none;
+    padding: 6px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: var(--text-tertiary);
+}
+
+.stop-action-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: white;
+    /* Solid background */
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+    z-index: 100;
+    min-width: 140px;
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    animation: fadeIn 0.15s ease-out;
+}
+
+.stop-action-menu button {
+    background: none;
+    border: none;
+    padding: 10px 12px;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-main);
+    border-radius: 8px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.stop-action-menu button:hover {
+    background: rgba(230, 92, 62, 0.1);
+    color: var(--primary-action);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 /* ── Stop delete button (review phase) ── */
 .stop-delete-btn {
     background: none;
@@ -426,6 +485,11 @@
     background-color: var(--bg-main);
 }
 
+.stop-row.menu-open {
+    z-index: 1000;
+    position: relative;
+}
+
 /* History tints — soft, not solid */
 .stop-mine {
     background-color: rgba(230, 92, 62, 0.08);
@@ -544,4 +608,114 @@
 
 .finalize-run-btn:active {
     transform: scale(0.98);
+}
+
+.stop-row.is-completed:not(.menu-open) {
+    opacity: 0.6;
+}
+
+.stop-row.is-completed {
+    background-color: var(--bg-main);
+}
+
+.stop-row.is-completed .stop-address {
+    text-decoration: line-through;
+    color: var(--text-tertiary);
+}
+
+.tag-completed {
+    background: rgba(52, 199, 89, 0.15);
+    color: #34C759;
+}
+
+/* ── Edit Modal ── */
+.edit-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+    backdrop-filter: blur(4px);
+}
+
+.edit-modal-content {
+    background: var(--bg-card);
+    width: 100%;
+    max-width: 400px;
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    animation: modalSlideUp 0.3s ease-out;
+}
+
+@keyframes modalSlideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.edit-modal-content h3 {
+    font-size: 20px;
+    margin-bottom: 16px;
+    color: var(--text-main);
+}
+
+.edit-address-input {
+    width: 100%;
+    background: var(--bg-main);
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    padding: 14px;
+    font-size: 15px;
+    color: var(--text-main);
+    font-family: inherit;
+    resize: none;
+    margin-bottom: 20px;
+}
+
+.edit-address-input:focus {
+    outline: none;
+    border-color: var(--primary-action);
+}
+
+.edit-modal-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.edit-modal-actions button {
+    flex: 1;
+    padding: 12px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.15s;
+}
+
+.edit-modal-actions button:active {
+    transform: scale(0.96);
+}
+
+.edit-cancel-btn {
+    background: var(--bg-main);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-subtle);
+}
+
+.edit-save-btn {
+    background: var(--primary-action);
+    color: white;
 }

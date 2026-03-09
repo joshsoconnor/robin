@@ -36,13 +36,13 @@
 
 .voice-assistant-node.listening .mic-btn {
     animation: pulse-mic 1.5s infinite;
-    background: #E53935;
-    /* Red color to indicate listening clearly */
+    background: #FF3B30;
+    /* Bright iOS red for active listening */
 }
 
 .voice-assistant-node.processing .mic-btn {
-    background: #4B5563;
-    /* Grey out when processing */
+    background: #5856D6;
+    /* iOS Indigo for processing */
     cursor: wait;
 }
 

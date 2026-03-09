@@ -45,8 +45,11 @@ export const CalendarScreen: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode }
     }, [currentDate]);
 
     const fetchDeliveriesForMonth = async (date: Date) => {
-        const startOfMonth = new Date(date.getFullYear(), date.getMonth(), 1).toISOString();
-        const endOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0, 23, 59, 59).toISOString();
+        const y = date.getFullYear();
+        const m = date.getMonth();
+        // Use YYYY-MM-DD strings for the query to match the database column format
+        const startOfMonth = `${y}-${String(m + 1).padStart(2, '0')}-01`;
+        const endOfMonth = `${y}-${String(m + 1).padStart(2, '0')}-${String(new Date(y, m + 1, 0).getDate()).padStart(2, '0')}`;
 
         // 1. Fetch Deliveries
         const { data: routeData, error } = await supabase
@@ -136,7 +139,9 @@ export const CalendarScreen: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode }
             const dateStr = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
             const dayDeliveries = deliveries.filter(d => d.delivery_date === dateStr);
             const isSelected = selectedDate?.getDate() === day;
-            const isToday = new Date().toDateString() === new Date(currentDate.getFullYear(), currentDate.getMonth(), day).toDateString();
+
+            const sydneyToday = new Intl.DateTimeFormat('en-CA', { timeZone: 'Australia/Sydney', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
+            const isToday = sydneyToday === dateStr;
 
             days.push(
                 <div
@@ -261,8 +266,8 @@ export const CalendarScreen: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode }
 
                                     {/* Usually time logged - grabbing purely hour/minute from delivery timestamp if possible, else filler */}
                                     <span className="entry-time">
-                                        {new Date(d.created_at).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) !== 'Invalid Date'
-                                            ? new Date(d.created_at).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })
+                                        {new Date(d.created_at).toLocaleTimeString('en-AU', { timeZone: 'Australia/Sydney', hour: 'numeric', minute: '2-digit' }) !== 'Invalid Date'
+                                            ? new Date(d.created_at).toLocaleTimeString('en-AU', { timeZone: 'Australia/Sydney', hour: 'numeric', minute: '2-digit' })
                                             : '7:00 AM'}
                                     </span>
                                 </div>

@@ -3,6 +3,7 @@ import { Map, Marker, useMap, useMapsLibrary } from '@vis.gl/react-google-maps';
 import { Geolocation } from '@capacitor/geolocation';
 // Camera import removed — video capture now uses a file input with accept="video/*"
 import { registerPlugin, Capacitor } from '@capacitor/core';
+import { getSydneyDate } from '../lib/dateUtils';
 import { Camera, Navigation, Coffee, MapPin, Search, Plus, X, Video, Car, Footprints, FileText, Loader, AlertTriangle, Trash2 } from 'lucide-react';
 import { silverMapStyle, darkMapStyle } from '../lib/mapStyles';
 import { supabase } from '../lib/supabase';
@@ -37,7 +38,7 @@ const DeliveryModal = ({ address, onClose }: { address: string, onClose: () => v
         if (!parking && !deliveryNote) return;
 
         // Ensure a delivery record exists for today for the calendar
-        const today = new Date().toISOString().split('T')[0];
+        const today = getSydneyDate();
         const { data: existingDelivery } = await supabase
             .from('deliveries')
             .select('id')
@@ -211,7 +212,7 @@ const ExtrasModal = ({ address, onClose, userEmail }: { address: string, onClose
             }
 
             // Ensure a delivery record exists for today
-            const today = new Date().toISOString().split('T')[0];
+            const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Australia/Sydney', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
             const { data: existingDelivery } = await supabase
                 .from('deliveries')
                 .select('id')
@@ -271,7 +272,11 @@ const ExtrasModal = ({ address, onClose, userEmail }: { address: string, onClose
                                                         e.stopPropagation();
                                                         if (window.confirm('Delete this photo?')) {
                                                             const { error } = await supabase.from('location_photos').delete().eq('id', p.id);
-                                                            if (!error) setPhotos(prev => prev.filter(item => item.id !== p.id));
+                                                            if (error) {
+                                                                alert('Error deleting photo: ' + error.message);
+                                                            } else {
+                                                                setPhotos(prev => prev.filter(item => item.id !== p.id));
+                                                            }
                                                         }
                                                     }}
                                                 >
@@ -296,7 +301,11 @@ const ExtrasModal = ({ address, onClose, userEmail }: { address: string, onClose
                                                         e.stopPropagation();
                                                         if (window.confirm('Delete this video?')) {
                                                             const { error } = await supabase.from('location_videos').delete().eq('id', v.id);
-                                                            if (!error) setVideos(prev => prev.filter(item => item.id !== v.id));
+                                                            if (error) {
+                                                                alert('Error deleting video: ' + error.message);
+                                                            } else {
+                                                                setVideos(prev => prev.filter(item => item.id !== v.id));
+                                                            }
                                                         }
                                                     }}
                                                 >
@@ -375,7 +384,7 @@ const ExtrasModal = ({ address, onClose, userEmail }: { address: string, onClose
                                     const signData = await analyzeSignPhoto(base64, file.type || 'image/jpeg');
 
                                     // Ensure delivery record exists
-                                    const today = new Date().toISOString().split('T')[0];
+                                    const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Australia/Sydney', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
                                     const { data: existing } = await supabase.from('deliveries').select('id').eq('address', address).eq('delivery_date', today);
                                     if (!existing || existing.length === 0) {
                                         await supabase.from('deliveries').insert([{ address, delivery_date: today }]);
@@ -739,7 +748,7 @@ const AddHazardModal = ({ lat, lng, onClose, onSaved }: { lat: number, lng: numb
 
 // --- MAP & EXPLORE SCREEN ---
 
-const ExploreInner = ({ userLocation, persistedDestination, initialCenter, onRouteComputed, isDarkMode, cairns, onCairnClick, googlePlaces, onPlaceClick, mapRefSetter, setIsDrifted }: any) => {
+const ExploreInner = ({ userLocation, persistedDestination, initialCenter, onRouteComputed, isDarkMode, cairns, onCairnClick, googlePlaces, onPlaceClick, mapRefSetter, setIsDrifted, routeStops }: any) => {
     const map = useMap();
     const routesLibrary = useMapsLibrary('routes');
 
@@ -772,7 +781,7 @@ const ExploreInner = ({ userLocation, persistedDestination, initialCenter, onRou
     useEffect(() => {
         if (!map || !userLocation || hasCenteredRef.current || persistedDestination) return;
         map.panTo(userLocation);
-        map.setZoom(16);
+        map.setZoom(18);
         hasCenteredRef.current = true;
     }, [map, userLocation, persistedDestination]);
 
@@ -819,7 +828,7 @@ const ExploreInner = ({ userLocation, persistedDestination, initialCenter, onRou
     return (
         <>
             <Map
-                defaultZoom={14}
+                defaultZoom={18}
                 defaultCenter={userLocation || initialCenter}
                 disableDefaultUI={true}
                 gestureHandling={'greedy'}
@@ -874,11 +883,11 @@ const ExploreInner = ({ userLocation, persistedDestination, initialCenter, onRou
                 ))}
 
                 {/* Google Places markers */}
-                {googlePlaces && googlePlaces.map((place: any) => (
+                {googlePlaces.map((place: any, i: number) => (
                     <Marker
-                        key={`place-${place.place_id}`}
+                        key={`google-place-${i}`}
                         position={{ lat: place.geometry.location.lat(), lng: place.geometry.location.lng() }}
-                        onClick={() => onPlaceClick?.(place)}
+                        onClick={() => onPlaceClick(place)}
                         icon={{
                             url: place.icon,
                             scaledSize: new (window as any).google.maps.Size(24, 24),
@@ -886,6 +895,40 @@ const ExploreInner = ({ userLocation, persistedDestination, initialCenter, onRou
                         }}
                     />
                 ))}
+
+                {/* Global Run Markers */}
+                {routeStops && routeStops.map((stop: any, i: number) => {
+                    if (!stop.lat || !stop.lng) return null;
+                    const label = String(i + 1);
+                    const isCompleted = stop.status === 'completed';
+
+                    const firstPendingIdx = routeStops.findIndex((s: any) => s.status !== 'completed');
+                    const isCurrent = i === firstPendingIdx;
+
+                    let markerColor = '%23000000'; // Black for future
+                    if (isCompleted) {
+                        markerColor = '%239E9E9E'; // Grey
+                    } else if (isCurrent) {
+                        markerColor = '%23FF9800'; // Orange
+                    }
+
+                    const svgIcon = `<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="16" cy="16" r="14" fill="${markerColor}" stroke="white" stroke-width="3"/>
+                        <text x="16" y="21" text-anchor="middle" fill="white" font-size="14" font-weight="bold" font-family="Arial">${label}</text>
+                    </svg>`;
+                    return (
+                        <Marker
+                            key={`run-stop-${i}`}
+                            position={{ lat: stop.lat, lng: stop.lng }}
+                            zIndex={40 + i}
+                            icon={{
+                                url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svgIcon),
+                                scaledSize: new (window as any).google.maps.Size(32, 32),
+                                anchor: new (window as any).google.maps.Point(16, 16)
+                            }}
+                        />
+                    );
+                })}
             </Map>
             {/* Recenter button moved to ExploreScreen for vertical column grouping */}
         </>
@@ -915,6 +958,7 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ persistedDestinati
     });
     const [navError, setNavError] = useState<string | null>(null);
     const [navLoading, setNavLoading] = useState(false);
+    const [geocodedStops, setGeocodedStops] = useState<any[]>([]);
 
     // Cairns state — POI markers visible on the Explore map
     const [cairns, setCairns] = useState<Cairn[]>([]);
@@ -958,10 +1002,14 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ persistedDestinati
         const service = new lib.PlacesService(currentMap);
 
         // We use the current map viewport bounds exactly
-        const request = {
+        const request: any = {
             bounds: currentMap.getBounds(),
             type: types[0] // Simple nearbySearch only takes one primary type well
         };
+
+        if (filterVal === 'Servo') {
+            request.keyword = 'petrol gas station fuel';
+        }
 
         service.nearbySearch(request, (results: any, status: any) => {
             if (status === lib.PlacesServiceStatus.OK && results) {
@@ -999,6 +1047,42 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ persistedDestinati
     const places = useMapsLibrary('places');
 
     const initialCenter = { lat: -33.8688, lng: 151.2093 };
+
+    // Global Geocoding Effect for Run Markers
+    useEffect(() => {
+        if (!routeStops || routeStops.length === 0) {
+            setGeocodedStops([]);
+            return;
+        }
+
+        const resolveCoords = async () => {
+            const geocoder = new (window as any).google.maps.Geocoder();
+            const resolved = [...routeStops];
+            let changed = false;
+
+            for (let i = 0; i < resolved.length; i++) {
+                const stop = resolved[i];
+                if (!stop.lat || !stop.lng) {
+                    try {
+                        const result: any = await new Promise((resolve, reject) => {
+                            geocoder.geocode({ address: stop.address, region: 'au' }, (results: any, status: string) => {
+                                if (status === 'OK' && results[0]) resolve(results[0].geometry.location);
+                                else reject(status);
+                            });
+                        });
+                        resolved[i] = { ...stop, lat: result.lat(), lng: result.lng() };
+                        changed = true;
+                    } catch (e) {
+                        console.warn(`Geocoding failed for ${stop.address}:`, e);
+                    }
+                }
+            }
+            if (changed) setGeocodedStops(resolved);
+            else setGeocodedStops(routeStops);
+        };
+
+        resolveCoords();
+    }, [routeStops]);
 
     useEffect(() => {
         const initData = async () => {
@@ -1103,16 +1187,18 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ persistedDestinati
                 destination: persistedDestination.formatted_address || persistedDestination.name,
                 lat: destLat,
                 lng: destLng,
-                travelMode: activeTab.toUpperCase(),
+                travelMode: 'DRIVING', // Always force DRIVING to prevent native SDK walking ETA bugs
                 waypoints: waypoints.length > 0 ? waypoints : undefined
             });
 
             // Hand off to App.tsx — it shows the transparent nav overlay
             onNavStart(persistedDestination.name || persistedDestination.formatted_address?.split(',')[0] || 'Navigating', persistedDestination.formatted_address || '');
 
-            // Voice Alert for hazard
+            // Voice Alert for hazard (delayed to prevent Google SDK overlap)
             if (hazardWarningText && Capacitor.isNativePlatform()) {
-                NavigationSDK.speakText({ text: hazardWarningText }).catch(console.error);
+                setTimeout(() => {
+                    NavigationSDK.speakText({ text: hazardWarningText }).catch(console.error);
+                }, 5000);
             }
         } catch (err: any) {
             console.error('NavigationSDK failed:', err);
@@ -1151,6 +1237,7 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ persistedDestinati
                     mapRefSetter={setInternalMap}
                     setIsDrifted={setIsDrifted}
                     isDrifted={isDrifted}
+                    routeStops={geocodedStops}
                 />
             </div>
 
@@ -1186,7 +1273,7 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ persistedDestinati
                                     setGooglePlaces([]);
                                     if (internalMap && userLocation) {
                                         internalMap.panTo(userLocation);
-                                        internalMap.setZoom(16);
+                                        internalMap.setZoom(18);
                                         setIsDrifted(false);
                                         window.sessionStorage.removeItem('exploreMapDrifted');
                                     }
@@ -1267,9 +1354,11 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ persistedDestinati
                                 onClick={async (e) => {
                                     e.stopPropagation();
                                     if (window.confirm('Delete this point of interest?')) {
-                                        const { error } = await supabase.from('cairns').delete().eq('id', selectedCairn.id);
+                                        const { data, error } = await supabase.from('cairns').delete().eq('id', selectedCairn.id).select();
                                         if (error) {
                                             alert('Error deleting: ' + error.message);
+                                        } else if (!data || data.length === 0) {
+                                            alert('Deletion failed: You do not have permission to delete this item or the item does not exist. Your email: ' + (userEmail || 'Not logged in'));
                                         } else {
                                             setCairns(prev => prev.filter(c => c.id !== selectedCairn.id));
                                             setSelectedCairn(null);
@@ -1384,7 +1473,7 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ persistedDestinati
 
             <div style={{
                 position: 'fixed',
-                bottom: persistedDestination ? 'calc(260px + env(safe-area-inset-bottom, 20px))' : '110px',
+                bottom: persistedDestination ? 'calc(340px + env(safe-area-inset-bottom, 20px))' : '110px',
                 right: '16px',
                 display: 'flex',
                 flexDirection: 'column-reverse',
@@ -1423,7 +1512,7 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ persistedDestinati
                         onClick={() => {
                             if (internalMap && userLocation) {
                                 internalMap.panTo(userLocation);
-                                internalMap.setZoom(16);
+                                internalMap.setZoom(18);
                                 setIsDrifted(false);
                                 window.sessionStorage.removeItem('exploreMapDrifted');
                             }

@@ -1,8 +1,18 @@
 .intelligence-feed {
-    padding: 24px 20px;
+    padding: calc(env(safe-area-inset-top, 20px) + 24px) 20px 24px;
     height: 100%;
     display: flex;
     flex-direction: column;
+}
+
+.intelligence-header {
+    margin-bottom: 24px;
+}
+
+.intelligence-header h1 {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--text-main);
 }
 
 /* Search Header */
@@ -302,4 +312,54 @@
     padding: 40px 20px;
     color: var(--text-tertiary);
     font-size: 15px;
+}
+
+/* Contextual Styles */
+.active-dest-card {
+    border-left: 4px solid var(--primary-action) !important;
+    background: linear-gradient(to right, rgba(0, 122, 255, 0.05), var(--bg-card)) !important;
+}
+
+.dest-badge {
+    background: var(--primary-action);
+    color: white;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 2px 6px;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+    margin-left: 8px;
+    display: inline-block;
+    width: fit-content;
+}
+
+.intel-media-preview {
+    margin-top: 12px;
+    border-radius: 12px;
+    overflow: hidden;
+    height: 120px;
+    border: 1px solid var(--border-subtle);
+}
+
+.intel-media-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.95);
+        opacity: 0.7;
+    }
+
+    50% {
+        transform: scale(1.05);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(0.95);
+        opacity: 0.7;
+    }
 }

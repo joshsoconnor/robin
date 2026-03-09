@@ -35,7 +35,6 @@
 
 /* Capacitor Native Navigation Overrides */
 body.native-nav-active,
-html.native-nav-active,
 body.native-nav-active #root,
 body.native-nav-active .app-container {
   background-color: transparent !important;
@@ -98,4 +97,58 @@ html body.native-nav-active {
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   text-align: center;
+}
+
+/* Speedometer - Pill Style in Bottom Left */
+.speedometer-container {
+  position: absolute;
+  bottom: calc(110px + env(safe-area-inset-bottom));
+  left: 16px;
+  background: rgba(0, 0, 0, 0.85);
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  padding: 6px;
+  color: #fff;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.speed-limit-circle {
+  width: 44px;
+  height: 44px;
+  background: white;
+  border: 3px solid #ff3b30;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+  font-weight: 800;
+  font-size: 18px;
+  margin-right: 12px;
+}
+
+.current-speed-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-right: 16px;
+}
+
+.speedometer-value {
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.speedometer-unit {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  opacity: 0.8;
+  margin-top: 1px;
 }

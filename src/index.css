@@ -141,3 +141,95 @@ input {
 .pac-item:hover .pac-item-query {
   color: var(--primary-action);
 }
+
+/* ── Shared Edit Modal ── */
+.edit-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+  backdrop-filter: blur(4px);
+}
+
+.edit-modal-content {
+  background: var(--bg-card);
+  width: 100%;
+  max-width: 400px;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  animation: modalSlideUp 0.3s ease-out;
+}
+
+@keyframes modalSlideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.edit-modal-content h3 {
+  font-size: 20px;
+  margin-bottom: 16px;
+  color: var(--text-main);
+}
+
+.edit-address-input {
+  width: 100%;
+  background: var(--bg-main);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 14px;
+  font-size: 15px;
+  color: var(--text-main);
+  font-family: inherit;
+  resize: none;
+  margin-bottom: 20px;
+}
+
+.edit-address-input:focus {
+  outline: none;
+  border-color: var(--primary-action);
+}
+
+.edit-modal-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.edit-modal-actions button {
+  flex: 1;
+  padding: 12px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+
+.edit-modal-actions button:active {
+  transform: scale(0.96);
+}
+
+.edit-cancel-btn {
+  background: var(--bg-main);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+}
+
+.edit-save-btn {
+  background: var(--primary-action);
+  color: white;
+}

@@ -241,29 +241,29 @@ const MapInner: React.FC<{
     initialCenter: { lat: number, lng: number },
     onRouteComputed: (details: { distance: string, duration: string }) => void,
     isDarkMode: boolean,
-    onStopCoordsResolved: (coords: { lat: number, lng: number }[]) => void
-}> = ({ userLocation, cairns, runStops, setSelectedCairn, initialCenter, onRouteComputed, isDarkMode, onStopCoordsResolved }) => {
+    onArrive?: (address: string) => void
+}> = ({ userLocation, cairns, runStops, setSelectedCairn, initialCenter, onRouteComputed, isDarkMode, onArrive }) => {
     const map = useMap();
     const routesLibrary = useMapsLibrary('routes');
 
     const [directionsService, setDirectionsService] = useState<any>();
     const [directionsRenderer, setDirectionsRenderer] = useState<any>();
     const pannedRef = useRef(false);
-    const [resolvedStopCoords, setResolvedStopCoords] = useState<{ lat: number, lng: number }[]>([]);
 
     useEffect(() => {
-        if (map && userLocation && !pannedRef.current && runStops.length === 0) {
+        if (map && userLocation && !pannedRef.current) {
             map.panTo(userLocation as any);
-            map.setZoom(16);
+            map.setZoom(18);
             pannedRef.current = true;
         }
-    }, [map, userLocation, runStops]);
+    }, [map, userLocation]);
 
     useEffect(() => {
         if (!routesLibrary) return;
         setDirectionsService(new routesLibrary.DirectionsService());
         setDirectionsRenderer(new routesLibrary.DirectionsRenderer({
             suppressMarkers: true,
+            preserveViewport: true,
             polylineOptions: { strokeColor: '#FFA500', strokeWeight: 5 }
         }));
     }, [routesLibrary]);
@@ -275,27 +275,24 @@ const MapInner: React.FC<{
 
     useEffect(() => {
         if (!directionsService || !directionsRenderer) return;
-        // Need at least one stop with an address, and a user location OR 2+ stops to get a route
-        const validStops = runStops.filter(s => s.address);
-        if (validStops.length === 0) return;
-        if (!userLocation && validStops.length < 2) return;
-
-        const pendingStops = runStops.filter(s => s.status === 'pending');
-        if (pendingStops.length > 0 && map && userLocation) {
-            if (pendingStops[0].lat && pendingStops[0].lng) {
-                map.panTo({ lat: pendingStops[0].lat!, lng: pendingStops[0].lng! } as any);
-            }
+        // Filter for pending stops to compute the route, but keep markers for all
+        const routeStopsToCompute = runStops.filter(s => s.status === 'pending' && s.address);
+        if (routeStopsToCompute.length === 0) {
+            // If no pending stops, clear directions
+            if (directionsRenderer) directionsRenderer.setDirections({ routes: [] });
+            return;
         }
 
-        // Origin is always user location when available; otherwise first stop address
+        // Origin is always user location when available; otherwise first pending stop
         const origin: any = userLocation
             ? { lat: userLocation.lat, lng: userLocation.lng }
-            : validStops[0].address;
+            : routeStopsToCompute[0].address;
 
-        // Destination is the last stop; waypoints are everything in between
-        const waypointStops = userLocation ? validStops : validStops.slice(1, -1);
-        const dest: any = validStops[validStops.length - 1].address;
-        const waypoints = (userLocation ? validStops.slice(0, -1) : waypointStops).map(stop => ({
+        // Destination is the last pending stop
+        const dest: any = routeStopsToCompute[routeStopsToCompute.length - 1].address;
+
+        // Waypoints are everything in between userLocation/origin and destination
+        const waypoints = (userLocation ? routeStopsToCompute.slice(0, -1) : routeStopsToCompute.slice(1, -1)).map(stop => ({
             location: stop.address,
             stopover: true
         }));
@@ -326,8 +323,6 @@ const MapInner: React.FC<{
                     const endLoc = legs[i].end_location;
                     stopCoords.push({ lat: endLoc.lat(), lng: endLoc.lng() });
                 }
-                onStopCoordsResolved(stopCoords);
-                setResolvedStopCoords(stopCoords);
             }
         }).catch((e: any) => console.error("Directions request failed", e));
     }, [directionsService, directionsRenderer, runStops, map, userLocation, onRouteComputed]);
@@ -373,7 +368,7 @@ const MapInner: React.FC<{
     return (
         <>
             <Map
-                defaultZoom={14}
+                defaultZoom={18}
                 defaultCenter={userLocation || initialCenter}
                 disableDefaultUI={true}
                 gestureHandling={'greedy'}
@@ -399,19 +394,25 @@ const MapInner: React.FC<{
                     />
                 ))}
 
-                {/* Numbered stop markers from the directions response */}
-                {resolvedStopCoords.map((coord, i) => {
-                    // Create a numbered circle SVG as icon
+                {/* Numbered stop markers for ALL stops in the run */}
+                {runStops.map((stop, i) => {
+                    if (!stop.lat || !stop.lng) return null;
+
                     const label = String(i + 1);
+                    const isCompleted = stop.status === 'completed';
+                    const markerColor = isCompleted ? '%239E9E9E' : '%23E53935'; // Grey for completed, Red for pending
+
                     const svgIcon = `<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="16" cy="16" r="14" fill="%23E53935" stroke="white" stroke-width="3"/>
+                        <circle cx="16" cy="16" r="14" fill="${markerColor}" stroke="white" stroke-width="3"/>
                         <text x="16" y="21" text-anchor="middle" fill="white" font-size="14" font-weight="bold" font-family="Arial">${label}</text>
                     </svg>`;
+
                     return (
                         <Marker
-                            key={`stop-${i}`}
-                            position={coord}
-                            zIndex={50 + i}
+                            key={`stop-${stop.id}`}
+                            position={{ lat: stop.lat, lng: stop.lng }}
+                            zIndex={isCompleted ? 40 : 50 + i}
+                            onClick={() => onArrive?.(stop.address)}
                             icon={{
                                 url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svgIcon),
                                 scaledSize: new (window as any).google.maps.Size(32, 32),
@@ -427,7 +428,7 @@ const MapInner: React.FC<{
                     onClick={() => {
                         if (map && userLocation) {
                             map.panTo(userLocation as any);
-                            map.setZoom(16);
+                            map.setZoom(18);
                         }
                     }}
                 >
@@ -436,9 +437,17 @@ const MapInner: React.FC<{
             )}
         </>
     );
-}
+};
 
-export const MapScreen: React.FC<{ stops: Stop[], onBack: () => void, isDarkMode: boolean, onNavStart: (label: string, fullAddress?: string) => void, navActive?: boolean, vehicleProfile?: any }> = ({ stops, onBack, isDarkMode, onNavStart, navActive = false, vehicleProfile }) => {
+export const MapScreen: React.FC<{
+    stops: Stop[],
+    onBack: () => void,
+    isDarkMode: boolean,
+    onNavStart: (label: string, fullAddress?: string, coords?: { lat: number, lng: number }) => void,
+    onArrive: (address: string) => void,
+    navActive?: boolean,
+    vehicleProfile?: any
+}> = ({ stops, onBack, isDarkMode, onNavStart, onArrive, navActive = false, vehicleProfile }) => {
     const [userLocation, setUserLocation] = useState<{ lat: number, lng: number } | null>(null);
     const [cairns, setCairns] = useState<Cairn[]>([]);
     const [runStops, setRunStops] = useState<Stop[]>([]);
@@ -509,13 +518,15 @@ export const MapScreen: React.FC<{ stops: Stop[], onBack: () => void, isDarkMode
                 setHazards(hazardsData);
             }
 
-            // Fetch the current active run
-            const { data: routeData } = await supabase.from('run_stops').select('*').order('stop_order', { ascending: true });
-            if (routeData && routeData.length > 0) {
-                setRunStops(routeData as Stop[]);
-            } else if (stops.length > 0) {
-                // Fallback to props
+            // Use props if provided (more recent than DB usually)
+            if (stops && stops.length > 0) {
                 setRunStops(stops);
+            } else {
+                // Fetch the current active run from DB as fallback
+                const { data: routeData } = await supabase.from('run_stops').select('*').order('stop_order', { ascending: true });
+                if (routeData && routeData.length > 0) {
+                    setRunStops(routeData as Stop[]);
+                }
             }
         };
 
@@ -533,7 +544,7 @@ export const MapScreen: React.FC<{ stops: Stop[], onBack: () => void, isDarkMode
                     initialCenter={initialCenter}
                     onRouteComputed={setRouteInfo}
                     isDarkMode={isDarkMode}
-                    onStopCoordsResolved={() => { }}
+                    onArrive={onArrive}
                 />
             </div>
 
@@ -662,7 +673,7 @@ export const MapScreen: React.FC<{ stops: Stop[], onBack: () => void, isDarkMode
                                     waypoints: waypoints.length > 0 ? waypoints : undefined
                                 });
                                 // Hand off to App.tsx to show the transparent nav overlay
-                                onNavStart(nextPending.address.split(',')[0], nextPending.address);
+                                onNavStart(nextPending.address.split(',')[0], nextPending.address, { lat: lat!, lng: lng! });
 
                                 // Compose and speak a custom guidance message
                                 if (Capacitor.isNativePlatform()) {
@@ -716,7 +727,10 @@ export const MapScreen: React.FC<{ stops: Stop[], onBack: () => void, isDarkMode
                                         if (msg) speech += ` ${msg}`;
                                     }
 
-                                    NavigationSDK.speakText({ text: speech }).catch(console.error);
+                                    // Delay Robin's speech by 5 seconds so it doesn't overlap with Google's default "Head North on..."
+                                    setTimeout(() => {
+                                        NavigationSDK.speakText({ text: speech }).catch(console.error);
+                                    }, 5000);
                                 }
                             } catch (err: any) {
                                 console.error('NavigationSDK failed:', err);
@@ -728,6 +742,7 @@ export const MapScreen: React.FC<{ stops: Stop[], onBack: () => void, isDarkMode
                     >
                         {navLoading ? 'Starting...' : 'Start Voice Navigation'}
                     </button>
+
                     {navError && (
                         <div style={{ color: '#ff3b30', fontSize: 13, marginTop: 8, textAlign: 'center' }}>
                             {navError}

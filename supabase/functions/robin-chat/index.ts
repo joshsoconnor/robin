@@ -28,7 +28,13 @@ serve(async (req) => {
 Keep your answers EXTREMELY concise, ideally 1 sentence, max 2. The driver is driving.
 Current User Location: ${locStr}
 Route Stops: ${stopsStr}
-Nearby App Points of Interest (Cairns): ${cairnsStr}`;
+Nearby App Points of Interest (Cairns): ${cairnsStr}
+
+You MUST return your response as a JSON object:
+{
+  "response": "The text you want to speak back to the driver",
+  "action": { "type": "reroute", "stopId": "identifier" } // Optional. Use ONLY if the driver explicitly agrees to hit a nearby stop or change destination.
+}`;
 
         const payload = {
             contents: [{
@@ -40,8 +46,9 @@ Nearby App Points of Interest (Cairns): ${cairnsStr}`;
                 parts: [{ text: systemInstruction }]
             },
             generationConfig: {
-                temperature: 0.2,
-                maxOutputTokens: 100,
+                temperature: 0.1, // Lower temperature for more reliable JSON
+                maxOutputTokens: 150,
+                response_mime_type: "application/json",
             }
         };
 
@@ -58,10 +65,17 @@ Nearby App Points of Interest (Cairns): ${cairnsStr}`;
         }
 
         const data = await response.json();
-        const text = data.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, I couldn't process that.";
+        const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text || '{"response": "Sorry, I couldn\'t process that."}';
+
+        let parsed;
+        try {
+            parsed = JSON.parse(rawText);
+        } catch (e) {
+            parsed = { response: rawText.replace(/[\{\}]/g, '').split(':')[1] || rawText };
+        }
 
         return new Response(
-            JSON.stringify({ response: text }),
+            JSON.stringify(parsed),
             { headers: { ...corsHeaders, "Content-Type": "application/json" } },
         );
 

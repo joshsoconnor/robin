@@ -10,11 +10,17 @@ import android.media.AudioFocusRequest;
 import android.media.AudioManager;
 import android.os.Build;
 import android.speech.tts.TextToSpeech;
+import android.speech.tts.UtteranceProgressListener;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Bundle;
+import androidx.annotation.NonNull;
 
 import androidx.core.app.ActivityCompat;
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,7 +47,7 @@ import com.google.android.libraries.navigation.Waypoint;
 import com.google.android.libraries.navigation.RoutingOptions;
 
 @CapacitorPlugin(name = "NavigationSDK")
-public class NavigationPlugin extends Plugin {
+public class NavigationPlugin extends Plugin implements LocationListener {
 
     private static final String TAG = "NavigationPlugin";
     private SupportNavigationFragment navFragment;
@@ -53,9 +59,12 @@ public class NavigationPlugin extends Plugin {
     private boolean ttsReady = false;
     private FloatingActionButton exitBtn;
 
-    // Track if arrival listener is registered
-    private boolean hasArrivalListener = false;
-    private Navigator.ArrivalListener currentArrivalListener;
+    // Track if custom distance arrival listener is registered
+    private Navigator.RemainingTimeOrDistanceChangedListener distanceListener;
+    private Navigator.SpeedLimitListener speedLimitListener;
+    private boolean hasTriggeredArrivalForCurrentRoute = false;
+
+    private LocationManager locationManager;
 
     @PluginMethod
     public void initialize(PluginCall call) {
@@ -239,6 +248,7 @@ public class NavigationPlugin extends Plugin {
                 // leaves the SDK in a persistent ROUTE_CANCELED state.
                 mNavigator.stopGuidance();
                 mNavigator.clearDestinations();
+                hasTriggeredArrivalForCurrentRoute = false;
 
                 Waypoint destination = Waypoint.builder()
                         .setLatLng(lat, lng)
@@ -246,6 +256,9 @@ public class NavigationPlugin extends Plugin {
                         .build();
 
                 mNavigator.setAudioGuidance(Navigator.AudioGuidance.VOICE_ALERTS_AND_GUIDANCE);
+
+                // Start Speedometer/Location tracking
+                startLocationUpdates();
 
                 attemptStartGuidance(call, destination, modeStr, 0);
             } catch (Exception e) {
@@ -285,22 +298,57 @@ public class NavigationPlugin extends Plugin {
                             // Ensure camera is in following mode with a tight zoom for urban navigation
                             if (navFragment != null) {
                                 navFragment.getMapAsync(googleMap -> {
-                                    googleMap.followMyLocation(2); // 2 corresponds to TILTED perspective
+                                    // 2 corresponds to TILTED perspective
+                                    googleMap.followMyLocation(2);
+                                    // Set a default higher zoom level to fix "too far away" on mobile
+                                    googleMap.setMaxZoomPreference(21f);
+                                    // Animate to a tight zoom level initially
+                                    googleMap
+                                            .animateCamera(com.google.android.gms.maps.CameraUpdateFactory.zoomTo(19f));
                                 });
                             }
 
-                            // Remove any stale arrival listener before adding a new one
-                            if (currentArrivalListener != null) {
-                                mNavigator.removeArrivalListener(currentArrivalListener);
-                                currentArrivalListener = null;
+                            // Speed Limit Listener
+                            if (speedLimitListener != null) {
+                                mNavigator.removeSpeedLimitListener(speedLimitListener);
                             }
-                            currentArrivalListener = arrivalEvent -> {
-                                Log.i(TAG, "Arrived at destination!");
-                                JSObject ret = new JSObject();
-                                ret.put("arrived", true);
-                                notifyListeners("navArrived", ret);
+                            speedLimitListener = new Navigator.SpeedLimitListener() {
+                                @Override
+                                public void onSpeedLimitChanged(Navigator.SpeedLimitChangeInfo speedLimit) {
+                                    JSObject ret = new JSObject();
+                                    ret.put("speedLimitKmh", Math.round(speedLimit.getSpeedLimitKmh()));
+                                    notifyListeners("speedLimitUpdate", ret);
+                                }
                             };
-                            mNavigator.addArrivalListener(currentArrivalListener);
+                            mNavigator.addSpeedLimitListener(speedLimitListener);
+
+                            // Implement custom Arrival Listener at exactly 100 meters
+                            if (distanceListener != null) {
+                                mNavigator.removeRemainingTimeOrDistanceChangedListener(distanceListener);
+                            }
+                            distanceListener = new Navigator.RemainingTimeOrDistanceChangedListener() {
+                                @Override
+                                public void onRemainingTimeOrDistanceChanged() {
+                                    if (hasTriggeredArrivalForCurrentRoute || mNavigator == null)
+                                        return;
+                                    try {
+                                        com.google.android.libraries.navigation.TimeAndDistance td = mNavigator
+                                                .getCurrentTimeAndDistance();
+                                        if (td != null && td.getMeters() > 0 && td.getMeters() <= 50) {
+                                            Log.i(TAG, "Custom 50m arrival triggered! Distance: " + td.getMeters());
+                                            hasTriggeredArrivalForCurrentRoute = true;
+
+                                            JSObject ret = new JSObject();
+                                            ret.put("arrived", true);
+                                            notifyListeners("navArrived", ret);
+                                        }
+                                    } catch (Exception e) {
+                                        Log.e(TAG, "Error checking distance for arrival: " + e.getMessage());
+                                    }
+                                }
+                            };
+                            // Tick every 10 meters or 10 seconds checking for the 100m threshold
+                            mNavigator.addRemainingTimeOrDistanceChangedListener(10, 10, distanceListener);
 
                             call.resolve();
                         } else if ((routeStatus == com.google.android.libraries.navigation.Navigator.RouteStatus.ROUTE_CANCELED
@@ -373,10 +421,15 @@ public class NavigationPlugin extends Plugin {
             // Those calls are deferred to the start of the next startGuidance() call.
             if (mNavigator != null) {
                 mNavigator.setAudioGuidance(Navigator.AudioGuidance.SILENT);
-                // Remove arrival listener to prevent stale callbacks on next run
-                if (currentArrivalListener != null) {
-                    mNavigator.removeArrivalListener(currentArrivalListener);
-                    currentArrivalListener = null;
+                if (speedLimitListener != null) {
+                    mNavigator.removeSpeedLimitListener(speedLimitListener);
+                    speedLimitListener = null;
+                }
+                // Remove custom distance arrival listener to prevent stale callbacks on next
+                // run
+                if (distanceListener != null) {
+                    mNavigator.removeRemainingTimeOrDistanceChangedListener(distanceListener);
+                    distanceListener = null;
                 }
             }
             abandonAudioFocus();
@@ -433,7 +486,54 @@ public class NavigationPlugin extends Plugin {
             if (call != null) {
                 call.resolve();
             }
+
+            stopLocationUpdates();
         });
+    }
+
+    private void startLocationUpdates() {
+        if (locationManager == null) {
+            locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
+        }
+        try {
+            if (ActivityCompat.checkSelfPermission(getContext(),
+                    Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, this);
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Error starting location updates: " + e.getMessage());
+        }
+    }
+
+    private void stopLocationUpdates() {
+        if (locationManager != null) {
+            locationManager.removeUpdates(this);
+        }
+    }
+
+    @Override
+    public void onLocationChanged(@NonNull Location location) {
+        if (location.hasSpeed()) {
+            float speedMps = location.getSpeed();
+            // Convert m/s to km/h
+            float speedKmh = speedMps * 3.6f;
+
+            JSObject ret = new JSObject();
+            ret.put("speedKmh", Math.round(speedKmh));
+            notifyListeners("speedUpdate", ret);
+        }
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+    }
+
+    @Override
+    public void onProviderEnabled(@NonNull String provider) {
+    }
+
+    @Override
+    public void onProviderDisabled(@NonNull String provider) {
     }
 
     @PluginMethod
@@ -461,8 +561,10 @@ public class NavigationPlugin extends Plugin {
                     tts.setLanguage(java.util.Locale.getDefault());
                     ttsReady = true;
                     Log.d(TAG, "TTS engine initialized");
+                    setupTTSListener();
                     // Speak the queued text now that TTS is ready
-                    tts.speak(text, TextToSpeech.QUEUE_ADD, null, "robin_speech_" + System.currentTimeMillis());
+                    String utteranceId = "robin_speech_" + System.currentTimeMillis();
+                    tts.speak(text, TextToSpeech.QUEUE_ADD, null, utteranceId);
                 } else {
                     Log.e(TAG, "TTS init failed with status: " + status);
                 }
@@ -472,10 +574,35 @@ public class NavigationPlugin extends Plugin {
         }
 
         if (ttsReady) {
-            tts.speak(text, TextToSpeech.QUEUE_ADD, null, "robin_speech_" + System.currentTimeMillis());
+            String utteranceId = "robin_speech_" + System.currentTimeMillis();
+            tts.speak(text, TextToSpeech.QUEUE_ADD, null, utteranceId);
         } else {
             Log.w(TAG, "TTS not ready yet, text will be skipped");
         }
         call.resolve();
+    }
+
+    private void setupTTSListener() {
+        if (tts == null)
+            return;
+        tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+            @Override
+            public void onStart(String utteranceId) {
+                Log.d(TAG, "TTS Started: " + utteranceId);
+            }
+
+            @Override
+            public void onDone(String utteranceId) {
+                Log.d(TAG, "TTS Finished: " + utteranceId);
+                JSObject ret = new JSObject();
+                ret.put("utteranceId", utteranceId);
+                notifyListeners("speakEnd", ret);
+            }
+
+            @Override
+            public void onError(String utteranceId) {
+                Log.e(TAG, "TTS Error: " + utteranceId);
+            }
+        });
     }
 }
