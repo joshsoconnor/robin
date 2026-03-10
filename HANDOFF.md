@@ -1,11 +1,11 @@
 # Robin App - Project Handoff & Status
 
-## Current Application State (March 7, 2026)
+## Current Application State (March 10, 2026)
 Robin is a mobile-first Capacitor/React application for delivery logistics — route running, calendar management, and in-app Google Maps voice navigation.
 
 ---
 
-## ✅ What's Working Now (End of March 7 Evening Session - V1.2)
+## ✅ What's Working Now (End of March 10 Morning Session - V1.2)
 
 ### 🚀 Improved Run Execution (NEW)
 - **Mark Complete/Incomplete**: Drivers can now mark stops as complete OR incomplete directly from the Run Preview. The "Start Run" count updates instantly.
@@ -45,6 +45,11 @@ Robin is a mobile-first Capacitor/React application for delivery logistics — r
 - **Contextual Visibility**: "Mark Delivery Complete" button now only appears during active navigation.
 - **Robust Logic**: Successfully marks stops as completed in Supabase and the UI, resets navigation state, and hides the native map.
 
+### 🗺️ Navigation SDK & Tilt Fix (NEW)
+- **SDK Stability**: Downgraded to Navigation SDK version `5.2.1` to resolve persistent build failures and ensure reliable class resolution.
+- **Automated 3D Perspective**: Fixed the "tilt" issue by explicitly calling `followMyLocation(TILTED)` using fully qualified names in the native layer.
+- **Enhanced Map UX**: Re-enabled high zoom (21f), 3D buildings, and manual tilt gestures within the navigation view.
+
 ---
 
 ## 🏗️ Key Files Changed This Session
@@ -60,6 +65,8 @@ Robin is a mobile-first Capacitor/React application for delivery logistics — r
 | `src/components/MapScreen.tsx` | Fixed "Mark Delivery Complete" visibility and terminal navigation logic. |
 | `src/App.tsx` | Fixed `handleCompletePendingStop` to correctly reset navigation state. |
 | `fix_deletion_policies.sql` | Consolidated RLS policies for robust multi-category deletion. |
+| `android/app/build.gradle` | Updated Navigation SDK to `5.2.1` for build stability. |
+| `NavigationPlugin.java` | Fixed map tilt implementation and class visibility. |
 
 ---
 
@@ -82,7 +89,7 @@ Stop Spotter Logic (Background)
 ## ⚠️ Critical Things NOT to Do
 
 ### Build & APK
-- **Always rename the APK to "Robin Live 1.0.apk"** when delivering to the user.
+- **Always rename the APK to "Robin Live V1.2.apk"** when delivering to the user.
 - **Do NOT delete the "Active Run" card** from Settings; it is the primary way the user monitors the full manifest.
 - **Avoid hard-coded address strings** in Intel; always use the `activeAddress` prop for matching.
 
@@ -98,5 +105,5 @@ cd android
 .\gradlew.bat assembleDebug
 
 # Copy APK from tmp build folder to Desktop with requested release name
-Copy-Item "C:\tmp\robin-build\app\outputs\apk\debug\app-debug.apk" "C:\Users\joshs\OneDrive\Desktop\Robin Live V1.1.apk" -Force
+Copy-Item "C:\tmp\robin-build\app\outputs\apk\debug\app-debug.apk" "C:\Users\joshs\OneDrive\Desktop\Robin Live V1.2.apk" -Force
 ```

@@ -38,13 +38,7 @@ import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
 
-import com.google.android.libraries.navigation.NavigationApi;
-import com.google.android.libraries.navigation.Navigator;
-import com.google.android.libraries.navigation.NavigationApi;
-import com.google.android.libraries.navigation.Navigator;
-import com.google.android.libraries.navigation.SupportNavigationFragment;
-import com.google.android.libraries.navigation.Waypoint;
-import com.google.android.libraries.navigation.RoutingOptions;
+import com.google.android.libraries.navigation.*;
 
 @CapacitorPlugin(name = "NavigationSDK")
 public class NavigationPlugin extends Plugin implements LocationListener {
@@ -61,7 +55,6 @@ public class NavigationPlugin extends Plugin implements LocationListener {
 
     // Track if custom distance arrival listener is registered
     private Navigator.RemainingTimeOrDistanceChangedListener distanceListener;
-    private Navigator.SpeedLimitListener speedLimitListener;
     private boolean hasTriggeredArrivalForCurrentRoute = false;
 
     private LocationManager locationManager;
@@ -298,29 +291,17 @@ public class NavigationPlugin extends Plugin implements LocationListener {
                             // Ensure camera is in following mode with a tight zoom for urban navigation
                             if (navFragment != null) {
                                 navFragment.getMapAsync(googleMap -> {
-                                    // 2 corresponds to TILTED perspective
-                                    googleMap.followMyLocation(2);
+                                    googleMap.followMyLocation(
+                                            com.google.android.libraries.navigation.GoogleMap.CameraPerspective.TILTED);
+
                                     // Set a default higher zoom level to fix "too far away" on mobile
                                     googleMap.setMaxZoomPreference(21f);
-                                    // Animate to a tight zoom level initially
-                                    googleMap
-                                            .animateCamera(com.google.android.gms.maps.CameraUpdateFactory.zoomTo(19f));
+                                    // Ensure 3D buildings are visible to help the tilt perspective
+                                    googleMap.setBuildingsEnabled(true);
+                                    // Allow manual tilt to assist the auto-tilt engine
+                                    googleMap.getUiSettings().setTiltGesturesEnabled(true);
                                 });
                             }
-
-                            // Speed Limit Listener
-                            if (speedLimitListener != null) {
-                                mNavigator.removeSpeedLimitListener(speedLimitListener);
-                            }
-                            speedLimitListener = new Navigator.SpeedLimitListener() {
-                                @Override
-                                public void onSpeedLimitChanged(Navigator.SpeedLimitChangeInfo speedLimit) {
-                                    JSObject ret = new JSObject();
-                                    ret.put("speedLimitKmh", Math.round(speedLimit.getSpeedLimitKmh()));
-                                    notifyListeners("speedLimitUpdate", ret);
-                                }
-                            };
-                            mNavigator.addSpeedLimitListener(speedLimitListener);
 
                             // Implement custom Arrival Listener at exactly 100 meters
                             if (distanceListener != null) {
@@ -421,10 +402,6 @@ public class NavigationPlugin extends Plugin implements LocationListener {
             // Those calls are deferred to the start of the next startGuidance() call.
             if (mNavigator != null) {
                 mNavigator.setAudioGuidance(Navigator.AudioGuidance.SILENT);
-                if (speedLimitListener != null) {
-                    mNavigator.removeSpeedLimitListener(speedLimitListener);
-                    speedLimitListener = null;
-                }
                 // Remove custom distance arrival listener to prevent stale callbacks on next
                 // run
                 if (distanceListener != null) {
