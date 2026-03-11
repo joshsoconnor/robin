@@ -275,18 +275,107 @@
 .entry-item {
     background: var(--bg-card);
     border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid var(--border-subtle);
+    overflow: hidden;
+    transition: all 0.2s ease;
+}
+
+.entry-item.expanded {
+    border-color: var(--primary-action);
+}
+
+.entry-main-content {
     padding: 16px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    box-shadow: var(--shadow-soft);
-    border: 1px solid var(--border-subtle);
+}
+
+.entry-expanded-content {
+    padding: 0 16px 16px;
+    background: rgba(0, 0, 0, 0.02);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.expanded-section h4 {
+    font-size: 11px;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    margin: 0 0 6px 0;
+    letter-spacing: 0.5px;
+}
+
+.expanded-note {
+    background: var(--bg-main);
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 14px;
+    color: var(--text-main);
+}
+
+.expanded-media-grid {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+}
+
+.expanded-img,
+.expanded-video {
+    height: 120px;
+    width: 160px;
+    object-fit: cover;
+    border-radius: 8px;
+    background: #000;
 }
 
 .entry-left {
     display: flex;
     align-items: flex-start;
     gap: 12px;
+}
+
+.attachment-icons {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+    width: 20px;
+    margin-top: 4px;
+}
+
+.attachment-icon {
+    opacity: 0.8;
+}
+
+.attachment-icon.notes {
+    color: #5c7cfa;
+}
+
+.attachment-icon.photos {
+    color: #40c057;
+}
+
+.attachment-icon.videos {
+    color: #fab005;
 }
 
 .entry-dot {
@@ -302,6 +391,8 @@
     display: flex;
     flex-direction: column;
     gap: 4px;
+    flex: 1;
+    min-width: 0;
 }
 
 .entry-header-row {
@@ -328,12 +419,17 @@
 .entry-address {
     font-size: 14px;
     color: var(--text-secondary);
+    line-height: 1.4;
+    word-wrap: break-word;
 }
 
 .entry-time {
     font-weight: 700;
     font-size: 14px;
     color: var(--text-main);
+    flex-shrink: 0;
+    text-align: right;
+    margin-left: 12px;
 }
 
 /* Extra content inside list rows (Notes / Videos) */

@@ -77,12 +77,20 @@ export const darkMapStyle = [
         elementType: "labels.text.stroke",
         stylers: [{ color: "#17263c" }],
     },
-    { elementType: "labels.icon", stylers: [{ visibility: "off" }] },
+    { featureType: "poi", elementType: "labels.icon", stylers: [{ visibility: "off" }] },
+    { featureType: "poi.business.gas_station", elementType: "labels.icon", stylers: [{ visibility: "on" }] },
+    { featureType: "transit", elementType: "labels.icon", stylers: [{ visibility: "off" }] },
+    { featureType: "transit.station.rail", elementType: "labels.icon", stylers: [{ visibility: "on" }] },
+    { featureType: "transit.station.bus", stylers: [{ visibility: "off" }] },
 ];
 
 export const silverMapStyle = [
     { elementType: "geometry", stylers: [{ color: "#f5f5f5" }] },
-    { elementType: "labels.icon", stylers: [{ visibility: "off" }] },
+    { featureType: "poi", elementType: "labels.icon", stylers: [{ visibility: "off" }] },
+    { featureType: "poi.business.gas_station", elementType: "labels.icon", stylers: [{ visibility: "on" }] },
+    { featureType: "transit", elementType: "labels.icon", stylers: [{ visibility: "off" }] },
+    { featureType: "transit.station.rail", elementType: "labels.icon", stylers: [{ visibility: "on" }] },
+    { featureType: "transit.station.bus", elementType: "labels.icon", stylers: [{ visibility: "off" }] },
     { elementType: "labels.text.fill", stylers: [{ color: "#616161" }] },
     { elementType: "labels.text.stroke", stylers: [{ color: "#f5f5f5" }] },
     { featureType: "administrative.land_parcel", elementType: "labels.text.fill", stylers: [{ color: "#bdbdbd" }] },
@@ -100,4 +108,3 @@ export const silverMapStyle = [
     { featureType: "water", elementType: "geometry", stylers: [{ color: "#c9c9c9" }] },
     { featureType: "water", elementType: "labels.text.fill", stylers: [{ color: "#9e9e9e" }] }
 ];
-

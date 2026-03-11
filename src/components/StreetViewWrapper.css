@@ -1,0 +1,77 @@
+/* StreetViewWrapper.css */
+
+.street-view-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: #222;
+}
+
+.street-view-container.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10000; /* Ensure it stays above everything */
+    display: flex;
+    flex-direction: column;
+}
+
+.street-view-container.embedded {
+    height: 100%;
+    width: 100%;
+    border-radius: 16px;
+}
+
+.street-view-container.fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10000;
+    border-radius: 0;
+}
+
+.street-view-controls {
+    position: absolute;
+    top: max(env(safe-area-inset-top, 20px), 20px);
+    right: 16px;
+    z-index: 10;
+    display: flex;
+    gap: 8px;
+}
+
+.street-view-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    border: none;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: background 0.2s, transform 0.2s;
+}
+
+.street-view-btn:active {
+    background: rgba(0, 0, 0, 0.8);
+    transform: scale(0.95);
+}
+
+.street-view-map {
+    width: 100%;
+    height: 100%;
+    flex: 1;
+}
+
+/* Hide default google terms to make it cleaner */
+.street-view-map .gmnoprint {
+    display: none;
+}

@@ -190,7 +190,7 @@ interface UploadRunScreenProps {
 
 export const UploadRunScreen: React.FC<UploadRunScreenProps> = ({ isDarkMode, onFinalize, routeStops }) => {
     const [capturedImages, setCapturedImages] = useState<{ url: string; base64: string; mimeType: string }[]>(() => {
-        try { return JSON.parse(sessionStorage.getItem('upload_run_images') || '[]'); } catch { return []; }
+        try { return JSON.parse(localStorage.getItem('upload_run_images') || '[]'); } catch { return []; }
     });
     const [stops, setStops] = useState<EnrichedStop[]>(() => {
         if (routeStops && routeStops.length > 0) {
@@ -203,17 +203,17 @@ export const UploadRunScreen: React.FC<UploadRunScreenProps> = ({ isDarkMode, on
                 manifest_notes: s.manifest_notes
             }));
         }
-        try { return JSON.parse(sessionStorage.getItem('upload_run_stops') || '[]'); } catch { return []; }
+        try { return JSON.parse(localStorage.getItem('upload_run_stops') || '[]'); } catch { return []; }
     });
     const [phase, setPhase] = useState<'capture' | 'processing' | 'review'>(() => {
         if (routeStops && routeStops.length > 0) return 'review';
-        return (sessionStorage.getItem('upload_run_phase') as any) || 'capture';
+        return (localStorage.getItem('upload_run_phase') as any) || 'capture';
     });
     const [processingStatus, setProcessingStatus] = useState('');
 
-    useEffect(() => { sessionStorage.setItem('upload_run_images', JSON.stringify(capturedImages)); }, [capturedImages]);
-    useEffect(() => { sessionStorage.setItem('upload_run_stops', JSON.stringify(stops)); }, [stops]);
-    useEffect(() => { sessionStorage.setItem('upload_run_phase', phase); }, [phase]);
+    useEffect(() => { localStorage.setItem('upload_run_images', JSON.stringify(capturedImages)); }, [capturedImages]);
+    useEffect(() => { localStorage.setItem('upload_run_stops', JSON.stringify(stops)); }, [stops]);
+    useEffect(() => { localStorage.setItem('upload_run_phase', phase); }, [phase]);
 
     // Manual entry state
     const [manualStops, setManualStops] = useState<ParsedStop[]>([]);

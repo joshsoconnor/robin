@@ -2,13 +2,17 @@ import React, { useState, useEffect, useRef } from 'react';
 import { RefreshCw, Square, X, Plus, FileText, Image, ChevronRight, Camera, Video, Trash2 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { getSydneyDate } from '../lib/dateUtils';
+import { StreetViewWrapper } from './StreetViewWrapper';
 import './ArrivalPanel.css';
 
 interface ArrivalPanelProps {
     address: string;
+    lat?: number;
+    lng?: number;
     onReRoute?: () => void;
     onEndRoute?: () => void;
     onNextDelivery?: () => void;
+    onEndRun?: () => void;
     hasNextDelivery?: boolean;
     nextDeliveryAddress?: string;
     userEmail?: string | null;
@@ -17,9 +21,12 @@ interface ArrivalPanelProps {
 
 export const ArrivalPanel: React.FC<ArrivalPanelProps> = ({
     address,
+    lat,
+    lng,
     onReRoute,
     onEndRoute,
     onNextDelivery,
+    onEndRun,
     hasNextDelivery = false,
     nextDeliveryAddress,
     userEmail,
@@ -421,8 +428,8 @@ export const ArrivalPanel: React.FC<ArrivalPanelProps> = ({
                     )}
                 </div>
 
-                {/* Next Delivery button — always visible at bottom if there's a next stop */}
-                {hasNextDelivery && (
+                {/* Next Delivery / End Run button */}
+                {hasNextDelivery ? (
                     <div style={{ padding: '0 20px 16px' }}>
                         <button className="delivery-next-btn" onClick={onNextDelivery}>
                             <ChevronRight size={20} />
@@ -434,7 +441,34 @@ export const ArrivalPanel: React.FC<ArrivalPanelProps> = ({
                             )}
                         </button>
                     </div>
+                ) : (
+                    <div style={{ padding: '0 20px 16px' }}>
+                        <button 
+                            className="delivery-next-btn" 
+                            style={{ background: '#d93025', boxShadow: '0 4px 10px rgba(217, 48, 37, 0.3)' }}
+                            onClick={onEndRun}
+                        >
+                            <Square size={18} style={{ marginRight: 8 }} />
+                            End Run
+                        </button>
+                    </div>
                 )}
+
+            {/* Split Screen Street View Header */}
+            <div className="arrival-streetview-header">
+                <div style={{ position: 'relative', width: '100%', height: '100%', borderRadius: '0 0 24px 24px', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0,0,0,0.3)', background: '#222' }}>
+                    {lat !== undefined && lng !== undefined ? (
+                        <StreetViewWrapper
+                            lat={lat}
+                            lng={lng}
+                            embedded={true}
+                        />
+                    ) : (
+                        <div className="streetview-loading-bg" style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#666', fontSize: 13, zIndex: 0 }}>
+                            Loading Street View...
+                        </div>
+                    )}
+                </div>
             </div>
 
             {/* Photo Preview Overlay */}

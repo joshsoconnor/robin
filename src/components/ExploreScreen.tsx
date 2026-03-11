@@ -10,6 +10,7 @@ import { supabase } from '../lib/supabase';
 import { analyzeSignPhoto } from '../lib/signAnalyzer';
 import { Toast } from './Toast';
 import { VoiceAssistantNode } from './VoiceAssistantNode';
+import { StreetViewWrapper } from './StreetViewWrapper';
 import './ExploreScreen.css';
 
 const NavigationSDK = registerPlugin<any>('NavigationSDK');
@@ -748,7 +749,7 @@ const AddHazardModal = ({ lat, lng, onClose, onSaved }: { lat: number, lng: numb
 
 // --- MAP & EXPLORE SCREEN ---
 
-const ExploreInner = ({ userLocation, persistedDestination, initialCenter, onRouteComputed, isDarkMode, cairns, onCairnClick, googlePlaces, onPlaceClick, mapRefSetter, setIsDrifted, routeStops }: any) => {
+const ExploreInner = ({ userLocation, persistedDestination, initialCenter, onRouteComputed, isDarkMode, cairns, onCairnClick, googlePlaces, onPlaceClick, mapRefSetter, setIsDrifted, routeStops, onPoiClick }: any) => {
     const map = useMap();
     const routesLibrary = useMapsLibrary('routes');
 
@@ -833,6 +834,12 @@ const ExploreInner = ({ userLocation, persistedDestination, initialCenter, onRou
                 disableDefaultUI={true}
                 gestureHandling={'greedy'}
                 styles={(isDarkMode ? darkMapStyle : silverMapStyle) as any}
+                onClick={(ev: any) => {
+                    if (ev.detail.placeId) {
+                        ev.stop();
+                        onPoiClick?.(ev.detail.placeId);
+                    }
+                }}
                 onCameraChanged={(ev) => {
                     const center = ev.detail.center;
                     if (userLocation) {
@@ -975,6 +982,8 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ persistedDestinati
     const [placesLoading, setPlacesLoading] = useState(false);
     const [showSearchThisArea, setShowSearchThisArea] = useState(false);
     const [isDrifted, setIsDrifted] = useState(false);
+    const [selectedPoi, setSelectedPoi] = useState<any>(null);
+    const [poiLoading, setPoiLoading] = useState(false);
 
     // We need a ref to the actual map instance to get bounds for Places API
     const [internalMap, setInternalMap] = useState<any>(null);
@@ -1041,6 +1050,7 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ persistedDestinati
 
     const [showDeliveryModal, setShowDeliveryModal] = useState(false);
     const [showExtrasModal, setShowExtrasModal] = useState(false);
+    const [showInteractiveStreetView, setShowInteractiveStreetView] = useState(false);
 
     // Use uncontrolled input — fixes Places Autocomplete lag/slowness on mobile
     const inputRef = useRef<HTMLInputElement>(null);
@@ -1124,7 +1134,20 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ persistedDestinati
             componentRestrictions: { country: 'au' }
         });
 
-        autocomplete.addListener('place_changed', () => {
+        // Dynamic location biasing to current map viewport
+        if (internalMap) {
+            autocomplete.bindTo('bounds', internalMap);
+        } else if (userLocation) {
+            // Initial bias if map not yet ready
+            autocomplete.setOptions({
+                locationBias: {
+                    lat: userLocation.lat,
+                    lng: userLocation.lng
+                }
+            });
+        }
+
+        const listener = autocomplete.addListener('place_changed', () => {
             const place = autocomplete.getPlace();
             if (place.geometry) {
                 setPersistedDestination(place);
@@ -1134,7 +1157,11 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ persistedDestinati
                 }
             }
         });
-    }, [places, setPersistedDestination]);
+
+        return () => {
+            (window as any).google.maps.event.removeListener(listener);
+        };
+    }, [places, setPersistedDestination, internalMap]);
 
     const handleClear = () => {
         setPersistedDestination(null);
@@ -1238,6 +1265,22 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ persistedDestinati
                     setIsDrifted={setIsDrifted}
                     isDrifted={isDrifted}
                     routeStops={geocodedStops}
+                    onPoiClick={(placeId: string) => {
+                        if (!internalMap || !placesLibrary) return;
+                        setPoiLoading(true);
+                        const service = new (placesLibrary as any).PlacesService(internalMap);
+                        service.getDetails({
+                            placeId,
+                            fields: ['name', 'formatted_address', 'geometry', 'photos']
+                        }, (place: any, status: any) => {
+                            setPoiLoading(false);
+                            if (status === (placesLibrary as any).PlacesServiceStatus.OK && place) {
+                                setSelectedPoi(place);
+                                setSelectedCairn(null);
+                                setSelectedGooglePlace(null);
+                            }
+                        });
+                    }}
                 />
             </div>
 
@@ -1262,7 +1305,7 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ persistedDestinati
             {/* Filter Bar */}
             {!persistedDestination && (
                 <div className="filter-pill-bar">
-                    {['Explore', 'Parking', 'Toilets', 'Servo', 'Food'].map(filter => (
+                    {['Explore', 'Parking', 'Toilets', 'Food'].map(filter => (
                         <button
                             key={filter}
                             className={`filter-pill ${activeFilter === filter ? 'active' : ''}`}
@@ -1396,7 +1439,6 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ persistedDestinati
                         className="action-btn primary"
                         style={{ width: '100%', justifyContent: 'center' }}
                         onClick={() => {
-                            // Turn the generic Place into a navigable destination
                             const place = {
                                 name: selectedGooglePlace.name,
                                 formatted_address: selectedGooglePlace.vicinity,
@@ -1406,8 +1448,66 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ persistedDestinati
                             setSelectedGooglePlace(null);
                         }}
                     >
-                        <Navigation size={18} fill="white" /> Navigate Here
+                        <Navigation size={18} fill="white" /> Navigate
                     </button>
+                </div>
+            )}
+
+            {/* Custom POI Info Card */}
+            {selectedPoi && !persistedDestination && (
+                <div className="cairn-info-card google-place-card">
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
+                        <div style={{ flex: 1 }}>
+                            <h3 style={{ margin: '0 0 4px 0', fontSize: 18, color: 'var(--text-main)' }}>{selectedPoi.name}</h3>
+                            <p style={{ margin: 0, fontSize: 13, color: 'var(--text-secondary)' }}>
+                                {selectedPoi.formatted_address}
+                            </p>
+                        </div>
+                        <button onClick={() => setSelectedPoi(null)} style={{ background: 'none', border: 'none', fontSize: 20, color: 'var(--text-main)', cursor: 'pointer', padding: '0 0 0 10px' }}>&times;</button>
+                    </div>
+
+                    {selectedPoi.photos && selectedPoi.photos.length > 0 && (
+                        <div style={{ width: '100%', height: 140, borderRadius: 8, overflow: 'hidden', marginBottom: 12 }}>
+                            <img
+                                src={selectedPoi.photos[0].getUrl({ maxWidth: 400 })}
+                                alt={selectedPoi.name}
+                                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                            />
+                        </div>
+                    )}
+
+                    <button
+                        className="action-btn primary"
+                        style={{ width: '100%', justifyContent: 'center' }}
+                        onClick={() => {
+                            setPersistedDestination(selectedPoi);
+                            setSelectedPoi(null);
+                        }}
+                    >
+                        <Navigation size={18} fill="white" /> Go there
+                    </button>
+                </div>
+            )}
+
+            {/* POI Loading Spinner */}
+            {poiLoading && (
+                <div style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    zIndex: 1000,
+                    background: 'rgba(0,0,0,0.7)',
+                    padding: 20,
+                    borderRadius: 12,
+                    color: 'white',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    gap: 10
+                }}>
+                    <Loader size={30} className="spin" />
+                    <span>Loading details...</span>
                 </div>
             )}
 
@@ -1431,8 +1531,12 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ persistedDestinati
                             <h2>{destName}</h2>
                             <p>{routeInfo[activeTab] ? `${routeInfo[activeTab].distance} via fastest route` : 'Calculating route...'}</p>
                         </div>
-                        {streetViewUrl && (
-                            <div className="streetview-thumbnail" style={{ backgroundImage: `url(${streetViewUrl})` }}>
+                        {streetViewUrl && destLoc && (
+                            <div 
+                                className="streetview-thumbnail" 
+                                style={{ backgroundImage: `url(${streetViewUrl})`, cursor: 'pointer' }}
+                                onClick={() => setShowInteractiveStreetView(true)}
+                            >
                             </div>
                         )}
                     </div>
@@ -1456,13 +1560,14 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ persistedDestinati
                             Extras
                         </button>
                     </div>
-                    {/* Clear destination — reset button */}
+
                     <button
                         className="clear-destination-btn"
                         onClick={handleClear}
                     >
                         <X size={16} /> Clear Destination
                     </button>
+
                     {navError && (
                         <div style={{ color: '#ff3b30', fontSize: 13, marginTop: 8, textAlign: 'center' }}>
                             {navError}
@@ -1482,10 +1587,7 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ persistedDestinati
                 alignItems: 'center',
                 transition: 'bottom 0.3s ease-out'
             }}>
-                {/* 1. Mic (Voice Assistant) - Bottom of stack */}
                 <VoiceAssistantNode routeStops={routeStops || []} isStatic={true} />
-
-                {/* 2. Hazard Button - Red */}
                 <button
                     className="add-poi-fab"
                     onClick={() => setShowAddHazard(true)}
@@ -1495,7 +1597,6 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ persistedDestinati
                     <AlertTriangle size={24} color="white" />
                 </button>
 
-                {/* 3. Plus Button - Primary Action */}
                 <button
                     className="add-poi-fab"
                     onClick={() => setShowAddCairn(true)}
@@ -1505,7 +1606,6 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ persistedDestinati
                     <Plus size={28} color="white" />
                 </button>
 
-                {/* 4. Recenter Button - Top (only visible when drifted) */}
                 {isDrifted && (
                     <button
                         className="add-poi-fab"
@@ -1533,8 +1633,8 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ persistedDestinati
                 )}
             </div>
 
-            {showDeliveryModal && <DeliveryModal address={persistedDestination.formatted_address} onClose={() => setShowDeliveryModal(false)} />}
-            {showExtrasModal && <ExtrasModal address={persistedDestination.formatted_address} userEmail={userEmail} onClose={() => setShowExtrasModal(false)} />}
+            {showDeliveryModal && persistedDestination && <DeliveryModal address={persistedDestination.formatted_address} onClose={() => setShowDeliveryModal(false)} />}
+            {showExtrasModal && persistedDestination && <ExtrasModal address={persistedDestination.formatted_address} userEmail={userEmail} onClose={() => setShowExtrasModal(false)} />}
             {showAddCairn && userLocation && (
                 <AddCairnModal
                     lat={userLocation.lat}
@@ -1556,7 +1656,7 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ persistedDestinati
                     lat={userLocation.lat}
                     lng={userLocation.lng}
                     onClose={() => setShowAddHazard(false)}
-                    onSaved={(hazard: any, err: any) => {
+                    onSaved={(hazard, err) => {
                         if (err) {
                             setToastInfo({ headline: 'Failed to Report', subtext: err });
                         } else if (hazard) {
@@ -1564,6 +1664,15 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ persistedDestinati
                             setToastInfo({ headline: 'Hazard Reported', subtext: 'Warning shared with Robin network' });
                         }
                     }}
+                />
+            )}
+
+            {showInteractiveStreetView && destLoc && (
+                <StreetViewWrapper
+                    lat={typeof destLoc.lat === 'function' ? destLoc.lat() : destLoc.lat}
+                    lng={typeof destLoc.lng === 'function' ? destLoc.lng() : destLoc.lng}
+                    onClose={() => setShowInteractiveStreetView(false)}
+                    isFullscreen={true}
                 />
             )}
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { supabase } from '../lib/supabase';
-import { Search, LayoutGrid, List, Plus, ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { Search, LayoutGrid, List, Plus, ChevronLeft, ChevronRight, X, FileText, Camera, Video } from 'lucide-react';
 import './CalendarScreen.css';
 
 interface DeliveryRecord {
@@ -10,6 +10,7 @@ interface DeliveryRecord {
     created_at: string;
     notes?: any[];
     videos?: any[];
+    photos?: any[];
 }
 
 export const CalendarScreen: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode }) => {
@@ -34,8 +35,9 @@ export const CalendarScreen: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode }
     const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
     const [deliveries, setDeliveries] = useState<DeliveryRecord[]>([]);
     const [searchQuery, setSearchQuery] = useState('');
-    const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+    const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
     const [isSearchFocused, setIsSearchFocused] = useState(false);
+    const [expandedId, setExpandedId] = useState<string | null>(null);
 
     // Touch gesture state
     const touchStartY = useRef(0);
@@ -70,11 +72,13 @@ export const CalendarScreen: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode }
 
         const { data: notesData } = await supabase.from('location_notes').select('*').in('address', addrs);
         const { data: videosData } = await supabase.from('location_videos').select('*').in('address', addrs);
+        const { data: photosData } = await supabase.from('location_photos').select('*').in('address', addrs);
 
         const enrichedDeliveries = routeData.map(d => ({
             ...d,
             notes: notesData?.filter(n => n.address === d.address) || [],
-            videos: videosData?.filter(v => v.address === d.address) || []
+            videos: videosData?.filter(v => v.address === d.address) || [],
+            photos: photosData?.filter(p => p.address === d.address) || []
         }));
 
         setDeliveries(enrichedDeliveries);
@@ -122,7 +126,10 @@ export const CalendarScreen: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode }
 
     // Calendar Generation Helpers
     const getDaysInMonth = (date: Date) => new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
-    const getFirstDayOfMonth = (date: Date) => new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+    const getFirstDayOfMonth = (date: Date) => {
+        const day = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+        return (day + 6) % 7; // Adjust Sunday (0) to 6, Monday (1) to 0, etc.
+    };
 
     const renderGrid = () => {
         const daysInMonth = getDaysInMonth(currentDate);
@@ -169,7 +176,7 @@ export const CalendarScreen: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode }
 
     const activeListDeliveries = selectedDate
         ? filteredDeliveries.filter(d => d.delivery_date === `${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}`)
-        : filteredDeliveries;
+        : [];
 
     return (
         <div className={`calendar-screen ${isDarkMode ? 'dark' : ''}`}>
@@ -223,7 +230,7 @@ export const CalendarScreen: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode }
                 {viewMode === 'grid' && (
                     <div className="calendar-card" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
                         <div className="weekdays">
-                            {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map(d => <div key={d}>{d}</div>)}
+                            {['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((d, i) => <div key={`${d}-${i}`}>{d}</div>)}
                         </div>
                         <div className="days-grid">
                             {renderGrid()}
@@ -252,24 +259,60 @@ export const CalendarScreen: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode }
                             <div className="empty-state">No deliveries recorded.</div>
                         ) : (
                             activeListDeliveries.map(d => (
-                                <div key={d.id} className="entry-item">
-                                    <div className="entry-left">
-                                        <div className="entry-dot"></div>
-                                        <div className="entry-info">
-                                            <div className="entry-header-row">
-                                                <span className="entry-org">Robin Run</span>
-                                                <span className="entry-badge">#{d.id.substring(0, 5)}</span>
+                                <div key={d.id} className={`entry-item ${expandedId === d.id ? 'expanded' : ''}`} onClick={() => setExpandedId(expandedId === d.id ? null : d.id)}>
+                                    <div className="entry-main-content">
+                                        <div className="entry-left">
+                                            <div className="attachment-icons">
+                                                {d.notes && d.notes.length > 0 && <FileText size={14} className="attachment-icon notes" />}
+                                                {d.photos && d.photos.length > 0 && <Camera size={14} className="attachment-icon photos" />}
+                                                {d.videos && d.videos.length > 0 && <Video size={14} className="attachment-icon videos" />}
+                                                {(!d.notes?.length && !d.photos?.length && !d.videos?.length) && <div className="entry-dot"></div>}
                                             </div>
-                                            <span className="entry-address">{formatShortAddress(d.address)}</span>
+                                            <div className="entry-info">
+                                                <span className="entry-address">{formatShortAddress(d.address)}</span>
+                                            </div>
                                         </div>
+
+                                        <span className="entry-time">
+                                            <span style={{ fontSize: '10px', display: 'block', opacity: 0.6, fontWeight: 400 }}>Logged at</span>
+                                            {new Date(d.created_at).toLocaleTimeString('en-AU', { timeZone: 'Australia/Sydney', hour: 'numeric', minute: '2-digit' }) !== 'Invalid Date'
+                                                ? new Date(d.created_at).toLocaleTimeString('en-AU', { timeZone: 'Australia/Sydney', hour: 'numeric', minute: '2-digit' })
+                                                : '7:00 AM'}
+                                        </span>
                                     </div>
 
-                                    {/* Usually time logged - grabbing purely hour/minute from delivery timestamp if possible, else filler */}
-                                    <span className="entry-time">
-                                        {new Date(d.created_at).toLocaleTimeString('en-AU', { timeZone: 'Australia/Sydney', hour: 'numeric', minute: '2-digit' }) !== 'Invalid Date'
-                                            ? new Date(d.created_at).toLocaleTimeString('en-AU', { timeZone: 'Australia/Sydney', hour: 'numeric', minute: '2-digit' })
-                                            : '7:00 AM'}
-                                    </span>
+                                    {expandedId === d.id && (
+                                        <div className="entry-expanded-content" onClick={(e) => e.stopPropagation()}>
+                                            {d.notes && d.notes.length > 0 && (
+                                                <div className="expanded-section">
+                                                    <h4>Notes</h4>
+                                                    {d.notes.map((n, i) => (
+                                                        <div key={i} className="expanded-note">{n.delivery_notes || n.parking_instructions || 'Site Instruction'}</div>
+                                                    ))}
+                                                </div>
+                                            )}
+                                            {d.photos && d.photos.length > 0 && (
+                                                <div className="expanded-section">
+                                                    <h4>Photos</h4>
+                                                    <div className="expanded-media-grid">
+                                                        {d.photos.map((p, i) => (
+                                                            <img key={i} src={p.photo_url} alt="Delivery" className="expanded-img" />
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            )}
+                                            {d.videos && d.videos.length > 0 && (
+                                                <div className="expanded-section">
+                                                    <h4>Videos</h4>
+                                                    <div className="expanded-media-grid">
+                                                        {d.videos.map((v, i) => (
+                                                            <video key={i} src={v.video_url} controls className="expanded-video" />
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
                                 </div>
                             ))
                         )}

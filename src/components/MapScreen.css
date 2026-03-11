@@ -238,7 +238,7 @@
     right: 0;
     bottom: 0;
     background: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
+    z-index: 9999;
     display: flex;
     align-items: flex-end;
 }
@@ -253,4 +253,40 @@
         transform: translateY(0);
         opacity: 1;
     }
+}
+
+/* Picture-in-Picture Street View */
+.pip-streetview {
+    position: absolute;
+    top: max(env(safe-area-inset-top, 50px), 80px);
+    right: 20px;
+    width: 90px;
+    height: 90px;
+    border-radius: 16px;
+    background-size: cover;
+    background-position: center;
+    background-color: var(--bg-card);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    border: 3px solid white;
+    z-index: 100;
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.pip-streetview:active {
+    transform: scale(0.95);
+}
+
+.pip-label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    font-size: 10px;
+    padding: 4px;
+    text-align: center;
+    font-weight: 600;
 }

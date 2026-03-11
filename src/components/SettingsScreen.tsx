@@ -118,22 +118,43 @@ const EntriesSection = () => {
     if (loading) return <div className="empty-state">Loading…</div>;
     if (entries.length === 0) return <div className="empty-state">No entries yet.</div>;
 
+    // Group entries by date
+    const groupedEntries: Record<string, any[]> = {};
+    entries.forEach(e => {
+        const date = e.created_at.split('T')[0];
+        if (!groupedEntries[date]) groupedEntries[date] = [];
+        groupedEntries[date].push(e);
+    });
+
+    const sortedDates = Object.keys(groupedEntries).sort((a, b) => new Date(b).getTime() - new Date(a).getTime());
+
     return (
         <div className="data-list">
-            {entries.map((e, i) => (
-                <div key={i} className="data-item">
-                    <div className="data-item-icon">
-                        {e.type === 'note' ? <FileText size={18} color="var(--primary-action)" /> : <Map size={18} color="var(--primary-action)" />}
+            {sortedDates.map(date => (
+                <div key={date} style={{ marginBottom: 24 }}>
+                    <div className="data-section-label" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <span>{formatDisplayDate(date)}</span>
+                        <span className="entry-count-badge">{groupedEntries[date].length}</span>
                     </div>
-                    <div className="data-item-body">
-                        <div className="data-item-title">{e.address}</div>
-                        <div className="data-item-sub">
-                            {e.type === 'note'
-                                ? (e.delivery_notes || e.parking_instructions || 'Note')
-                                : `Video · ${e.category}`}
+                    {groupedEntries[date].map((e, i) => (
+                        <div key={i} className="data-item">
+                            <div className="data-item-icon">
+                                {e.type === 'note' ? <FileText size={18} color="var(--primary-action)" /> : <Map size={18} color="var(--primary-action)" />}
+                            </div>
+                            <div className="data-item-body">
+                                <div className="data-item-title">{e.address}</div>
+                                <div className="data-item-sub">
+                                    {e.type === 'note'
+                                        ? (e.delivery_notes || e.parking_instructions || 'Note')
+                                        : `Video · ${e.category}`}
+                                </div>
+                            </div>
+                            {/* Optional: You can keep the date here or remove it since it's in the header */}
+                            <div className="data-item-date" style={{ opacity: 0.4, fontSize: '10px' }}>
+                                {new Date(e.created_at).toLocaleTimeString('en-AU', { hour: 'numeric', minute: '2-digit' })}
+                            </div>
                         </div>
-                    </div>
-                    <div className="data-item-date">{formatDisplayDate(e.created_at.split('T')[0])}</div>
+                    ))}
                 </div>
             ))}
         </div>

@@ -56,99 +56,148 @@ html body.native-nav-active {
   display: flex;
   flex-direction: column;
   pointer-events: none;
+  padding-top: max(env(safe-area-inset-top, 48px), 24px);
 }
 
-.nav-overlay>* {
+.nav-overlay > * {
   pointer-events: auto;
 }
 
-.nav-overlay-exit {
-  position: absolute;
-  top: max(env(safe-area-inset-top, 20px), 64px);
-  left: 16px;
-  background: rgba(0, 0, 0, 0.72);
-  color: #fff;
-  border: none;
-  border-radius: 24px;
-  padding: 10px 18px;
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 0.2px;
-  cursor: pointer;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-
-.nav-overlay-exit:active {
-  opacity: 0.8;
-}
-
-.nav-overlay-label {
-  position: absolute;
-  bottom: max(env(safe-area-inset-bottom, 20px), 36px);
-  left: 16px;
-  right: 16px;
-  background: rgba(0, 0, 0, 0.72);
-  border-radius: 16px;
-  padding: 14px 18px;
-  color: #fff;
-  font-size: 16px;
-  font-weight: 600;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  text-align: center;
-}
-
-/* Speedometer - Pill Style in Bottom Left */
-.speedometer-container {
-  position: absolute;
-  bottom: calc(110px + env(safe-area-inset-bottom));
-  left: 16px;
-  background: rgba(0, 0, 0, 0.85);
-  border-radius: 40px;
+/* Google Maps Style Header */
+.nav-header {
+  margin: 0px 16px 16px 16px;
+  background: #0d6537; /* Dark Native Green */
+  border-radius: 20px;
+  padding: 16px 20px;
   display: flex;
   align-items: center;
-  padding: 6px;
-  color: #fff;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-  pointer-events: none;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  justify-content: space-between;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.35);
+  color: white;
+  pointer-events: auto;
 }
 
-.speed-limit-circle {
+.nav-header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.nav-next-turn-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-header-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-destination-name {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.1;
+  color: white;
+}
+
+.nav-distance {
+  font-size: 15px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  margin-top: 4px;
+}
+
+.nav-mic-icon {
+  background: white;
+  border-radius: 50%;
   width: 44px;
   height: 44px;
-  background: white;
-  border: 3px solid #ff3b30;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+/* Exit Button in Header */
+.nav-header-exit {
+  background: #d93025; /* Red */
+  border: 2px solid rgba(255,255,255,0.2);
+  border-radius: 20px;
+  padding: 8px 16px;
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(217, 48, 37, 0.4);
+  cursor: pointer;
+  pointer-events: auto;
+  transition: transform 0.2s, background 0.2s;
+  white-space: nowrap;
+}
+.nav-header-exit:active {
+  transform: scale(0.92);
+  background: #b71c1c;
+}
+
+.nav-overlay-content {
+  flex: 1;
+  position: relative;
+  pointer-events: none;
+}
+
+/* Circular Speedometer - Bottom Left */
+.speedometer-circular {
+  position: absolute;
+  bottom: calc(150px + env(safe-area-inset-bottom));
+  left: 20px;
+  width: 70px;
+  height: 70px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(4px);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #000;
-  font-weight: 800;
-  font-size: 18px;
-  margin-right: 12px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+  border: 3px solid #f8fafc;
+  z-index: 550;
 }
 
-.current-speed-box {
+.speedometer-inner {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-right: 16px;
+  justify-content: center;
+  color: #1e293b;
 }
 
-.speedometer-value {
-  font-size: 28px;
-  font-weight: 800;
+.speed-val {
+  font-size: 26px;
+  font-weight: 900;
   line-height: 1;
 }
 
-.speedometer-unit {
+.speed-unit {
   font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
-  opacity: 0.8;
-  margin-top: 1px;
+  opacity: 0.7;
+}
+
+.speed-limit-badge {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 40px;
+  height: 40px;
+  background: white;
+  border: 3px solid #ef4444;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: black;
+  font-weight: 800;
+  font-size: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }

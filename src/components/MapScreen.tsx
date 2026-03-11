@@ -10,6 +10,7 @@ import { silverMapStyle, darkMapStyle } from '../lib/mapStyles';
 import { isRestrictionActive, getTemporalMessage } from '../lib/temporalEngine';
 import type { TemporalWindow, TemporalWarnings } from '../lib/temporalEngine';
 import { Toast } from './Toast';
+import { StreetViewWrapper } from './StreetViewWrapper';
 import './MapScreen.css';
 
 interface Stop {
@@ -239,7 +240,7 @@ const MapInner: React.FC<{
     runStops: Stop[],
     setSelectedCairn: (c: Cairn | null) => void,
     initialCenter: { lat: number, lng: number },
-    onRouteComputed: (details: { distance: string, duration: string }) => void,
+    onRouteComputed: (details: { distance: string, duration: string, durationValue?: number }) => void,
     isDarkMode: boolean,
     onArrive?: (address: string) => void
 }> = ({ userLocation, cairns, runStops, setSelectedCairn, initialCenter, onRouteComputed, isDarkMode, onArrive }) => {
@@ -315,7 +316,7 @@ const MapInner: React.FC<{
                 const distKm = (totalDist / 1000).toFixed(1) + ' km';
                 const durMins = Math.round(totalDur / 60);
                 const durStr = durMins >= 60 ? `${Math.floor(durMins / 60)} hr ${durMins % 60} min` : `${durMins} min`;
-                onRouteComputed({ distance: distKm, duration: durStr });
+                onRouteComputed({ distance: distKm, duration: durStr, durationValue: totalDur });
 
                 // Extract geocoded coordinates from each leg's end for numbered markers
                 const stopCoords: { lat: number, lng: number }[] = [];
@@ -462,7 +463,7 @@ export const MapScreen: React.FC<{
 
     // Restore nav-active if navigation was still running when app resumed from background
     useEffect(() => {
-        if (sessionStorage.getItem('nav-active') === '1') {
+        if (localStorage.getItem('nav-active') === '1') {
             document.body.classList.add('native-nav-active');
         }
     }, []);
@@ -681,24 +682,17 @@ export const MapScreen: React.FC<{
                                     const addrParts = nextPending.address.split(',');
                                     const streetPart = addrParts[0]?.trim() || nextPending.address;
 
-                                    // Compute estimated arrival time from route duration
+                                    // Compute estimated arrival time from exact duration value (in seconds)
                                     let arrivalTimeStr = '';
-                                    if (routeInfo) {
-                                        const durText = routeInfo.duration || '';
-                                        let totalMinutes = 0;
-                                        const hrMatch = durText.match(/(\d+)\s*hr/);
-                                        const minMatch = durText.match(/(\d+)\s*min/);
-                                        if (hrMatch) totalMinutes += parseInt(hrMatch[1]) * 60;
-                                        if (minMatch) totalMinutes += parseInt(minMatch[1]);
-                                        if (totalMinutes > 0) {
-                                            const arrival = new Date(Date.now() + totalMinutes * 60000);
-                                            const hours = arrival.getHours();
-                                            const mins = arrival.getMinutes();
-                                            const ampm = hours >= 12 ? 'PM' : 'AM';
-                                            const displayHour = hours % 12 || 12;
-                                            const displayMin = mins < 10 ? '0' + mins : String(mins);
-                                            arrivalTimeStr = `${displayHour}:${displayMin} ${ampm}`;
-                                        }
+                                    if (routeInfo && routeInfo.durationValue) {
+                                        const totalMinutes = Math.round(routeInfo.durationValue / 60);
+                                        const arrival = new Date(Date.now() + totalMinutes * 60000);
+                                        const hours = arrival.getHours();
+                                        const mins = arrival.getMinutes();
+                                        const ampm = hours >= 12 ? 'PM' : 'AM';
+                                        const displayHour = hours % 12 || 12;
+                                        const displayMin = mins < 10 ? '0' + mins : String(mins);
+                                        arrivalTimeStr = `${displayHour}:${displayMin} ${ampm}`;
                                     }
 
                                     let speech = `Starting route to ${streetPart}.`;
@@ -825,6 +819,38 @@ export const MapScreen: React.FC<{
                     </div>
                 </div>
             )}
+
+            {navActive && activeNavAddress && (() => {
+                const destinationStop = routeStops.find(s => s.address === activeNavAddress);
+                if (destinationStop && destinationStop.lat && destinationStop.lng) {
+                    const svUrl = `https://maps.googleapis.com/maps/api/streetview?size=200x200&location=${destinationStop.lat},${destinationStop.lng}&key=AIzaSyB9id2lFl02rKAX2gf9qkiL24oEvhI__GU`;
+                    return (
+                        <div 
+                            className="pip-streetview"
+                            style={{ backgroundImage: `url(${svUrl})` }}
+                            onClick={() => setShowInteractiveStreetView(true)}
+                        >
+                            <div className="pip-label">Destination View</div>
+                        </div>
+                    );
+                }
+                return null;
+            })()}
+
+            {showInteractiveStreetView && activeNavAddress && (() => {
+                const destinationStop = routeStops.find(s => s.address === activeNavAddress);
+                if (destinationStop && destinationStop.lat && destinationStop.lng) {
+                    return (
+                        <StreetViewWrapper
+                            lat={destinationStop.lat}
+                            lng={destinationStop.lng}
+                            onClose={() => setShowInteractiveStreetView(false)}
+                            isFullscreen={true}
+                        />
+                    );
+                }
+                return null;
+            })()}
 
             {/* Toast Notification */}
             {toastInfo && (

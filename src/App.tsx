@@ -31,13 +31,13 @@ interface Stop {
 
 function App() {
   const [activeTab, setActiveTab] = useState(() => {
-    return sessionStorage.getItem('robin_active_tab') || 'explore';
+    return localStorage.getItem('robin_active_tab') || 'explore';
   });
   const [persistedDestination, setPersistedDestination] = useState<any>(null);
   const [isNavigating, setIsNavigating] = useState(false);
   const [routeStops, setRouteStops] = useState<Stop[]>(() => {
     try {
-      const stored = sessionStorage.getItem('robin_route_stops');
+      const stored = localStorage.getItem('robin_route_stops');
       return stored ? JSON.parse(stored) : [];
     } catch { return []; }
   });
@@ -50,7 +50,7 @@ function App() {
   const [arrivalAddress, setArrivalAddress] = useState<string | null>(null);
   const [activeNavAddress, setActiveNavAddress] = useState<string | null>(null);
   const [activeRunId, setActiveRunId] = useState<string | null>(() => {
-    return sessionStorage.getItem('robin_active_run_id');
+    return localStorage.getItem('robin_active_run_id');
   });
   const suggestedStopsRef = useRef<Set<string>>(new Set());
   const lastAnnouncedStopRef = useRef<string | null>(null);
@@ -119,7 +119,7 @@ function App() {
       }
       if (changed) {
         setRouteStops(resolved);
-        sessionStorage.setItem('robin_route_stops', JSON.stringify(resolved));
+        localStorage.setItem('robin_route_stops', JSON.stringify(resolved));
       }
     };
     resolveCoords();
@@ -154,7 +154,7 @@ function App() {
                 const text = `Hey Josh, Stop ${idx + 1} is coming up on your right in about 200 meters. Do you want to deliver it now?`;
                 if (Capacitor.isNativePlatform()) {
                   // Mark that Robin is asking a question so VoiceAssistant knows to listen after speakEnd
-                  window.sessionStorage.setItem('robin_expect_response', 'true');
+                  window.localStorage.setItem('robin_expect_response', 'true');
                   NavigationSDK.speakText({ text }).catch(console.error);
                 } else {
                   console.log('STOP SPOTTER VOICE:', text);
@@ -175,16 +175,16 @@ function App() {
   }, [isGuest]);
 
   useEffect(() => {
-    sessionStorage.setItem('robin_active_tab', activeTab);
+    localStorage.setItem('robin_active_tab', activeTab);
   }, [activeTab]);
 
   useEffect(() => {
-    sessionStorage.setItem('robin_route_stops', JSON.stringify(routeStops));
+    localStorage.setItem('robin_route_stops', JSON.stringify(routeStops));
   }, [routeStops]);
 
   // Restore nav overlay if navigation was still running when app resumed from background
   useEffect(() => {
-    if (sessionStorage.getItem('nav-active') === '1') {
+    if (localStorage.getItem('nav-active') === '1') {
       setNavActive(true);
       document.body.classList.add('native-nav-active');
       document.documentElement.classList.add('native-nav-active');
@@ -197,15 +197,60 @@ function App() {
       if (data) setVehicleProfile(data as any);
     };
 
+    const fetchRunState = async (uid: string) => {
+      // First check if there is an active run locally that is still pending
+      const localStopsStr = localStorage.getItem('robin_route_stops');
+      let hasLocalPendingStops = false;
+      if (localStopsStr) {
+        try {
+          const localStops: Stop[] = JSON.parse(localStopsStr);
+          hasLocalPendingStops = localStops.some(s => s.status === 'pending');
+        } catch { }
+      }
+
+      // If user is logged in, we should sync our local state with the cloud state
+      // This ensures if they force closed the app, they can resume their run.
+      // We only restore from cloud if the user DOES NOT have an active local run currently
+      if (hasLocalPendingStops) {
+        return;
+      }
+
+      try {
+        const { data: runStopsData, error } = await supabase
+          .from('run_stops')
+          .select('*')
+          .eq('user_id', uid)
+          .order('stop_order', { ascending: true });
+        
+        if (runStopsData && runStopsData.length > 0 && !error) {
+          // If the cloud run has pending stops, restore it
+          const hasPending = runStopsData.some(s => s.status === 'pending');
+          if (hasPending) {
+            setRouteStops(runStopsData as Stop[]);
+            localStorage.setItem('robin_route_stops', JSON.stringify(runStopsData));
+            // Assuming active runs are always routed in MapScreen or UploadRunScreen
+            if (!localStorage.getItem('robin_active_run_id')) {
+               const generatedRunId = `run_restored_${Date.now()}`;
+               setActiveRunId(generatedRunId);
+               localStorage.setItem('robin_active_run_id', generatedRunId);
+            }
+          }
+        }
+      } catch (err) {
+        console.error('Failed to fetch user run state:', err);
+      }
+    };
+
     supabase.auth.getSession().then(({ data: { session } }) => {
       setIsAuthenticated(!!session);
       setUserEmail(session?.user?.email || null);
       if (session) {
-        if (isDeliveryMode && !sessionStorage.getItem('delivery_toast_shown')) {
+        if (isDeliveryMode && !localStorage.getItem('delivery_toast_shown')) {
           setShowDeliveryToast(true);
-          sessionStorage.setItem('delivery_toast_shown', 'true');
+          localStorage.setItem('delivery_toast_shown', 'true');
         }
         fetchProfile(session.user.id);
+        fetchRunState(session.user.id);
       }
     });
 
@@ -214,16 +259,19 @@ function App() {
       setUserEmail(session?.user?.email || null);
       if (event === 'SIGNED_IN') {
         setIsGuest(false);
-        if (isDeliveryMode && !sessionStorage.getItem('delivery_toast_shown')) {
+        if (isDeliveryMode && !localStorage.getItem('delivery_toast_shown')) {
           setShowDeliveryToast(true);
-          sessionStorage.setItem('delivery_toast_shown', 'true');
+          localStorage.setItem('delivery_toast_shown', 'true');
         }
-        if (session) fetchProfile(session.user.id);
+        if (session) {
+          fetchProfile(session.user.id);
+          fetchRunState(session.user.id);
+        }
       } else if (event === 'SIGNED_OUT') {
         setIsGuest(false);
         setActiveTab('explore');
         setVehicleProfile(null);
-        sessionStorage.removeItem('delivery_toast_shown');
+        localStorage.removeItem('delivery_toast_shown');
       }
     });
 
@@ -237,6 +285,7 @@ function App() {
   // Called by ExploreScreen / MapScreen once navigation successfully starts
   const handleNavStart = useCallback((label: string, fullAddress?: string, coords?: { lat: number, lng: number }) => {
     setNavActive(true);
+    setCurrentSpeed(0); // Initialize speedometer to 0 immediately
     setArrivalAddress(null); // Clear any previous arrival
     if (fullAddress) {
       setActiveNavAddress(fullAddress);
@@ -247,8 +296,8 @@ function App() {
         ));
       }
     }
-    sessionStorage.setItem('nav-active', '1');
-    sessionStorage.setItem('nav-label', label);
+    localStorage.setItem('nav-active', '1');
+    localStorage.setItem('nav-label', label);
     document.body.classList.add('native-nav-active');
     document.documentElement.classList.add('native-nav-active');
   }, []);
@@ -256,8 +305,8 @@ function App() {
   // Called when user taps Exit Navigation in the overlay or native FAB
   const handleNavExit = useCallback(() => {
     setNavActive(false);
-    sessionStorage.removeItem('nav-active');
-    sessionStorage.removeItem('nav-label');
+    localStorage.removeItem('nav-active');
+    localStorage.removeItem('nav-label');
     document.body.classList.remove('native-nav-active');
     document.documentElement.classList.remove('native-nav-active');
     if (Capacitor.isNativePlatform()) {
@@ -281,7 +330,7 @@ function App() {
       // Hide the native map and restore WebView so the panel is visible
       handleNavExit();
       // Set arrival address to trigger the ArrivalPanel
-      setArrivalAddress(activeNavAddress || sessionStorage.getItem('nav-label') || 'Destination');
+      setArrivalAddress(activeNavAddress || localStorage.getItem('nav-label') || 'Destination');
     });
 
     const exitListener = NavigationSDK.addListener('navExited', () => {
@@ -310,8 +359,8 @@ function App() {
 
     setRouteStops(stops);
     setActiveRunId(runId);
-    sessionStorage.setItem('robin_route_stops', JSON.stringify(stops));
-    sessionStorage.setItem('robin_active_run_id', runId);
+    localStorage.setItem('robin_route_stops', JSON.stringify(stops));
+    localStorage.setItem('robin_active_run_id', runId);
 
     // Persist to Supabase so MapScreen loads the correct data
     if (!isGuest) {
@@ -464,6 +513,34 @@ function App() {
     }
   }, [activeNavAddress, routeStops, handleNavStart, isGuest]);
 
+  const handleEndRun = useCallback(async () => {
+    // Treat the final stop as completed if we reached it
+    if (activeNavAddress) {
+      const currentIdx = routeStops.findIndex(s => s.address === activeNavAddress);
+      if (currentIdx >= 0) {
+        const stopId = routeStops[currentIdx].id;
+        setRouteStops(prev => prev.map((s, i) => i === currentIdx ? { ...s, status: 'completed' as const } : s));
+        if (!isGuest) {
+          if (stopId) await supabase.from('run_stops').update({ status: 'completed' }).eq('id', stopId);
+          // Update the existing delivery record
+          const today = getSydneyDate();
+          const query = supabase.from('deliveries')
+            .update({ status: 'completed' })
+            .eq('address', activeNavAddress)
+            .eq('delivery_date', today);
+
+          const { data: userData } = await supabase.auth.getUser();
+          if (userData.user) query.eq('user_id', userData.user.id);
+          if (activeRunId) query.eq('run_id', activeRunId);
+          await query;
+        }
+      }
+    }
+    setArrivalAddress(null);
+    setActiveNavAddress(null);
+    setIsNavigating(false); // Return to UploadRunScan screen
+  }, [activeNavAddress, routeStops, isGuest, activeRunId]);
+
 
 
   const handleVoiceAction = (action: any) => {
@@ -584,26 +661,41 @@ function App() {
 
       {navActive && (
         <div className="nav-overlay">
-          <button className="nav-overlay-exit" onClick={handleNavExit}>
-            ✕ Stop Navigation
-          </button>
-
-          {currentSpeed !== null && (
-            <div className="speedometer-container">
-              {currentSpeedLimit !== null && currentSpeedLimit > 0 && (
-                <div className="speed-limit-circle">
-                  {currentSpeedLimit}
-                </div>
-              )}
-              <div className="current-speed-box">
-                <div className="speedometer-value">{currentSpeed}</div>
-                <div className="speedometer-unit">km/h</div>
+          {/* Google Maps Style Header */}
+          <div className="nav-header">
+            <div className="nav-header-left">
+              <div className="nav-next-turn-icon">
+                {/* Up Arrow Icon */}
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="white">
+                  <path d="M12 4L12 20M12 4L5 11M12 4L19 11" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+              <div className="nav-header-text">
+                <div className="nav-destination-name">{activeNavAddress?.split(',')[0]}</div>
+                <div className="nav-distance">toward {activeNavAddress?.split(',').slice(1).join(',').trim() || 'destination'}</div>
               </div>
             </div>
-          )}
+            <button className="nav-header-exit" onClick={handleNavExit}>
+              Exit
+            </button>
+          </div>
 
-          <div className="nav-overlay-label" style={{ bottom: 'calc(110px + env(safe-area-inset-bottom))' }}>
-            Navigating to {activeNavAddress?.split(',')[0]}
+          <div className="nav-overlay-content">
+            {currentSpeed !== null && (
+              <div className="speedometer-circular">
+                <div className="speedometer-inner">
+                  <div className="speed-val">{currentSpeed}</div>
+                  <div className="speed-unit">km/h</div>
+                </div>
+                {currentSpeedLimit !== null && currentSpeedLimit > 0 && (
+                  <div className="speed-limit-badge">
+                    {currentSpeedLimit}
+                  </div>
+                )}
+              </div>
+            )}
+            
+            {/* Optional space for other bottom left items */}
           </div>
 
           <div style={{
@@ -633,14 +725,18 @@ function App() {
       )}
 
       {arrivalAddress && (() => {
-        const currentIdx = routeStops.findIndex(s => s.address === activeNavAddress);
+        const currentStop = routeStops.find(s => s.address === activeNavAddress || s.address === arrivalAddress);
+        const currentIdx = routeStops.findIndex(s => s.address === activeNavAddress || s.address === arrivalAddress);
         const nextStop = routeStops.find((s, i) => i > currentIdx && s.status === 'pending');
         return (
           <ArrivalPanel
             address={arrivalAddress}
+            lat={currentStop?.lat}
+            lng={currentStop?.lng}
             onReRoute={handleReRoute}
             onEndRoute={handleEndRoute}
             onNextDelivery={handleNextDelivery}
+            onEndRun={handleEndRun}
             hasNextDelivery={!!nextStop}
             nextDeliveryAddress={nextStop?.address}
             userEmail={userEmail}

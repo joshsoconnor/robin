@@ -1,11 +1,28 @@
 # Robin App - Project Handoff & Status
 
-## Current Application State (March 10, 2026)
+## Current Application State (March 11, 2026)
 Robin is a mobile-first Capacitor/React application for delivery logistics — route running, calendar management, and in-app Google Maps voice navigation.
 
 ---
 
-## ✅ What's Working Now (End of March 10 Morning Session - V1.2)
+## ✅ What's Working Now (End of March 11 Session - V2.1)
+
+### 🔄 Run State Persistence (NEW - V2.1)
+- **Cloud Resume:** Logged-in users can now close the app mid-run and pick up exactly where they left off. On app launch, Robin fetches the user's active `run_stops` from Supabase and restores the route with correct pending/completed statuses.
+- **Smart Sync:** Only restores from cloud when no active local run exists, preventing accidental overwrites.
+
+### 🏎️ Speedometer & Nav Header UI (FIXED - V2.1)
+- **Speedometer Always Visible:** The speedometer now renders immediately at `0 km/h` when navigation starts, even when stationary. Repositioned higher to avoid overlap with the native ETA bar.
+- **Redesigned Nav Header:** The floating green navigation header now includes the red "Exit" button directly inline, replacing the old bottom-right exit pill. Improved safe-area padding ensures no overlap with the phone status bar.
+
+### 📸 Interactive Street View Integration (NEW)
+- **Explore Modal:** Tapping the static Street View thumbnail opens a fully immersive, 360-degree interactive viewer.
+- **Picture-in-Picture (PIP):** During live navigation, a clickable Street View thumbnail floats in the top corner for quick reference.
+- **Arrival Split-Screen:** Upon arriving at a destination ("Mark Delivery Complete" flow), the top half of the screen dynamically shifts to a full interactive Street View panorama of the house/site, while the delivery action panel sits natively in the bottom half.
+
+### 🎙️ Voice Assistant Refinements (FIXED)
+- **Exact ETA Synchronization:** Robin's spoken ETA ("You should get there by 3:04pm") now perfectly matches the real-time Google Maps Navigation SDK ETA instead of calculating from rounded strings.
+- **Microphone Reliability:** Disabled the disruptive native Android SpeechRecognition popup, preventing audio focus loss and ensuring Robin consistently "hears" the driver's inputs across complex UI layouts.
 
 ### 🚀 Improved Run Execution (NEW)
 - **Mark Complete/Incomplete**: Drivers can now mark stops as complete OR incomplete directly from the Run Preview. The "Start Run" count updates instantly.
@@ -52,21 +69,12 @@ Robin is a mobile-first Capacitor/React application for delivery logistics — r
 
 ---
 
-## 🏗️ Key Files Changed This Session
+## 🏗️ Key Files Changed (V2.1 Session)
 
 | File | What Changed |
 |------|-------------|
-| `src/App.tsx` | Implemented **Stop Spotter** logic, global geocoding, and passed `routeStops` to sub-screens. |
-| `src/components/ExploreScreen.tsx` | Added **Global Run Markers** (orange/gray indicators) to the map. |
-| `src/components/SettingsScreen.tsx` | Added the **Expandable Active Run Card** to the Runs section. |
-| `src/components/IntelligenceFeed.tsx` | Refined strict contextual filtering, added **Video support**, and "DESTINATION" badging. |
-| `src/components/IntelligenceFeed.css` | Added pulse animations and contextual badge styling. |
-| `src/components/ArrivalPanel.tsx` | Added **Note deletion** and persistence for the "Next Delivery" status. |
-| `src/components/MapScreen.tsx` | Fixed "Mark Delivery Complete" visibility and terminal navigation logic. |
-| `src/App.tsx` | Fixed `handleCompletePendingStop` to correctly reset navigation state. |
-| `fix_deletion_policies.sql` | Consolidated RLS policies for robust multi-category deletion. |
-| `android/app/build.gradle` | Updated Navigation SDK to `5.2.1` for build stability. |
-| `NavigationPlugin.java` | Fixed map tilt implementation and class visibility. |
+| `src/App.tsx` | Added **run state persistence** (fetches `run_stops` from Supabase on login/launch), moved **Exit** button into nav header, initialized speedometer to `0` on nav start. |
+| `src/App.css` | Redesigned **nav header** (inline Exit button), repositioned **speedometer** higher to avoid native ETA overlap, increased safe-area top padding. |
 
 ---
 
@@ -89,7 +97,7 @@ Stop Spotter Logic (Background)
 ## ⚠️ Critical Things NOT to Do
 
 ### Build & APK
-- **Always rename the APK to "Robin Live V1.2.apk"** when delivering to the user.
+- **Always rename the APK appropriately (e.g., "Robin_v2.0.apk")** when copying to the user's Desktop.
 - **Do NOT delete the "Active Run" card** from Settings; it is the primary way the user monitors the full manifest.
 - **Avoid hard-coded address strings** in Intel; always use the `activeAddress` prop for matching.
 
@@ -97,13 +105,28 @@ Stop Spotter Logic (Background)
 
 ## 🔧 Build Commands (Quick Reference)
 
-```powershell
-# Full rebuild cycle (Note: build output is directed to C:\tmp\robin-build to avoid OneDrive sync lag)
-npm run build
-npx cap sync android
-cd android
-.\gradlew.bat assembleDebug
+**NOTE: Follow these steps precisely if `assembleDebug` fails or APK issues occur:**
 
-# Copy APK from tmp build folder to Desktop with requested release name
-Copy-Item "C:\tmp\robin-build\app\outputs\apk\debug\app-debug.apk" "C:\Users\joshs\OneDrive\Desktop\Robin Live V1.2.apk" -Force
+```powershell
+# 1. Sync the latest web assets into the Android native layer
+npx cap sync android
+
+# 2. Build the Android debug APK. We use .\gradlew assembleDebug.
+# If it fails, check imports in NavigationPlugin.java and app build.gradle.
+cd android
+.\gradlew assembleDebug
+
+# 3. Copy the resulting APK to the Desktop. 
+# NOTE: The build output folder is intentionally mapped to C:\tmp\robin-build to avoid OneDrive locking issues.
+Copy-Item "C:\tmp\robin-build\app\outputs\apk\debug\app-debug.apk" "C:\Users\joshs\OneDrive\Desktop\v2.0.apk" -Force
 ```
+---
+
+## 🛑 Immediate Blockers
+- None at this time. APK successfully deployed to desktop.
+
+---
+
+## 🔮 Future Roadmap (Planned Enhancements)
+- Continued optimization of the Voice Assistant's conversational context.
+- Expand Interactive Street View markers with precise building entrance locations from Intel feed.

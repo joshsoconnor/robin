@@ -27,8 +27,8 @@ export const VoiceAssistantNode: React.FC<VoiceAssistantProps> = ({ routeStops, 
                 const speakEndListener = await (NavigationSDK as any).addListener('speakEnd', (data: any) => {
                     console.log('VoiceAssistant: Robin finished speaking', data);
                     // Check if the response we just gave invited a question
-                    if (window.sessionStorage.getItem('robin_expect_response') === 'true') {
-                        window.sessionStorage.removeItem('robin_expect_response');
+                    if (window.localStorage.getItem('robin_expect_response') === 'true') {
+                        window.localStorage.removeItem('robin_expect_response');
                         startListening();
                     }
                 });
@@ -73,6 +73,9 @@ export const VoiceAssistantNode: React.FC<VoiceAssistantProps> = ({ routeStops, 
                 if (data.matches && data.matches.length > 0) {
                     console.log('Voice captured (final):', data.matches[0]);
                     processTranscript(data.matches[0]);
+                } else {
+                    // Sometimes the transcript is empty
+                    setIsListening(false);
                 }
             });
 
@@ -81,12 +84,15 @@ export const VoiceAssistantNode: React.FC<VoiceAssistantProps> = ({ routeStops, 
                 maxResults: 1,
                 prompt: 'Robin is listening...',
                 partialResults: true,
-                popup: true, // Use native popup for better reliability and visual feedback
+                popup: false, // DO NOT use native popup. It steals focus and can break the Capacitor view layer on some Android variants
             });
 
             const timeoutId = setTimeout(() => {
-                setIsListening(false);
-                SpeechRecognition.stop().catch(() => { });
+                if (isListening) {
+                    setIsListening(false);
+                    SpeechRecognition.stop().catch(() => { });
+                    console.log('VoiceAssistant: Listening timed out.');
+                }
             }, 8000);
 
             (window as any)._voiceTimeoutId = timeoutId;
@@ -152,7 +158,7 @@ export const VoiceAssistantNode: React.FC<VoiceAssistantProps> = ({ routeStops, 
 
             if (data && data.response) {
                 if (data.response.includes('?') || data.expectResponse) {
-                    window.sessionStorage.setItem('robin_expect_response', 'true');
+                    window.localStorage.setItem('robin_expect_response', 'true');
                 }
 
                 await NavigationSDK.speakText({ text: data.response });

@@ -39,6 +39,7 @@ import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
 
 import com.google.android.libraries.navigation.*;
+import com.google.android.gms.maps.GoogleMap;
 
 @CapacitorPlugin(name = "NavigationSDK")
 public class NavigationPlugin extends Plugin implements LocationListener {
@@ -292,7 +293,7 @@ public class NavigationPlugin extends Plugin implements LocationListener {
                             if (navFragment != null) {
                                 navFragment.getMapAsync(googleMap -> {
                                     googleMap.followMyLocation(
-                                            com.google.android.libraries.navigation.GoogleMap.CameraPerspective.TILTED);
+                                            GoogleMap.CameraPerspective.TILTED);
 
                                     // Set a default higher zoom level to fix "too far away" on mobile
                                     googleMap.setMaxZoomPreference(21f);
@@ -490,15 +491,16 @@ public class NavigationPlugin extends Plugin implements LocationListener {
 
     @Override
     public void onLocationChanged(@NonNull Location location) {
+        float speedKmh = 0f;
         if (location.hasSpeed()) {
             float speedMps = location.getSpeed();
             // Convert m/s to km/h
-            float speedKmh = speedMps * 3.6f;
-
-            JSObject ret = new JSObject();
-            ret.put("speedKmh", Math.round(speedKmh));
-            notifyListeners("speedUpdate", ret);
+            speedKmh = speedMps * 3.6f;
         }
+
+        JSObject ret = new JSObject();
+        ret.put("speedKmh", Math.round(speedKmh));
+        notifyListeners("speedUpdate", ret);
     }
 
     @Override
