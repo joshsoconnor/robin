@@ -254,7 +254,7 @@ const MapInner: React.FC<{
     useEffect(() => {
         if (map && userLocation && !pannedRef.current) {
             map.panTo(userLocation as any);
-            map.setZoom(18);
+            map.setZoom(19);
             pannedRef.current = true;
         }
     }, [map, userLocation]);
@@ -369,7 +369,7 @@ const MapInner: React.FC<{
     return (
         <>
             <Map
-                defaultZoom={18}
+                defaultZoom={19}
                 defaultCenter={userLocation || initialCenter}
                 disableDefaultUI={true}
                 gestureHandling={'greedy'}
@@ -429,7 +429,7 @@ const MapInner: React.FC<{
                     onClick={() => {
                         if (map && userLocation) {
                             map.panTo(userLocation as any);
-                            map.setZoom(18);
+                            map.setZoom(19);
                         }
                     }}
                 >
@@ -453,13 +453,17 @@ export const MapScreen: React.FC<{
     const [cairns, setCairns] = useState<Cairn[]>([]);
     const [runStops, setRunStops] = useState<Stop[]>([]);
     const [selectedCairn, setSelectedCairn] = useState<Cairn | null>(null);
-    const [routeInfo, setRouteInfo] = useState<{ distance: string, duration: string } | null>(null);
+    const [routeInfo, setRouteInfo] = useState<{ distance: string, duration: string, durationValue?: number } | null>(null);
     const [navLoading, setNavLoading] = useState(false);
     const [navError, setNavError] = useState<string | null>(null);
     const [showAddCairn, setShowAddCairn] = useState(false);
     const [showAddHazard, setShowAddHazard] = useState(false);
     const [hazards, setHazards] = useState<any[]>([]);
     const [toastInfo, setToastInfo] = useState<{ headline: string, subtext?: string } | null>(null);
+    const [showInteractiveStreetView, setShowInteractiveStreetView] = useState(false);
+    
+    // Find active or next address for PIP logic
+    const activeNavAddress = runStops.find(s => s.status === 'pending')?.address;
 
     // Restore nav-active if navigation was still running when app resumed from background
     useEffect(() => {
@@ -821,7 +825,7 @@ export const MapScreen: React.FC<{
             )}
 
             {navActive && activeNavAddress && (() => {
-                const destinationStop = routeStops.find(s => s.address === activeNavAddress);
+                const destinationStop = runStops.find(s => s.address === activeNavAddress);
                 if (destinationStop && destinationStop.lat && destinationStop.lng) {
                     const svUrl = `https://maps.googleapis.com/maps/api/streetview?size=200x200&location=${destinationStop.lat},${destinationStop.lng}&key=AIzaSyB9id2lFl02rKAX2gf9qkiL24oEvhI__GU`;
                     return (
@@ -838,7 +842,7 @@ export const MapScreen: React.FC<{
             })()}
 
             {showInteractiveStreetView && activeNavAddress && (() => {
-                const destinationStop = routeStops.find(s => s.address === activeNavAddress);
+                const destinationStop = runStops.find(s => s.address === activeNavAddress);
                 if (destinationStop && destinationStop.lat && destinationStop.lng) {
                     return (
                         <StreetViewWrapper

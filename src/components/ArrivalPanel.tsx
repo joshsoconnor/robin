@@ -15,6 +15,8 @@ interface ArrivalPanelProps {
     onEndRun?: () => void;
     hasNextDelivery?: boolean;
     nextDeliveryAddress?: string;
+    nextLat?: number;
+    nextLng?: number;
     userEmail?: string | null;
     isAddOnly?: boolean;
 }
@@ -29,6 +31,8 @@ export const ArrivalPanel: React.FC<ArrivalPanelProps> = ({
     onEndRun,
     hasNextDelivery = false,
     nextDeliveryAddress,
+    nextLat,
+    nextLng,
     userEmail,
     isAddOnly = false,
 }) => {
@@ -49,6 +53,8 @@ export const ArrivalPanel: React.FC<ArrivalPanelProps> = ({
     const [isSaving, setIsSaving] = useState(false);
     const [mediaError, setMediaError] = useState<string | null>(null);
     const [previewPhotoUrl, setPreviewPhotoUrl] = useState<string | null>(null);
+    const [previewVideoUrl, setPreviewVideoUrl] = useState<string | null>(null);
+    const [showNextStopLookAround, setShowNextStopLookAround] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -204,8 +210,53 @@ export const ArrivalPanel: React.FC<ArrivalPanelProps> = ({
     if (!showDeliveryPanel) {
         return (
             <div className="arrival-overlay" onClick={(e) => { if ((e.target as HTMLElement) === e.currentTarget) onEndRoute?.(); }}>
-                <div className="arrival-action-bar" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <div className="arrival-action-bar">
                     <div className="arrival-arrived-label">✓ Arrived at {shortAddress}</div>
+                    
+                    {/* Delivery Details Preview */}
+                    {(notes.length > 0 || photos.length > 0 || videos.length > 0) && (
+                        <div className="arrival-data-preview">
+                            {notes.length > 0 && (
+                                <div 
+                                    className="arrival-notes-preview clickable"
+                                    onClick={() => { setShowDeliveryPanel(true); setActiveTab('instructions'); }}
+                                >
+                                    {notes[0].parking_instructions && (
+                                        <div className="preview-note">🅿️ {notes[0].parking_instructions}</div>
+                                    )}
+                                    {notes[0].delivery_notes && (
+                                        <div className="preview-note">📋 {notes[0].delivery_notes}</div>
+                                    )}
+                                    {notes.length > 1 && (
+                                        <div className="preview-more">+{notes.length - 1} more instruction{notes.length > 2 ? 's' : ''}</div>
+                                    )}
+                                </div>
+                            )}
+                            {(photos.length > 0 || videos.length > 0) && (
+                                <div className="arrival-media-preview-row">
+                                    {photos.map((p, i) => (
+                                        <img 
+                                            key={`pre-p-${i}`} 
+                                            src={p.photo_url} 
+                                            className="media-preview-thumb clickable" 
+                                            alt="Preview" 
+                                            onClick={() => setPreviewPhotoUrl(p.photo_url)}
+                                        />
+                                    ))}
+                                    {videos.map((v, i) => (
+                                        <div 
+                                            key={`pre-v-${i}`} 
+                                            className="media-preview-thumb video clickable"
+                                            onClick={() => setPreviewVideoUrl(v.video_url)}
+                                        >
+                                            <Video size={20} color="white" />
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    )}
+
                     <div style={{ display: 'flex', gap: '12px', width: '100%' }}>
                         <button className="arrival-reroute-btn" onClick={onReRoute} title="Re-route">
                             <RefreshCw size={22} color="var(--primary-action)" />
@@ -431,6 +482,42 @@ export const ArrivalPanel: React.FC<ArrivalPanelProps> = ({
                 {/* Next Delivery / End Run button */}
                 {hasNextDelivery ? (
                     <div style={{ padding: '0 20px 16px' }}>
+                        {/* Next Stop Image Preview - Clickable for Look Around */}
+                        {nextDeliveryAddress && nextLat !== undefined && nextLng !== undefined && (
+                            <div 
+                                className="arrival-next-preview" 
+                                onClick={() => setShowNextStopLookAround(true)}
+                                style={{
+                                    marginBottom: 12,
+                                    borderRadius: 16,
+                                    overflow: 'hidden',
+                                    position: 'relative',
+                                    height: 120,
+                                    border: '1px solid var(--border-subtle)',
+                                    cursor: 'pointer'
+                                }}
+                            >
+                                <img 
+                                    src={`https://maps.googleapis.com/maps/api/streetview?size=600x300&location=${encodeURIComponent(nextDeliveryAddress)}&key=AIzaSyB9id2lFl02rKAX2gf9qkiL24oEvhI__GU`} 
+                                    alt="Next Stop Preview"
+                                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                />
+                                <div style={{
+                                    position: 'absolute',
+                                    inset: 0,
+                                    background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 60%)',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    justifyContent: 'flex-end',
+                                    padding: '10px 14px'
+                                }}>
+                                    <div style={{ fontSize: 11, fontWeight: 800, color: '#81C784', letterSpacing: 1.2 }}>NEXT STOP PREVIEW</div>
+                                    <div style={{ color: 'white', fontSize: 14, fontWeight: 700 }}>{nextDeliveryAddress.split(',')[0]}</div>
+                                    <div style={{ color: 'rgba(255,255,255,0.8)', fontSize: 10, fontWeight: 500 }}>Tap to look around</div>
+                                </div>
+                            </div>
+                        )}
+
                         <button className="delivery-next-btn" onClick={onNextDelivery}>
                             <ChevronRight size={20} />
                             Next Delivery
@@ -453,6 +540,7 @@ export const ArrivalPanel: React.FC<ArrivalPanelProps> = ({
                         </button>
                     </div>
                 )}
+            </div>
 
             {/* Split Screen Street View Header */}
             <div className="arrival-streetview-header">
@@ -478,6 +566,75 @@ export const ArrivalPanel: React.FC<ArrivalPanelProps> = ({
                         <X size={24} />
                     </button>
                     <img src={previewPhotoUrl} alt="Preview" className="photo-preview-image" onClick={e => e.stopPropagation()} />
+                </div>
+            )}
+
+            {/* Video Preview Overlay */}
+            {previewVideoUrl && (
+                <div className="photo-preview-overlay" onClick={() => setPreviewVideoUrl(null)}>
+                    <button className="photo-preview-close" onClick={() => setPreviewVideoUrl(null)}>
+                        <X size={24} />
+                    </button>
+                    <video 
+                        src={previewVideoUrl} 
+                        controls 
+                        autoPlay 
+                        playsInline 
+                        className="photo-preview-image" 
+                        onClick={e => e.stopPropagation()} 
+                    />
+                </div>
+            )}
+
+            {/* Interactive Next Stop Look-Around */}
+            {showNextStopLookAround && nextLat !== undefined && nextLng !== undefined && (
+                <div className="lookaround-overlay">
+                    <div style={{
+                        position: 'absolute',
+                        top: 20,
+                        right: 20,
+                        zIndex: 10002
+                    }}>
+                        <button 
+                            onClick={() => setShowNextStopLookAround(false)}
+                            style={{
+                                background: 'white',
+                                border: 'none',
+                                borderRadius: '50%',
+                                width: 44,
+                                height: 44,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+                                color: 'black'
+                            }}
+                        >
+                            <X size={24} />
+                        </button>
+                    </div>
+                    <StreetViewWrapper
+                        lat={nextLat}
+                        lng={nextLng}
+                        isFullscreen={true}
+                        onClose={() => setShowNextStopLookAround(false)}
+                    />
+                    <div style={{
+                        position: 'absolute',
+                        bottom: 40,
+                        left: 20,
+                        right: 20,
+                        background: 'rgba(0,0,0,0.7)',
+                        backdropFilter: 'blur(10px)',
+                        padding: '16px 20px',
+                        borderRadius: 20,
+                        color: 'white',
+                        zIndex: 10001,
+                        pointerEvents: 'none'
+                    }}>
+                        <div style={{ fontSize: 12, fontWeight: 800, color: '#81C784', letterSpacing: 1.5, marginBottom: 4 }}>LOOKING AT</div>
+                        <div style={{ fontSize: 18, fontWeight: 700 }}>{nextDeliveryAddress}</div>
+                    </div>
                 </div>
             )}
         </div>

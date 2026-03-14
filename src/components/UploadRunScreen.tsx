@@ -186,9 +186,11 @@ interface UploadRunScreenProps {
     isDarkMode: boolean;
     onFinalize: (stops: any[]) => void;
     routeStops?: any[];
+    onClearRun?: () => void;
+    onNavToStop?: (stop: any) => void;
 }
 
-export const UploadRunScreen: React.FC<UploadRunScreenProps> = ({ isDarkMode, onFinalize, routeStops }) => {
+export const UploadRunScreen: React.FC<UploadRunScreenProps> = ({ isDarkMode, onFinalize, routeStops, onClearRun, onNavToStop }) => {
     const [capturedImages, setCapturedImages] = useState<{ url: string; base64: string; mimeType: string }[]>(() => {
         try { return JSON.parse(localStorage.getItem('upload_run_images') || '[]'); } catch { return []; }
     });
@@ -528,12 +530,34 @@ export const UploadRunScreen: React.FC<UploadRunScreenProps> = ({ isDarkMode, on
                     <div className="review-header">
                         <div>
                             <h1>Run Preview</h1>
-                            <p className="upload-subtitle">{stops.filter(s => !s.isCompleted).length} stop{stops.filter(s => !s.isCompleted).length !== 1 ? 's' : ''} remaining · 3-dot menu to manage</p>
+                            <p className="upload-subtitle">{stops.filter(s => !s.isCompleted).length} stop{stops.filter(s => !s.isCompleted).length !== 1 ? 's' : ''} remaining</p>
                         </div>
                         <button className="rescan-btn" onClick={() => { setPhase('capture'); }}>
                             Rescan
                         </button>
                     </div>
+
+                    {/* Next Stop Image Preview */}
+                    {(() => {
+                        const nextPending = stops.find(s => !s.isCompleted);
+                        if (!nextPending || !onNavToStop) return null;
+                        return (
+                            <div className="next-stop-preview" onClick={() => onNavToStop(nextPending)}>
+                                <div className="next-stop-img-container">
+                                    <img 
+                                        src={`https://maps.googleapis.com/maps/api/streetview?size=600x400&location=${encodeURIComponent(nextPending.address)}&key=AIzaSyB9id2lFl02rKAX2gf9qkiL24oEvhI__GU`} 
+                                        alt="Next Stop" 
+                                        className="next-stop-img" 
+                                    />
+                                    <div className="next-stop-overlay">
+                                        <div className="next-stop-label">UP NEXT</div>
+                                        <div className="next-stop-address">{nextPending.address.split(',')[0]}</div>
+                                        <div className="next-stop-hint">Tap photo to start navigation</div>
+                                    </div>
+                                </div>
+                            </div>
+                        );
+                    })()}
 
                     {/* Legend */}
                     <div className="legend-row">
@@ -609,9 +633,16 @@ export const UploadRunScreen: React.FC<UploadRunScreenProps> = ({ isDarkMode, on
 
                     {stops.length > 0 && (
                         <div className="finalize-bar">
-                            <button className="finalize-run-btn" onClick={handleFinalize}>
-                                {stops.some(s => s.isCompleted) ? 'Resume Run' : 'Start Run'} → {stops.filter(s => !s.isCompleted).length} stops
-                            </button>
+                            {stops.every(s => s.isCompleted) ? (
+                                <button className="finalize-run-btn" style={{ background: 'var(--success-green)' }} onClick={onClearRun}>
+                                    <CheckCircle size={20} />
+                                    Finalize Run
+                                </button>
+                            ) : (
+                                <button className="finalize-run-btn" onClick={handleFinalize}>
+                                    {stops.some(s => s.isCompleted) ? 'Resume Run' : 'Start Run'} → {stops.filter(s => !s.isCompleted).length} stops
+                                </button>
+                            )}
                         </div>
                     )}
                 </>

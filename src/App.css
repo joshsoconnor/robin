@@ -51,12 +51,12 @@ html body.native-nav-active {
 .nav-overlay {
   position: absolute;
   inset: 0;
-  z-index: 500;
+  z-index: 5000; /* High z-index to stay on top of map */
   background: transparent;
   display: flex;
   flex-direction: column;
   pointer-events: none;
-  padding-top: max(env(safe-area-inset-top, 48px), 24px);
+  padding-top: max(env(safe-area-inset-top, 48px), 16px);
 }
 
 .nav-overlay > * {
@@ -65,16 +65,19 @@ html body.native-nav-active {
 
 /* Google Maps Style Header */
 .nav-header {
-  margin: 0px 16px 16px 16px;
-  background: #0d6537; /* Dark Native Green */
-  border-radius: 20px;
-  padding: 16px 20px;
+  margin: 8px 12px;
+  background: #137333; /* Slightly brighter green like maps */
+  border-radius: 28px; /* More rounded for "floating" look */
+  padding: 18px 22px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
   color: white;
   pointer-events: auto;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  z-index: 5010;
 }
 
 .nav-header-left {
@@ -121,22 +124,104 @@ html body.native-nav-active {
 
 /* Exit Button in Header */
 .nav-header-exit {
-  background: #d93025; /* Red */
-  border: 2px solid rgba(255,255,255,0.2);
-  border-radius: 20px;
-  padding: 8px 16px;
+  background: rgba(0, 0, 0, 0.4); 
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(4px);
+  border-radius: 12px;
+  padding: 6px 14px;
   color: white;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
-  box-shadow: 0 4px 12px rgba(217, 48, 37, 0.4);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   cursor: pointer;
   pointer-events: auto;
   transition: transform 0.2s, background 0.2s;
   white-space: nowrap;
 }
 .nav-header-exit:active {
-  transform: scale(0.92);
-  background: #b71c1c;
+  transform: scale(0.95);
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.nav-right-stack {
+  position: absolute;
+  top: calc(110px + env(safe-area-inset-top));
+  right: 16px;
+  bottom: calc(110px + env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 16px;
+  pointer-events: none;
+  z-index: 6000;
+}
+
+.nav-right-stack > * {
+  pointer-events: auto;
+}
+
+.nav-destination-preview {
+  width: 72px;
+  height: 72px;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 2px solid rgba(255,255,255,0.4);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  background: #000;
+  position: relative;
+}
+
+.nav-destination-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.nav-destination-preview .thumb-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-recenter-btn {
+  background: #1a73e8;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 14px;
+  box-shadow: 0 4px 12px rgba(26, 115, 232, 0.4);
+  animation: proximitySlideDown 0.3s ease-out;
+}
+
+.recenter-content {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.nav-arrive-fab {
+  width: 56px;
+  height: 56px;
+  border-radius: 28px;
+  background: #d93025;
+  color: white;
+  border: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: auto; /* Push to bottom of stack */
+}
+
+/* Spacer to push Arrive FAB down if stack is short */
+.nav-right-stack::after {
+  content: '';
+  flex: 1;
 }
 
 .nav-overlay-content {
@@ -145,22 +230,200 @@ html body.native-nav-active {
   pointer-events: none;
 }
 
+/* Proximity Banner - Simplified into Header */
+.nav-header.arriving {
+  background: #137333; /* Stay green for arrival as requested */
+  border-left: none;
+  animation: proximitySlideDown 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.nav-arriving-label {
+  font-size: 11px;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  margin-bottom: -2px;
+}
+
+/* 50m Split View */
+.proximity-split-view {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50vh;
+  background: #000;
+  z-index: 5002;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+  border-bottom: 2px solid rgba(255,255,255,0.1);
+  overflow: hidden;
+  animation: proximitySlideDown 0.7s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.proximity-image-container {
+  flex: 1;
+  position: relative;
+}
+
+.proximity-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.proximity-info-card {
+  padding: 14px 24px;
+  background: #137333;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.proximity-info-destination {
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.proximity-info-sub {
+  font-size: 13px;
+  opacity: 0.85;
+  font-weight: 500;
+}
+
+/* Next Stop Preview (Runs Mode) */
+.next-stop-preview {
+  margin: 16px;
+  margin-top: 0;
+  background: var(--bg-card);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.2s;
+  border: 1px solid var(--border-color);
+}
+
+.next-stop-preview:active {
+  transform: scale(0.97);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.next-stop-img-container {
+  height: 200px;
+  position: relative;
+}
+
+.next-stop-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.next-stop-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 40%, transparent 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  color: white;
+}
+
+.next-stop-label {
+  font-size: 12px;
+  font-weight: 900;
+  color: #81C784;
+  letter-spacing: 1.5px;
+  margin-bottom: 4px;
+}
+
+.next-stop-address {
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.next-stop-hint {
+  font-size: 13px;
+  opacity: 0.7;
+  margin-top: 8px;
+  font-weight: 500;
+  font-style: italic;
+}
+
+@keyframes proximitySlideDown {
+  from { transform: translateY(-100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Custom Navigation Footer (Google Maps Style) */
+.nav-footer {
+  position: absolute;
+  bottom: max(env(safe-area-inset-bottom, 12px), 24px); /* Moved down slightly */
+  left: 16px;
+  right: 16px;
+  background: #137333; /* Matches Header */
+  color: white;
+  border-radius: 24px;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+  z-index: 7000; /* Increased to be above nav-overlay (5000) */
+  pointer-events: auto;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.nav-footer-main {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.nav-footer-time {
+  font-size: 24px;
+  font-weight: 900;
+  color: #81C784;
+}
+
+.nav-footer-distance, .nav-footer-arrival {
+  font-size: 20px;
+  font-weight: 600;
+  opacity: 0.95;
+}
+
+.nav-footer-dots {
+  opacity: 0.3;
+  font-size: 14px;
+}
+
 /* Circular Speedometer - Bottom Left */
 .speedometer-circular {
   position: absolute;
-  bottom: calc(150px + env(safe-area-inset-bottom));
+  bottom: calc(210px + env(safe-area-inset-bottom)) !important;
   left: 20px;
-  width: 70px;
-  height: 70px;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(4px);
-  border-radius: 50%;
+  width: 100px;
+  height: 100px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.3);
-  border: 3px solid #f8fafc;
-  z-index: 550;
+  pointer-events: auto;
+  z-index: 555;
+}
+
+.speedometer-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
 }
 
 .speedometer-inner {
@@ -168,7 +431,10 @@ html body.native-nav-active {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: #1e293b;
+  color: white;
+  position: relative;
+  z-index: 10;
+  margin-top: 10px;
 }
 
 .speed-val {
@@ -188,16 +454,17 @@ html body.native-nav-active {
   position: absolute;
   top: -10px;
   right: -10px;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   background: white;
-  border: 3px solid #ef4444;
+  border: 4px solid #E53935;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   color: black;
-  font-weight: 800;
-  font-size: 16px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  font-weight: 900;
+  font-size: 18px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  z-index: 551;
 }

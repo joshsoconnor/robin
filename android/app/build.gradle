@@ -22,6 +22,33 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            output.outputFileName = "Robin_Nav_Fix.apk"
+        }
+    }
+}
+
+tasks.register("copyApkToDesktop") {
+    doLast {
+        def fromFile = file("${project.buildDir}/outputs/apk/debug/Robin_Nav_Fix.apk")
+        if (fromFile.exists()) {
+            copy {
+                from fromFile
+                into "C:/Users/joshs/OneDrive/Desktop"
+            }
+            println "APK successfully copied to Desktop: C:/Users/joshs/OneDrive/Desktop/Robin_Nav_Fix.apk"
+        } else {
+            println "Warning: Source APK not found for copying: ${fromFile.absolutePath}"
+        }
+    }
+}
+
+afterEvaluate {
+    def assembleDebugTask = tasks.findByName('assembleDebug')
+    if (assembleDebugTask) {
+        assembleDebugTask.finalizedBy("copyApkToDesktop")
+    }
 }
 
 repositories {

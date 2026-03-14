@@ -1,8 +1,8 @@
 .voice-assistant-node:not(.static) {
     position: fixed;
-    bottom: 110px;
-    right: 16px;
-    z-index: 1000;
+    bottom: calc(180px + env(safe-area-inset-bottom));
+    right: 14px;
+    z-index: 8000; /* Highest z-index */
     pointer-events: none;
 }
 

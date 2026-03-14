@@ -160,6 +160,22 @@ public class NavigationPlugin extends Plugin implements LocationListener {
         });
     }
 
+    @PluginMethod
+    public void recenter(PluginCall call) {
+        getActivity().runOnUiThread(() -> {
+            if (navFragment != null) {
+                navFragment.getMapAsync(googleMap -> {
+                    googleMap.followMyLocation(GoogleMap.CameraPerspective.TILTED);
+                    
+                    JSObject ret = new JSObject();
+                    ret.put("isDrifted", false);
+                    notifyListeners("mapDrifted", ret);
+                });
+            }
+            if (call != null) call.resolve();
+        });
+    }
+
     private void requestNavigator(PluginCall call) {
         requestNavigatorWithRetry(call, 0);
     }
@@ -229,10 +245,9 @@ public class NavigationPlugin extends Plugin implements LocationListener {
                     exitBtn.setVisibility(View.VISIBLE);
                 }
 
-                // Hide React WebView so native map shows and receives touch events
-                // Use INVISIBLE instead of GONE to avoid aggressive layout changes during route
-                // init
-                bridge.getWebView().setVisibility(View.INVISIBLE);
+                // Make WebView transparent so native map shows through
+                bridge.getWebView().setBackgroundColor(Color.TRANSPARENT);
+                // bridge.getWebView().setVisibility(View.INVISIBLE);
 
                 // Request audio focus so Android doesn't suppress voice guidance
                 requestAudioFocus();
@@ -251,8 +266,16 @@ public class NavigationPlugin extends Plugin implements LocationListener {
 
                 mNavigator.setAudioGuidance(Navigator.AudioGuidance.VOICE_ALERTS_AND_GUIDANCE);
 
-                // Start Speedometer/Location tracking
+                // Start Speedometer/Location tracking for React UI
                 startLocationUpdates();
+
+                // Suppress all native UI overlays to use custom React UI
+                if (navFragment != null) {
+                    navFragment.setHeaderEnabled(false);
+                    navFragment.setEtaCardEnabled(false);
+                    navFragment.setTripProgressBarEnabled(false);
+                    navFragment.setSpeedLimitIconEnabled(true); // Show native icon as fallback
+                }
 
                 attemptStartGuidance(call, destination, modeStr, 0);
             } catch (Exception e) {
@@ -292,8 +315,26 @@ public class NavigationPlugin extends Plugin implements LocationListener {
                             // Ensure camera is in following mode with a tight zoom for urban navigation
                             if (navFragment != null) {
                                 navFragment.getMapAsync(googleMap -> {
+                                    // Ensure camera is in following mode with a tight zoom for urban navigation
                                     googleMap.followMyLocation(
                                             GoogleMap.CameraPerspective.TILTED);
+
+                                    // Detect manual panning to show Recenter button in React
+                                    googleMap.setOnCameraMoveStartedListener(reason -> {
+                                        if (reason == GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE) {
+                                            JSObject ret = new JSObject();
+                                            ret.put("isDrifted", true);
+                                            notifyListeners("mapDrifted", ret);
+                                        }
+                                    });
+
+                                    // Also detect when map returns to following mode
+                                    googleMap.setOnMyLocationClickListener(location -> {
+                                        googleMap.followMyLocation(GoogleMap.CameraPerspective.TILTED);
+                                        JSObject ret = new JSObject();
+                                        ret.put("isDrifted", false);
+                                        notifyListeners("mapDrifted", ret);
+                                    });
 
                                     // Set a default higher zoom level to fix "too far away" on mobile
                                     googleMap.setMaxZoomPreference(21f);
@@ -316,13 +357,31 @@ public class NavigationPlugin extends Plugin implements LocationListener {
                                     try {
                                         com.google.android.libraries.navigation.TimeAndDistance td = mNavigator
                                                 .getCurrentTimeAndDistance();
-                                        if (td != null && td.getMeters() > 0 && td.getMeters() <= 50) {
-                                            Log.i(TAG, "Custom 50m arrival triggered! Distance: " + td.getMeters());
-                                            hasTriggeredArrivalForCurrentRoute = true;
+                                        if (td != null) {
+                                            JSObject progress = new JSObject();
+                                            progress.put("meters", td.getMeters());
+                                            progress.put("seconds", td.getSeconds());
 
-                                            JSObject ret = new JSObject();
-                                            ret.put("arrived", true);
-                                            notifyListeners("navArrived", ret);
+// Extract StepInfo for turn-by-turn instructions (Needs NavUpdates Service)
+/*
+StepInfo si = mNavigator.getCurrentStepInfo();
+if (si != null) {
+    progress.put("nextInstruction", si.getFullInstruction());
+    progress.put("nextManeuver", si.getManeuver());
+    progress.put("stepDistance", si.getDistanceToStepMeters());
+}
+*/
+
+                                            notifyListeners("tripProgress", progress);
+
+                                            if (td.getMeters() > 0 && td.getMeters() <= 50) {
+                                                Log.i(TAG, "Custom 50m arrival triggered! Distance: " + td.getMeters());
+                                                hasTriggeredArrivalForCurrentRoute = true;
+
+                                                JSObject ret = new JSObject();
+                                                ret.put("arrived", true);
+                                                notifyListeners("navArrived", ret);
+                                            }
                                         }
                                     } catch (Exception e) {
                                         Log.e(TAG, "Error checking distance for arrival: " + e.getMessage());
@@ -345,14 +404,9 @@ public class NavigationPlugin extends Plugin implements LocationListener {
                                             2500);
                         } else {
                             Log.e(TAG, "Failed to route: " + routeStatus);
-                            // Make sure WebView is visible so user isn't stuck on a blank screen
+                            // Make sure WebView is visible and non-transparent so user isn't stuck
                             bridge.getWebView().setVisibility(View.VISIBLE);
-
-                            if (exitBtn != null) {
-                                exitBtn.setVisibility(View.GONE);
-                            }
-
-                            call.reject("Failed to route: " + routeStatus);
+                            bridge.getWebView().setBackgroundColor(Color.WHITE);
                         }
                     }
                 });
@@ -500,6 +554,7 @@ public class NavigationPlugin extends Plugin implements LocationListener {
 
         JSObject ret = new JSObject();
         ret.put("speedKmh", Math.round(speedKmh));
+
         notifyListeners("speedUpdate", ret);
     }
 

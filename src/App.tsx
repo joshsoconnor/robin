@@ -12,6 +12,8 @@ import { UploadRunScreen } from './components/UploadRunScreen';
 import { ArrivalPanel } from './components/ArrivalPanel';
 import { VoiceAssistantNode } from './components/VoiceAssistantNode';
 import { IntelligenceFeed } from './components/IntelligenceFeed';
+import { StreetViewWrapper } from './components/StreetViewWrapper';
+import { X } from 'lucide-react';
 import { supabase } from './lib/supabase';
 import { registerPlugin, Capacitor } from '@capacitor/core';
 import { getSydneyDate } from './lib/dateUtils';
@@ -49,11 +51,22 @@ function App() {
 
   const [arrivalAddress, setArrivalAddress] = useState<string | null>(null);
   const [activeNavAddress, setActiveNavAddress] = useState<string | null>(null);
+  const [remainingTimeText, setRemainingTimeText] = useState('0 min');
+  const [remainingDistanceText, setRemainingDistanceText] = useState('0 m');
+  const [distanceRemaining, setDistanceRemaining] = useState<number>(999999);
+  const [etaText, setEtaText] = useState('--:-- AM');
+  const [isMapDrifted, setIsMapDrifted] = useState(false);
+  const [navLookAround, setNavLookAround] = useState(false);
+  
+  // Turn-by-turn state
+  const [nextTurnInstruction, setNextTurnInstruction] = useState<string | null>(null);
+  const [nextTurnManeuver, setNextTurnManeuver] = useState<number | null>(null);
+  const [distanceToNextTurn, setDistanceToNextTurn] = useState<number | null>(null);
+
   const [activeRunId, setActiveRunId] = useState<string | null>(() => {
     return localStorage.getItem('robin_active_run_id');
   });
   const suggestedStopsRef = useRef<Set<string>>(new Set());
-  const lastAnnouncedStopRef = useRef<string | null>(null);
 
   // Auth state
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
@@ -138,30 +151,53 @@ function App() {
 
           // Find current destination index
           const currentDestIdx = routeStops.findIndex(s => s.address === activeNavAddress);
-
+          const userName = userEmail ? userEmail.split('@')[0].split('.')[0] : 'Josh';
+          
+          const inRangeStops: { stop: Stop; idx: number }[] = [];
+          
           routeStops.forEach((stop, idx) => {
-            // Logic fix: Only suggest upcoming stops (index > current destination)
-            if (idx > currentDestIdx && stop.status === 'pending' && stop.lat && stop.lng) {
+            // Logic: Skip current stop AND the very next stop (currentDestIdx + 1)
+            // Only suggest stops further down the route
+            if (idx > currentDestIdx + 1 && stop.status === 'pending' && stop.lat && stop.lng) {
               const dLat = (lat - stop.lat);
               const dLng = (lng - stop.lng);
               const distSq = dLat * dLat + dLng * dLng;
 
               // Roughly 200m ~ 0.002 degrees -> 0.000004
-              if (distSq < 0.000004 && !suggestedStopsRef.current.has(stop.address) && lastAnnouncedStopRef.current !== stop.address) {
-                suggestedStopsRef.current.add(stop.address);
-                lastAnnouncedStopRef.current = stop.address;
-
-                const text = `Hey Josh, Stop ${idx + 1} is coming up on your right in about 200 meters. Do you want to deliver it now?`;
-                if (Capacitor.isNativePlatform()) {
-                  // Mark that Robin is asking a question so VoiceAssistant knows to listen after speakEnd
-                  window.localStorage.setItem('robin_expect_response', 'true');
-                  NavigationSDK.speakText({ text }).catch(console.error);
-                } else {
-                  console.log('STOP SPOTTER VOICE:', text);
-                }
+              if (distSq < 0.000004) {
+                inRangeStops.push({ stop, idx });
               }
             }
           });
+
+          // Only announce if we have new stops in range that haven't been suggested yet
+          const newInRangeStops = inRangeStops.filter(item => !suggestedStopsRef.current.has(item.stop.address));
+
+          if (newInRangeStops.length > 0) {
+            // Mark all currently in-range stops as suggested so we don't repeat immediately
+            inRangeStops.forEach(item => suggestedStopsRef.current.add(item.stop.address));
+            
+            // Format the list of delivery numbers
+            const stopNumbers = inRangeStops.map(item => item.idx + 1);
+            let stopListText = '';
+            if (stopNumbers.length === 1) {
+              stopListText = `delivery ${stopNumbers[0]}`;
+            } else if (stopNumbers.length === 2) {
+              stopListText = `delivery ${stopNumbers[0]} and ${stopNumbers[1]}`;
+            } else {
+              const last = stopNumbers.pop();
+              stopListText = `delivery ${stopNumbers.join(', ')} and ${last}`;
+            }
+
+            const text = `Hi ${userName}, ${stopListText} ${stopNumbers.length > 1 ? 'are' : 'is'} within 200 metres.`;
+            
+            if (Capacitor.isNativePlatform()) {
+              // Informative only - do not expect response
+              NavigationSDK.speakText({ text }).catch(console.error);
+            } else {
+              console.log('STOP SPOTTER VOICE:', text);
+            }
+          }
         });
       } catch (e) { console.error('Stop Spotter watch failed', e); }
     };
@@ -326,10 +362,7 @@ function App() {
   // Listeners for native SDK events
   useEffect(() => {
     const arrivalListener = NavigationSDK.addListener('navArrived', () => {
-      // Show ArrivalPanel instead of generic alert
-      // Hide the native map and restore WebView so the panel is visible
       handleNavExit();
-      // Set arrival address to trigger the ArrivalPanel
       setArrivalAddress(activeNavAddress || localStorage.getItem('nav-label') || 'Destination');
     });
 
@@ -339,17 +372,55 @@ function App() {
 
     const speedListener = NavigationSDK.addListener('speedUpdate', (data: any) => {
       setCurrentSpeed(data.speedKmh);
+      if (typeof data.speedLimitKmh === 'number') {
+        setCurrentSpeedLimit(data.speedLimitKmh);
+      }
     });
 
-    const speedLimitListener = NavigationSDK.addListener('speedLimitUpdate', (data: any) => {
-      setCurrentSpeedLimit(data.speedLimitKmh);
+    const progressListener = NavigationSDK.addListener('tripProgress', (data: any) => {
+      if (data && typeof data.meters === 'number') {
+        const m = data.meters;
+        setDistanceRemaining(m);
+        // Round to nearest 10m if under 1km
+        const roundedM = Math.round(m / 10) * 10;
+        setRemainingDistanceText(m >= 1000 ? `${(m / 1000).toFixed(1)} km` : `${roundedM} m`);
+
+        const s = data.seconds || 0;
+        const mins = Math.ceil(s / 60);
+        setRemainingTimeText(mins >= 60 ? `${Math.floor(mins / 60)}h ${mins % 60}m` : `${mins} min`);
+
+        const now = new Date();
+        const eta = new Date(now.getTime() + s * 1000);
+        // Format to 12-hour with dot instead of colon and lowercase am/pm (e.g. 10.17pm)
+        const etaFormatted = eta.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true })
+          .toLowerCase()
+          .replace(' ', '')
+          .replace(':', '.');
+        setEtaText(etaFormatted);
+
+        // Update maneuver info
+        if (data.nextInstruction) setNextTurnInstruction(data.nextInstruction);
+        if (typeof data.nextManeuver === 'number') setNextTurnManeuver(data.nextManeuver);
+        if (typeof data.stepDistance === 'number') setDistanceToNextTurn(data.stepDistance);
+
+        // Proactive Arrival Logic: If within 50m, trigger arrival panel
+        // This helps when the user is roadside but not exactly on the pin.
+        if (m <= 50) {
+          handleManualArrive(activeNavAddress);
+        }
+      }
+    });
+
+    const driftListener = NavigationSDK.addListener('mapDrifted', (data: { isDrifted: boolean }) => {
+      setIsMapDrifted(data.isDrifted);
     });
 
     return () => {
-      arrivalListener.then((l: any) => l.remove());
-      exitListener.then((l: any) => l.remove());
-      speedListener.then((l: any) => l.remove());
-      speedLimitListener.then((l: any) => l.remove());
+      arrivalListener.remove();
+      exitListener.remove();
+      speedListener.remove();
+      progressListener.remove();
+      driftListener.remove();
     };
   }, [handleNavExit, activeNavAddress]);
 
@@ -513,6 +584,19 @@ function App() {
     }
   }, [activeNavAddress, routeStops, handleNavStart, isGuest]);
 
+  const handleClearRun = useCallback(() => {
+    setRouteStops([]);
+    setActiveRunId(null);
+    setActiveNavAddress(null);
+    setArrivalAddress(null);
+    setIsNavigating(false);
+    localStorage.removeItem('robin_route_stops');
+    localStorage.removeItem('robin_active_run_id');
+    localStorage.removeItem('upload_run_stops');
+    localStorage.removeItem('upload_run_phase');
+    localStorage.removeItem('upload_run_images');
+  }, []);
+
   const handleEndRun = useCallback(async () => {
     // Treat the final stop as completed if we reached it
     if (activeNavAddress) {
@@ -539,7 +623,10 @@ function App() {
     setArrivalAddress(null);
     setActiveNavAddress(null);
     setIsNavigating(false); // Return to UploadRunScan screen
-  }, [activeNavAddress, routeStops, isGuest, activeRunId]);
+    
+    // Auto-clear the run screen after finishing the final route
+    handleClearRun();
+  }, [activeNavAddress, routeStops, isGuest, activeRunId, handleClearRun]);
 
 
 
@@ -559,6 +646,56 @@ function App() {
     setActiveNavAddress(address);
     setActiveTab('intel');
   }, []);
+
+  const getTurnIcon = (maneuver: number | null) => {
+    // Basic mapping based on Google Maps Maneuver constants
+    // 0: Unknown, 1: Depart, 2: Destination, 3: Turn Slight Left, 4: Turn Sharp Left, 5: U-Turn Left, 6: Turn Left, ...
+    if (maneuver === null) return null;
+    
+    // Default turn icons using SVG paths
+    switch(maneuver) {
+      case 1: // Depart
+      case 2: // Arriving
+        return <div className="nav-arriving-label">ARRIVING AT</div>;
+      case 3: // Slight Left
+      case 4: // Sharp Left
+      case 6: // Left
+        return (
+          <svg viewBox="0 0 24 24" width="32" height="32" fill="white" style={{ transform: 'rotate(-90deg)' }}>
+            <path d="M12 4L12 20M12 4L5 11M12 4L19 11" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        );
+      case 7: // Slight Right
+      case 8: // Sharp Right
+      case 10: // Right
+        return (
+          <svg viewBox="0 0 24 24" width="32" height="32" fill="white" style={{ transform: 'rotate(90deg)' }}>
+            <path d="M12 4L12 20M12 4L5 11M12 4L19 11" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        );
+      case 11: // U-Turn Left
+      case 12: // U-Turn Right
+        return (
+          <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M10 9l-4 4 4 4"/><path d="M6 13h9a4 4 0 0 1 0 8H12"/>
+          </svg>
+        );
+      case 13: // Straight
+      case 14: // Name Change
+        return (
+          <svg viewBox="0 0 24 24" width="32" height="32" fill="white">
+            <path d="M12 4L12 20M12 4L5 11M12 4L19 11" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        );
+      default:
+        // Default straight or fallback
+        return (
+          <svg viewBox="0 0 24 24" width="32" height="32" fill="white">
+            <path d="M12 4L12 20M12 4L5 11M12 4L19 11" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        );
+    }
+  };
 
   const renderContent = () => {
     switch (activeTab) {
@@ -590,6 +727,8 @@ function App() {
             isDarkMode={isDarkMode}
             onFinalize={handleFinalize}
             routeStops={routeStops}
+            onClearRun={handleClearRun}
+            onNavToStop={(stop) => handleNavStart(stop.address.split(',')[0], stop.address)}
           />
         );
       case 'intel':
@@ -661,18 +800,29 @@ function App() {
 
       {navActive && (
         <div className="nav-overlay">
-          {/* Google Maps Style Header */}
-          <div className="nav-header">
+          {/* Google Maps Style Header - DYNAMIC */}
+          <div className={`nav-header ${distanceRemaining <= 200 ? 'arriving' : ''}`}>
             <div className="nav-header-left">
               <div className="nav-next-turn-icon">
-                {/* Up Arrow Icon */}
-                <svg viewBox="0 0 24 24" width="32" height="32" fill="white">
-                  <path d="M12 4L12 20M12 4L5 11M12 4L19 11" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
+                {distanceRemaining <= 200 ? (
+                  <div className="nav-arriving-label">ARRIVING AT</div>
+                ) : (
+                  getTurnIcon(nextTurnManeuver)
+                )}
               </div>
               <div className="nav-header-text">
-                <div className="nav-destination-name">{activeNavAddress?.split(',')[0]}</div>
-                <div className="nav-distance">toward {activeNavAddress?.split(',').slice(1).join(',').trim() || 'destination'}</div>
+                <div className="nav-destination-name">
+                  {distanceRemaining <= 200 
+                    ? (activeNavAddress?.split(',')[0]) 
+                    : (nextTurnInstruction || activeNavAddress?.split(',')[0])}
+                </div>
+                <div className="nav-distance">
+                  {distanceRemaining <= 200 
+                    ? activeNavAddress?.split(',').slice(1).join(',').trim() 
+                    : distanceToNextTurn !== null 
+                      ? (distanceToNextTurn >= 1000 ? `${(distanceToNextTurn / 1000).toFixed(1)} km` : `${distanceToNextTurn} m`)
+                      : `toward ${activeNavAddress?.split(',').slice(1).join(',').trim() || 'destination'}`}
+                </div>
               </div>
             </div>
             <button className="nav-header-exit" onClick={handleNavExit}>
@@ -680,41 +830,151 @@ function App() {
             </button>
           </div>
 
+          {/* 50m Proximity Split-Screen Image View */}
+          {distanceRemaining <= 50 && (
+            <div className="proximity-split-view">
+              <div className="proximity-image-container">
+                {/* We'll use the static Street View API for the thumbnail here */}
+                <img
+                  src={`https://maps.googleapis.com/maps/api/streetview?size=600x400&location=${encodeURIComponent(activeNavAddress || '')}&key=AIzaSyB9id2lFl02rKAX2gf9qkiL24oEvhI__GU`}
+                  alt="Destination"
+                  className="proximity-image"
+                />
+              </div>
+            </div>
+          )}
+
           <div className="nav-overlay-content">
+            {/* Left Side: Speedometer */}
             {currentSpeed !== null && (
               <div className="speedometer-circular">
+                <svg className="speedometer-svg" viewBox="0 0 100 100">
+                  <path d="M 22 78 A 40 40 0 1 1 78 78" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="8" strokeLinecap="round" />
+                  <path d="M 22 78 A 40 40 0 1 1 78 78" fill="none" stroke="white" strokeWidth="4" strokeLinecap="round" />
+                  {[225, 270, 315, 0, 45, 90, 135].map((angle, i) => {
+                    const rad = (angle - 90) * (Math.PI / 180);
+                    const x1 = 50 + 32 * Math.cos(rad);
+                    const y1 = 50 + 32 * Math.sin(rad);
+                    const x2 = 50 + 40 * Math.cos(rad);
+                    const y2 = 50 + 40 * Math.sin(rad);
+                    return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="white" strokeWidth="4" strokeLinecap="round" />;
+                  })}
+                  <line x1="30" y1="95" x2="70" y2="95" stroke="white" strokeWidth="4" strokeLinecap="round" />
+                </svg>
                 <div className="speedometer-inner">
                   <div className="speed-val">{currentSpeed}</div>
                   <div className="speed-unit">km/h</div>
                 </div>
                 {currentSpeedLimit !== null && currentSpeedLimit > 0 && (
-                  <div className="speed-limit-badge">
-                    {currentSpeedLimit}
-                  </div>
+                  <div className="speed-limit-badge">{currentSpeedLimit}</div>
                 )}
               </div>
             )}
+
+            {/* Right Side Stack: Thumbnail, Recenter, Arrive */}
+            <div className="nav-right-stack">
+              {/* Destination Preview Thumbnail */}
+              {activeNavAddress && (
+                <div 
+                  className="nav-destination-preview" 
+                  onClick={() => setNavLookAround(true)}
+                >
+                  <img src={`https://maps.googleapis.com/maps/api/streetview?size=200x200&location=${encodeURIComponent(activeNavAddress)}&key=AIzaSyB9id2lFl02rKAX2gf9qkiL24oEvhI__GU`} alt="Dest" />
+                  <div className="thumb-overlay">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="white">
+                      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"/>
+                    </svg>
+                  </div>
+                </div>
+              )}
+
+              {/* Recenter Button - Appears when map is drifted */}
+              {isMapDrifted && (
+                <button className="nav-recenter-btn" onClick={() => NavigationSDK.recenter()}>
+                  <div className="recenter-content">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                      <path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06C6.83 3.52 3.52 6.83 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c4.17-.46 7.48-3.77 7.94-7.94H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/>
+                    </svg>
+                    <span>Recenter</span>
+                  </div>
+                </button>
+              )}
+
+              {/* Manual Arrival Button */}
+              <button className="nav-arrive-fab" onClick={() => handleManualArrive(activeNavAddress)}>
+                <X size={28} />
+              </button>
+            </div>
             
-            {/* Optional space for other bottom left items */}
+            {/* Interactive Nav Look-Around */}
+            {navLookAround && (
+              <div className="lookaround-overlay" style={{ zIndex: 10005, position: 'fixed', inset: 0, background: '#000' }}>
+                <div style={{ position: 'absolute', top: 20, right: 20, zIndex: 10007 }}>
+                  <button 
+                    onClick={() => setNavLookAround(false)}
+                    style={{
+                      background: 'white', border: 'none', borderRadius: '50%', width: 44, height: 44,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 12px rgba(0,0,0,0.3)', color: 'black', cursor: 'pointer', pointerEvents: 'auto'
+                    }}
+                  >
+                    <X size={24} />
+                  </button>
+                </div>
+                <StreetViewWrapper
+                  lat={routeStops.find(s => s.address === activeNavAddress)?.lat || 0}
+                  lng={routeStops.find(s => s.address === activeNavAddress)?.lng || 0}
+                  isFullscreen={true}
+                  onClose={() => setNavLookAround(false)}
+                />
+                <div style={{
+                  position: 'absolute', bottom: 40, left: 20, right: 20, background: 'rgba(0,0,0,0.7)',
+                  backdropFilter: 'blur(10px)', padding: '16px 20px', borderRadius: 20, color: 'white', zIndex: 10006, pointerEvents: 'none'
+                }}>
+                  <div style={{ fontSize: 12, fontWeight: 800, color: '#81C784', letterSpacing: 1.5, marginBottom: 4 }}>NAVIGATING TO</div>
+                  <div style={{ fontSize: 18, fontWeight: 700 }}>{activeNavAddress}</div>
+                </div>
+              </div>
+            )}
           </div>
 
-          <div style={{
-            position: 'absolute',
-            bottom: 'max(env(safe-area-inset-bottom, 20px), 36px)',
-            left: 20,
-            right: 20,
-            pointerEvents: 'auto'
-          }}>
-            <button
-              className="start-nav-btn"
-              style={{ background: 'var(--primary-action)', boxShadow: '0 8px 25px rgba(230, 92, 62, 0.35)' }}
+            {/* Manual Arrival Button (Red Circular FAB with X) */}
+            <button 
+              className="nav-arrive-fab"
               onClick={() => handleManualArrive(activeNavAddress)}
+              style={{
+                position: 'absolute',
+                bottom: 'calc(100px + env(safe-area-inset-bottom))',
+                right: 20,
+                width: 56,
+                height: 56,
+                borderRadius: 28,
+                background: '#d93025',
+                color: 'white',
+                border: 'none',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                zIndex: 6000,
+                cursor: 'pointer',
+                pointerEvents: 'auto'
+              }}
             >
-              Mark Delivery Complete
+              <X size={28} />
             </button>
+
+            {/* NEW: Custom Floating Footer to match top section */}
+            <div className="nav-footer">
+              <div className="nav-footer-main">
+                <div className="nav-footer-time">{remainingTimeText}</div>
+                <div className="nav-footer-dots">•</div>
+                <div className="nav-footer-distance">{remainingDistanceText}</div>
+                <div className="nav-footer-dots">•</div>
+                <div className="nav-footer-arrival">{etaText}</div>
+              </div>
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
       {!isNavigating && !navActive && !arrivalAddress && (
         <BottomNavBar
@@ -739,6 +999,8 @@ function App() {
             onEndRun={handleEndRun}
             hasNextDelivery={!!nextStop}
             nextDeliveryAddress={nextStop?.address}
+            nextLat={nextStop?.lat}
+            nextLng={nextStop?.lng}
             userEmail={userEmail}
           />
         );

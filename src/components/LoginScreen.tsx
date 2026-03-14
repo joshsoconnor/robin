@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { supabase } from '../lib/supabase';
-import { Navigation, Mail, Lock } from 'lucide-react';
+import { Navigation, Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import './LoginScreen.css';
 
 interface LoginScreenProps {
@@ -14,6 +14,8 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onGuestLogin }) => {
     const [isSignUp, setIsSignUp] = useState(false);
     const [loading, setLoading] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const handleAuth = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -72,24 +74,40 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onGuestLogin }) => {
                     <div className="input-group">
                         <Lock size={20} color="#999" />
                         <input
-                            type="password"
+                            type={showPassword ? "text" : "password"}
                             placeholder="Password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
                         />
+                        <button 
+                            type="button" 
+                            className="toggle-password" 
+                            onClick={() => setShowPassword(!showPassword)}
+                            aria-label={showPassword ? "Hide password" : "Show password"}
+                        >
+                            {showPassword ? <EyeOff size={20} color="#999" /> : <Eye size={20} color="#999" />}
+                        </button>
                     </div>
 
                     {isSignUp && (
                         <div className="input-group">
                             <Lock size={20} color="#999" />
                             <input
-                                type="password"
+                                type={showConfirmPassword ? "text" : "password"}
                                 placeholder="Confirm Password"
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
                                 required
                             />
+                            <button 
+                                type="button" 
+                                className="toggle-password" 
+                                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+                            >
+                                {showConfirmPassword ? <EyeOff size={20} color="#999" /> : <Eye size={20} color="#999" />}
+                            </button>
                         </div>
                     )}
 
