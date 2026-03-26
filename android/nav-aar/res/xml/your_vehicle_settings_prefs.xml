@@ -1,0 +1,4 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+  <Preference android:key="vehicle_make_and_model" android:persistent="false" android:title="@string/EV_PROFILE_SETTINGS_TITLE_V2"/>
+  <Preference android:key="ev_connector_preferences" android:persistent="false" android:title="@string/EV_CONNECTOR_PREFERENCES_TITLE" android:summary="@string/EV_CONNECTOR_PREFERENCES_SUMMARY"/>
+</PreferenceScreen>

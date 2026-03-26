@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- blaze-out/k8-opt/bin/third_party/java/androidx/appcompat/hack_for_licenses/third_party/java/androidx/appcompat/hack_for_licenses/res/values-sw600dp-v13/values-sw600dp-v13.xml -->
+    <eat-comment />
+
+    <dimen name="abc_action_bar_content_inset_material">24dp</dimen>
+    <!-- java/com/google/android/assets/launchscreens/res/values-sw600dp/dimens.xml -->
+    <eat-comment />
+
+</resources>

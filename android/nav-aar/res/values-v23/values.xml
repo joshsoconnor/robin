@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- blaze-out/k8-opt/genfiles/java/com/google/android/apps/gmm/notification/resources/NAV_API_RELEASE/processed/res/values-v23/dimens.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/bin/third_party/java/androidx/appcompat/hack_for_licenses/third_party/java/androidx/appcompat/hack_for_licenses/res/values-v23/values-v23.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/genfiles/java/com/google/android/apps/gmm/notification/resources/NAV_API_RELEASE/processed/res/values-v23/styles.xml -->
+    <eat-comment />
+
+</resources>

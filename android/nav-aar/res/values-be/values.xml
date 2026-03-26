@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+
+    <!-- blaze-out/k8-opt/genfiles/java/com/google/maps/api/android/lib6/res/values-be/maps_strings.xml -->
+    <eat-comment />
+
+    <string-array name="maps_compass_directions">
+        <item>"Пн"</item>
+        <item>"ПнУ"</item>
+        <item>"У"</item>
+        <item>"ПдУ"</item>
+        <item>"Пд"</item>
+        <item>"ПдЗ"</item>
+        <item>"З"</item>
+        <item>"ПнЗ"</item>
+    </string-array>
+    <string-array name="maps_full_compass_directions">
+        <item>"поўнач"</item>
+        <item>"паўночны ўсход"</item>
+        <item>"усход"</item>
+        <item>"паўднёвы ўсход"</item>
+        <item>"поўдзень"</item>
+        <item>"паўднёвы захад"</item>
+        <item>"захад"</item>
+        <item>"паўночны захад"</item>
+    </string-array>
+    <!-- blaze-out/k8-opt/bin/third_party/java/androidx/appcompat/hack_for_licenses/third_party/java/androidx/appcompat/hack_for_licenses/res/values-be/values-be.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/bin/third_party/java/androidx/appcompat/hack_for_licenses/blaze-out/k8-opt/bin/third_party/java/androidx/core/hack_for_licenses/third_party/java/androidx/core/hack_for_licenses/res/values-be/values-be.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/bin/third_party/java/androidx/preference/hack_for_licenses/third_party/java/androidx/preference/hack_for_licenses/res/values-be/values-be.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/genfiles/java/com/google/maps/api/android/lib6/res/values-be/maps_strings.xml -->
+    <eat-comment />
+
+    <string name="maps_API_OUTDATED_WARNING" msgid="9210820207514660247">"У гэтай праграме выкарыстоўваецца ўстарэлая версія Карт. Яна можа працаваць няправільна."</string>
+    <string name="maps_COMPASS_ALT_TEXT" msgid="6807007598222074916">"Компас"</string>
+    <string name="maps_DIRECTIONS_ALT_TEXT" msgid="3371108618085690173">"Пракласці маршрут"</string>
+    <string name="maps_GOOGLE_MAP" msgid="1189955191774927738">"Google Карта"</string>
+    <string name="maps_LEVEL_ALT_TEXT" msgid="2264878565827236979">"Узровень {0}"</string>
+    <string name="maps_MY_LOCATION_ALT_TEXT" msgid="6875584096776566703">"Маё месцазнаходжанне"</string>
+    <string name="maps_NO_GMM" msgid="7383272971595812419">"Google Карты не ўсталяваны ці выключаны"</string>
+    <string name="maps_OPEN_GMM_ALT_TEXT" msgid="1460559660387626258">"Адкрыць у Google Картах"</string>
+    <string name="maps_YOUR_LOCATION" msgid="175515198141357876">"Ваша бягучае месцазнаходжанне"</string>
+    <string name="maps_ZOOM_IN_ALT_TEXT" msgid="8499414555829263194">"Прыблізіць"</string>
+    <string name="maps_ZOOM_OUT_ALT_TEXT" msgid="8347872495490681122">"Паменшыць"</string>
+    <string name="maps_invalid_panorama_data" msgid="2220756820707696446">"Несапраўдныя даныя панарамы."</string>
+    <!-- blaze-out/k8-opt/bin/third_party/java/androidx/preference/hack_for_licenses/third_party/java/androidx/preference/hack_for_licenses/res/values-be/values-be.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/bin/third_party/java/androidx/appcompat/hack_for_licenses/third_party/java/androidx/appcompat/hack_for_licenses/res/values-be/values-be.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/bin/third_party/java/androidx/appcompat/hack_for_licenses/blaze-out/k8-opt/bin/third_party/java/androidx/core/hack_for_licenses/third_party/java/androidx/core/hack_for_licenses/res/values-be/values-be.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/bin/third_party/java/androidx/preference/hack_for_licenses/third_party/java/androidx/preference/hack_for_licenses/res/values-be/values-be.xml -->
+    <eat-comment />
+
+</resources>

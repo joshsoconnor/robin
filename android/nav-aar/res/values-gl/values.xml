@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+
+    <!-- blaze-out/k8-opt/genfiles/java/com/google/maps/api/android/lib6/res/values-gl/maps_strings.xml -->
+    <eat-comment />
+
+    <string-array name="maps_compass_directions">
+        <item>"N"</item>
+        <item>"NE"</item>
+        <item>"L"</item>
+        <item>"SE"</item>
+        <item>"S"</item>
+        <item>"SO"</item>
+        <item>"O"</item>
+        <item>"NO"</item>
+    </string-array>
+    <string-array name="maps_full_compass_directions">
+        <item>"norte"</item>
+        <item>"nordeste"</item>
+        <item>"leste"</item>
+        <item>"sueste"</item>
+        <item>"sur"</item>
+        <item>"suroeste"</item>
+        <item>"oeste"</item>
+        <item>"noroeste"</item>
+    </string-array>
+    <!-- blaze-out/k8-opt/bin/third_party/java/androidx/appcompat/hack_for_licenses/third_party/java/androidx/appcompat/hack_for_licenses/res/values-gl/values-gl.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/bin/third_party/java/androidx/appcompat/hack_for_licenses/blaze-out/k8-opt/bin/third_party/java/androidx/core/hack_for_licenses/third_party/java/androidx/core/hack_for_licenses/res/values-gl/values-gl.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/bin/third_party/java/androidx/preference/hack_for_licenses/third_party/java/androidx/preference/hack_for_licenses/res/values-gl/values-gl.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/genfiles/java/com/google/maps/api/android/lib6/res/values-gl/maps_strings.xml -->
+    <eat-comment />
+
+    <string name="maps_API_OUTDATED_WARNING" msgid="9210820207514660247">"Esta aplicación utiliza unha versión non actualizada de Google Maps. É posible que non funcione correctamente."</string>
+    <string name="maps_COMPASS_ALT_TEXT" msgid="6807007598222074916">"Compás"</string>
+    <string name="maps_DIRECTIONS_ALT_TEXT" msgid="3371108618085690173">"Obter indicacións"</string>
+    <string name="maps_GOOGLE_MAP" msgid="1189955191774927738">"Mapa de Google"</string>
+    <string name="maps_LEVEL_ALT_TEXT" msgid="2264878565827236979">"Nivel {0}"</string>
+    <string name="maps_MY_LOCATION_ALT_TEXT" msgid="6875584096776566703">"A miña localización"</string>
+    <string name="maps_NO_GMM" msgid="7383272971595812419">"A aplicación Google Maps non está instalada ou está desactivada"</string>
+    <string name="maps_OPEN_GMM_ALT_TEXT" msgid="1460559660387626258">"Abrir en Google Maps"</string>
+    <string name="maps_YOUR_LOCATION" msgid="175515198141357876">"A túa localización actual"</string>
+    <string name="maps_ZOOM_IN_ALT_TEXT" msgid="8499414555829263194">"Achegar"</string>
+    <string name="maps_ZOOM_OUT_ALT_TEXT" msgid="8347872495490681122">"Afastar"</string>
+    <string name="maps_default_user_error_message" msgid="7422837848992631163">"Vaia, produciuse un erro…"</string>
+    <string name="maps_invalid_panorama_data" msgid="2220756820707696446">"Datos panorámicos non válidos."</string>
+    <string name="maps_marker_default_on_select_content_description" msgid="2960355978460391458">"Marcador de mapa"</string>
+    <string name="maps_out_of_quota_user_error_message" msgid="3686449950764058744">"O mapa está desactivado porque o estado da cota é SUPERADA"</string>
+    <string name="maps_quota_blocked_user_error_message" msgid="5546437652211274896">"O mapa está desactivado porque o estado da cota é BLOQUEADA"</string>
+    <!-- blaze-out/k8-opt/bin/third_party/java/androidx/preference/hack_for_licenses/third_party/java/androidx/preference/hack_for_licenses/res/values-gl/values-gl.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/genfiles/java/com/google/maps/api/android/lib6/res/values-gl/maps_strings.xml -->
+    <eat-comment />
+
+    <string name="report_a_problem" msgid="1660595293173844803">"Informar dun problema"</string>
+    <!-- blaze-out/k8-opt/bin/third_party/java/androidx/appcompat/hack_for_licenses/third_party/java/androidx/appcompat/hack_for_licenses/res/values-gl/values-gl.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/bin/third_party/java/androidx/appcompat/hack_for_licenses/blaze-out/k8-opt/bin/third_party/java/androidx/core/hack_for_licenses/third_party/java/androidx/core/hack_for_licenses/res/values-gl/values-gl.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/bin/third_party/java/androidx/preference/hack_for_licenses/third_party/java/androidx/preference/hack_for_licenses/res/values-gl/values-gl.xml -->
+    <eat-comment />
+
+</resources>

@@ -1,0 +1,4989 @@
+<?xml version="1.0" encoding="utf-8"?><resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2" xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <!-- -->
+    <eat-comment/>
+
+    <string-array name="CALLOUT_ALPHABETIC_LABELS">
+        <item>A</item>
+        <item>B</item>
+        <item>C</item>
+        <item>D</item>
+        <item>E</item>
+        <item>F</item>
+        <item>G</item>
+        <item>H</item>
+    </string-array>
+    <!-- -->
+    <eat-comment/>
+
+    <string-array name="DISTANCE_UNIT_ENTRIES">
+        <item>@string/UNITS_AUTOMATIC</item>
+        <item>@string/UNITS_METRIC</item>
+        <item>@string/UNITS_IMPERIAL</item>
+    </string-array>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string-array name="maps_compass_directions">
+        <item>N</item>
+        <item>NE</item>
+        <item>E</item>
+        <item>SE</item>
+        <item>S</item>
+        <item>SW</item>
+        <item>W</item>
+        <item>NW</item>
+    </string-array>
+    <string-array name="maps_full_compass_directions">
+        <item>north</item>
+        <item>northeast</item>
+        <item>east</item>
+        <item>southeast</item>
+        <item>south</item>
+        <item>southwest</item>
+        <item>west</item>
+        <item>northwest</item>
+    </string-array>
+    <!-- -->
+    <eat-comment/>
+
+    <attr name="darkModeOverride">
+        <enum name="off" value="0"/>
+        <enum name="alwaysDark" value="1"/>
+        <enum name="alwaysLight" value="2"/>
+    </attr>
+    <!-- -->
+    <eat-comment/>
+
+    <attr name="drawerArrowStyle" format="reference"/>
+    <!-- -->
+    <eat-comment/>
+
+    <attr name="footerDividersEnabled" format="boolean"/>
+    <attr name="headerDividersEnabled" format="boolean"/>
+    <!-- -->
+    <eat-comment/>
+
+    <attr name="height" format="dimension"/>
+    <attr name="isLightTheme" format="boolean"/>
+    <!-- -->
+    <eat-comment/>
+
+    <attr name="middleDividersEnabled" format="boolean"/>
+    <!-- -->
+    <eat-comment/>
+
+    <attr name="nestedScrollViewStyle" format="reference"/>
+    <!-- -->
+    <eat-comment/>
+
+    <attr name="textAppearanceBody1" format="reference"/>
+    <attr name="textAppearanceBody2" format="reference"/>
+    <attr name="textAppearanceBodyExtraSmall" format="reference"/>
+    <attr name="textAppearanceBodyLarge" format="reference"/>
+    <attr name="textAppearanceBodyMedium" format="reference"/>
+    <attr name="textAppearanceBodySmall" format="reference"/>
+    <attr name="textAppearanceButton" format="reference"/>
+    <attr name="textAppearanceCaption" format="reference"/>
+    <attr name="textAppearanceDisplay1" format="reference"/>
+    <attr name="textAppearanceDisplay2" format="reference"/>
+    <attr name="textAppearanceDisplay3" format="reference"/>
+    <attr name="textAppearanceDisplayLarge" format="reference"/>
+    <attr name="textAppearanceDisplayMedium" format="reference"/>
+    <attr name="textAppearanceDisplaySmall" format="reference"/>
+    <attr name="textAppearanceHeadline1" format="reference"/>
+    <attr name="textAppearanceHeadline2" format="reference"/>
+    <attr name="textAppearanceHeadline3" format="reference"/>
+    <attr name="textAppearanceHeadline4" format="reference"/>
+    <attr name="textAppearanceHeadline5" format="reference"/>
+    <attr name="textAppearanceHeadline6" format="reference"/>
+    <attr name="textAppearanceHeadlineLarge" format="reference"/>
+    <attr name="textAppearanceHeadlineMedium" format="reference"/>
+    <attr name="textAppearanceHeadlineSmall" format="reference"/>
+    <attr name="textAppearanceLabelLarge" format="reference"/>
+    <attr name="textAppearanceLabelMedium" format="reference"/>
+    <attr name="textAppearanceLabelSmall" format="reference"/>
+    <attr name="textAppearanceOverline" format="reference"/>
+    <attr name="textAppearanceSubhead1" format="reference"/>
+    <attr name="textAppearanceSubhead2" format="reference"/>
+    <attr name="textAppearanceSubtitle1" format="reference"/>
+    <attr name="textAppearanceSubtitle2" format="reference"/>
+    <attr name="textAppearanceTitleLarge" format="reference"/>
+    <attr name="textAppearanceTitleMedium" format="reference"/>
+    <attr name="textAppearanceTitleSmall" format="reference"/>
+    <attr name="themeFontFamilyContent" format="reference|string"/>
+    <attr name="themeFontFamilyMedium" format="reference|string"/>
+    <!-- -->
+    <eat-comment/>
+
+    <attr name="title" format="string"/>
+
+    <bool name="abc_action_bar_embed_tabs">true</bool>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <bool name="transit_line_span_dark_mode">false</bool>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <color name="background_material_dark">@color/material_grey_850</color>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <color name="callout_nightmode_background">#294362</color>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <color name="directions_greentraffic_nightmode_text">#81c995</color>
+    <color name="directions_greentraffic_text">#188038</color>
+    <color name="directions_redtraffic_nightmode_text">@color/quantum_googred400</color>
+    <color name="directions_redtraffic_text">@color/quantum_googred700</color>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <color name="directions_unknowntraffic_nightmode_text">@color/gmm_white</color>
+    <color name="directions_unknowntraffic_text">@color/qu_black_alpha_87</color>
+    <!-- -->
+    <eat-comment/>
+
+    <color name="directions_yellowtraffic_nightmode_text">@color/mod_google_dark_yellow600</color>
+    <color name="directions_yellowtraffic_text">@color/mod_google_yellow900</color>
+    <!-- -->
+    <eat-comment/>
+
+    <color name="divider_grey">#DEDEDE</color>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <color name="gmm_blue">#33B5E5</color>
+    <color name="gmm_white">#FFF</color>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <color name="incognito_location_accuracy_fill">#181A1A1A</color>
+    <color name="incognito_location_accuracy_line">#531A1A1A</color>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <color name="map_button_shadow_day">#FFABABAB</color>
+    <!-- -->
+    <eat-comment/>
+
+    <color name="maps_accuracy_circle_fill_color">#338CC6EF</color>
+    <color name="maps_accuracy_circle_line_color">#73217BCE</color>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <color name="maps_floorpicker_black">#FF000000</color>
+    <color name="maps_floorpicker_text">#FF777777</color>
+    <color name="maps_qu_google_blue_500">#FF4285F4</color>
+    <!-- -->
+    <eat-comment/>
+
+    <color name="material_grey_850">#ff303030</color>
+    <!-- -->
+    <eat-comment/>
+
+    <color name="mod_blue200_alpha10">#1aaecbfa</color>
+    <color name="mod_daynight_white">@color/mod_google_white</color>
+    <color name="mod_google_black">#000000</color>
+    <color name="mod_google_blue600">#1a73e8</color>
+    <color name="mod_google_dark_red600">#d33b30</color>
+    <color name="mod_google_dark_yellow600">#f3b713</color>
+    <color name="mod_google_green600">#1e8e3e</color>
+    <color name="mod_google_green700">#188038</color>
+    <color name="mod_google_green900">#0d652d</color>
+    <color name="mod_google_grey100">#f1f3f4</color>
+    <color name="mod_google_grey200">#e8eaed</color>
+    <color name="mod_google_grey300">#dadce0</color>
+    <color name="mod_google_grey400">#bdc1c6</color>
+    <color name="mod_google_grey50">#f8f9fa</color>
+    <color name="mod_google_grey500">#9aa0a6</color>
+    <color name="mod_google_grey600">#80868b</color>
+    <color name="mod_google_grey700">#5f6368</color>
+    <color name="mod_google_grey800">#3c4043</color>
+    <color name="mod_google_grey900">#202124</color>
+    <color name="mod_google_red300">#f28b82</color>
+    <color name="mod_google_red400">#ee675c</color>
+    <color name="mod_google_red500">#ea4335</color>
+    <color name="mod_google_red600">#d93025</color>
+    <color name="mod_google_transparent">#00000000</color>
+    <color name="mod_google_white">#ffffff</color>
+    <color name="mod_google_yellow900">#e37400</color>
+    <color name="mod_grey200_alpha10">#1AE8EAED</color>
+    <color name="mod_grey200_alpha38">#61e8eaed</color>
+    <color name="mod_grey650">#70757a</color>
+    <color name="mod_grey800_alpha10">#1A3C4043</color>
+    <color name="mod_grey900_alpha14">#24202124</color>
+    <color name="mod_grey900_with_elevation_1">#2A2B2E</color>
+    <color name="mod_night_grey100">#7a3c4043</color>
+    <color name="mod_night_grey50">#3d3c4043</color>
+    <color name="mod_white_alpha10">#1affffff</color>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <color name="navigation_primary_text">@color/gmm_white</color>
+    <color name="navigation_secondary_text">@color/gmm_white</color>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <color name="new_location_accuracy_fill">#234285F4</color>
+    <color name="new_location_accuracy_line">#734285F4</color>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <color name="no_type_night_grey">#9AA0A6</color>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <color name="qu_black_alpha_06">#10000000</color>
+    <color name="qu_black_alpha_54">#8A000000</color>
+    <color name="qu_black_alpha_87">#DE000000</color>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <color name="qu_google_green_400">@color/quantum_googgreen400</color>
+    <color name="qu_google_green_500">@color/quantum_googgreen500</color>
+    <color name="qu_grey_50">@color/quantum_grey50</color>
+    <color name="qu_grey_500">@color/quantum_grey500</color>
+    <color name="qu_grey_600">@color/quantum_grey600</color>
+    <color name="qu_grey_700">@color/quantum_grey700</color>
+    <color name="qu_grey_800">@color/quantum_grey800</color>
+    <!-- -->
+    <eat-comment/>
+
+    <color name="qu_navigation_night_white">#262626</color>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <color name="qu_white_alpha_24">#3DFFFFFF</color>
+    <!-- -->
+    <eat-comment/>
+
+    <color name="quantum_bluegrey50">#eceff1</color>
+    <color name="quantum_bluegrey500">#607d8b</color>
+    <color name="quantum_googgreen">@color/quantum_googgreen500</color>
+    <color name="quantum_googgreen400">#33ac71</color>
+    <color name="quantum_googgreen500">#0f9d58</color>
+    <color name="quantum_googred400">#e06055</color>
+    <color name="quantum_googred700">#c53929</color>
+    <color name="quantum_grey">@color/quantum_grey500</color>
+    <color name="quantum_grey200">#eeeeee</color>
+    <color name="quantum_grey300">#e0e0e0</color>
+    <color name="quantum_grey50">#fafafa</color>
+    <color name="quantum_grey500">#9e9e9e</color>
+    <color name="quantum_grey600">#757575</color>
+    <color name="quantum_grey700">#616161</color>
+    <color name="quantum_grey800">#424242</color>
+    <color name="quantum_grey900">#212121</color>
+    <color name="quantum_greyblack1000">#000000</color>
+    <color name="quantum_greywhite1000">#ffffff</color>
+    <color name="quantum_white_100">#ffffff</color>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <color name="road_name_background_night">#2a56c6</color>
+    <color name="road_name_background_night_map_colors2">#0F53FF</color>
+    <color name="road_name_text_day">#4285f4</color>
+    <color name="road_name_text_day_map_colors2">#0F53FF</color>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <color name="shadow_background_end">#0333</color>
+    <color name="shadow_background_start">#3333</color>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <color name="transit_line_span_default_background">@color/quantum_grey200</color>
+    <color name="transit_line_span_default_foreground">@color/mod_google_grey800</color>
+    <color name="transit_line_span_default_stroke">#979797</color>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <dimen name="abc_action_bar_content_inset_material">16dp</dimen>
+    <dimen name="abc_action_bar_subtitle_top_margin_material">-3dp</dimen>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <dimen name="circularmasklayout_border_width">3dp</dimen>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="geo_sys_opacity_state_layer_pressed" format="float" type="dimen">0.12</item>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <dimen name="layers_watermark_margin">10dp</dimen>
+    <dimen name="layers_watermark_margin_phone_horizontal">16dp</dimen>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <dimen name="map_visiblerect_padding">20dp</dimen>
+    <!-- -->
+    <eat-comment/>
+
+    <dimen name="maps_btn_map_toolbar_bottom_shadow">1dp</dimen>
+    <dimen name="maps_btn_map_toolbar_divider">1px</dimen>
+    <dimen name="maps_btn_map_toolbar_margin">2dp</dimen>
+    <dimen name="maps_btn_margin">10dp</dimen>
+    <dimen name="maps_btn_width">42dp</dimen>
+    <dimen name="maps_btn_zoom_y_margin">15dp</dimen>
+    <!-- -->
+    <eat-comment/>
+
+    <dimen name="maps_dav_hud_copyright_fontsize">12dp</dimen>
+    <!-- -->
+    <eat-comment/>
+
+    <dimen name="maps_lite_mode_grid_spacing">15dp</dimen>
+    <!-- -->
+    <eat-comment/>
+
+    <dimen name="maps_vm_mylocation_dot_size">32dp</dimen>
+    <!-- -->
+    <eat-comment/>
+
+    <dimen name="maps_watermark_margin">5dp</dimen>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <dimen name="mylocation_blue_dot_desired_width_dp">45dp</dimen>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <dimen name="navigation_exit_text_size">28sp</dimen>
+    <dimen name="navigation_header_with_grippy_height">84sp</dimen>
+    <dimen name="navigation_stepped_header_height">62sp</dimen>
+    <dimen name="navigation_uniform_header_height">72sp</dimen>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <dimen name="shadow_height">5dp</dimen>
+    <dimen name="shadow_height_rounded_corners">13dp</dimen>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <dimen name="text_size_medium">17sp</dimen>
+    <dimen name="text_size_micro">14sp</dimen>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <dimen name="transit_line_alternate_triangle_width">11dp</dimen>
+    <dimen name="transit_line_mod_alternate_triangle_overlap">8dp</dimen>
+    <dimen name="transit_line_name_mod_box_border_corner_radius">6dp</dimen>
+    <dimen name="transit_line_name_mod_box_padding">0dp</dimen>
+    <dimen name="transit_line_name_slash_border_corner_radius">1dp</dimen>
+    <dimen name="transit_line_stroke_width">0.5dp</dimen>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="a11y_action_drag_waypoint_down" type="id"/>
+    <item name="a11y_action_drag_waypoint_up" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="above_compass_container" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="accessibility_action_clickable_span" type="id"/>
+    <item name="accessibility_custom_action_0" type="id"/>
+    <item name="accessibility_custom_action_1" type="id"/>
+    <item name="accessibility_custom_action_10" type="id"/>
+    <item name="accessibility_custom_action_11" type="id"/>
+    <item name="accessibility_custom_action_12" type="id"/>
+    <item name="accessibility_custom_action_13" type="id"/>
+    <item name="accessibility_custom_action_14" type="id"/>
+    <item name="accessibility_custom_action_15" type="id"/>
+    <item name="accessibility_custom_action_16" type="id"/>
+    <item name="accessibility_custom_action_17" type="id"/>
+    <item name="accessibility_custom_action_18" type="id"/>
+    <item name="accessibility_custom_action_19" type="id"/>
+    <item name="accessibility_custom_action_2" type="id"/>
+    <item name="accessibility_custom_action_20" type="id"/>
+    <item name="accessibility_custom_action_21" type="id"/>
+    <item name="accessibility_custom_action_22" type="id"/>
+    <item name="accessibility_custom_action_23" type="id"/>
+    <item name="accessibility_custom_action_24" type="id"/>
+    <item name="accessibility_custom_action_25" type="id"/>
+    <item name="accessibility_custom_action_26" type="id"/>
+    <item name="accessibility_custom_action_27" type="id"/>
+    <item name="accessibility_custom_action_28" type="id"/>
+    <item name="accessibility_custom_action_29" type="id"/>
+    <item name="accessibility_custom_action_3" type="id"/>
+    <item name="accessibility_custom_action_30" type="id"/>
+    <item name="accessibility_custom_action_31" type="id"/>
+    <item name="accessibility_custom_action_4" type="id"/>
+    <item name="accessibility_custom_action_5" type="id"/>
+    <item name="accessibility_custom_action_6" type="id"/>
+    <item name="accessibility_custom_action_7" type="id"/>
+    <item name="accessibility_custom_action_8" type="id"/>
+    <item name="accessibility_custom_action_9" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="action_bar_activity_content" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="action_bar_right_tooltip_anchor" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="action_bar_spinner" type="id"/>
+    <item name="action_menu_divider" type="id"/>
+    <item name="action_menu_presenter" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="arrival_dashboard_collapsed_view" type="id"/>
+    <item name="arrival_dashboard_evcs_last_mile_description" type="id"/>
+    <item name="arrival_dashboard_evcs_last_mile_guidance" type="id"/>
+    <item name="arrival_dashboard_evcs_last_mile_photos" type="id"/>
+    <item name="arrival_dashboard_expanded_view" type="id"/>
+    <item name="arrival_dashboard_grippy" type="id"/>
+    <item name="arrival_dashboard_home_work_view" type="id"/>
+    <item name="arrival_dashboard_street_view_thumbnail" type="id"/>
+    <item name="arrival_dashboard_title_header" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="arriveby_button" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="arrowviewpager_leftarrow" type="id"/>
+    <item name="arrowviewpager_rightarrow" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="badge_bullet_view" type="id"/>
+    <item name="badge_text_view" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="base_compass_button" type="id"/>
+    <item name="bifurcated_search_bar_layout" type="id"/>
+    <item name="bifurcated_search_one_google_account_disc" type="id"/>
+    <item name="bluedothud_stub" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="bottom_cue_text" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="bottom_sheet_content_container" type="id"/>
+    <item name="bottom_sheet_first_content_view" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="business_place_card" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="button" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="button_sheet_container" type="id"/>
+    <item name="button_sheet_controls_container" type="id"/>
+    <item name="button_sheet_next_button" type="id"/>
+    <item name="button_sheet_next_button_clickable" type="id"/>
+    <item name="button_sheet_previous_button" type="id"/>
+    <item name="button_sheet_previous_button_clickable" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="card_stack_header" type="id"/>
+    <item name="card_stack_header_share_button" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="cardui_place_item" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="commute_board_departures_list" type="id"/>
+    <item name="commute_board_view_pager" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="compass_container" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="current_step_container" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="custom_slider_container" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="departat_button" type="id"/>
+    <item name="details_cardlist" type="id"/>
+    <item name="details_content" type="id"/>
+    <item name="details_non_transit_leg" type="id"/>
+    <item name="direction_feedback_option_closed" type="id"/>
+    <item name="direction_feedback_option_not_fit_biking" type="id"/>
+    <item name="direction_feedback_option_not_fit_walking" type="id"/>
+    <item name="direction_feedback_option_one_way" type="id"/>
+    <item name="direction_feedback_option_other" type="id"/>
+    <item name="direction_feedback_option_restricted" type="id"/>
+    <item name="direction_feedback_option_wrong_name" type="id"/>
+    <item name="directions_endpoint_textbox" type="id"/>
+    <item name="directions_list" type="id"/>
+    <item name="directions_startpoint_textbox" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="directions_trip_card" type="id"/>
+    <item name="directions_trip_cardlist" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="dismiss_nav" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="distance_cue_separator_text" type="id"/>
+    <item name="distance_text" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="divider" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="edit_info_promo_card_description_text_view" type="id"/>
+    <item name="edit_info_promo_card_icon_image_view" type="id"/>
+    <item name="edit_info_promo_card_title_text_view" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="ellipsis_view" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="enroute_search_result_list" type="id"/>
+    <item name="expanded_header" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="expandingscrollview_container" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="filter_toolbar_view" type="id"/>
+    <item name="first_enabled_review_private_message_chip" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="floating_crosshairs" type="id"/>
+    <item name="floating_pin_anchor" type="id"/>
+    <item name="floating_pin_image" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="footer_done_continue_button" type="id"/>
+    <item name="free_nav_destination_bar" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="goldfinger_card_index" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="has_been_programmatically_scrolled" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="header" type="id"/>
+    <item name="header_container" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="header_view_index" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="hero_image_carousel" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="hide_if_clipped" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="home" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="image" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="image_collections_photo_upload_button" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="image_placeholder_tag" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="immersive_view_entry_point" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="impression_logger" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="inbox_only_subtitle_id" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="internal_header" type="id"/>
+    <item name="is_hidden_after_clipped" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="lane_guidance_container" type="id"/>
+    <item name="lane_guidance_list" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="lane_guidance_secondary_card" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="laneawarepolylinedebughud_stub" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="lastavailable_button" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="layers_fab_button" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="leg_view_pager" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="line1" type="id"/>
+    <item name="line3" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="link_textbox" type="id"/>
+    <item name="list_view" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="live_trips_transit_start_button" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="livetripsdebughud_stub" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="local_inventory_ad_carousel_item_availability_label" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="logged_impression" type="id"/>
+    <item name="logged_interaction" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="long_step_cue_container" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="long_step_cue_text" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="long_step_instruction_content" type="id"/>
+    <item name="maneuver_image" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="map_copyright_content" type="id"/>
+    <item name="map_frame" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="menu_list_recycler" type="id"/>
+    <item name="midtrip_voting_prompt_loading_spinner" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="mod_header_view" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="mod_offering_carousel" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="mod_search_omnibox_layout" type="id"/>
+    <item name="mod_sharing_fablet_container" type="id"/>
+    <item name="mylocation_button" type="id"/>
+    <item name="mylocationhud_stub" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="nav_report_incident_fab_button" type="id"/>
+    <item name="nav_search_fab_button" type="id"/>
+    <item name="nav_sheet" type="id"/>
+    <item name="nav_sheet_content" type="id"/>
+    <item name="navigation_header" type="id"/>
+    <item name="navigation_menu_button" type="id"/>
+    <item name="navigation_microphone" type="id"/>
+    <item name="navigation_one_line_label" type="id"/>
+    <item name="navigation_prompt" type="id"/>
+    <item name="navigation_prompt_confirmation" type="id"/>
+    <item name="navigation_prompt_icon_and_text" type="id"/>
+    <item name="navigation_time_remaining_label" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="next_step_instruction" type="id"/>
+    <item name="next_step_instruction_container" type="id"/>
+    <item name="next_step_instruction_top_divider" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="notification_bottom_content_line" type="id"/>
+    <item name="notification_divider" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="notification_opt_out_dismiss" type="id"/>
+    <item name="notification_opt_out_inner_container" type="id"/>
+    <item name="notification_opt_out_turn_off" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="offering_carousel" type="id"/>
+    <item name="offering_details_photo_carousel" type="id"/>
+    <item name="offline_icon" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="on_map_directions_button" type="id"/>
+    <item name="on_map_secondary_action_button_container" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="page" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="pager_step_container" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="photos_tab_view" type="id"/>
+    <item name="place_nested_scroll_view" type="id"/>
+    <item name="place_page_view" type="id"/>
+    <item name="place_web_content_webview_container" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="placepage_directions_button" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="placesheet_personal_intelligence_ref_link" type="id"/>
+    <item name="placesheet_search_box" type="id"/>
+    <item name="placesheet_webview_container" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="preferences_detail" type="id"/>
+    <item name="preferences_header" type="id"/>
+    <item name="preferences_sliding_pane_layout" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="progress_circular" type="id"/>
+    <item name="progress_horizontal" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="prompt_button_expansion_box" type="id"/>
+    <item name="prompt_button_expansion_text" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="pulse_loading_animator_id" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="qu_header_view" type="id"/>
+    <item name="qu_mylocation_container" type="id"/>
+    <item name="renderable_components_applier" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="restaurant_menu_web_view" type="id"/>
+    <item name="riddler_question_card_scroll_view" type="id"/>
+    <item name="riddler_send_feedback_fab" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="route_view_pager" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="satellite_button" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="save_action_button" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="scalebar_widget" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="scroll_to_id_tag" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="search_nearby_place_carousel" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="search_omnibox_container" type="id"/>
+    <item name="search_omnibox_edit_text" type="id"/>
+    <item name="search_omnibox_live_view_entry_layout" type="id"/>
+    <item name="search_omnibox_loading_spinner" type="id"/>
+    <item name="search_omnibox_menu_button" type="id"/>
+    <item name="search_omnibox_one_google_account_disc" type="id"/>
+    <item name="search_omnibox_text_box" type="id"/>
+    <item name="search_omnibox_text_clear" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="send_feedback_form" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="set_home_button" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="shadow" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="shared_locations_start_share_button" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="sheet_header" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="sheet_menu_list" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="shell_container" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="show_toast_long_callback_id" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="speed_limit" type="id"/>
+    <item name="speedometer" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="split_action_bar" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="start_button" type="id"/>
+    <item name="start_button_directions_list" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="status_container" type="id"/>
+    <item name="status_progress_bar" type="id"/>
+    <item name="status_text" type="id"/>
+    <item name="step_cue_container" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="step_cue_header" type="id"/>
+    <item name="step_cue_header_primary_card" type="id"/>
+    <item name="step_cue_icon_panel" type="id"/>
+    <item name="step_cue_text" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="step_instruction_container" type="id"/>
+    <item name="step_instruction_container_outline" type="id"/>
+    <item name="step_instruction_content" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="suggested_destinations_bottom_sheet" type="id"/>
+    <item name="suggested_destinations_scrollable_container" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="tag_accessibility_actions" type="id"/>
+    <item name="tag_accessibility_clickable_spans" type="id"/>
+    <item name="tag_accessibility_heading" type="id"/>
+    <item name="tag_accessibility_pane_title" type="id"/>
+    <item name="tag_compat_insets_dispatch" type="id"/>
+    <item name="tag_on_apply_window_listener" type="id"/>
+    <item name="tag_on_receive_content_listener" type="id"/>
+    <item name="tag_on_receive_content_mime_types" type="id"/>
+    <item name="tag_screen_reader_focusable" type="id"/>
+    <item name="tag_state_description" type="id"/>
+    <item name="tag_transition_group" type="id"/>
+    <item name="tag_unhandled_key_event_manager" type="id"/>
+    <item name="tag_unhandled_key_listeners" type="id"/>
+    <item name="tag_window_insets_animation_callback" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="taxi_trip_icon" type="id"/>
+    <item name="taxi_trip_no_icon" type="id"/>
+    <item name="taxi_trip_selection_tick" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="test_only_action_bar" type="id"/>
+    <item name="test_only_category" type="id"/>
+    <item name="test_only_open_status" type="id"/>
+    <item name="test_only_rating_stars" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="text" type="id"/>
+    <item name="text2" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="textbox" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="then_instruction_secondary_card" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="timeline_mini_timeline" type="id"/>
+    <item name="timeline_you_are_here_now" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="timeout_button" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="title" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="toolbar_view" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="top_cue_text" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="traffic_hub_card_container" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="transit_inline_payment_launch_payment_options_board_icon" type="id"/>
+    <item name="transit_inline_payment_option_agency_image" type="id"/>
+    <item name="transit_inline_payment_option_bottom_divider" type="id"/>
+    <item name="transit_inline_payment_option_cta_icon" type="id"/>
+    <item name="transit_inline_payment_option_cta_text" type="id"/>
+    <item name="transit_inline_payment_option_icon_barrier" type="id"/>
+    <item name="transit_inline_payment_option_info_icon" type="id"/>
+    <item name="transit_inline_payment_option_open_in_new_icon" type="id"/>
+    <item name="transit_inline_payment_option_summary_text" type="id"/>
+    <item name="transit_inline_payment_option_top_divider" type="id"/>
+    <item name="transit_line_departures_list" type="id"/>
+    <item name="transit_line_page_bottom_sheet" type="id"/>
+    <item name="transit_line_space_bottom_slider" type="id"/>
+    <item name="transit_line_space_heart_icon" type="id"/>
+    <item name="transit_line_space_title_name" type="id"/>
+    <item name="transit_payment_options_list" type="id"/>
+    <item name="transit_result_list_metro_ticket_icon" type="id"/>
+    <item name="transit_route_option_best_route" type="id"/>
+    <item name="transit_route_option_fewer_transfers" type="id"/>
+    <item name="transit_route_option_less_walking" type="id"/>
+    <item name="transit_route_option_lowest_cost" type="id"/>
+    <item name="transit_route_option_prefer_accessible" type="id"/>
+    <item name="transit_station_departures_list" type="id"/>
+    <item name="transit_station_favourite_action_chip" type="id"/>
+    <item name="transit_station_heart_icon" type="id"/>
+    <item name="transit_station_share_icon" type="id"/>
+    <item name="transit_station_title_name" type="id"/>
+    <item name="transit_trip_details_departure_content" type="id"/>
+    <item name="transit_trip_details_footer" type="id"/>
+    <item name="transit_ugc_report_delay_action_chip" type="id"/>
+    <item name="transit_ugc_report_delay_fab" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="trip_pager_container" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="trip_view" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="trip_view_pager" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="tutorial_blue_dot" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="ue3_page_type" type="id"/>
+    <item name="ue3_params" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="up" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="view_do_not_reuse" type="id"/>
+    <item name="view_update_action" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="visible_frame" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="watermark_image" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="waypoint_row_grabber" type="id"/>
+    <item name="waypoint_row_remove_waypoint" type="id"/>
+    <item name="waypoint_row_waypoint_field" type="id"/>
+    <item name="waypoint_row_waypoint_text" type="id"/>
+    <!-- -->
+    <eat-comment/>
+
+    <item name="welcome_offer_captured_callback_id" type="id"/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <plurals name="BIKESHARING_BIKES_AVAILABLE">
+        <item quantity="zero"><xliff:g id="bikes_available" example="0">%d</xliff:g> bikes available</item>
+        <item quantity="one"><xliff:g id="bikes_available" example="1">%d</xliff:g> bike available</item>
+        <item quantity="two"><xliff:g id="bikes_available" example="2">%d</xliff:g> bikes available</item>
+        <item quantity="few"><xliff:g id="bikes_available" example="3">%d</xliff:g> bikes available</item>
+        <item quantity="many"><xliff:g id="bikes_available" example="10">%d</xliff:g> bikes available</item>
+        <item quantity="other"><xliff:g id="bikes_available" example="10">%d</xliff:g> bikes available</item>
+    </plurals>
+    <plurals name="BIKESHARING_DOCKS_AVAILABLE">
+        <item quantity="zero"><xliff:g id="num_docks" example="0">%d</xliff:g> docks available</item>
+        <item quantity="one"><xliff:g id="num_docks" example="1">%d</xliff:g> dock available</item>
+        <item quantity="two"><xliff:g id="num_docks" example="2">%d</xliff:g> docks available</item>
+        <item quantity="few"><xliff:g id="num_docks" example="3">%d</xliff:g> docks available</item>
+        <item quantity="many"><xliff:g id="num_docks" example="10">%d</xliff:g> docks available</item>
+        <item quantity="other"><xliff:g id="num_docks" example="10">%d</xliff:g> docks available</item>
+    </plurals>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <plurals name="COMPASS_ACCESSIBILITY_BEARING">
+        <item quantity="zero">Map bearing <xliff:g id="map_bearing" example="0">%d</xliff:g> degrees.</item>
+        <item quantity="one">Map bearing <xliff:g id="map_bearing" example="1">%d</xliff:g> degree.</item>
+        <item quantity="two">Map bearing <xliff:g id="map_bearing" example="2">%d</xliff:g> degrees.</item>
+        <item quantity="few">Map bearing <xliff:g id="map_bearing" example="47">%d</xliff:g> degrees.</item>
+        <item quantity="many">Map bearing <xliff:g id="map_bearing" example="47">%d</xliff:g> degrees.</item>
+        <item quantity="other">Map bearing <xliff:g id="map_bearing" example="47">%d</xliff:g> degrees.</item>
+    </plurals>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <plurals name="DA_DAYS">
+        <item quantity="zero"><xliff:g id="number_of_days">%s</xliff:g> days</item>
+        <item quantity="one"><xliff:g id="number_of_days">%s</xliff:g> day</item>
+        <item quantity="two"><xliff:g id="number_of_days">%s</xliff:g> days</item>
+        <item quantity="few"><xliff:g id="number_of_days">%s</xliff:g> days</item>
+        <item quantity="many"><xliff:g id="number_of_days">%s</xliff:g> days</item>
+        <item quantity="other"><xliff:g id="number_of_days">%s</xliff:g> days</item>
+    </plurals>
+    <plurals name="DA_DAYS_ABBREVIATED">
+        <item quantity="zero"><xliff:g id="number_of_days">%s</xliff:g> d</item>
+        <item quantity="one"><xliff:g id="number_of_days">%s</xliff:g> d</item>
+        <item quantity="two"><xliff:g id="number_of_days">%s</xliff:g> d</item>
+        <item quantity="few"><xliff:g id="number_of_days">%s</xliff:g> d</item>
+        <item quantity="many"><xliff:g id="number_of_days">%s</xliff:g> d</item>
+        <item quantity="other"><xliff:g id="number_of_days">%s</xliff:g> d</item>
+    </plurals>
+    <plurals name="DA_DAYS_ABBREVIATED_SHORT">
+        <item quantity="zero"><xliff:g id="number_of_days">%s</xliff:g>d</item>
+        <item quantity="one"><xliff:g id="number_of_days">%s</xliff:g>d</item>
+        <item quantity="two"><xliff:g id="number_of_days">%s</xliff:g>d</item>
+        <item quantity="few"><xliff:g id="number_of_days">%s</xliff:g>d</item>
+        <item quantity="many"><xliff:g id="number_of_days">%s</xliff:g>d</item>
+        <item quantity="other"><xliff:g id="number_of_days">%s</xliff:g>d</item>
+    </plurals>
+    <plurals name="DA_DAYS_SHORT">
+        <item quantity="zero"><xliff:g id="number_of_days">%s</xliff:g> days</item>
+        <item quantity="one"><xliff:g id="number_of_days">%s</xliff:g> day</item>
+        <item quantity="two"><xliff:g id="number_of_days">%s</xliff:g> days</item>
+        <item quantity="few"><xliff:g id="number_of_days">%s</xliff:g> days</item>
+        <item quantity="many"><xliff:g id="number_of_days">%s</xliff:g> days</item>
+        <item quantity="other"><xliff:g id="number_of_days">%s</xliff:g> days</item>
+    </plurals>
+    <plurals name="DA_HOURS">
+        <item quantity="zero"><xliff:g id="number_of_hours">%s</xliff:g> hours</item>
+        <item quantity="one"><xliff:g id="number_of_hours">%s</xliff:g> hour</item>
+        <item quantity="two"><xliff:g id="number_of_hours">%s</xliff:g> hours</item>
+        <item quantity="few"><xliff:g id="number_of_hours">%s</xliff:g> hours</item>
+        <item quantity="many"><xliff:g id="number_of_hours">%s</xliff:g> hours</item>
+        <item quantity="other"><xliff:g id="number_of_hours">%s</xliff:g> hours</item>
+    </plurals>
+    <plurals name="DA_HOURS_ABBREVIATED">
+        <item quantity="zero"><xliff:g id="number_of_hours">%s</xliff:g> hr</item>
+        <item quantity="one"><xliff:g id="number_of_hours">%s</xliff:g> hr</item>
+        <item quantity="two"><xliff:g id="number_of_hours">%s</xliff:g> hr</item>
+        <item quantity="few"><xliff:g id="number_of_hours">%s</xliff:g> hr</item>
+        <item quantity="many"><xliff:g id="number_of_hours">%s</xliff:g> hr</item>
+        <item quantity="other"><xliff:g id="number_of_hours">%s</xliff:g> hr</item>
+    </plurals>
+    <plurals name="DA_HOURS_ABBREVIATED_SHORT">
+        <item quantity="zero"><xliff:g id="number_of_hours">%s</xliff:g>h</item>
+        <item quantity="one"><xliff:g id="number_of_hours">%s</xliff:g>h</item>
+        <item quantity="two"><xliff:g id="number_of_hours">%s</xliff:g>h</item>
+        <item quantity="few"><xliff:g id="number_of_hours">%s</xliff:g>h</item>
+        <item quantity="many"><xliff:g id="number_of_hours">%s</xliff:g>h</item>
+        <item quantity="other"><xliff:g id="number_of_hours">%s</xliff:g>h</item>
+    </plurals>
+    <plurals name="DA_MINUTES">
+        <item quantity="zero"><xliff:g id="number_of_minutes">%s</xliff:g> minutes</item>
+        <item quantity="one"><xliff:g id="number_of_minutes">%s</xliff:g> minute</item>
+        <item quantity="two"><xliff:g id="number_of_minutes">%s</xliff:g> minutes</item>
+        <item quantity="few"><xliff:g id="number_of_minutes">%s</xliff:g> minutes</item>
+        <item quantity="many"><xliff:g id="number_of_minutes">%s</xliff:g> minutes</item>
+        <item quantity="other"><xliff:g id="number_of_minutes">%s</xliff:g> minutes</item>
+    </plurals>
+    <plurals name="DA_MINUTES_ABBREVIATED">
+        <item quantity="zero"><xliff:g id="number_of_minutes">%s</xliff:g> min</item>
+        <item quantity="one"><xliff:g id="number_of_minutes">%s</xliff:g> min</item>
+        <item quantity="two"><xliff:g id="number_of_minutes">%s</xliff:g> min</item>
+        <item quantity="few"><xliff:g id="number_of_minutes">%s</xliff:g> min</item>
+        <item quantity="many"><xliff:g id="number_of_minutes">%s</xliff:g> min</item>
+        <item quantity="other"><xliff:g id="number_of_minutes">%s</xliff:g> min</item>
+    </plurals>
+    <plurals name="DA_MINUTES_ABBREVIATED_SHORT">
+        <item quantity="zero"><xliff:g id="number_of_minutes">%s</xliff:g>m</item>
+        <item quantity="one"><xliff:g id="number_of_minutes">%s</xliff:g>m</item>
+        <item quantity="two"><xliff:g id="number_of_minutes">%s</xliff:g>m</item>
+        <item quantity="few"><xliff:g id="number_of_minutes">%s</xliff:g>m</item>
+        <item quantity="many"><xliff:g id="number_of_minutes">%s</xliff:g>m</item>
+        <item quantity="other"><xliff:g id="number_of_minutes">%s</xliff:g>m</item>
+    </plurals>
+    <plurals name="DA_MINUTES_BARE_FOLLOWING_HOURS">
+        <item quantity="zero"><xliff:g id="number_of_minutes">%s</xliff:g></item>
+        <item quantity="one"><xliff:g id="number_of_minutes">%s</xliff:g></item>
+        <item quantity="two"><xliff:g id="number_of_minutes">%s</xliff:g></item>
+        <item quantity="few"><xliff:g id="number_of_minutes">%s</xliff:g></item>
+        <item quantity="many"><xliff:g id="number_of_minutes">%s</xliff:g></item>
+        <item quantity="other"><xliff:g id="number_of_minutes">%s</xliff:g></item>
+    </plurals>
+    <plurals name="DA_SECONDS">
+        <item quantity="zero"><xliff:g id="number_of_seconds">%s</xliff:g> seconds</item>
+        <item quantity="one"><xliff:g id="number_of_seconds">%s</xliff:g> second</item>
+        <item quantity="two"><xliff:g id="number_of_seconds">%s</xliff:g> seconds</item>
+        <item quantity="few"><xliff:g id="number_of_seconds">%s</xliff:g> seconds</item>
+        <item quantity="many"><xliff:g id="number_of_seconds">%s</xliff:g> seconds</item>
+        <item quantity="other"><xliff:g id="number_of_seconds">%s</xliff:g> seconds</item>
+    </plurals>
+    <!-- -->
+    <eat-comment/>
+
+    <plurals name="DA_SPEECH_CONTINUE_FOR_X_FEET">
+        <item quantity="zero">Continue for <xliff:g id="number_of_feet">%1$s</xliff:g> feet</item>
+        <item quantity="one">Continue for <xliff:g id="number_of_feet">%1$s</xliff:g> foot</item>
+        <item quantity="two">Continue for <xliff:g id="number_of_feet">%1$s</xliff:g> feet</item>
+        <item quantity="few">Continue for <xliff:g id="number_of_feet">%1$s</xliff:g> feet</item>
+        <item quantity="many">Continue for <xliff:g id="number_of_feet">%1$s</xliff:g> feet</item>
+        <item quantity="other">Continue for <xliff:g id="number_of_feet">%1$s</xliff:g> feet</item>
+    </plurals>
+    <plurals name="DA_SPEECH_CONTINUE_FOR_X_KILOMETERS">
+        <item quantity="zero">Continue for <xliff:g id="number_of_kilometers">%1$s</xliff:g> kilometers</item>
+        <item quantity="one">Continue for <xliff:g id="number_of_kilometers">%1$s</xliff:g> kilometer</item>
+        <item quantity="two">Continue for <xliff:g id="number_of_kilometers">%1$s</xliff:g> kilometers</item>
+        <item quantity="few">Continue for <xliff:g id="number_of_kilometers">%1$s</xliff:g> kilometers</item>
+        <item quantity="many">Continue for <xliff:g id="number_of_kilometers">%1$s</xliff:g> kilometers</item>
+        <item quantity="other">Continue for <xliff:g id="number_of_kilometers">%1$s</xliff:g> kilometers</item>
+    </plurals>
+    <plurals name="DA_SPEECH_CONTINUE_FOR_X_METERS">
+        <item quantity="zero">Continue for <xliff:g id="number_of_meters">%1$s</xliff:g> meters</item>
+        <item quantity="one">Continue for <xliff:g id="number_of_meters">%1$s</xliff:g> meter</item>
+        <item quantity="two">Continue for <xliff:g id="number_of_meters">%1$s</xliff:g> meters</item>
+        <item quantity="few">Continue for <xliff:g id="number_of_meters">%1$s</xliff:g> meters</item>
+        <item quantity="many">Continue for <xliff:g id="number_of_meters">%1$s</xliff:g> meters</item>
+        <item quantity="other">Continue for <xliff:g id="number_of_meters">%1$s</xliff:g> meters</item>
+    </plurals>
+    <plurals name="DA_SPEECH_CONTINUE_FOR_X_MILES">
+        <item quantity="zero">Continue for <xliff:g id="number_of_miles">%1$s</xliff:g> miles</item>
+        <item quantity="one">Continue for <xliff:g id="number_of_miles">%1$s</xliff:g> mile</item>
+        <item quantity="two">Continue for <xliff:g id="number_of_miles">%1$s</xliff:g> miles</item>
+        <item quantity="few">Continue for <xliff:g id="number_of_miles">%1$s</xliff:g> miles</item>
+        <item quantity="many">Continue for <xliff:g id="number_of_miles">%1$s</xliff:g> miles</item>
+        <item quantity="other">Continue for <xliff:g id="number_of_miles">%1$s</xliff:g> miles</item>
+    </plurals>
+    <plurals name="DA_SPEECH_CONTINUE_FOR_X_YARDS">
+        <item quantity="zero">Continue for <xliff:g id="number_of_yards">%1$s</xliff:g> yards</item>
+        <item quantity="one">Continue for <xliff:g id="number_of_yards">%1$s</xliff:g> yard</item>
+        <item quantity="two">Continue for <xliff:g id="number_of_yards">%1$s</xliff:g> yards</item>
+        <item quantity="few">Continue for <xliff:g id="number_of_yards">%1$s</xliff:g> yards</item>
+        <item quantity="many">Continue for <xliff:g id="number_of_yards">%1$s</xliff:g> yards</item>
+        <item quantity="other">Continue for <xliff:g id="number_of_yards">%1$s</xliff:g> yards</item>
+    </plurals>
+    <plurals name="DA_SPEECH_CONTINUE_ON_ROAD_FOR_X_FEET">
+        <item quantity="zero">Continue on <xliff:g id="road_name">%2$s</xliff:g> for <xliff:g id="number_of_feet">%1$s</xliff:g> feet</item>
+        <item quantity="one">Continue on <xliff:g id="road_name">%2$s</xliff:g> for <xliff:g id="number_of_feet">%1$s</xliff:g> foot</item>
+        <item quantity="two">Continue on <xliff:g id="road_name">%2$s</xliff:g> for <xliff:g id="number_of_feet">%1$s</xliff:g> feet</item>
+        <item quantity="few">Continue on <xliff:g id="road_name">%2$s</xliff:g> for <xliff:g id="number_of_feet">%1$s</xliff:g> feet</item>
+        <item quantity="many">Continue on <xliff:g id="road_name">%2$s</xliff:g> for <xliff:g id="number_of_feet">%1$s</xliff:g> feet</item>
+        <item quantity="other">Continue on <xliff:g id="road_name">%2$s</xliff:g> for <xliff:g id="number_of_feet">%1$s</xliff:g> feet</item>
+    </plurals>
+    <plurals name="DA_SPEECH_CONTINUE_ON_ROAD_FOR_X_KILOMETERS">
+        <item quantity="zero">Continue on <xliff:g id="road_name">%2$s</xliff:g> for <xliff:g id="number_of_kilometers">%1$s</xliff:g> kilometers</item>
+        <item quantity="one">Continue on <xliff:g id="road_name">%2$s</xliff:g> for <xliff:g id="number_of_kilometers">%1$s</xliff:g> kilometer</item>
+        <item quantity="two">Continue on <xliff:g id="road_name">%2$s</xliff:g> for <xliff:g id="number_of_kilometers">%1$s</xliff:g> kilometers</item>
+        <item quantity="few">Continue on <xliff:g id="road_name">%2$s</xliff:g> for <xliff:g id="number_of_kilometers">%1$s</xliff:g> kilometers</item>
+        <item quantity="many">Continue on <xliff:g id="road_name">%2$s</xliff:g> for <xliff:g id="number_of_kilometers">%1$s</xliff:g> kilometers</item>
+        <item quantity="other">Continue on <xliff:g id="road_name">%2$s</xliff:g> for <xliff:g id="number_of_kilometers">%1$s</xliff:g> kilometers</item>
+    </plurals>
+    <plurals name="DA_SPEECH_CONTINUE_ON_ROAD_FOR_X_METERS">
+        <item quantity="zero">Continue on <xliff:g id="road_name">%2$s</xliff:g> for <xliff:g id="number_of_meters">%1$s</xliff:g> meters</item>
+        <item quantity="one">Continue on <xliff:g id="road_name">%2$s</xliff:g> for <xliff:g id="number_of_meters">%1$s</xliff:g> meter</item>
+        <item quantity="two">Continue on <xliff:g id="road_name">%2$s</xliff:g> for <xliff:g id="number_of_meters">%1$s</xliff:g> meters</item>
+        <item quantity="few">Continue on <xliff:g id="road_name">%2$s</xliff:g> for <xliff:g id="number_of_meters">%1$s</xliff:g> meters</item>
+        <item quantity="many">Continue on <xliff:g id="road_name">%2$s</xliff:g> for <xliff:g id="number_of_meters">%1$s</xliff:g> meters</item>
+        <item quantity="other">Continue on <xliff:g id="road_name">%2$s</xliff:g> for <xliff:g id="number_of_meters">%1$s</xliff:g> meters</item>
+    </plurals>
+    <plurals name="DA_SPEECH_CONTINUE_ON_ROAD_FOR_X_MILES">
+        <item quantity="zero">Continue on <xliff:g id="road_name">%2$s</xliff:g> for <xliff:g id="number_of_miles">%1$s</xliff:g> miles</item>
+        <item quantity="one">Continue on <xliff:g id="road_name">%2$s</xliff:g> for <xliff:g id="number_of_miles">%1$s</xliff:g> mile</item>
+        <item quantity="two">Continue on <xliff:g id="road_name">%2$s</xliff:g> for <xliff:g id="number_of_miles">%1$s</xliff:g> miles</item>
+        <item quantity="few">Continue on <xliff:g id="road_name">%2$s</xliff:g> for <xliff:g id="number_of_miles">%1$s</xliff:g> miles</item>
+        <item quantity="many">Continue on <xliff:g id="road_name">%2$s</xliff:g> for <xliff:g id="number_of_miles">%1$s</xliff:g> miles</item>
+        <item quantity="other">Continue on <xliff:g id="road_name">%2$s</xliff:g> for <xliff:g id="number_of_miles">%1$s</xliff:g> miles</item>
+    </plurals>
+    <plurals name="DA_SPEECH_CONTINUE_ON_ROAD_FOR_X_YARDS">
+        <item quantity="zero">Continue on <xliff:g id="road_name">%2$s</xliff:g> for <xliff:g id="number_of_yards">%1$s</xliff:g> yards</item>
+        <item quantity="one">Continue on <xliff:g id="road_name">%2$s</xliff:g> for <xliff:g id="number_of_yards">%1$s</xliff:g> yard</item>
+        <item quantity="two">Continue on <xliff:g id="road_name">%2$s</xliff:g> for <xliff:g id="number_of_yards">%1$s</xliff:g> yards</item>
+        <item quantity="few">Continue on <xliff:g id="road_name">%2$s</xliff:g> for <xliff:g id="number_of_yards">%1$s</xliff:g> yards</item>
+        <item quantity="many">Continue on <xliff:g id="road_name">%2$s</xliff:g> for <xliff:g id="number_of_yards">%1$s</xliff:g> yards</item>
+        <item quantity="other">Continue on <xliff:g id="road_name">%2$s</xliff:g> for <xliff:g id="number_of_yards">%1$s</xliff:g> yards</item>
+    </plurals>
+    <plurals name="DA_SPEECH_IN_X_FEET">
+        <item quantity="zero">In <xliff:g id="number_of_feet">%1$s</xliff:g> feet</item>
+        <item quantity="one">In <xliff:g id="number_of_feet">%1$s</xliff:g> foot</item>
+        <item quantity="two">In <xliff:g id="number_of_feet">%1$s</xliff:g> feet</item>
+        <item quantity="few">In <xliff:g id="number_of_feet">%1$s</xliff:g> feet</item>
+        <item quantity="many">In <xliff:g id="number_of_feet">%1$s</xliff:g> feet</item>
+        <item quantity="other">In <xliff:g id="number_of_feet">%1$s</xliff:g> feet</item>
+    </plurals>
+    <plurals name="DA_SPEECH_IN_X_KILOMETERS">
+        <item quantity="zero">In <xliff:g id="number_of_kilometers">%1$s</xliff:g> kilometers</item>
+        <item quantity="one">In <xliff:g id="number_of_kilometers">%1$s</xliff:g> kilometer</item>
+        <item quantity="two">In <xliff:g id="number_of_kilometers">%1$s</xliff:g> kilometers</item>
+        <item quantity="few">In <xliff:g id="number_of_kilometers">%1$s</xliff:g> kilometers</item>
+        <item quantity="many">In <xliff:g id="number_of_kilometers">%1$s</xliff:g> kilometers</item>
+        <item quantity="other">In <xliff:g id="number_of_kilometers">%1$s</xliff:g> kilometers</item>
+    </plurals>
+    <plurals name="DA_SPEECH_IN_X_METERS">
+        <item quantity="zero">In <xliff:g id="number_of_meters">%1$s</xliff:g> meters</item>
+        <item quantity="one">In <xliff:g id="number_of_meters">%1$s</xliff:g> meter</item>
+        <item quantity="two">In <xliff:g id="number_of_meters">%1$s</xliff:g> meters</item>
+        <item quantity="few">In <xliff:g id="number_of_meters">%1$s</xliff:g> meters</item>
+        <item quantity="many">In <xliff:g id="number_of_meters">%1$s</xliff:g> meters</item>
+        <item quantity="other">In <xliff:g id="number_of_meters">%1$s</xliff:g> meters</item>
+    </plurals>
+    <plurals name="DA_SPEECH_IN_X_MILES">
+        <item quantity="zero">In <xliff:g id="number_of_miles">%1$s</xliff:g> miles</item>
+        <item quantity="one">In <xliff:g id="number_of_miles">%1$s</xliff:g> mile</item>
+        <item quantity="two">In <xliff:g id="number_of_miles">%1$s</xliff:g> miles</item>
+        <item quantity="few">In <xliff:g id="number_of_miles">%1$s</xliff:g> miles</item>
+        <item quantity="many">In <xliff:g id="number_of_miles">%1$s</xliff:g> miles</item>
+        <item quantity="other">In <xliff:g id="number_of_miles">%1$s</xliff:g> miles</item>
+    </plurals>
+    <plurals name="DA_SPEECH_IN_X_YARDS">
+        <item quantity="zero">In <xliff:g id="number_of_yards">%1$s</xliff:g> yards</item>
+        <item quantity="one">In <xliff:g id="number_of_yards">%1$s</xliff:g> yard</item>
+        <item quantity="two">In <xliff:g id="number_of_yards">%1$s</xliff:g> yards</item>
+        <item quantity="few">In <xliff:g id="number_of_yards">%1$s</xliff:g> yards</item>
+        <item quantity="many">In <xliff:g id="number_of_yards">%1$s</xliff:g> yards</item>
+        <item quantity="other">In <xliff:g id="number_of_yards">%1$s</xliff:g> yards</item>
+    </plurals>
+    <!-- -->
+    <eat-comment/>
+
+    <plurals name="DA_SPEED_FORMAT_KILOMETERS_PER_HOUR_EXTENDED">
+        <item quantity="zero"><xliff:g id="number_of_kilometers" example="25">%s</xliff:g>\u00A0kilometers\u00A0per\u00A0hour</item>
+        <item quantity="one"><xliff:g id="number_of_kilometers" example="25">%s</xliff:g>\u00A0kilometer\u00A0per\u00A0hour</item>
+        <item quantity="two"><xliff:g id="number_of_kilometers" example="25">%s</xliff:g>\u00A0kilometers\u00A0per\u00A0hour</item>
+        <item quantity="few"><xliff:g id="number_of_kilometers" example="25">%s</xliff:g>\u00A0kilometers\u00A0per\u00A0hour</item>
+        <item quantity="many"><xliff:g id="number_of_kilometers" example="25">%s</xliff:g>\u00A0kilometers\u00A0per\u00A0hour</item>
+        <item quantity="other"><xliff:g id="number_of_kilometers" example="25">%s</xliff:g>\u00A0kilometers\u00A0per\u00A0hour</item>
+    </plurals>
+    <plurals name="DA_SPEED_FORMAT_MILES_PER_HOUR_EXTENDED">
+        <item quantity="zero"><xliff:g id="number_of_miles" example="25">%s</xliff:g>\u00A0miles\u00A0per\u00A0hour</item>
+        <item quantity="one"><xliff:g id="number_of_miles" example="25">%s</xliff:g>\u00A0mile\u00A0per\u00A0hour</item>
+        <item quantity="two"><xliff:g id="number_of_miles" example="25">%s</xliff:g>\u00A0miles\u00A0per\u00A0hour</item>
+        <item quantity="few"><xliff:g id="number_of_miles" example="25">%s</xliff:g>\u00A0miles\u00A0per\u00A0hour</item>
+        <item quantity="many"><xliff:g id="number_of_miles" example="25">%s</xliff:g>\u00A0miles\u00A0per\u00A0hour</item>
+        <item quantity="other"><xliff:g id="number_of_miles" example="25">%s</xliff:g>\u00A0miles\u00A0per\u00A0hour</item>
+    </plurals>
+    <!-- -->
+    <eat-comment/>
+
+    <plurals name="DA_YOUR_DESTINATION_IS_X_FEET_AHEAD">
+        <item quantity="zero">Your destination is <xliff:g id="number_of_feet">%1$s</xliff:g> feet ahead</item>
+        <item quantity="one">Your destination is <xliff:g id="number_of_feet">%1$s</xliff:g> foot ahead</item>
+        <item quantity="two">Your destination is <xliff:g id="number_of_feet">%1$s</xliff:g> feet ahead</item>
+        <item quantity="few">Your destination is <xliff:g id="number_of_feet">%1$s</xliff:g> feet ahead</item>
+        <item quantity="many">Your destination is <xliff:g id="number_of_feet">%1$s</xliff:g> feet ahead</item>
+        <item quantity="other">Your destination is <xliff:g id="number_of_feet">%1$s</xliff:g> feet ahead</item>
+    </plurals>
+    <plurals name="DA_YOUR_DESTINATION_IS_X_KILOMETERS_AHEAD">
+        <item quantity="zero">Your destination is <xliff:g id="number_of_kilometers">%1$s</xliff:g> kilometers ahead</item>
+        <item quantity="one">Your destination is <xliff:g id="number_of_kilometers">%1$s</xliff:g> kilometer ahead</item>
+        <item quantity="two">Your destination is <xliff:g id="number_of_kilometers">%1$s</xliff:g> kilometers ahead</item>
+        <item quantity="few">Your destination is <xliff:g id="number_of_kilometers">%1$s</xliff:g> kilometers ahead</item>
+        <item quantity="many">Your destination is <xliff:g id="number_of_kilometers">%1$s</xliff:g> kilometers ahead</item>
+        <item quantity="other">Your destination is <xliff:g id="number_of_kilometers">%1$s</xliff:g> kilometers ahead</item>
+    </plurals>
+    <plurals name="DA_YOUR_DESTINATION_IS_X_METERS_AHEAD">
+        <item quantity="zero">Your destination is <xliff:g id="number_of_meters">%1$s</xliff:g> meters ahead</item>
+        <item quantity="one">Your destination is <xliff:g id="number_of_meters">%1$s</xliff:g> meter ahead</item>
+        <item quantity="two">Your destination is <xliff:g id="number_of_meters">%1$s</xliff:g> meters ahead</item>
+        <item quantity="few">Your destination is <xliff:g id="number_of_meters">%1$s</xliff:g> meters ahead</item>
+        <item quantity="many">Your destination is <xliff:g id="number_of_meters">%1$s</xliff:g> meters ahead</item>
+        <item quantity="other">Your destination is <xliff:g id="number_of_meters">%1$s</xliff:g> meters ahead</item>
+    </plurals>
+    <plurals name="DA_YOUR_DESTINATION_IS_X_MILES_AHEAD">
+        <item quantity="zero">Your destination is <xliff:g id="number_of_miles">%1$s</xliff:g> miles ahead</item>
+        <item quantity="one">Your destination is <xliff:g id="number_of_miles">%1$s</xliff:g> mile ahead</item>
+        <item quantity="two">Your destination is <xliff:g id="number_of_miles">%1$s</xliff:g> miles ahead</item>
+        <item quantity="few">Your destination is <xliff:g id="number_of_miles">%1$s</xliff:g> miles ahead</item>
+        <item quantity="many">Your destination is <xliff:g id="number_of_miles">%1$s</xliff:g> miles ahead</item>
+        <item quantity="other">Your destination is <xliff:g id="number_of_miles">%1$s</xliff:g> miles ahead</item>
+    </plurals>
+    <plurals name="DA_YOUR_DESTINATION_IS_X_YARDS_AHEAD">
+        <item quantity="zero">Your destination is <xliff:g id="number_of_yards">%1$s</xliff:g> yards ahead</item>
+        <item quantity="one">Your destination is <xliff:g id="number_of_yards">%1$s</xliff:g> yard ahead</item>
+        <item quantity="two">Your destination is <xliff:g id="number_of_yards">%1$s</xliff:g> yards ahead</item>
+        <item quantity="few">Your destination is <xliff:g id="number_of_yards">%1$s</xliff:g> yards ahead</item>
+        <item quantity="many">Your destination is <xliff:g id="number_of_yards">%1$s</xliff:g> yards ahead</item>
+        <item quantity="other">Your destination is <xliff:g id="number_of_yards">%1$s</xliff:g> yards ahead</item>
+    </plurals>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <plurals name="MIDTRIP_UGC_VOTE_REPORTS_COUNT_TEXT">
+        <item quantity="one"><xliff:g id="number_of_reports">%1$d</xliff:g> report</item>
+        <item quantity="other"><xliff:g id="number_of_reports">%1$d</xliff:g> reports</item>
+    </plurals>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <plurals name="TRANSIT_NUM_STOPS">
+        <item quantity="zero"><xliff:g id="number_of_stops">%d</xliff:g> stops</item>
+        <item quantity="one"><xliff:g id="number_of_stops">%d</xliff:g> stop</item>
+        <item quantity="two"><xliff:g id="number_of_stops">%d</xliff:g> stops</item>
+        <item quantity="few"><xliff:g id="number_of_stops">%d</xliff:g> stops</item>
+        <item quantity="many"><xliff:g id="number_of_stops">%d</xliff:g> stops</item>
+        <item quantity="other"><xliff:g id="number_of_stops">%d</xliff:g> stops</item>
+    </plurals>
+    <!-- -->
+    <eat-comment/>
+
+    <plurals name="TRANSIT_PLUS_NUMBER_OF_ALERTS_TITLE">
+        <item quantity="one">+<xliff:g id="number_of_alerts">%d</xliff:g> alert</item>
+        <item quantity="other">+<xliff:g id="number_of_alerts">%d</xliff:g> alerts</item>
+    </plurals>
+    <plurals name="TRANSIT_PLUS_NUMBER_OF_ALERTS_TITLE_CONTENT_DESCRIPTION">
+        <item quantity="one">+ <xliff:g id="number_of_alerts">%d</xliff:g> alert</item>
+        <item quantity="other">+ <xliff:g id="number_of_alerts">%d</xliff:g> alerts</item>
+    </plurals>
+    <plurals name="TRANSIT_PLUS_NUMBER_OF_INFORMATION_ITEMS_TITLE">
+        <item quantity="one">+<xliff:g id="number_of_alerts">%d</xliff:g> more</item>
+        <item quantity="other">+<xliff:g id="number_of_alerts">%d</xliff:g> more</item>
+    </plurals>
+    <plurals name="TRANSIT_PLUS_NUMBER_OF_INFORMATION_ITEMS_TITLE_CONTENT_DESCRIPTION">
+        <item quantity="one">+ <xliff:g id="number_of_information">%d</xliff:g> more</item>
+        <item quantity="other">+ <xliff:g id="number_of_information">%d</xliff:g> more</item>
+    </plurals>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="ABOUT">    About, terms &amp; privacy</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="ACCESSIBILITY_ACTIVATE_TO_CLOSE_STEP_LIST">    Activate to close step list</string>
+    <string name="ACCESSIBILITY_ACTIVATE_TO_OPEN_STEP_LIST">    Activate to open step list</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="ACCESSIBILITY_DIRECTIONS_STEP_LIST_TO">    List of steps to <xliff:g id="destination" example="New York">%s</xliff:g>. Activate to expand.</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="ACCESSIBILITY_LABEL_HAZARDOUS_GOODS_RESTRICTED">    Hazardous goods restricted</string>
+    <string name="ACCESSIBILITY_LABEL_HEIGHT_RESTRICTED">    Height restricted</string>
+    <string name="ACCESSIBILITY_LABEL_HEIGHT_RESTRICTED_WITH_VALUE">    Height restricted <xliff:g id="height" example="5 ft 12 in">%s</xliff:g></string>
+    <string name="ACCESSIBILITY_LABEL_TRUCKS_RESTRICTED">    Trucks restricted</string>
+    <string name="ACCESSIBILITY_LABEL_WEIGHT_RESTRICTED">    Weight restricted</string>
+    <string name="ACCESSIBILITY_LABEL_WEIGHT_RESTRICTED_WITH_VALUE">    Weight restricted <xliff:g id="weight" example="5 tons">%s</xliff:g></string>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="ACCESSIBILITY_LONG_PAUSE">    .\u0020</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="ACCESSIBILITY_SHORT_PAUSE">    ,\u0020</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="ACCOUNT_SETTINGS_NOTIFICATION_SETTING_SUMMARY">    Get reminders to update information about your account settings</string>
+    <string name="ACCOUNT_SETTINGS_NOTIFICATION_SETTING_TITLE">    Account settings</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="ALERT_SEVERITY_CONTENT_DESCRIPTION">    Alert</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="ARRIVE_AT_TIME">    Arrive at <xliff:g id="arrival_time" example="9:32 AM">%1$s</xliff:g></string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="BASE_LOCAL_DISCOVERY_NOTIFICATION_OPT_OUT_SETTINGS_SUMMARY">    You\'re getting updates on new &amp; trending places based on your preferences</string>
+    <string name="BASE_LOCAL_DISCOVERY_NOTIFICATION_SETTINGS_SUMMARY">   Get updates on new &amp; trending places based on your preferences</string>
+    <string name="BASE_LOCAL_DISCOVERY_NOTIFICATION_SETTINGS_TITLE">   New &amp; trending places</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="BIKESHARING_RETURN_BIKE">    Return bike</string>
+    <string name="BIKESHARING_UNLOCK_BIKE">    Unlock bike</string>
+    <string name="BIKESHARING_UNLOCK_IN_X">    Unlock in <xliff:g id="app_name" example="Lime">%s</xliff:g></string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="BUSINESS_MESSAGE_NOTIFICATION_OPT_OUT_SETTINGS_SUMMARY">    You\'re getting updates about responses to questions you asked businesses in Maps</string>
+    <string name="BUSINESS_MESSAGE_NOTIFICATION_SETTINGS_SUMMARY">    Get responses to questions you asked businesses in Maps</string>
+    <string name="BUSINESS_MESSAGE_NOTIFICATION_SETTINGS_TITLE">    Messages</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="COLLABORATIVE_LISTS_NOTIFICATION_OPT_OUT_SETTINGS_SUMMARY">    You\'re getting updates about lists you own and edit</string>
+    <string name="COLLABORATIVE_LISTS_NOTIFICATION_SETTINGS_SUMMARY">    Get updates about lists you own and edit</string>
+    <string name="COLLABORATIVE_LISTS_NOTIFICATION_SETTINGS_TITLE">    Lists</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="COMMUTE_PROFILE_OPT_OUT_SETTINGS_SUMMARY">    You\'re getting reminders to update information about your commute preferences</string>
+    <string name="COMMUTE_PROFILE_SETTINGS_SUMMARY">    Get reminders to update information about your commute preferences</string>
+    <string name="COMMUTE_PROFILE_SETTINGS_TITLE">    Commute profile</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="COMPASS_ACCESSIBILITY_NORTH_UP">    Keep map north up</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="CYCLING_ROUTE_LABEL_BEST_ROUTE">    Best route</string>
+    <string name="CYCLING_ROUTE_LABEL_FASTEST">    Fastest</string>
+    <string name="CYCLING_ROUTE_LABEL_LESS_HIGHWAYS">    Less highways</string>
+    <string name="CYCLING_ROUTE_LABEL_LESS_STEEP_HILLS">    Fewer hills</string>
+    <string name="CYCLING_ROUTE_LABEL_LESS_TRAFFIC">    Less traffic</string>
+    <string name="CYCLING_ROUTE_LABEL_LESS_TURNS">    Fewer turns</string>
+    <string name="CYCLING_ROUTE_LABEL_MORE_BIKE_LANES">    More bike lanes</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="DA_AT">    at <xliff:g id="STRING_0" example="String 0">{0}</xliff:g></string>
+    <string name="DA_DATA_CONNECTION_LOST">    Data connection lost...</string>
+    <string name="DA_DESTINATION_REACHED">    You have arrived</string>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="DA_DISTANCE_FORMAT_FEET_ABBREVIATED"><xliff:g id="number_of_feet" example="15">%s</xliff:g>\u00A0ft</string>
+    <string name="DA_DISTANCE_FORMAT_FEET_EXTENDED"><xliff:g id="number_of_feet" example="15">%s</xliff:g>\u00A0feet</string>
+    <string name="DA_DISTANCE_FORMAT_KILOMETERS_ABBREVIATED"><xliff:g id="number_of_kilometers" example="25">%s</xliff:g>\u00A0km</string>
+    <string name="DA_DISTANCE_FORMAT_KILOMETERS_EXTENDED"><xliff:g id="number_of_kilometers" example="25">%s</xliff:g>\u00A0kilometers</string>
+    <string name="DA_DISTANCE_FORMAT_METERS_ABBREVIATED"><xliff:g id="number_of_meters" example="15">%s</xliff:g>\u00A0m</string>
+    <string name="DA_DISTANCE_FORMAT_METERS_EXTENDED"><xliff:g id="number_of_meters" example="15">%s</xliff:g>\u00A0meters</string>
+    <string name="DA_DISTANCE_FORMAT_MILES_ABBREVIATED"><xliff:g id="number_of_miles" example="25">%s</xliff:g>\u00A0mi</string>
+    <string name="DA_DISTANCE_FORMAT_MILES_EXTENDED"><xliff:g id="number_of_miles" example="25">%s</xliff:g>\u00A0miles</string>
+    <string name="DA_DISTANCE_FORMAT_MODE">    imperial</string>
+    <string name="DA_DISTANCE_FORMAT_YARDS_ABBREVIATED"><xliff:g id="number_of_yards" example="25">%s</xliff:g>\u00A0yd</string>
+    <string name="DA_DISTANCE_FORMAT_YARDS_EXTENDED"><xliff:g id="number_of_yards" example="25">%s</xliff:g>\u00A0yards</string>
+    <string name="DA_DISTANCE_RELATIVE_EQUIVALENT">    Similar<xliff:g id="whitespace" example="\u0020">%1$s</xliff:g>distance</string>
+    <string name="DA_DISTANCE_RELATIVE_LONGER"><xliff:g id="distance" example="1.5 km">%1$s</xliff:g><xliff:g id="whitespace" example="\u0020">%2$s</xliff:g>longer</string>
+    <string name="DA_DISTANCE_RELATIVE_SHORTER"><xliff:g id="distance" example="1.5 km">%1$s</xliff:g><xliff:g id="whitespace" example="\u0020">%2$s</xliff:g>shorter</string>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="DA_EXIT_NAME">    Exit <xliff:g id="exit_name" example="Kisarazu">{0}</xliff:g></string>
+    <string name="DA_EXIT_NUMBER">    Exit <xliff:g id="exit_number" example="17">{0}</xliff:g></string>
+    <string name="DA_EXPANDED_NOTIFICATION_SUBTEXT"><xliff:g id="TIME_REMAINING" example="1 hr 17 min">%1$s</xliff:g> \u00b7 <xliff:g id="DISTANCE_REMAINING" example="25 miles">%2$s</xliff:g> \u00b7 <xliff:g id="ETA" example="5:27 PM">%3$s</xliff:g></string>
+    <string name="DA_LOCKSCREEN_NOTIFICATION_DIRECTIONS"><xliff:g id="DISTANCE_TO_NEXT_STEP" example="300 ft">%1$s</xliff:g> - <xliff:g id="ROAD_NAME" example="Masonic Ave.">%2$s</xliff:g></string>
+    <string name="DA_LOCKSCREEN_NOTIFICATION_SUBTEXT"><xliff:g id="DESTINATION_NAME" example="Home">%1$s</xliff:g> - <xliff:g id="ETA" example="12:45 PM ETA">%2$s</xliff:g></string>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="DA_MINUTES_ABBREVIATED_SHORT_UNIT">    min</string>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="DA_NAME_DELIMITER">    \u0020/\u0020</string>
+    <string name="DA_NOTIFICATION_STEP_FORMAT"><xliff:g id="STRING_0" example="String 0">{0}</xliff:g> - <xliff:g id="STRING_1" example="String 1">{1}</xliff:g></string>
+    <string name="DA_ONTO">    onto <xliff:g id="STRING_0" example="String 0">{0}</xliff:g></string>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="DA_POINT_ON_MAP">    Point on map</string>
+    <string name="DA_RELATIVE_EQUIVALENT">    Similar\nETA</string>
+    <string name="DA_RELATIVE_FASTER"><xliff:g id="minutes" example="3 min">%1$s</xliff:g>\nfaster</string>
+    <string name="DA_RELATIVE_SLOWER"><xliff:g id="minutes" example="3 min">%1$s</xliff:g>\nslower</string>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="DA_REROUTING">    Rerouting...</string>
+    <string name="DA_ROUTE_PREFIXES">    N,NE,E,SE,S,SW,W,NW</string>
+    <string name="DA_ROUTE_SUFFIXES">    N,NE,E,SE,S,SW,W,NW,Ave,Blvd,Byp,Cir,Ct,Dr,Expy,Fwy,Hwy,Ln,Pkwy,Pl,Rd,St,Thrwy,Way</string>
+    <string name="DA_SPEECH_CONTINUE_FOR_A_HALF_MILE">    Continue for a half mile</string>
+    <string name="DA_SPEECH_CONTINUE_FOR_A_QUARTER_MILE">    Continue for a quarter mile</string>
+    <string name="DA_SPEECH_CONTINUE_FOR_ONE_AND_A_HALF_KILOMETERS">    Continue for one and a half kilometers</string>
+    <string name="DA_SPEECH_CONTINUE_FOR_ONE_AND_A_HALF_MILES">    Continue for one and a half miles</string>
+    <string name="DA_SPEECH_CONTINUE_FOR_THREE_QUARTERS_OF_A_MILE">    Continue for three quarters of a mile</string>
+    <string name="DA_SPEECH_CONTINUE_ON_ROAD_FOR_A_HALF_MILE">    Continue on <xliff:g id="road_name" example="Main St">%1$s</xliff:g> for a half mile</string>
+    <string name="DA_SPEECH_CONTINUE_ON_ROAD_FOR_A_QUARTER_MILE">    Continue on <xliff:g id="road_name" example="Main St">%1$s</xliff:g> for a quarter mile</string>
+    <string name="DA_SPEECH_CONTINUE_ON_ROAD_FOR_ONE_AND_A_HALF_KILOMETERS">    Continue on <xliff:g id="road_name" example="Main St">%1$s</xliff:g> for one and a half kilometers</string>
+    <string name="DA_SPEECH_CONTINUE_ON_ROAD_FOR_ONE_AND_A_HALF_MILES">    Continue on <xliff:g id="road_name" example="Main St">%1$s</xliff:g> for one and a half miles</string>
+    <string name="DA_SPEECH_CONTINUE_ON_ROAD_FOR_THREE_QUARTERS_OF_A_MILE">    Continue on <xliff:g id="road_name" example="Main St">%1$s</xliff:g> for three quarters of a mile</string>
+    <string name="DA_SPEECH_IN_A_HALF_MILE">    In a half mile</string>
+    <string name="DA_SPEECH_IN_A_QUARTER_MILE">    In a quarter mile</string>
+    <string name="DA_SPEECH_IN_ONE_AND_A_HALF_KILOMETERS">    In one and a half kilometers</string>
+    <string name="DA_SPEECH_IN_ONE_AND_A_HALF_MILES">    In one and a half miles</string>
+    <string name="DA_SPEECH_IN_THREE_QUARTERS_OF_A_MILE">    In three quarters of a mile</string>
+    <string name="DA_SPEECH_LOST_GPS">    GPS signal lost</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="DA_SPEECH_YOU_SHOULD_GET_THERE_BY">    You should reach your destination by <xliff:g id="estimated_arrival_time" example="9:34 am">%1$s</xliff:g></string>
+    <string name="DA_SPEECH_YOU_WILL_NOW_ARRIVE_AT">     You will now arrive at <xliff:g id="estimated_arrival_time" example="9:34 am">%1$s</xliff:g></string>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="DA_SPEED_FORMAT_KILOMETERS_PER_HOUR_ABBREVIATED"><xliff:g id="number_of_kilometers" example="25">%s</xliff:g>\u00A0km/h</string>
+    <string name="DA_SPEED_FORMAT_MILES_PER_HOUR_ABBREVIATED"><xliff:g id="number_of_miles" example="25">%s</xliff:g>\u00A0mph</string>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="DA_STAY_ON_ROAD_PRIMARY">    Stay on <xliff:g id="STRING_0" example="String 0">{0}</xliff:g></string>
+    <string name="DA_STAY_ON_ROAD_SECONDARY_MANEUVER"><xliff:g id="STRING_0" example="String 0">{0}</xliff:g> to <xliff:g id="STRING_1" example="String 1">{1}</xliff:g></string>
+    <string name="DA_THEN">    Then <xliff:g id="STRING_0" example="turn-icon-image">{0}</xliff:g></string>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="DA_TIME_FORMAT_CLOCK"><xliff:g id="hours" example="2">%1$d</xliff:g>:<xliff:g id="minutes" example="45">%2$02d</xliff:g></string>
+    <string name="DA_TIME_FORMAT_DAYS_AND_HOURS"><xliff:g id="number_of_days" example="1 d">%1$s</xliff:g>\u0020<xliff:g id="number_of_hours" example="6 hr">%2$s</xliff:g></string>
+    <string name="DA_TIME_FORMAT_HOURS_AND_MINUTES"><xliff:g id="number_of_hours" example="1 hr">%1$s</xliff:g>\u0020<xliff:g id="number_of_minutes" example="40 min">%2$s</xliff:g></string>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="DA_TOWARD">    toward <xliff:g id="STRING_0" example="String 0">{0}</xliff:g></string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="DA_YOUR_DESTINATION_IS_A_HALF_MILE_AHEAD">    Your destination is half a mile ahead</string>
+    <string name="DA_YOUR_DESTINATION_IS_A_QUARTER_MILE_AHEAD">    Your destination is a quarter mile ahead</string>
+    <string name="DA_YOUR_DESTINATION_IS_ONE_AND_A_HALF_KILOMETERS_AHEAD">    Your destination is one and a half kilometers ahead</string>
+    <string name="DA_YOUR_DESTINATION_IS_ONE_AND_A_HALF_MILES_AHEAD">    Your destination is one and a half miles ahead</string>
+    <string name="DA_YOUR_DESTINATION_IS_THREE_QUARTERS_OF_A_MILE_AHEAD">    Your destination is three quarters of a mile ahead</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="DEBUG_MAPS_FEATURES_SETTINGS_TITLE">    Debug features [dogfood only]</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="DIRECTIONS_PROCEED_TO_METERS">    Continue for <xliff:g id="distance" example="12 mi">%1$s</xliff:g></string>
+    <string name="DIRECTIONS_STEP_LIST_TO">    To <xliff:g id="destination" example="New York">%s</xliff:g></string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="DIRECTIONS_YOUR_LOCATION">    Your location</string>
+    <string name="DISCLAIMER">    Keep your eyes on the road and obey applicable laws. Do not manipulate this application while in motion. Directions may be inaccurate, incomplete, dangerous, not suitable, prohibited, or involve crossing administrative areas. Data is not real-time, and location accuracy cannot be guaranteed.</string>
+    <string name="DISCLAIMER_TITLE">    Google Maps Navigation is in beta. Use caution.</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="DISTANCE_TO_TRIP_LEVEL_NOTICE">    in <xliff:g id="distance" example="1.1 mi">%1$s</xliff:g></string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="DONE">    Done</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="DRIVING_MODE_NOTIFICATION_DRIVING_WITH_NO_CURRENT_ROAD">    Driving with Google Maps</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="DURATION_AND_DISTANCE_TO_DESTINATION"><xliff:g id="duration" example="45 min">%1$s</xliff:g> (<xliff:g id="distance" example="40 mi">%2$s</xliff:g>) to destination</string>
+    <string name="DURATION_AND_DISTANCE_WITH_DESTINATION"><xliff:g id="duration" example="45 min">%1$s</xliff:g> (<xliff:g id="distance" example="40 mi">%2$s</xliff:g>) to <xliff:g id="destination" example="Work">%3$s</xliff:g></string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="ESTIMATED_TIME_OF_ARRIVAL_SHORT"><xliff:g id="estimated_time_of_arrival" example="5:18 PM">%1$s</xliff:g> ETA</string>
+    <string name="ESTIMATED_TIME_OF_ARRIVAL_WITH_TIME_ZONE"><xliff:g id="estimated_time_of_arrival" example="5:18 PM">%1$s</xliff:g>\u00A0<xliff:g id="short_time_zone" example="PST">%2$s</xliff:g></string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="EVEN_ONLY_TRAVEL_RESTRICTION_CALLOUT_TEXT">Even-only</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="EV_CONNECTOR_PREFERENCES_SUMMARY">    Add to see compatible charging stops</string>
+    <string name="EV_CONNECTOR_PREFERENCES_TITLE">    Plugs &amp; adapters</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="EV_PROFILE_SETTINGS_TITLE_V2">    Electric vehicle settings</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="EYES_FREE_MODE_REROUTE_NOTIFICATION">    It looks like you\'ve left the route, so I\'ll re-route you.</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="GENERIC_DELAY_SUBTITLE">    Expect delays</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="GETTING_AROUND_CATEGORY_TITLE">    Getting around</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="GOOGLE_MAPS_TIMELINE_OPT_OUT_SETTINGS_SUMMARY">    You\'re getting updates about your location history</string>
+    <string name="GOOGLE_MAPS_TIMELINE_SETTINGS_SUMMARY">    Get updates about your location history</string>
+    <string name="GOOGLE_MAPS_TIMELINE_SETTINGS_TITLE">    Google maps timeline</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="GPS_SIGNAL_LOST_CALLOUT_TEXT">    Searching for GPS...</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="HAZARDOUS_GOODS_RESTRICTED">    Hazardous Goods Restricted</string>
+    <string name="HEIGHT_FEET_ABBREVIATED"><xliff:g id="feet" example="8">%d</xliff:g> ft</string>
+    <string name="HEIGHT_FEET_INCHES_ABBREVIATED"><xliff:g id="feet" example="8">%d</xliff:g> ft <xliff:g id="inches" example="11">%d</xliff:g> in</string>
+    <string name="HEIGHT_FEET_INCHES_LONGFORM"><xliff:g id="feet" example="8">%d</xliff:g> feet <xliff:g id="inches" example="11">%d</xliff:g> inches</string>
+    <string name="HEIGHT_FEET_LONGFORM"><xliff:g id="feet" example="8">%d</xliff:g> feet</string>
+    <string name="HEIGHT_RESTRICTED">    Height Restricted</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="HOME_WORK_SETTINGS_SUMMARY">    Get reminders to update your home and work addresses</string>
+    <string name="HOME_WORK_SETTINGS_TITLE">    Commute profile (Home &amp; work)</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="INCIDENT_CALLOUT_PROMPT_REPORTED_TEXT">    Reported</string>
+    <string name="INCIDENT_CALLOUT_PROMPT_SELF_REPORT_TEXT">    Reported by you</string>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="INCIDENT_VOTE_COUNT_BUCKET_LONG"><xliff:g id="vote_count" example="5+">%1$s</xliff:g>+ reported</string>
+    <string name="INCIDENT_VOTE_COUNT_BUCKET_SHORT"><xliff:g id="vote_count" example="5+">%1$s</xliff:g>+</string>
+    <string name="INCIDENT_VOTE_COUNT_LONG"><xliff:g id="vote_count" example="3">%1$s</xliff:g> reported</string>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="INFORMATION_SEVERITY_CONTENT_DESCRIPTION">    Notice</string>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="INITIAL_NOTIFICATION_CONTENT_TITLE">    Starting navigation…</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="JAMCIDENT_DELAY_TIME">    +<xliff:g id="time" example="3 min">%1$s</xliff:g></string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="LEARN_MORE_ABOUT_NAVIGATION">    Learn more</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="LOADING">    Loading</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="LOCATION_AND_PROFILE_CATEGORY_TITLE">    Location and profile</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="LOCATION_NOT_YET_AVAILABLE">    Waiting for location...</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="LOCATION_SHARING_FRIENDS_OPT_OUT_SETTINGS_SUMMARY">    You\'re getting updates about your friends and their shared location</string>
+    <string name="LOCATION_SHARING_FRIENDS_SETTINGS_SUMMARY">    Get updates about your friends and their shared location</string>
+    <string name="LOCATION_SHARING_FRIENDS_SETTINGS_TITLE">    Google location sharing (friends)</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="LOCATION_SHARING_UPDATES_SETTINGS_SUMMARY">    Get updates when your shared location is being updated</string>
+    <string name="LOCATION_SHARING_UPDATES_SETTINGS_TITLE">    Google location sharing updates</string>
+    <string name="LOCATION_SHARING_YOU_OPT_OUT_SETTINGS_SUMMARY">    You\'re getting updates about sharing your location</string>
+    <string name="LOCATION_SHARING_YOU_SETTINGS_SUMMARY">    Get updates about sharing your location</string>
+    <string name="LOCATION_SHARING_YOU_SETTINGS_TITLE">    Google location sharing (you)</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="MANILA_TRAVEL_RESTRICTION_CALLOUT_TEXT">Coding <xliff:g id="plate_1" example="1">%1$d</xliff:g> \u0026 <xliff:g id="plate_2" example="2">%2$d</xliff:g></string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="MAPS_FEATURES_CATEGORY_TITLE">    Maps features</string>
+    <string name="MAPS_FEATURES_URGENT_SETTINGS_TITLE">    Maps features urgent updates</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="MAP_COPYRIGHTS_FULL">    ©<xliff:g id="copyright_year" example="2013">%1$s</xliff:g> Google - Imagery ©<xliff:g id="copyright_year" example="2013">%2$s</xliff:g> <xliff:g id="imagery_provider_names" example="TerraMetrics">%3$s</xliff:g>, Map data ©<xliff:g id="copyright_year" example="2013">%4$s</xliff:g> <xliff:g id="map_data_provider" example="MapLink">%5$s</xliff:g></string>
+    <string name="MAP_COPYRIGHTS_GOOGLE_ONLY">    ©<xliff:g id="copyright_year" example="2013">%1$s</xliff:g> Google</string>
+    <string name="MAP_COPYRIGHTS_IMAGERY_ONLY">    ©<xliff:g id="copyright_year" example="2013">%1$s</xliff:g> Google - Imagery ©<xliff:g id="copyright_year" example="2013">%2$s</xliff:g> <xliff:g id="imagery_provider_names" example="TerraMetrics">%3$s</xliff:g></string>
+    <string name="MAP_COPYRIGHTS_MAP_DATA_ONLY">    ©<xliff:g id="copyright_year" example="2013">%1$s</xliff:g> Google - Map data ©<xliff:g id="copyright_year" example="2013">%2$s</xliff:g> <xliff:g id="map_data_provider" example="MapLink">%3$s</xliff:g></string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="MENU_SHOW_REPORT_INCIDENT">    Add a report</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="MIDTRIP_UGC_COOLDOWN_HEADER_TEXT">    Report limit reached</string>
+    <string name="MIDTRIP_UGC_COOLDOWN_TEXT">    Try again later</string>
+    <string name="MIDTRIP_UGC_VOTE_CAN_YOU_SEE_THIS">    Is this still here?</string>
+    <string name="MIDTRIP_UGC_VOTE_IS_THE_ROAD_CLOSED">    Is the road closed?</string>
+    <string name="MIDTRIP_UGC_VOTE_NO">    No</string>
+    <string name="MIDTRIP_UGC_VOTE_NOT_THERE">    Not there</string>
+    <string name="MIDTRIP_UGC_VOTE_PROMPT_INCIDENT_AHEAD_TITLE"><xliff:g id="incident_type">%1$s</xliff:g> ahead</string>
+    <string name="MIDTRIP_UGC_VOTE_PROMPT_INCIDENT_NEARBY_TITLE"><xliff:g id="incident_type">%1$s</xliff:g> nearby</string>
+    <string name="MIDTRIP_UGC_VOTE_REPORTS_EXTENDED_COUNT_TEXT"><xliff:g id="number_of_reports">%1$d</xliff:g>+ reports</string>
+    <string name="MIDTRIP_UGC_VOTE_REPORTS_EXTENDED_TIME_AGO_TEXT"><xliff:g id="days">%1$s</xliff:g>+ days ago</string>
+    <string name="MIDTRIP_UGC_VOTE_REPORTS_TIME_AGO_TEXT"><xliff:g id="time">%1$s</xliff:g> ago</string>
+    <string name="MIDTRIP_UGC_VOTE_REPORTS_TIME_JUST_NOW_TEXT">    Just now</string>
+    <string name="MIDTRIP_UGC_VOTE_SAFETY_TEXT">    Only tap if it\'s safe to do so</string>
+    <string name="MIDTRIP_UGC_VOTE_SENT_FEEDBACK">    Thanks for reporting</string>
+    <string name="MIDTRIP_UGC_VOTE_STILL_THERE">    Still there</string>
+    <string name="MIDTRIP_UGC_VOTE_YES">    Yes</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="NAVIGATION_CATEGORY_TITLE">    Navigation</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="NAVIGATION_STEP_LIST_DISTANCE_TO_NEXT_STEP">    In <xliff:g id="distance" example="1.1 miles">%1$s</xliff:g></string>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="NAVIGATION_URGENT_SETTINGS_TITLE">    Navigation urgent updates</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="NAV_SDK_DEFAULT_COMPANY_NAME">    the app developer</string>
+    <string name="NAV_SDK_DISCLAIMER">    Don\'t forget to pay attention to your surroundings and always obey the law.</string>
+    <string name="NAV_SDK_GOT_IT">    Got It</string>
+    <string name="NAV_SDK_LEGAL_TEXT_PART_1"><xliff:g id="nav_sdk_subheader_1" example="How navigation data is used">%1$s</xliff:g>\n\nWhen you use <xliff:g id="nav_sdk_company_name_2" example="MyRidesharingCompany">%2$s</xliff:g>, Google collects navigation data, such as GPS location and the route you took, to improve Google Maps for everyone. This data may be used to make information, including real-time traffic conditions and disruptions, visible to others and help them find the fastest route.\n\nThese updates to the map won’t be associated with your Google Account or device.\n\n<xliff:g id="learn_more_about_navigation" example="Learn more">%3$s</xliff:g>\n\n<xliff:g id="nav_sdk_subheader_2" example="How driver reports and edits are used">%4$s</xliff:g>\n\nWhen you add a report or suggest any map edits, this data may be used across Google services.</string>
+    <string name="NAV_SDK_LEGAL_TEXT_PART_2">    Google’s <xliff:g id="nav_sdk_terms" example="Terms of Service">%1$s</xliff:g> and <xliff:g id="nav_sdk_privacy_policy" example="Privacy Policy">%2$s</xliff:g> apply.\n\n<xliff:g id="nav_sdk_company_name_3" example="MyRidesharingCompany">%3$s</xliff:g> may also collect and use similar data. Refer to <xliff:g id="nav_sdk_company_name_4" example="MyRidesharingCompany">%4$s</xliff:g> App’s Privacy Policy for more information.</string>
+    <string name="NAV_SDK_LEGAL_TEXT_SUBHEADER_1">    How navigation data is used</string>
+    <string name="NAV_SDK_LEGAL_TEXT_SUBHEADER_2">    How driver reports and edits are used</string>
+    <string name="NAV_SDK_PRIVACY_POLICY_CAPITALIZED">    Privacy Policy</string>
+    <string name="NAV_SDK_TERMS_CAPITALIZED">    Terms</string>
+    <string name="NAV_SDK_TERMS_CLOSE">    Close app</string>
+    <string name="NAV_SDK_TERMS_ERROR">    There has been an error while loading the Navigation terms of service. Please restart the app.</string>
+    <string name="NAV_SDK_WELCOME_TO_GOOGLE_MAPS_NAVIGATION">    Welcome to Google Maps navigation</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="NEARBY_PLACES_NOTIFICATION_OPT_OUT_SETTINGS_SUMMARY_V2">    You\'re getting recommendations about places and events nearby</string>
+    <string name="NEARBY_PLACES_NOTIFICATION_SETTINGS_SUMMARY">   Know when you\'re near one of your saved places or events</string>
+    <string name="NEARBY_PLACES_NOTIFICATION_SETTINGS_SUMMARY_V2">    Get recommendations about places and events nearby</string>
+    <string name="NEARBY_PLACES_NOTIFICATION_SETTINGS_TITLE">   Nearby places &amp; events</string>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="NETWORK_UNAVAILABLE">    Can\'t connect</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="NEW_ON_MAPS_CATEGORY_TITLE">    New on Maps</string>
+    <string name="NEW_ON_MAPS_NOTIFICATION_OPT_OUT_SETTINGS_SUMMARY">    You\'re getting updates about new things you can do on Maps</string>
+    <string name="NEW_ON_MAPS_NOTIFICATION_SETTINGS_SUMMARY">    Get occasional updates about new things you can do on Maps</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="NOTICE_EFFECTIVE_RANGE">    Effective <xliff:g id="date_or_date_range" example="Apr 4 – 5">%s</xliff:g></string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="ODD_ONLY_TRAVEL_RESTRICTION_CALLOUT_TEXT">Odd-only</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="OFFLINE_MAPS_DOWNLOAD_EMBEDDED_TITLE">    Offline maps download</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="OFFLINE_MAPS_NOTIFICATION_OPT_OUT_SETTINGS_SUMMARY">    You\'re getting updates about the areas saved to your phone or tablet</string>
+    <string name="OFFLINE_MAPS_NOTIFICATION_SETTINGS_SUMMARY">    Get updates about the areas saved to your phone or tablet</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="OFFLINE_MAPS_TITLE">    Offline maps</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="OTHER_NOTIFICATION_CHANNEL">    Other notifications</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="PARKING_LOCATION_OPT_OUT_SETTINGS_SUMMARY">    You\'re getting updates about your parking location</string>
+    <string name="PARKING_LOCATION_SETTINGS_SUMMARY">    Get updates about your parking location</string>
+    <string name="PARKING_LOCATION_SETTINGS_TITLE">    Parking location</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="PHOTO_NOTIFICATION_OPT_OUT_SETTINGS_SUMMARY">    You\'re getting reminders to upload photos and tag dishes based on places you\'ve visited</string>
+    <string name="PHOTO_NOTIFICATION_SETTINGS_SUMMARY">    Get reminders to upload photos and tag dishes based on places you\'ve visited</string>
+    <string name="PHOTO_NOTIFICATION_SETTINGS_TITLE">    Share &amp; tag photos</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="PICKUP_ORDERS_NOTIFICATION_OPT_OUT_SETTING_SUMMARY">    You\'re getting updates about your pickup orders on Maps</string>
+    <string name="PICKUP_ORDERS_NOTIFICATION_SETTING_SUMMARY">    Get updates on order status, and reminders to share arrival time and check in</string>
+    <string name="PICKUP_ORDERS_NOTIFICATION_SETTING_TITLE">    Order Pickup</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="PLACES_NOTIFICATION_OPT_OUT_SETTINGS_SUMMARY">    You\'re getting questions about places you\'ve visited so others know what to expect</string>
+    <string name="PLACES_NOTIFICATION_SETTINGS_SUMMARY">   Answer questions about places you\'ve visited so others know what to expect</string>
+    <string name="PLACES_NOTIFICATION_SETTINGS_TITLE">   Places you\'ve visited</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="POI_PROMPT_ADD_STOP">    Add stop</string>
+    <string name="POI_PROMPT_ADD_STOP_ACTION">    Added to route</string>
+    <string name="POI_PROMPT_NAVIGATE">    Navigate</string>
+    <string name="POI_PROMPT_NAVIGATE_ACTION">    Navigating</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="PROMPT_CANCEL">    Cancel</string>
+    <string name="PROMPT_DISMISS">    Dismiss</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="QA_AND_CHAT_CATEGORY_TITLE">    Q&amp;A and chat</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="RECENTER_FOLLOW_MODE">    Re-center</string>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="RECOMMENDATIONS_FOR_YOU_CATEGORY_TITLE">    Recommendations for you</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="REMOVE">    Remove</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="REPORTED_VIA_WAZE_APP">    Reported via Waze app</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="REPORT_INCIDENT_BUTTON_LABEL_NAV_API">    Report</string>
+    <string name="REPORT_INCIDENT_PROMPT_ACCIDENT">    Crash</string>
+    <string name="REPORT_INCIDENT_PROMPT_ACCIDENT_REPORTED">    Crash added to the map</string>
+    <string name="REPORT_INCIDENT_PROMPT_ACCIDENT_REPORTING">    Adding crash to the map</string>
+    <string name="REPORT_INCIDENT_PROMPT_CAMERA">    Speed camera</string>
+    <string name="REPORT_INCIDENT_PROMPT_CAMERA_REPORTED">    Speed camera added to the map</string>
+    <string name="REPORT_INCIDENT_PROMPT_CAMERA_REPORTING">    Adding speed camera to the map</string>
+    <string name="REPORT_INCIDENT_PROMPT_CONSTRUCTION">    Construction</string>
+    <string name="REPORT_INCIDENT_PROMPT_CONSTRUCTION_REPORTED">    Construction added to the map</string>
+    <string name="REPORT_INCIDENT_PROMPT_CONSTRUCTION_REPORTING">    Adding construction to the map</string>
+    <string name="REPORT_INCIDENT_PROMPT_DISABLED_VEHICLE">   Stalled vehicle</string>
+    <string name="REPORT_INCIDENT_PROMPT_DISABLED_VEHICLE_REPORTED">    Stalled vehicle added to the map</string>
+    <string name="REPORT_INCIDENT_PROMPT_DISABLED_VEHICLE_REPORTING">    Adding stalled vehicle to the map</string>
+    <string name="REPORT_INCIDENT_PROMPT_JAM">    Slowdown</string>
+    <string name="REPORT_INCIDENT_PROMPT_JAM_REPORTED">    Slowdown added to the map</string>
+    <string name="REPORT_INCIDENT_PROMPT_JAM_REPORTING">    Adding slowdown to the map</string>
+    <string name="REPORT_INCIDENT_PROMPT_LANE_CLOSURE">    Lane closure</string>
+    <string name="REPORT_INCIDENT_PROMPT_LANE_CLOSURE_REPORTED">    Lane closure added to the map</string>
+    <string name="REPORT_INCIDENT_PROMPT_LANE_CLOSURE_REPORTING">    Adding lane closure to the map</string>
+    <string name="REPORT_INCIDENT_PROMPT_MOBILE_SPEED_CAMERA">  Mobile speed camera</string>
+    <string name="REPORT_INCIDENT_PROMPT_MOBILE_SPEED_CAMERA_REPORTED">    Mobile speed camera added to the map</string>
+    <string name="REPORT_INCIDENT_PROMPT_MOBILE_SPEED_CAMERA_REPORTING">    Adding mobile speed camera to the map</string>
+    <string name="REPORT_INCIDENT_PROMPT_OBJECT_ON_ROAD">  Object on road</string>
+    <string name="REPORT_INCIDENT_PROMPT_OBJECT_ON_ROAD_REPORTED">    Object on road added to the map</string>
+    <string name="REPORT_INCIDENT_PROMPT_OBJECT_ON_ROAD_REPORTING">    Adding object on road to the map</string>
+    <string name="REPORT_INCIDENT_PROMPT_POLICE">  Police</string>
+    <string name="REPORT_INCIDENT_PROMPT_POLICE_REPORTED">    Police added to the map</string>
+    <string name="REPORT_INCIDENT_PROMPT_POLICE_REPORTING">    Adding police to the map</string>
+    <string name="REPORT_INCIDENT_PROMPT_SAFETY_TEXT">    Only tap if it\'s safe to do so</string>
+    <string name="REPORT_INCIDENT_PROMPT_SPEED_TRAP">    Speed trap</string>
+    <string name="REPORT_INCIDENT_PROMPT_SPEED_TRAP_REPORTED">    Speed trap added to the map</string>
+    <string name="REPORT_INCIDENT_PROMPT_SPEED_TRAP_REPORTING">    Adding speed trap to the map</string>
+    <string name="REPORT_INCIDENT_PROMPT_THANKS">    Thanks for helping others</string>
+    <string name="REPORT_INCIDENT_PROMPT_TITLE">    Add a report</string>
+    <string name="REPORT_INCIDENT_PROMPT_UNDO">    Undo</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="REROUTE_CALLOUT_CURRENT">    Current</string>
+    <string name="REROUTE_CALLOUT_NEW">    New</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="REVIEWS_AND_MEDIA_CATEGORY_TITLE">    Reviews and media</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="REVIEW_NOTIFICATION_OPT_OUT_SETTINGS_SUMMARY">    You\'re getting reminders to write reviews based on places you’ve visited</string>
+    <string name="REVIEW_NOTIFICATION_SETTINGS_SUMMARY">    Get reminders to write reviews based on places you’ve visited</string>
+    <string name="REVIEW_NOTIFICATION_SETTINGS_TITLE">    Suggestions to write reviews</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="RODIZIO_TRAVEL_RESTRICTION_CALLOUT_TEXT">Rodízio <xliff:g id="plate_1" example="1">%1$d</xliff:g> \u0026 <xliff:g id="plate_2" example="2">%2$d</xliff:g></string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="ROUTE_AROUND_CLOSURE_CALLOUT_CLOSED">    Closed</string>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="ROUTE_AROUND_TRAFFIC_ACTION">    Rerouting</string>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="ROUTE_AROUND_TRAFFIC_CALLOUT_FASTER">    Faster</string>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="ROUTE_AROUND_TRAFFIC_DECLINE">    No thanks</string>
+    <string name="ROUTE_AROUND_TRAFFIC_REROUTE">    Accept</string>
+    <string name="ROUTE_AROUND_TRAFFIC_TAKE_ACTION_CUE_DEFAULT_DECLINE">    To take the faster route, tap <xliff:g id="reroute_button" example="Accept">%1$s</xliff:g>.</string>
+    <string name="ROUTE_AROUND_TRAFFIC_TAKE_ACTION_CUE_DEFAULT_REROUTE">    If you prefer to stay on the current route, tap <xliff:g id="decline_button" example="No thanks">%1$s</xliff:g>.</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="SPEEDOMETER_CONTENT_DESCRIPTION">    Current speed</string>
+    <string name="SPEEDOMETER_LABEL_MPH">
+        <!-- -->
+    mph</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="SPEED_LIMIT_CONTENT_DESCRIPTION">    Speed limit</string>
+    <string name="SPEED_LIMIT_LABEL_KPH">    km/h</string>
+    <string name="SPEED_LIMIT_LABEL_MPH">    MPH</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="STEP_LIST_INTERACTION_LOCKOUT">    To preview more steps, pull over when safe</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="TBP_TIME_FORMAT_STRING">    Typically <xliff:g id="duration_range" example="12 - 24 min">%1$s</xliff:g></string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="TIME_TO_LEAVE_OPT_OUT_SETTINGS_SUMMARY">      You\'re getting reminders when it’s time to leave based on events from your Gmail and Calendar</string>
+    <string name="TIME_TO_LEAVE_SETTINGS_SUMMARY">      Get reminders when it’s time to leave based on events from your Gmail and Calendar</string>
+    <string name="TIME_TO_LEAVE_SETTINGS_TITLE">      Time to leave</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="TRAFFIC_INCIDENT_CANCEL_BUTTON">    Close</string>
+    <string name="TRAFFIC_INCIDENT_CARD_ACTION_DESCRIPTION">    show incident on map</string>
+    <string name="TRAFFIC_INCIDENT_CAUSE_LABEL">    Closed due to</string>
+    <string name="TRAFFIC_INCIDENT_CLEARED_UP">    Incident has cleared up</string>
+    <string name="TRAFFIC_INCIDENT_DMA_DISCLAIMER_NOTICE_HELP_ICON_CONTENT_DESCRIPTION">    Privacy notice help icon</string>
+    <string name="TRAFFIC_INCIDENT_DMA_DISCLAIMER_NOTICE_TITLE">    Trip feedback is used across Google</string>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="TRAFFIC_IN_YOUR_AREA_OPT_OUT_SETTINGS_SUMMARY">    You\'re getting traffic conditions based on your current location</string>
+    <string name="TRAFFIC_IN_YOUR_AREA_SETTINGS_SUMMARY">    Get traffic conditions based on your current location</string>
+    <string name="TRAFFIC_IN_YOUR_AREA_SETTINGS_TITLE">    Traffic in your area</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="TRAFFIC_NEARBY_EVENTS_OPT_OUT_SETTINGS_SUMMARY">    You\'re getting warnings about planned road closures and events that may affect traffic</string>
+    <string name="TRAFFIC_NEARBY_EVENTS_SETTINGS_SUMMARY">    Get warnings about planned road closures and events that may affect traffic</string>
+    <string name="TRAFFIC_NEARBY_EVENTS_SETTINGS_TITLE">    Traffic from nearby events</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="TRAFFIC_UPDATE_ETA_PROMPT_SUBTITLE">    Estimated arrival <xliff:g id="estimated_arrival_time" example="9:34 am">%1$s</xliff:g></string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="TRANSIT_INFO_OPT_OUT_SETTINGS_SUMMARY">    You\'re getting departures, disruptions, and maps from nearby stations</string>
+    <string name="TRANSIT_INFO_SETTINGS_SUMMARY">    Get departures, disruptions, and maps from nearby stations</string>
+    <string name="TRANSIT_INFO_SETTINGS_TITLE">    Transit info &amp; maps</string>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="TRANSIT_LINE_FORMAT_LAST_LINE"><xliff:g id="first_lines" example="LineA, LineB">%1$s</xliff:g> or <xliff:g id="last_line" example="LineC">%2$s</xliff:g></string>
+    <string name="TRANSIT_LINE_FORMAT_MULTIPLE_LINES"><xliff:g id="first_lines" example="LineA, LineB">%1$s</xliff:g>, <xliff:g id="last_lines" example="LineC, LineD or LineE">%2$s</xliff:g></string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="TRANSIT_STEPTHROUGH_BOARD_TRANSPORTATION_AT">    Board <xliff:g id="transportation_title" example="D Line towards Ballard, Uptown">%1$s</xliff:g> at <xliff:g id="departure_station_name" example="Seneca St &amp; 3rd Ave">%2$s</xliff:g></string>
+    <string name="TRANSIT_STEPTHROUGH_GET_OFF_AT">    Get off at <xliff:g id="arrival_station_name" example="Seneca St &amp; 3rd Ave">%1$s</xliff:g></string>
+    <string name="TRANSIT_STEPTHROUGH_TRANSFER_TRANSPORTATION_AT">    Transfer to <xliff:g id="transportation_title" example="D Line towards Ballard, Uptown">%1$s</xliff:g> at <xliff:g id="transfer_station_name" example="Seneca St &amp; 3rd Ave">%2$s</xliff:g></string>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="TRANSIT_STEP_SEPARATOR">    ,\u0020then\u0020</string>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="TRANSIT_TRANSFER_DESCRIPTION"><xliff:g id="line_name" example="JR Yamanote Line">%1$s</xliff:g> <xliff:g id="destination" example="toward Tokyo Station">%2$s</xliff:g></string>
+    <string name="TRANSIT_TRANSFER_DESCRIPTION_WITH_EXPRESS_TYPE"><xliff:g id="line_name" example="JR Yamanote Line">%1$s</xliff:g> <xliff:g id="express_type_name" example="Limited Express">%2$s</xliff:g> <xliff:g id="destination" example="toward Tokyo">%3$s</xliff:g></string>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="TRUCKS_RESTRICTED">    Trucks Restricted</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="UGC_IMPACT_NOTIFICATION_OPT_OUT_SETTINGS_SUMMARY">    You\'re getting updates on likes and comments, and when you earn badges and perks</string>
+    <string name="UGC_IMPACT_NOTIFICATION_SETTINGS_SUMMARY">   Get updates on likes and comments, and when you earn badges and perks</string>
+    <string name="UGC_IMPACT_NOTIFICATION_SETTINGS_TITLE">   Likes, milestones &amp; badges</string>
+    <string name="UGC_NOTIFICATION_OPT_OUT_SETTINGS_SUMMARY">    You\'re getting questions about your local neighborhood, roads &amp; trips</string>
+    <string name="UGC_NOTIFICATION_SETTINGS_SUMMARY">   Help improve Maps by answering questions about your local neighborhood, roads &amp; trips</string>
+    <string name="UGC_NOTIFICATION_SETTINGS_TITLE">   Your area, roads &amp; trips</string>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="UNABLE_TO_LOAD_DATA">    Unable to load data</string>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="UNITS_AUTOMATIC">    Automatic</string>
+    <string name="UNITS_IMPERIAL">    Miles</string>
+    <string name="UNITS_METRIC">    Kilometers</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="VOTE_NO">    No</string>
+    <string name="VOTE_NOT_SURE">    Not sure</string>
+    <string name="VOTE_YES">    Yes</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="WARNING_SEVERITY_CONTENT_DESCRIPTION">    Warning</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="WEIGHT_RESTRICTED">    Weight Restricted</string>
+    <string name="WEIGHT_SHORT_TONS_ABBREVIATED"><xliff:g id="short_tons" example="10">%s</xliff:g> T</string>
+    <string name="WEIGHT_SHORT_TONS_LONGFORM"><xliff:g id="short_tons" example="10">%s</xliff:g> tons</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="YOUR_BUSINESS_CATEGORY_TITLE">    Your business</string>
+    <string name="YOUR_BUSINESS_OPT_OUT_SETTINGS_SUMMARY">    You\'re getting reminders and updates about your business</string>
+    <string name="YOUR_BUSINESS_SETTINGS_SUMMARY">    Get reminders and updates about your business</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="YOUR_PROFILE_AND_FOLLOWING_NOTIFICATION_OPT_OUT_SETTING_SUMMARY">    You\'re getting updates when your profile has a new follower or you receive a follow request</string>
+    <string name="YOUR_PROFILE_AND_FOLLOWING_NOTIFICATION_SETTING_SUMMARY">    Get updates when your profile has a new follower or receives a follow request</string>
+    <string name="YOUR_PROFILE_AND_FOLLOWING_NOTIFICATION_SETTING_TITLE">    Your Maps profile &amp; following</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="maps_API_OUTDATED_WARNING">This app uses an outdated version of Maps. It might not work properly.</string>
+    <string name="maps_COMPASS_ALT_TEXT">Compass</string>
+    <string name="maps_DIRECTIONS_ALT_TEXT">Get directions</string>
+    <string name="maps_GOOGLE_MAP">Google Map</string>
+    <string name="maps_LEVEL_ALT_TEXT">Level {0}</string>
+    <string name="maps_MY_LOCATION_ALT_TEXT">My Location</string>
+    <string name="maps_NO_GMM">Google Maps is not installed or is disabled</string>
+    <string name="maps_OPEN_GMM_ALT_TEXT">Open in Google Maps</string>
+    <string name="maps_YOUR_LOCATION">Your current location</string>
+    <string name="maps_ZOOM_IN_ALT_TEXT">Zoom in</string>
+    <string name="maps_ZOOM_OUT_ALT_TEXT">Zoom out</string>
+    <string name="maps_default_user_error_message">Oops! Something went wrong.</string>
+    <string name="maps_invalid_panorama_data">Invalid panorama.</string>
+    <string name="maps_marker_default_on_select_content_description">Map Marker</string>
+    <string name="maps_out_of_quota_user_error_message">Map disabled because Quota is EXCEEDED</string>
+    <string name="maps_quota_blocked_user_error_message">Map disabled because Quota status is BLOCKED</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <string name="report_a_problem">Report a problem</string>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <style name="AboveShadow" parent="Shadow">
+        <item name="android:background">@drawable/generic_above_shadow</item>
+    </style>
+    <!-- -->
+    <eat-comment/>
+
+    <style name="Base.Widget.AppCompat.ProgressBar.Horizontal" parent="android:Widget.Holo.ProgressBar.Horizontal"/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <style name="Container" parent="Root">
+        <item name="android:orientation">vertical</item>
+    </style>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <style name="NavBoldTextAppearance">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="NavNotificationContentContainer">
+        <item name="android:layout_marginStart">@android:dimen/notification_large_icon_width</item>
+        <item name="android:layout_marginLeft">@android:dimen/notification_large_icon_width</item>
+        <item name="android:layout_marginEnd">0dp</item>
+        <item name="android:layout_marginRight">0dp</item>
+    </style>
+
+    <style name="NavNotificationContentLine">
+        <item name="android:minHeight">40dp</item>
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:paddingEnd">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+    </style>
+
+    <style name="NavQuBody1TextAppearance">
+        <item name="android:fontFamily">sans-serif-regular</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <!-- -->
+    <eat-comment/>
+
+    <style name="NavQuSansSerifBody2TextAppearance">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="NavQuSansSerifCaptionTextAppearance">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="NavQuSansSerifItalicCaptionTextAppearance">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="NavQuSansSerifMediumCaptionTextAppearance">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+    <!-- -->
+    <eat-comment/>
+
+    <style name="NavQuSubhead2TextAppearance">
+        <item name="android:fontFamily">sans-serif-regular</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="NavQuSubheadTextAppearance">
+        <item name="android:fontFamily">sans-serif-regular</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="NavQuTitle2TextAppearance">
+        <item name="android:fontFamily">sans-serif-regular</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="NavQuTitleTextAppearance">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="NavSpeedometerTextAppearance">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+    <!-- -->
+    <eat-comment/>
+
+    <style name="NavTrafficIncidentDialogHeadlineTextAppearance">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <style name="QuBody1" parent="android:TextAppearance">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="QuHeadline" parent="android:TextAppearance">
+        <item name="android:textSize">24sp</item>
+    </style>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <style name="QuNavigationDialogContent">
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="QuNavigationDialogTextBox">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">@style/QuBody1</item>
+        <item name="android:textColor">@color/qu_black_alpha_54</item>
+        <item name="android:layout_marginTop">14dp</item>
+    </style>
+
+    <style name="QuNavigationDialogTextBoxAtEnd">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">@style/QuBody1</item>
+        <item name="android:textColor">@color/qu_black_alpha_54</item>
+        <item name="android:layout_marginTop">14dp</item>
+        <item name="android:layout_marginBottom">24dp</item>
+    </style>
+
+    <style name="QuNavigationDialogTextBoxTabIndent">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">@style/QuBody1</item>
+        <item name="android:textColor">@color/qu_black_alpha_54</item>
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_marginTop">14dp</item>
+    </style>
+
+    <style name="QuNavigationDialogTitleTextBox">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">@style/QuTitle</item>
+        <item name="android:textColor">@color/qu_black_alpha_87</item>
+    </style>
+
+    <style name="QuNavigationDisclaimerDialog" parent="Container">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fadeScrollbars">false</item>
+        <item name="android:background">@color/quantum_greywhite1000</item>
+        <item name="android:paddingStart">24dp</item>
+        <item name="android:paddingEnd">24dp</item>
+        <item name="android:paddingLeft">24dp</item>
+        <item name="android:paddingRight">24dp</item>
+        <item name="android:paddingTop">24dp</item>
+        <item name="android:textDirection">locale</item>
+    </style>
+    <!-- -->
+    <eat-comment/>
+
+    <style name="QuTitle" parent="android:TextAppearance">
+        <item name="android:textSize">20sp</item>
+    </style>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <style name="Root">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layoutDirection">locale</item>
+        <item name="android:textAlignment">viewStart</item>
+    </style>
+    <!-- -->
+    <eat-comment/>
+
+    <style name="RtlOverlay.Widget.AppCompat.ActionBar.TitleItem" parent="android:Widget">
+        <item name="android:layout_gravity">center_vertical|left</item>
+        <item name="android:paddingRight">8dp</item>
+    </style>
+    <!-- -->
+    <eat-comment/>
+
+    <style name="Shadow">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:id">@id/shadow</item>
+        <item name="android:layout_height">@dimen/shadow_height</item>
+    </style>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <style name="Widget.AppCompat.ProgressBar.Horizontal" parent="Base.Widget.AppCompat.ProgressBar.Horizontal"/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+    <!-- -->
+    <eat-comment/>
+
+    <declare-styleable name="ActionBar">
+        <attr name="navigationMode">
+            <enum name="normal" value="0"/>
+            <enum name="listMode" value="1"/>
+            <enum name="tabMode" value="2"/>
+        </attr>
+        <attr name="displayOptions">
+            <flag name="none" value="0"/>
+            <flag name="useLogo" value="0x1"/>
+            <flag name="showHome" value="0x2"/>
+            <flag name="homeAsUp" value="0x4"/>
+            <flag name="showTitle" value="0x8"/>
+            <flag name="showCustom" value="0x10"/>
+            <flag name="disableHome" value="0x20"/>
+        </attr>
+        <attr name="title"/>
+        <attr name="subtitle" format="string"/>
+        <attr name="titleTextStyle" format="reference"/>
+        <attr name="subtitleTextStyle" format="reference"/>
+        <attr name="icon" format="reference"/>
+        <attr name="logo" format="reference"/>
+        <attr name="divider" format="reference"/>
+        <attr name="background" format="reference"/>
+        <attr name="backgroundStacked" format="color|reference"/>
+        <attr name="backgroundSplit" format="color|reference"/>
+        <attr name="customNavigationLayout" format="reference"/>
+        <attr name="height"/>
+        <attr name="homeLayout" format="reference"/>
+        <attr name="progressBarStyle" format="reference"/>
+        <attr name="indeterminateProgressStyle" format="reference"/>
+        <attr name="progressBarPadding" format="dimension"/>
+        <attr name="homeAsUpIndicator"/>
+        <attr name="itemPadding" format="dimension"/>
+        <attr name="hideOnContentScroll" format="boolean"/>
+        <attr name="contentInsetStart" format="dimension"/>
+        <attr name="contentInsetEnd" format="dimension"/>
+        <attr name="contentInsetLeft" format="dimension"/>
+        <attr name="contentInsetRight" format="dimension"/>
+        <attr name="contentInsetStartWithNavigation" format="dimension"/>
+        <attr name="contentInsetEndWithActions" format="dimension"/>
+        <attr name="elevation" format="dimension"/>
+        <attr name="popupTheme" format="reference"/>
+    </declare-styleable>
+    <declare-styleable name="ActionBarLayout">
+        <attr name="android:layout_gravity"/>
+    </declare-styleable>
+    <declare-styleable name="ActionMenuItemView">
+        <attr name="android:minWidth"/>
+    </declare-styleable>
+    <declare-styleable name="ActionMenuView"/>
+    <declare-styleable name="ActionMode">
+        <attr name="titleTextStyle"/>
+        <attr name="subtitleTextStyle"/>
+        <attr name="background"/>
+        <attr name="backgroundSplit"/>
+        <attr name="height"/>
+        <attr name="closeItemLayout" format="reference"/>
+    </declare-styleable>
+    <declare-styleable name="ActivityChooserView">
+        <attr name="initialActivityCount" format="string"/>
+        <attr name="expandActivityOverflowButtonDrawable" format="reference"/>
+    </declare-styleable>
+    <declare-styleable name="AlertDialog">
+        <attr name="android:layout"/>
+        <attr name="buttonPanelSideLayout" format="reference"/>
+        <attr name="listLayout" format="reference"/>
+        <attr name="multiChoiceItemLayout" format="reference"/>
+        <attr name="singleChoiceItemLayout" format="reference"/>
+        <attr name="listItemLayout" format="reference"/>
+        <attr name="showTitle" format="boolean"/>
+        <attr name="buttonIconDimen" format="dimension"/>
+    </declare-styleable>
+    <!-- -->
+    <eat-comment/>
+
+    <declare-styleable name="AnimatedStateListDrawableCompat">
+        <attr name="android:visible"/>
+        <attr name="android:variablePadding"/>
+        <attr name="android:constantSize"/>
+        <attr name="android:dither"/>
+        <attr name="android:enterFadeDuration"/>
+        <attr name="android:exitFadeDuration"/>
+    </declare-styleable>
+    <declare-styleable name="AnimatedStateListDrawableItem">
+        <attr name="android:drawable"/>
+        <attr name="android:id"/>
+    </declare-styleable>
+    <declare-styleable name="AnimatedStateListDrawableTransition">
+        <attr name="android:fromId"/>
+        <attr name="android:toId"/>
+        <attr name="android:drawable"/>
+        <attr name="android:reversible"/>
+    </declare-styleable>
+    <!-- -->
+    <eat-comment/>
+
+    <declare-styleable name="AppCompatEmojiHelper"/>
+    <declare-styleable name="AppCompatImageView">
+        <attr name="android:src"/>
+        <attr name="srcCompat" format="reference"/>
+        <attr name="tint" format="color"/>
+        <attr name="tintMode">
+            <enum name="src_over" value="3"/>
+            <enum name="src_in" value="5"/>
+            <enum name="src_atop" value="9"/>
+            <enum name="multiply" value="14"/>
+            <enum name="screen" value="15"/>
+            <enum name="add" value="16"/>
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="AppCompatSeekBar">
+        <attr name="android:thumb"/>
+        <attr name="tickMark" format="reference"/>
+        <attr name="tickMarkTint" format="color"/>
+        <attr name="tickMarkTintMode">
+            <enum name="src_over" value="3"/>
+            <enum name="src_in" value="5"/>
+            <enum name="src_atop" value="9"/>
+            <enum name="multiply" value="14"/>
+            <enum name="screen" value="15"/>
+            <enum name="add" value="16"/>
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="AppCompatTextHelper">
+        <attr name="android:drawableLeft"/>
+        <attr name="android:drawableTop"/>
+        <attr name="android:drawableRight"/>
+        <attr name="android:drawableBottom"/>
+        <attr name="android:drawableStart"/>
+        <attr name="android:drawableEnd"/>
+        <attr name="android:textAppearance"/>
+    </declare-styleable>
+    <declare-styleable name="AppCompatTextView">
+        <attr name="textAllCaps" format="boolean|reference"/>
+        <attr name="textLocale" format="string"/>
+        <attr name="android:textAppearance"/>
+        <attr name="autoSizeTextType">
+            <enum name="none" value="0"/>
+            <enum name="uniform" value="1"/>
+        </attr>
+        <attr name="autoSizeStepGranularity" format="dimension"/>
+        <attr name="autoSizePresetSizes" format="reference"/>
+        <attr name="autoSizeMinTextSize" format="dimension"/>
+        <attr name="autoSizeMaxTextSize" format="dimension"/>
+        <attr name="fontFamily" format="string"/>
+        <attr name="lineHeight" format="dimension"/>
+        <attr name="firstBaselineToTopHeight" format="dimension"/>
+        <attr name="lastBaselineToBottomHeight" format="dimension"/>
+        <!-- -->
+        <eat-comment/>
+
+        <attr name="fontVariationSettings" format="string"/>
+        <!-- -->
+        <eat-comment/>
+
+        <attr name="drawableLeftCompat" format="reference"/>
+        <attr name="drawableTopCompat" format="reference"/>
+        <attr name="drawableRightCompat" format="reference"/>
+        <attr name="drawableBottomCompat" format="reference"/>
+        <attr name="drawableStartCompat" format="reference"/>
+        <attr name="drawableEndCompat" format="reference"/>
+        <attr name="drawableTint" format="color"/>
+        <attr name="drawableTintMode">
+            <enum name="src_over" value="3"/>
+            <enum name="src_in" value="5"/>
+            <enum name="src_atop" value="9"/>
+            <enum name="multiply" value="14"/>
+            <enum name="screen" value="15"/>
+            <enum name="add" value="16"/>
+        </attr>
+        <attr name="emojiCompatEnabled" format="boolean"/>
+    </declare-styleable>
+    <declare-styleable name="AppCompatTheme">
+        <attr name="windowActionBar" format="boolean"/>
+        <attr name="windowNoTitle" format="boolean"/>
+        <attr name="windowActionBarOverlay" format="boolean"/>
+        <attr name="windowActionModeOverlay" format="boolean"/>
+        <attr name="windowFixedWidthMajor" format="dimension|fraction"/>
+        <attr name="windowFixedHeightMinor" format="dimension|fraction"/>
+        <attr name="windowFixedWidthMinor" format="dimension|fraction"/>
+        <attr name="windowFixedHeightMajor" format="dimension|fraction"/>
+        <attr name="windowMinWidthMajor" format="dimension|fraction"/>
+        <attr name="windowMinWidthMinor" format="dimension|fraction"/>
+        <attr name="android:windowIsFloating"/>
+        <attr name="android:windowAnimationStyle"/>
+        <attr name="actionBarTabStyle" format="reference"/>
+        <attr name="actionBarTabBarStyle" format="reference"/>
+        <attr name="actionBarTabTextStyle" format="reference"/>
+        <attr name="actionOverflowButtonStyle" format="reference"/>
+        <attr name="actionOverflowMenuStyle" format="reference"/>
+        <attr name="actionBarPopupTheme" format="reference"/>
+        <attr name="actionBarStyle" format="reference"/>
+        <attr name="actionBarSplitStyle" format="reference"/>
+        <attr name="actionBarTheme" format="reference"/>
+        <attr name="actionModeTheme" format="reference"/>
+        <attr name="actionBarWidgetTheme" format="reference"/>
+        <attr name="actionBarSize" format="dimension">
+            <enum name="wrap_content" value="0"/>
+        </attr>
+        <attr name="actionBarDivider" format="reference"/>
+        <attr name="actionBarItemBackground" format="reference"/>
+        <attr name="actionMenuTextAppearance" format="reference"/>
+        <attr name="actionMenuTextColor" format="color|reference"/>
+        <attr name="actionModeStyle" format="reference"/>
+        <attr name="actionModeCloseButtonStyle" format="reference"/>
+        <attr name="actionModeBackground" format="reference"/>
+        <attr name="actionModeSplitBackground" format="reference"/>
+        <attr name="actionModeCloseDrawable" format="reference"/>
+        <attr name="actionModeCutDrawable" format="reference"/>
+        <attr name="actionModeCopyDrawable" format="reference"/>
+        <attr name="actionModePasteDrawable" format="reference"/>
+        <attr name="actionModeSelectAllDrawable" format="reference"/>
+        <attr name="actionModeShareDrawable" format="reference"/>
+        <attr name="actionModeFindDrawable" format="reference"/>
+        <attr name="actionModeWebSearchDrawable" format="reference"/>
+        <attr name="actionModeCloseContentDescription" format="string"/>
+        <attr name="actionModePopupWindowStyle" format="reference"/>
+        <attr name="textAppearanceLargePopupMenu" format="reference"/>
+        <attr name="textAppearanceSmallPopupMenu" format="reference"/>
+        <attr name="textAppearancePopupMenuHeader" format="reference"/>
+        <attr name="dialogTheme" format="reference"/>
+        <attr name="dialogPreferredPadding" format="dimension"/>
+        <attr name="listDividerAlertDialog" format="reference"/>
+        <attr name="dialogCornerRadius" format="dimension"/>
+        <attr name="actionDropDownStyle" format="reference"/>
+        <attr name="dropdownListPreferredItemHeight" format="dimension"/>
+        <attr name="spinnerDropDownItemStyle" format="reference"/>
+        <attr name="homeAsUpIndicator" format="reference"/>
+        <attr name="actionButtonStyle" format="reference"/>
+        <attr name="buttonBarStyle" format="reference"/>
+        <attr name="buttonBarButtonStyle" format="reference"/>
+        <attr name="selectableItemBackground" format="reference"/>
+        <attr name="selectableItemBackgroundBorderless" format="reference"/>
+        <attr name="borderlessButtonStyle" format="reference"/>
+        <attr name="dividerVertical" format="reference"/>
+        <attr name="dividerHorizontal" format="reference"/>
+        <attr name="activityChooserViewStyle" format="reference"/>
+        <attr name="toolbarStyle" format="reference"/>
+        <attr name="toolbarNavigationButtonStyle" format="reference"/>
+        <attr name="popupMenuStyle" format="reference"/>
+        <attr name="popupWindowStyle" format="reference"/>
+        <attr name="editTextColor" format="color|reference"/>
+        <attr name="editTextBackground" format="reference"/>
+        <attr name="imageButtonStyle" format="reference"/>
+        <attr name="textAppearanceSearchResultTitle" format="reference"/>
+        <attr name="textAppearanceSearchResultSubtitle" format="reference"/>
+        <attr name="textColorSearchUrl" format="color|reference"/>
+        <attr name="searchViewStyle" format="reference"/>
+        <attr name="listPreferredItemHeight" format="dimension"/>
+        <attr name="listPreferredItemHeightSmall" format="dimension"/>
+        <attr name="listPreferredItemHeightLarge" format="dimension"/>
+        <attr name="listPreferredItemPaddingLeft" format="dimension"/>
+        <attr name="listPreferredItemPaddingRight" format="dimension"/>
+        <attr name="listPreferredItemPaddingStart" format="dimension"/>
+        <attr name="listPreferredItemPaddingEnd" format="dimension"/>
+        <attr name="dropDownListViewStyle" format="reference"/>
+        <attr name="listPopupWindowStyle" format="reference"/>
+        <attr name="textAppearanceListItem" format="reference"/>
+        <attr name="textAppearanceListItemSecondary" format="reference"/>
+        <attr name="textAppearanceListItemSmall" format="reference"/>
+        <attr name="panelBackground" format="reference"/>
+        <attr name="panelMenuListWidth" format="dimension"/>
+        <attr name="panelMenuListTheme" format="reference"/>
+        <attr name="listChoiceBackgroundIndicator" format="reference"/>
+        <attr name="colorPrimary" format="color"/>
+        <attr name="colorPrimaryDark" format="color"/>
+        <attr name="colorAccent" format="color"/>
+        <attr name="colorControlNormal" format="color"/>
+        <attr name="colorControlActivated" format="color"/>
+        <attr name="colorControlHighlight" format="color"/>
+        <attr name="colorButtonNormal" format="color"/>
+        <attr name="colorSwitchThumbNormal" format="color"/>
+        <attr name="controlBackground" format="reference"/>
+        <attr name="colorBackgroundFloating" format="color"/>
+        <attr name="alertDialogStyle" format="reference"/>
+        <attr name="alertDialogButtonGroupStyle" format="reference"/>
+        <attr name="alertDialogCenterButtons" format="boolean"/>
+        <attr name="alertDialogTheme" format="reference"/>
+        <attr name="textColorAlertDialogListItem" format="color|reference"/>
+        <attr name="buttonBarPositiveButtonStyle" format="reference"/>
+        <attr name="buttonBarNegativeButtonStyle" format="reference"/>
+        <attr name="buttonBarNeutralButtonStyle" format="reference"/>
+        <attr name="autoCompleteTextViewStyle" format="reference"/>
+        <attr name="buttonStyle" format="reference"/>
+        <attr name="buttonStyleSmall" format="reference"/>
+        <attr name="checkboxStyle" format="reference"/>
+        <attr name="checkedTextViewStyle" format="reference"/>
+        <attr name="editTextStyle" format="reference"/>
+        <attr name="radioButtonStyle" format="reference"/>
+        <attr name="ratingBarStyle" format="reference"/>
+        <attr name="ratingBarStyleIndicator" format="reference"/>
+        <attr name="ratingBarStyleSmall" format="reference"/>
+        <attr name="seekBarStyle" format="reference"/>
+        <attr name="spinnerStyle" format="reference"/>
+        <attr name="switchStyle" format="reference"/>
+        <attr name="listMenuViewStyle" format="reference"/>
+        <attr name="tooltipFrameBackground" format="reference"/>
+        <attr name="tooltipForegroundColor" format="color|reference"/>
+        <attr name="colorError" format="color|reference"/>
+        <attr name="viewInflaterClass" format="string"/>
+        <attr name="listChoiceIndicatorSingleAnimated" format="reference"/>
+        <attr name="listChoiceIndicatorMultipleAnimated" format="reference"/>
+    </declare-styleable>
+    <!-- -->
+    <eat-comment/>
+
+    <declare-styleable name="BackgroundStyle">
+        <attr name="android:selectableItemBackground"/>
+        <attr name="selectableItemBackground"/>
+    </declare-styleable>
+    <!-- -->
+    <eat-comment/>
+
+    <declare-styleable name="ButtonBarLayout">
+        <attr name="allowStacking" format="boolean"/>
+    </declare-styleable>
+    <!-- -->
+    <eat-comment/>
+
+    <declare-styleable name="Capability">
+        <attr name="queryPatterns" format="reference"/>
+        <attr name="shortcutMatchRequired" format="boolean"/>
+    </declare-styleable>
+    <!-- -->
+    <eat-comment/>
+
+    <declare-styleable name="CardListView">
+        <attr name="headerDividersEnabled"/>
+        <attr name="footerDividersEnabled"/>
+        <attr name="middleDividersEnabled"/>
+    </declare-styleable>
+    <!-- -->
+    <eat-comment/>
+
+    <declare-styleable name="CheckBoxPreference">
+        <attr name="summaryOn" format="string"/>
+        <attr name="android:summaryOn"/>
+        <attr name="summaryOff" format="string"/>
+        <attr name="android:summaryOff"/>
+        <attr name="disableDependentsState" format="boolean"/>
+        <attr name="android:disableDependentsState"/>
+    </declare-styleable>
+    <!-- -->
+    <eat-comment/>
+
+    <declare-styleable name="CheckedTextView">
+        <attr name="android:checkMark"/>
+        <attr name="checkMarkCompat" format="reference"/>
+        <attr name="checkMarkTint" format="color"/>
+        <attr name="checkMarkTintMode">
+            <enum name="src_over" value="3"/>
+            <enum name="src_in" value="5"/>
+            <enum name="src_atop" value="9"/>
+            <enum name="multiply" value="14"/>
+            <enum name="screen" value="15"/>
+            <enum name="add" value="16"/>
+        </attr>
+    </declare-styleable>
+    <!-- -->
+    <eat-comment/>
+
+    <declare-styleable name="ColorStateListItem">
+        <attr name="android:color"/>
+        <attr name="alpha" format="float"/>
+        <attr name="android:alpha"/>
+        <attr name="lStar" format="float"/>
+        <attr name="android:lStar"/>
+    </declare-styleable>
+    <!-- -->
+    <eat-comment/>
+
+    <declare-styleable name="CompactIconList">
+        <attr name="evenSpacing" format="boolean"/>
+        <attr name="alwaysShowEllipsis" format="boolean"/>
+    </declare-styleable>
+    <declare-styleable name="CompactMultiTextLinearLayout">
+        <attr name="maxLinesInTotal" format="integer"/>
+        <attr name="maxLinesPerView" format="integer"/>
+    </declare-styleable>
+    <!-- -->
+    <eat-comment/>
+
+    <declare-styleable name="CompoundButton">
+        <attr name="android:button"/>
+        <attr name="buttonCompat" format="reference"/>
+        <attr name="buttonTint" format="color"/>
+        <attr name="buttonTintMode">
+            <enum name="src_over" value="3"/>
+            <enum name="src_in" value="5"/>
+            <enum name="src_atop" value="9"/>
+            <enum name="multiply" value="14"/>
+            <enum name="screen" value="15"/>
+            <enum name="add" value="16"/>
+        </attr>
+    </declare-styleable>
+    <!-- -->
+    <eat-comment/>
+
+    <declare-styleable name="DialogPreference">
+        <attr name="dialogTitle" format="string"/>
+        <attr name="android:dialogTitle"/>
+        <attr name="dialogMessage" format="string"/>
+        <attr name="android:dialogMessage"/>
+        <attr name="dialogIcon" format="reference"/>
+        <attr name="android:dialogIcon"/>
+        <attr name="positiveButtonText" format="string"/>
+        <attr name="android:positiveButtonText"/>
+        <attr name="negativeButtonText" format="string"/>
+        <attr name="android:negativeButtonText"/>
+        <attr name="dialogLayout" format="reference"/>
+        <attr name="android:dialogLayout"/>
+    </declare-styleable>
+    <!-- -->
+    <eat-comment/>
+
+    <declare-styleable name="DrawerArrowToggle">
+        <attr name="color" format="color"/>
+        <attr name="spinBars" format="boolean"/>
+        <attr name="drawableSize" format="dimension"/>
+        <attr name="gapBetweenBars" format="dimension"/>
+        <attr name="arrowHeadLength" format="dimension"/>
+        <attr name="arrowShaftLength" format="dimension"/>
+        <attr name="barLength" format="dimension"/>
+        <attr name="thickness" format="dimension"/>
+    </declare-styleable>
+    <!-- -->
+    <eat-comment/>
+
+    <declare-styleable name="EditTextPreference">
+        <attr name="useSimpleSummaryProvider" format="boolean"/>
+    </declare-styleable>
+    <!-- -->
+    <eat-comment/>
+
+    <declare-styleable name="EllipsizedList">
+        <attr name="ellipsisView" format="reference"/>
+        <attr name="itemMarginsMinimum" format="reference"/>
+    </declare-styleable>
+    <declare-styleable name="EllipsizedMultiLineList">
+        <attr name="ellipsisMultiView" format="reference"/>
+        <attr name="itemMarginsMultiMinimum" format="reference"/>
+        <attr name="lineMarginsMultiMinimum" format="reference"/>
+    </declare-styleable>
+    <declare-styleable name="ExpandableTextView">
+        <attr name="collapsedLineCount" format="integer"/>
+        <attr name="expandedLineCount" format="integer"/>
+    </declare-styleable>
+    <!-- -->
+    <eat-comment/>
+
+    <declare-styleable name="FlexibleVerticalPriorityLayout_Layout">
+        <attr name="local_priority" format="integer"/>
+    </declare-styleable>
+    <!-- -->
+    <eat-comment/>
+
+    <declare-styleable name="FloatingBar">
+        <attr name="text" format="reference|string"/>
+        <attr name="button1Text" format="reference|string"/>
+        <attr name="button2Text" format="reference|string"/>
+    </declare-styleable>
+    <!-- -->
+    <eat-comment/>
+
+    <declare-styleable name="FontFamily">
+        <attr name="fontProviderAuthority" format="string"/>
+        <attr name="fontProviderPackage" format="string"/>
+        <attr name="fontProviderQuery" format="string"/>
+        <attr name="fontProviderFallbackQuery" format="string"/>
+        <attr name="fontProviderCerts" format="reference"/>
+        <attr name="fontProviderFetchStrategy">
+            <enum name="blocking" value="0"/>
+            <enum name="async" value="1"/>
+        </attr>
+        <attr name="fontProviderFetchTimeout" format="integer">
+            <enum name="forever" value="-1"/>
+        </attr>
+        <attr name="fontProviderSystemFontFamily" format="string"/>
+    </declare-styleable>
+    
+    <declare-styleable name="GradientColor">
+        <attr name="android:startColor"/>
+        <attr name="android:centerColor"/>
+        <attr name="android:endColor"/>
+        <attr name="android:type"/>
+        <attr name="android:gradientRadius"/>
+        <attr name="android:centerX"/>
+        <attr name="android:centerY"/>
+        <attr name="android:startX"/>
+        <attr name="android:startY"/>
+        <attr name="android:endX"/>
+        <attr name="android:endY"/>
+        <attr name="android:tileMode"/>
+    </declare-styleable>
+    <declare-styleable name="GradientColorItem">
+        <attr name="android:offset"/>
+        <attr name="android:color"/>
+    </declare-styleable>
+    <!-- -->
+    <eat-comment/>
+
+    <declare-styleable name="LinearLayoutCompat">
+        <attr name="android:orientation"/>
+        <attr name="android:gravity"/>
+        <attr name="android:baselineAligned"/>
+        <attr name="android:baselineAlignedChildIndex"/>
+        <attr name="android:weightSum"/>
+        <attr name="measureWithLargestChild" format="boolean"/>
+        <attr name="divider"/>
+        <attr name="showDividers">
+            <flag name="none" value="0"/>
+            <flag name="beginning" value="1"/>
+            <flag name="middle" value="2"/>
+            <flag name="end" value="4"/>
+        </attr>
+        <attr name="dividerPadding" format="dimension"/>
+    </declare-styleable>
+    <declare-styleable name="LinearLayoutCompat_Layout">
+        <attr name="android:layout_width"/>
+        <attr name="android:layout_height"/>
+        <attr name="android:layout_weight"/>
+        <attr name="android:layout_gravity"/>
+    </declare-styleable>
+    <!-- -->
+    <eat-comment/>
+
+    <declare-styleable name="ListItemView">
+        <attr name="paddingTop" format="dimension|reference"/>
+        <attr name="paddingBottom" format="dimension|reference"/>
+        <attr name="titleCount" format="integer"/>
+        <attr name="titlesTextAppearance" format="reference"/>
+        <attr name="titlesTruncate" format="boolean"/>
+        <attr name="titlesMaxLines" format="integer"/>
+        <attr name="titlesGravity">
+            <enum name="start" value="0"/>
+            <enum name="end" value="1"/>
+            <enum name="center" value="2"/>
+        </attr>
+        <attr name="subcopyTextAppearance" format="reference"/>
+        <attr name="subcopyTruncate" format="boolean"/>
+        <attr name="subtitleCount" format="integer"/>
+        <attr name="subtitlesTextAppearance" format="reference"/>
+        <attr name="subtitlesTruncate" format="boolean"/>
+        <attr name="subtitlesGravity">
+            <enum name="start" value="0"/>
+            <enum name="end" value="1"/>
+            <enum name="center" value="2"/>
+        </attr>
+        <attr name="showRightDivider" format="boolean"/>
+        <attr name="rightImagePaddingStart" format="dimension"/>
+        <attr name="rightImagePaddingMiddle" format="dimension"/>
+        <attr name="rightImagePaddingEnd" format="dimension"/>
+        <attr name="textContainerMarginEnd" format="dimension"/>
+        <attr name="leftImagePosition">
+            <enum name="title" value="0"/>
+            <enum name="center" value="1"/>
+        </attr>
+        <attr name="minHeight" format="dimension"/>
+    </declare-styleable>
+    <!-- -->
+    <eat-comment/>
+
+    <declare-styleable name="ListPopupWindow">
+        <attr name="android:dropDownVerticalOffset"/>
+        <attr name="android:dropDownHorizontalOffset"/>
+    </declare-styleable>
+    <!-- -->
+    <eat-comment/>
+
+    <declare-styleable name="ListPreference">
+        <attr name="entries" format="reference"/>
+        <attr name="android:entries"/>
+        <attr name="entryValues" format="reference"/>
+        <attr name="android:entryValues"/>
+        <attr name="useSimpleSummaryProvider"/>
+    </declare-styleable>
+    <!-- -->
+    <eat-comment/>
+
+    <declare-styleable name="ListViewProxy">
+        <attr name="headerDividersEnabled"/>
+        <attr name="footerDividersEnabled"/>
+        <attr name="middleDividersEnabled"/>
+        <attr name="singleColumn" format="boolean"/>
+        <attr name="cardList" format="boolean"/>
+        <attr name="invisibleListCard" format="boolean"/>
+    </declare-styleable>
+    <declare-styleable name="ListenerView">
+        <attr name="target" format="reference"/>
+    </declare-styleable>
+    <!-- -->
+    <eat-comment/>
+
+    <declare-styleable name="MapAttrs">
+        <attr name="mapType">
+            <enum name="none" value="0"/>
+            <enum name="normal" value="1"/>
+            <enum name="satellite" value="2"/>
+            <enum name="terrain" value="3"/>
+            <enum name="hybrid" value="4"/>
+        </attr>
+        <attr name="cameraBearing" format="float"/>
+        <attr name="cameraTargetLat" format="float"/>
+        <attr name="cameraTargetLng" format="float"/>
+        <attr name="cameraTilt" format="float"/>
+        <attr name="cameraZoom" format="float"/>
+        <attr name="liteMode" format="boolean"/>
+        <attr name="uiCompass" format="boolean"/>
+        <attr name="uiRotateGestures" format="boolean"/>
+        <attr name="uiScrollGestures" format="boolean"/>
+        <attr name="uiScrollGesturesDuringRotateOrZoom" format="boolean"/>
+        <attr name="uiTiltGestures" format="boolean"/>
+        <attr name="uiZoomControls" format="boolean"/>
+        <attr name="uiZoomGestures" format="boolean"/>
+        <attr name="useViewLifecycle" format="boolean"/>
+        <attr name="zOrderOnTop" format="boolean"/>
+        <attr name="uiMapToolbar" format="boolean"/>
+        <attr name="ambientEnabled" format="boolean"/>
+        <attr name="cameraMinZoomPreference" format="float"/>
+        <attr name="cameraMaxZoomPreference" format="float"/>
+        <attr name="latLngBoundsSouthWestLatitude" format="float"/>
+        <attr name="latLngBoundsSouthWestLongitude" format="float"/>
+        <attr name="latLngBoundsNorthEastLatitude" format="float"/>
+        <attr name="latLngBoundsNorthEastLongitude" format="float"/>
+        <attr name="mapId" format="string"/>
+        <attr name="backgroundColor" format="color"/>
+        <attr name="mapColorScheme">
+            <enum name="light" value="0"/>
+            <enum name="dark" value="1"/>
+            <enum name="follow_system" value="2"/>
+        </attr>
+    </declare-styleable>
+    <!-- -->
+    <eat-comment/>
+
+    <declare-styleable name="MaskedLinearLayout">
+        <attr name="maskDrawable" format="reference"/>
+    </declare-styleable>
+    <!-- -->
+    <eat-comment/>
+
+    <declare-styleable name="MenuGroup">
+        <attr name="android:id"/>
+        <attr name="android:menuCategory"/>
+        <attr name="android:orderInCategory"/>
+        <attr name="android:checkableBehavior"/>
+        <attr name="android:visible"/>
+        <attr name="android:enabled"/>
+    </declare-styleable>
+    <declare-styleable name="MenuItem">
+        <attr name="android:id"/>
+        <attr name="android:menuCategory"/>
+        <attr name="android:orderInCategory"/>
+        <attr name="android:title"/>
+        <attr name="android:titleCondensed"/>
+        <attr name="android:icon"/>
+        <attr name="android:alphabeticShortcut"/>
+        <attr name="alphabeticModifiers">
+            <flag name="META" value="0x10000"/>
+            <flag name="CTRL" value="0x1000"/>
+            <flag name="ALT" value="0x02"/>
+            <flag name="SHIFT" value="0x1"/>
+            <flag name="SYM" value="0x4"/>
+            <flag name="FUNCTION" value="0x8"/>
+        </attr>
+        <attr name="android:numericShortcut"/>
+        <attr name="numericModifiers">
+            <flag name="META" value="0x10000"/>
+            <flag name="CTRL" value="0x1000"/>
+            <flag name="ALT" value="0x02"/>
+            <flag name="SHIFT" value="0x1"/>
+            <flag name="SYM" value="0x4"/>
+            <flag name="FUNCTION" value="0x8"/>
+        </attr>
+        <attr name="android:checkable"/>
+        <attr name="android:checked"/>
+        <attr name="android:visible"/>
+        <attr name="android:enabled"/>
+        <attr name="android:onClick"/>
+        <attr name="showAsAction">
+            <flag name="never" value="0"/>
+            <flag name="ifRoom" value="1"/>
+            <flag name="always" value="2"/>
+            <flag name="withText" value="4"/>
+            <flag name="collapseActionView" value="8"/>
+        </attr>
+        <attr name="actionLayout" format="reference"/>
+        <attr name="actionViewClass" format="string"/>
+        <attr name="actionProviderClass" format="string"/>
+        <attr name="contentDescription" format="string"/>
+        <attr name="tooltipText" format="string"/>
+        <attr name="iconTint" format="color"/>
+        <attr name="iconTintMode">
+            <enum name="src_over" value="3"/>
+            <enum name="src_in" value="5"/>
+            <enum name="src_atop" value="9"/>
+            <enum name="multiply" value="14"/>
+            <enum name="screen" value="15"/>
+            <enum name="add" value="16"/>
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="MenuView">
+        <attr name="android:itemTextAppearance"/>
+        <attr name="android:horizontalDivider"/>
+        <attr name="android:verticalDivider"/>
+        <attr name="android:headerBackground"/>
+        <attr name="android:itemBackground"/>
+        <attr name="android:windowAnimationStyle"/>
+        <attr name="android:itemIconDisabledAlpha"/>
+        <attr name="preserveIconSpacing" format="boolean"/>
+        <attr name="subMenuArrow" format="reference"/>
+    </declare-styleable>
+    <!-- -->
+    <eat-comment/>
+
+    <declare-styleable name="MultiSelectListPreference">
+        <attr name="entries"/>
+        <attr name="android:entries"/>
+        <attr name="entryValues"/>
+        <attr name="android:entryValues"/>
+    </declare-styleable>
+    <!-- -->
+    <eat-comment/>
+
+    <declare-styleable name="PopupWindow">
+        <attr name="overlapAnchor" format="boolean"/>
+        <attr name="android:popupBackground"/>
+        <attr name="android:popupAnimationStyle"/>
+    </declare-styleable>
+    <declare-styleable name="PopupWindowBackgroundState">
+        <attr name="state_above_anchor" format="boolean"/>
+    </declare-styleable>
+    <!-- -->
+    <eat-comment/>
+
+    <declare-styleable name="Preference">
+        <attr name="icon"/>
+        <attr name="android:icon"/>
+        <attr name="key" format="string"/>
+        <attr name="android:key"/>
+        <attr name="title"/>
+        <attr name="android:title"/>
+        <attr name="summary" format="string"/>
+        <attr name="android:summary"/>
+        <attr name="order" format="integer"/>
+        <attr name="android:order"/>
+        <attr name="fragment" format="string"/>
+        <attr name="android:fragment"/>
+        <attr name="layout"/>
+        <attr name="android:layout"/>
+        <attr name="widgetLayout" format="reference"/>
+        <attr name="android:widgetLayout"/>
+        <attr name="enabled" format="boolean"/>
+        <attr name="android:enabled"/>
+        <attr name="selectable" format="boolean"/>
+        <attr name="android:selectable"/>
+        <attr name="dependency" format="string"/>
+        <attr name="android:dependency"/>
+        <attr name="persistent" format="boolean"/>
+        <attr name="android:persistent"/>
+        <attr name="defaultValue" format="boolean|float|integer|reference|string"/>
+        <attr name="android:defaultValue"/>
+        <attr name="shouldDisableView" format="boolean"/>
+        <attr name="android:shouldDisableView"/>
+        <attr name="allowDividerAbove" format="boolean"/>
+        <attr name="allowDividerBelow" format="boolean"/>
+        <attr name="singleLineTitle" format="boolean"/>
+        <attr name="android:singleLineTitle"/>
+        <attr name="iconSpaceReserved" format="boolean"/>
+        <attr name="android:iconSpaceReserved"/>
+        <attr name="isPreferenceVisible" format="boolean"/>
+        <attr name="enableCopying" format="boolean"/>
+    </declare-styleable>
+    <declare-styleable name="PreferenceFragment">
+        <attr name="android:layout"/>
+        <attr name="android:divider"/>
+        <attr name="android:dividerHeight"/>
+        <attr name="allowDividerAfterLastItem"/>
+    </declare-styleable>
+    <declare-styleable name="PreferenceFragmentCompat">
+        <attr name="android:layout"/>
+        <attr name="android:divider"/>
+        <attr name="android:dividerHeight"/>
+        <attr name="allowDividerAfterLastItem" format="boolean"/>
+    </declare-styleable>
+    <declare-styleable name="PreferenceGroup">
+        <attr name="orderingFromXml" format="boolean"/>
+        <attr name="android:orderingFromXml"/>
+        <attr name="initialExpandedChildrenCount" format="integer"/>
+    </declare-styleable>
+    <declare-styleable name="PreferenceImageView">
+        <attr name="maxWidth" format="dimension"/>
+        <attr name="android:maxWidth"/>
+        <attr name="maxHeight" format="dimension"/>
+        <attr name="android:maxHeight"/>
+    </declare-styleable>
+    <declare-styleable name="PreferenceTheme">
+        <attr name="preferenceTheme" format="reference"/>
+        <attr name="preferenceCategoryTitleTextAppearance" format="reference"/>
+        <attr name="preferenceCategoryTitleTextColor" format="color|reference"/>
+        <attr name="preferenceScreenStyle" format="reference"/>
+        <attr name="preferenceFragmentStyle" format="reference"/>
+        <attr name="preferenceFragmentCompatStyle" format="reference"/>
+        <attr name="preferenceCategoryStyle" format="reference"/>
+        <attr name="preferenceStyle" format="reference"/>
+        <attr name="preferenceInformationStyle" format="reference"/>
+        <attr name="checkBoxPreferenceStyle" format="reference"/>
+        <attr name="dialogPreferenceStyle" format="reference"/>
+        <attr name="editTextPreferenceStyle" format="reference"/>
+        <attr name="dropdownPreferenceStyle" format="reference"/>
+        <attr name="preferenceFragmentListStyle" format="reference"/>
+        <attr name="switchPreferenceStyle" format="reference"/>
+        <attr name="switchPreferenceCompatStyle" format="reference"/>
+        <attr name="seekBarPreferenceStyle" format="reference"/>
+    </declare-styleable>
+    <!-- -->
+    <eat-comment/>
+
+    <declare-styleable name="RadioButtonText">
+        <attr name="startText" format="string"/>
+        <attr name="middleText" format="string"/>
+        <attr name="endText" format="string"/>
+        <attr name="titleText" format="string"/>
+        <attr name="bottomPadding" format="dimension"/>
+    </declare-styleable>
+    <!-- -->
+    <eat-comment/>
+
+    <declare-styleable name="RecycleListView">
+        <attr name="paddingBottomNoButtons" format="dimension"/>
+        <attr name="paddingTopNoTitle" format="dimension"/>
+    </declare-styleable>
+    <!-- -->
+    <eat-comment/>
+
+    <declare-styleable name="RoundMaskedLinearLayout">
+        <attr name="roundMaskedLinearLayoutBorderColor" format="reference"/>
+    </declare-styleable>
+    <!-- -->
+    <eat-comment/>
+
+    <declare-styleable name="SearchView">
+        <attr name="layout" format="reference"/>
+        <attr name="iconifiedByDefault" format="boolean"/>
+        <attr name="android:maxWidth"/>
+        <attr name="queryHint" format="string"/>
+        <attr name="defaultQueryHint" format="string"/>
+        <attr name="android:imeOptions"/>
+        <attr name="android:inputType"/>
+        <attr name="closeIcon" format="reference"/>
+        <attr name="goIcon" format="reference"/>
+        <attr name="searchIcon" format="reference"/>
+        <attr name="searchHintIcon" format="reference"/>
+        <attr name="voiceIcon" format="reference"/>
+        <attr name="commitIcon" format="reference"/>
+        <attr name="suggestionRowLayout" format="reference"/>
+        <attr name="queryBackground" format="reference"/>
+        <attr name="submitBackground" format="reference"/>
+        <attr name="android:focusable"/>
+    </declare-styleable>
+    <!-- -->
+    <eat-comment/>
+
+    <declare-styleable name="SeekBarPreference">
+        <attr name="min" format="integer"/>
+        <attr name="android:max"/>
+        <attr name="android:layout"/>
+        <attr name="seekBarIncrement" format="integer"/>
+        <attr name="adjustable" format="boolean"/>
+        <attr name="showSeekBarValue" format="boolean"/>
+        <attr name="updatesContinuously" format="boolean"/>
+    </declare-styleable>
+    <!-- -->
+    <eat-comment/>
+
+    <declare-styleable name="Spinner">
+        <attr name="android:prompt"/>
+        <attr name="popupTheme"/>
+        <attr name="android:popupBackground"/>
+        <attr name="android:dropDownWidth"/>
+        <attr name="android:entries"/>
+    </declare-styleable>
+    <!-- -->
+    <eat-comment/>
+
+    <declare-styleable name="StateListDrawable">
+        <attr name="android:visible"/>
+        <attr name="android:variablePadding"/>
+        <attr name="android:constantSize"/>
+        <attr name="android:dither"/>
+        <attr name="android:enterFadeDuration"/>
+        <attr name="android:exitFadeDuration"/>
+    </declare-styleable>
+    <declare-styleable name="StateListDrawableItem">
+        <attr name="android:drawable"/>
+    </declare-styleable>
+    <!-- -->
+    <eat-comment/>
+
+    <declare-styleable name="SwipableDatePicker">
+        <attr name="numberOfPageBuffers" format="integer"/>
+    </declare-styleable>
+    <!-- -->
+    <eat-comment/>
+
+    <declare-styleable name="SwitchCompat">
+        <attr name="android:thumb"/>
+        <attr name="thumbTint" format="color"/>
+        <attr name="thumbTintMode">
+            <enum name="src_over" value="3"/>
+            <enum name="src_in" value="5"/>
+            <enum name="src_atop" value="9"/>
+            <enum name="multiply" value="14"/>
+            <enum name="screen" value="15"/>
+            <enum name="add" value="16"/>
+        </attr>
+        <attr name="track" format="reference"/>
+        <attr name="trackTint" format="color"/>
+        <attr name="trackTintMode">
+            <enum name="src_over" value="3"/>
+            <enum name="src_in" value="5"/>
+            <enum name="src_atop" value="9"/>
+            <enum name="multiply" value="14"/>
+            <enum name="screen" value="15"/>
+            <enum name="add" value="16"/>
+        </attr>
+        <attr name="android:textOn"/>
+        <attr name="android:textOff"/>
+        <attr name="thumbTextPadding" format="dimension"/>
+        <attr name="switchTextAppearance" format="reference"/>
+        <attr name="switchMinWidth" format="dimension"/>
+        <attr name="switchPadding" format="dimension"/>
+        <attr name="splitTrack" format="boolean"/>
+        <attr name="showText" format="boolean"/>
+    </declare-styleable>
+    <!-- -->
+    <eat-comment/>
+
+    <declare-styleable name="SwitchPreference">
+        <attr name="summaryOn"/>
+        <attr name="android:summaryOn"/>
+        <attr name="summaryOff"/>
+        <attr name="android:summaryOff"/>
+        <attr name="switchTextOn"/>
+        <attr name="android:switchTextOn"/>
+        <attr name="switchTextOff"/>
+        <attr name="android:switchTextOff"/>
+        <attr name="disableDependentsState"/>
+        <attr name="android:disableDependentsState"/>
+    </declare-styleable>
+    <declare-styleable name="SwitchPreferenceCompat">
+        <attr name="summaryOn"/>
+        <attr name="android:summaryOn"/>
+        <attr name="summaryOff"/>
+        <attr name="android:summaryOff"/>
+        <attr name="switchTextOn" format="string"/>
+        <attr name="android:switchTextOn"/>
+        <attr name="switchTextOff" format="string"/>
+        <attr name="android:switchTextOff"/>
+        <attr name="disableDependentsState"/>
+        <attr name="android:disableDependentsState"/>
+    </declare-styleable>
+    <!-- -->
+    <eat-comment/>
+
+    <declare-styleable name="TextAppearance">
+        <attr name="android:textSize"/>
+        <attr name="android:textColor"/>
+        <attr name="android:textColorHint"/>
+        <attr name="android:textColorLink"/>
+        <attr name="android:textStyle"/>
+        <attr name="android:textFontWeight"/>
+        <attr name="android:typeface"/>
+        <attr name="android:fontFamily"/>
+        <attr name="fontFamily"/>
+        <attr name="textAllCaps"/>
+        <attr name="textLocale"/>
+        <attr name="android:shadowColor"/>
+        <attr name="android:shadowDy"/>
+        <attr name="android:shadowDx"/>
+        <attr name="android:shadowRadius"/>
+        <attr name="fontVariationSettings"/>
+    </declare-styleable>
+    <declare-styleable name="Toolbar">
+        <attr name="titleTextAppearance" format="reference"/>
+        <attr name="subtitleTextAppearance" format="reference"/>
+        <attr name="title"/>
+        <attr name="subtitle"/>
+        <attr name="android:gravity"/>
+        <attr name="titleMargin" format="dimension"/>
+        <attr name="titleMarginStart" format="dimension"/>
+        <attr name="titleMarginEnd" format="dimension"/>
+        <attr name="titleMarginTop" format="dimension"/>
+        <attr name="titleMarginBottom" format="dimension"/>
+        <attr name="titleMargins" format="dimension"/>
+        <attr name="contentInsetStart"/>
+        <attr name="contentInsetEnd"/>
+        <attr name="contentInsetLeft"/>
+        <attr name="contentInsetRight"/>
+        <attr name="contentInsetStartWithNavigation"/>
+        <attr name="contentInsetEndWithActions"/>
+        <attr name="maxButtonHeight" format="dimension"/>
+        <attr name="buttonGravity">
+            <flag name="center_vertical" value="0x10"/>
+            <flag name="top" value="0x30"/>
+            <flag name="bottom" value="0x50"/>
+        </attr>
+        <attr name="collapseIcon" format="reference"/>
+        <attr name="collapseContentDescription" format="string"/>
+        <attr name="popupTheme"/>
+        <attr name="navigationIcon" format="reference"/>
+        <attr name="navigationContentDescription" format="string"/>
+        <attr name="logo"/>
+        <attr name="logoDescription" format="string"/>
+        <attr name="titleTextColor" format="color"/>
+        <attr name="subtitleTextColor" format="color"/>
+        <attr name="android:minHeight"/>
+        <attr name="menu" format="reference"/>
+    </declare-styleable>
+    <!-- -->
+    <eat-comment/>
+
+    <declare-styleable name="TransitVehicleItem">
+        <attr name="desiredCompoundDrawablePadding" format="reference"/>
+    </declare-styleable>
+    <!-- -->
+    <eat-comment/>
+
+    <declare-styleable name="View">
+        <attr name="paddingStart" format="dimension"/>
+        <attr name="paddingEnd" format="dimension"/>
+        <attr name="android:focusable"/>
+        <attr name="theme" format="reference"/>
+        <attr name="android:theme"/>
+    </declare-styleable>
+    <declare-styleable name="ViewBackgroundHelper">
+        <attr name="android:background"/>
+        <attr name="backgroundTint" format="color"/>
+        <attr name="backgroundTintMode">
+            <enum name="src_over" value="3"/>
+            <enum name="src_in" value="5"/>
+            <enum name="src_atop" value="9"/>
+            <enum name="multiply" value="14"/>
+            <enum name="screen" value="15"/>
+            <enum name="add" value="16"/>
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="ViewStubCompat">
+        <attr name="android:layout"/>
+        <attr name="android:inflatedId"/>
+        <attr name="android:id"/>
+    </declare-styleable>
+
+</resources>

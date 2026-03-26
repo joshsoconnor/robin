@@ -32,9 +32,14 @@ export const StreetViewWrapper: React.FC<StreetViewWrapperProps> = ({
             position: { lat, lng },
             pov: { heading: 0, pitch: 0 },
             zoom: 1,
-            disableDefaultUI: true, // We will build our own UI controls if needed, or keep it clean
+            disableDefaultUI: false, // Allow native pan/zoom controls for free look-around
+            enableCloseButton: false, // Disable Google's native close button so ours commands the state
             clickToGo: true,
+            linksControl: true,      // Allow navigating to adjacent street nodes
+            panControl: true,        // Show on-screen pan control
             showRoadLabels: true,
+            motionTracking: false,
+            motionTrackingControl: false,
         });
 
         setPanorama(panoramaInstance);

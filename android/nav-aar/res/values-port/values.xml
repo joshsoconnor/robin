@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- blaze-out/k8-opt/bin/third_party/java/androidx/appcompat/hack_for_licenses/third_party/java/androidx/appcompat/hack_for_licenses/res/values-port/values-port.xml -->
+    <eat-comment />
+
+    <bool name="abc_action_bar_embed_tabs">false</bool>
+    <!-- blaze-out/k8-opt/genfiles/java/com/google/android/apps/gmm/navigation/resources/NAV_API_RELEASE/processed/res/values-port/dimens.xml -->
+    <eat-comment />
+
+    <dimen name="navigation_header_with_grippy_height">84sp</dimen>
+
+</resources>

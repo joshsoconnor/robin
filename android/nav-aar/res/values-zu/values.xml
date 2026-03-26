@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+
+    <!-- blaze-out/k8-opt/genfiles/java/com/google/maps/api/android/lib6/res/values-zu/maps_strings.xml -->
+    <eat-comment />
+
+    <string-array name="maps_compass_directions">
+        <item>"N"</item>
+        <item>"NE"</item>
+        <item>"E"</item>
+        <item>"SE"</item>
+        <item>"S"</item>
+        <item>"SW"</item>
+        <item>"W"</item>
+        <item>"NW"</item>
+    </string-array>
+    <string-array name="maps_full_compass_directions">
+        <item>"nyakatho"</item>
+        <item>"nyakatho-mpumalanga"</item>
+        <item>"mpumalanga"</item>
+        <item>"ningizimu-mpumalanga"</item>
+        <item>"ningizimi"</item>
+        <item>"ningizumu-ntshonalanga"</item>
+        <item>"ntshonalanga"</item>
+        <item>"nyakatho-ntshonalanga"</item>
+    </string-array>
+    <!-- blaze-out/k8-opt/bin/third_party/java/androidx/appcompat/hack_for_licenses/third_party/java/androidx/appcompat/hack_for_licenses/res/values-zu/values-zu.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/bin/third_party/java/androidx/appcompat/hack_for_licenses/blaze-out/k8-opt/bin/third_party/java/androidx/core/hack_for_licenses/third_party/java/androidx/core/hack_for_licenses/res/values-zu/values-zu.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/bin/third_party/java/androidx/preference/hack_for_licenses/third_party/java/androidx/preference/hack_for_licenses/res/values-zu/values-zu.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/genfiles/java/com/google/maps/api/android/lib6/res/values-zu/maps_strings.xml -->
+    <eat-comment />
+
+    <string name="maps_API_OUTDATED_WARNING" msgid="9210820207514660247">"Lolu hlelo lokusebenza lusebenzisa inguqulo ephelelwe yisikhathi ye-Amamephu. Kungenzeka ingasebenzi kahle."</string>
+    <string name="maps_COMPASS_ALT_TEXT" msgid="6807007598222074916">"Ikhampasi"</string>
+    <string name="maps_DIRECTIONS_ALT_TEXT" msgid="3371108618085690173">"Thola izikhombisi-ndlela"</string>
+    <string name="maps_GOOGLE_MAP" msgid="1189955191774927738">"Amamephu eGoogle"</string>
+    <string name="maps_LEVEL_ALT_TEXT" msgid="2264878565827236979">"Ileveli {0}"</string>
+    <string name="maps_MY_LOCATION_ALT_TEXT" msgid="6875584096776566703">"Indawo Yami"</string>
+    <string name="maps_NO_GMM" msgid="7383272971595812419">"Amamephu eGoogleayifakiwe noma ikhutshaziwe"</string>
+    <string name="maps_OPEN_GMM_ALT_TEXT" msgid="1460559660387626258">"Vula ku-Amamephu eGoogle "</string>
+    <string name="maps_YOUR_LOCATION" msgid="175515198141357876">"Indawo yakho yamanje"</string>
+    <string name="maps_ZOOM_IN_ALT_TEXT" msgid="8499414555829263194">"Sondeza isithombe"</string>
+    <string name="maps_ZOOM_OUT_ALT_TEXT" msgid="8347872495490681122">"Hlehlisa isithombe"</string>
+    <string name="maps_default_user_error_message" msgid="7422837848992631163">"Eshu! Kukhona okungahambanga kahle."</string>
+    <string name="maps_invalid_panorama_data" msgid="2220756820707696446">"Iphanorama engavumelekile."</string>
+    <string name="maps_marker_default_on_select_content_description" msgid="2960355978460391458">"Umaka wemephu"</string>
+    <string name="maps_out_of_quota_user_error_message" msgid="3686449950764058744">"Imephu ikhutshaziwe ngoba Isabelo SIDLULIWE"</string>
+    <string name="maps_quota_blocked_user_error_message" msgid="5546437652211274896">"Imephu ikhutshaziwe ngoba isimo Sesabelo SIVINJIWE"</string>
+    <!-- blaze-out/k8-opt/bin/third_party/java/androidx/preference/hack_for_licenses/third_party/java/androidx/preference/hack_for_licenses/res/values-zu/values-zu.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/genfiles/java/com/google/maps/api/android/lib6/res/values-zu/maps_strings.xml -->
+    <eat-comment />
+
+    <string name="report_a_problem" msgid="1660595293173844803">"Bika isikhalazo"</string>
+    <!-- blaze-out/k8-opt/bin/third_party/java/androidx/appcompat/hack_for_licenses/third_party/java/androidx/appcompat/hack_for_licenses/res/values-zu/values-zu.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/bin/third_party/java/androidx/appcompat/hack_for_licenses/blaze-out/k8-opt/bin/third_party/java/androidx/core/hack_for_licenses/third_party/java/androidx/core/hack_for_licenses/res/values-zu/values-zu.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/bin/third_party/java/androidx/preference/hack_for_licenses/third_party/java/androidx/preference/hack_for_licenses/res/values-zu/values-zu.xml -->
+    <eat-comment />
+
+</resources>

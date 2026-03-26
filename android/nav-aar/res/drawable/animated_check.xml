@@ -1,0 +1,15 @@
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt">
+   <aapt:attr name="android:drawable">
+       <vector android:height="24dp" android:width="24dp" android:viewportHeight="24" android:viewportWidth="24">
+           <!-- White tick icon -->
+           <path android:name="trim_path" android:fillColor="#FFFFFF" android:pathData="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+       </vector>
+   </aapt:attr>
+
+   <target android:name="trim_path">
+       <aapt:attr name="android:animation">
+           <!-- Draw the icon left to right -->
+           <objectAnimator android:duration="800" android:interpolator="@android:interpolator/fast_out_slow_in" android:propertyName="trimPathEnd" android:valueFrom="0" android:valueTo="1"/>
+       </aapt:attr>
+   </target>
+</animated-vector>

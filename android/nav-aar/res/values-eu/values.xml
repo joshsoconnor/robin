@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+
+    <!-- blaze-out/k8-opt/genfiles/java/com/google/maps/api/android/lib6/res/values-eu/maps_strings.xml -->
+    <eat-comment />
+
+    <string-array name="maps_compass_directions">
+        <item>"I"</item>
+        <item>"IE"</item>
+        <item>"E"</item>
+        <item>"HE"</item>
+        <item>"H"</item>
+        <item>"HM"</item>
+        <item>"M"</item>
+        <item>"IM"</item>
+    </string-array>
+    <string-array name="maps_full_compass_directions">
+        <item>"iparraldea"</item>
+        <item>"ipar-ekialdea"</item>
+        <item>"ekialdea"</item>
+        <item>"hego-ekialdea"</item>
+        <item>"hegoaldea"</item>
+        <item>"hego-mendebaldea"</item>
+        <item>"mendebaldea"</item>
+        <item>"ipar-mendebaldea"</item>
+    </string-array>
+    <!-- blaze-out/k8-opt/bin/third_party/java/androidx/appcompat/hack_for_licenses/third_party/java/androidx/appcompat/hack_for_licenses/res/values-eu/values-eu.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/bin/third_party/java/androidx/appcompat/hack_for_licenses/blaze-out/k8-opt/bin/third_party/java/androidx/core/hack_for_licenses/third_party/java/androidx/core/hack_for_licenses/res/values-eu/values-eu.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/bin/third_party/java/androidx/preference/hack_for_licenses/third_party/java/androidx/preference/hack_for_licenses/res/values-eu/values-eu.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/genfiles/java/com/google/maps/api/android/lib6/res/values-eu/maps_strings.xml -->
+    <eat-comment />
+
+    <string name="maps_API_OUTDATED_WARNING" msgid="9210820207514660247">"Aplikazio honek Maps-en bertsio zahar bat darabil. Agian ez du behar bezala funtzionatuko."</string>
+    <string name="maps_COMPASS_ALT_TEXT" msgid="6807007598222074916">"Iparrorratza"</string>
+    <string name="maps_DIRECTIONS_ALT_TEXT" msgid="3371108618085690173">"Lortu jarraibideak"</string>
+    <string name="maps_GOOGLE_MAP" msgid="1189955191774927738">"Google mapa"</string>
+    <string name="maps_LEVEL_ALT_TEXT" msgid="2264878565827236979">"{0}. maila"</string>
+    <string name="maps_MY_LOCATION_ALT_TEXT" msgid="6875584096776566703">"Nire kokapena"</string>
+    <string name="maps_NO_GMM" msgid="7383272971595812419">"Google Maps ez dago instalatuta edo desgaituta dago"</string>
+    <string name="maps_OPEN_GMM_ALT_TEXT" msgid="1460559660387626258">"Ireki Google Maps-en"</string>
+    <string name="maps_YOUR_LOCATION" msgid="175515198141357876">"Oraingo kokapena"</string>
+    <string name="maps_ZOOM_IN_ALT_TEXT" msgid="8499414555829263194">"Handitu"</string>
+    <string name="maps_ZOOM_OUT_ALT_TEXT" msgid="8347872495490681122">"Txikitu"</string>
+    <string name="maps_default_user_error_message" msgid="7422837848992631163">"Arazoren bat izan da."</string>
+    <string name="maps_invalid_panorama_data" msgid="2220756820707696446">"Argazki panoramikoak ez du balio."</string>
+    <string name="maps_marker_default_on_select_content_description" msgid="2960355978460391458">"Mapa-markatzailea"</string>
+    <string name="maps_out_of_quota_user_error_message" msgid="3686449950764058744">"Mapa desgaituta dago, kuota GAINDITUTA dagoelako"</string>
+    <string name="maps_quota_blocked_user_error_message" msgid="5546437652211274896">"Mapa desgaituta dago, kuota BLOKEATUTA dagoelako"</string>
+    <!-- blaze-out/k8-opt/bin/third_party/java/androidx/preference/hack_for_licenses/third_party/java/androidx/preference/hack_for_licenses/res/values-eu/values-eu.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/genfiles/java/com/google/maps/api/android/lib6/res/values-eu/maps_strings.xml -->
+    <eat-comment />
+
+    <string name="report_a_problem" msgid="1660595293173844803">"Salatu arazo bat"</string>
+    <!-- blaze-out/k8-opt/bin/third_party/java/androidx/appcompat/hack_for_licenses/third_party/java/androidx/appcompat/hack_for_licenses/res/values-eu/values-eu.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/bin/third_party/java/androidx/appcompat/hack_for_licenses/blaze-out/k8-opt/bin/third_party/java/androidx/core/hack_for_licenses/third_party/java/androidx/core/hack_for_licenses/res/values-eu/values-eu.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/bin/third_party/java/androidx/preference/hack_for_licenses/third_party/java/androidx/preference/hack_for_licenses/res/values-eu/values-eu.xml -->
+    <eat-comment />
+
+</resources>

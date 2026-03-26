@@ -7,8 +7,8 @@ android {
         applicationId "com.robin.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 7
+        versionName "4.8.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
@@ -24,20 +24,20 @@ android {
     }
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
-            output.outputFileName = "Robin_Nav_Fix.apk"
+            output.outputFileName = "Robin v4.8.1.apk"
         }
     }
 }
 
 tasks.register("copyApkToDesktop") {
     doLast {
-        def fromFile = file("${project.buildDir}/outputs/apk/debug/Robin_Nav_Fix.apk")
+        def fromFile = file("${project.buildDir}/outputs/apk/debug/Robin v4.8.1.apk")
         if (fromFile.exists()) {
             copy {
                 from fromFile
                 into "C:/Users/joshs/OneDrive/Desktop"
             }
-            println "APK successfully copied to Desktop: C:/Users/joshs/OneDrive/Desktop/Robin_Nav_Fix.apk"
+            println "APK successfully copied to Desktop: C:/Users/joshs/OneDrive/Desktop/Robin v4.8.1.apk"
         } else {
             println "Warning: Source APK not found for copying: ${fromFile.absolutePath}"
         }

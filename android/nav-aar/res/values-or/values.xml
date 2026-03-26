@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+
+    <!-- blaze-out/k8-opt/genfiles/java/com/google/maps/api/android/lib6/res/values-or/maps_strings.xml -->
+    <eat-comment />
+
+    <string-array name="maps_compass_directions">
+        <item>"ଉ."</item>
+        <item>"ଉ.ପୂ."</item>
+        <item>"ପୂ."</item>
+        <item>"ଦ.ପୂ."</item>
+        <item>"ଦ."</item>
+        <item>"ଦ.ପ."</item>
+        <item>"ପ."</item>
+        <item>"ଉ.ପ."</item>
+    </string-array>
+    <string-array name="maps_full_compass_directions">
+        <item>"ଉତ୍ତର"</item>
+        <item>"ଉତ୍ତରପୂର୍ବ"</item>
+        <item>"ପୂର୍ବ"</item>
+        <item>"ଦକ୍ଷିଣପୂର୍ବ"</item>
+        <item>"ଦକ୍ଷିଣ"</item>
+        <item>"ଦକ୍ଷିଣପଶ୍ଚିମ"</item>
+        <item>"ପଶ୍ଚିମ"</item>
+        <item>"ଉତ୍ତରପଶ୍ଚିମ"</item>
+    </string-array>
+    <!-- blaze-out/k8-opt/bin/third_party/java/androidx/appcompat/hack_for_licenses/third_party/java/androidx/appcompat/hack_for_licenses/res/values-or/values-or.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/bin/third_party/java/androidx/appcompat/hack_for_licenses/blaze-out/k8-opt/bin/third_party/java/androidx/core/hack_for_licenses/third_party/java/androidx/core/hack_for_licenses/res/values-or/values-or.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/bin/third_party/java/androidx/preference/hack_for_licenses/third_party/java/androidx/preference/hack_for_licenses/res/values-or/values-or.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/genfiles/java/com/google/maps/api/android/lib6/res/values-or/maps_strings.xml -->
+    <eat-comment />
+
+    <string name="maps_API_OUTDATED_WARNING" msgid="9210820207514660247">"ଏହି ଆପ୍ Mapsର ଏକ ପୁରୁଣା ସଂସ୍କରଣ ବ୍ୟବହାର କରୁଛି। ଏହା ହୁଏତ ସଠିକ୍ ରୂପେ କାମ କରିନପାରେ।"</string>
+    <string name="maps_COMPASS_ALT_TEXT" msgid="6807007598222074916">"କମ୍ପାସ୍"</string>
+    <string name="maps_DIRECTIONS_ALT_TEXT" msgid="3371108618085690173">"ଦିଗନିର୍ଦ୍ଦେଶଗୁଡ଼ିକ ପାଆନ୍ତୁ"</string>
+    <string name="maps_GOOGLE_MAP" msgid="1189955191774927738">"Google Map"</string>
+    <string name="maps_LEVEL_ALT_TEXT" msgid="2264878565827236979">"ସ୍ତର {0}"</string>
+    <string name="maps_MY_LOCATION_ALT_TEXT" msgid="6875584096776566703">"ମୋ ଲୋକେସନ୍"</string>
+    <string name="maps_NO_GMM" msgid="7383272971595812419">"Google Maps ଇନ୍‌ଷ୍ଟଲ୍ ହୋଇନାହିଁ କିମ୍ବା ଅକ୍ଷମ ହୋଇଯାଇଛି"</string>
+    <string name="maps_OPEN_GMM_ALT_TEXT" msgid="1460559660387626258">"Google Mapsରେ ଖୋଲନ୍ତୁ"</string>
+    <string name="maps_YOUR_LOCATION" msgid="175515198141357876">"ଆପଣଙ୍କର ସାମ୍ପ୍ରତିକ ଲୋକେସନ୍"</string>
+    <string name="maps_ZOOM_IN_ALT_TEXT" msgid="8499414555829263194">"ଜୁମ୍ ବଢ଼ାନ୍ତୁ"</string>
+    <string name="maps_ZOOM_OUT_ALT_TEXT" msgid="8347872495490681122">"ଜୁମ୍ କମାନ୍ତୁ"</string>
+    <string name="maps_invalid_panorama_data" msgid="2220756820707696446">"ଅବୈଧ ପାନୋରାମା"</string>
+    <!-- blaze-out/k8-opt/bin/third_party/java/androidx/preference/hack_for_licenses/third_party/java/androidx/preference/hack_for_licenses/res/values-or/values-or.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/bin/third_party/java/androidx/appcompat/hack_for_licenses/third_party/java/androidx/appcompat/hack_for_licenses/res/values-or/values-or.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/bin/third_party/java/androidx/appcompat/hack_for_licenses/blaze-out/k8-opt/bin/third_party/java/androidx/core/hack_for_licenses/third_party/java/androidx/core/hack_for_licenses/res/values-or/values-or.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/bin/third_party/java/androidx/preference/hack_for_licenses/third_party/java/androidx/preference/hack_for_licenses/res/values-or/values-or.xml -->
+    <eat-comment />
+
+</resources>

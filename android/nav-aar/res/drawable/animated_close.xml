@@ -1,0 +1,17 @@
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt">
+   <aapt:attr name="android:drawable">
+       <vector android:height="24dp" android:width="24dp" android:viewportHeight="24" android:viewportWidth="24">
+           <!-- White close icon -->
+           <group android:name="rotation_group" android:pivotX="12.0" android:pivotY="12.0" android:rotation="90.0">
+               <path android:name="close" android:fillColor="#FFFFFF" android:pathData="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+           </group>
+       </vector>
+   </aapt:attr>
+
+   <!-- Rotate the icon around its center -->
+   <target android:name="rotation_group">
+       <aapt:attr name="android:animation">
+           <objectAnimator android:duration="600" android:interpolator="@android:interpolator/fast_out_slow_in" android:propertyName="rotation" android:valueFrom="90" android:valueTo="0"/>
+       </aapt:attr>
+   </target>
+</animated-vector>

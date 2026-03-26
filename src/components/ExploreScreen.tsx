@@ -946,7 +946,7 @@ interface ExploreScreenProps {
     persistedDestination: any;
     setPersistedDestination: (place: any) => void;
     isDarkMode: boolean;
-    onNavStart: (label: string, fullAddress?: string) => void;
+    onNavStart: (label: string, fullAddress?: string, coords?: { lat: number, lng: number, placeId?: string }) => void;
     vehicleProfile?: any;
     routeStops?: any[];
     userEmail?: string | null;
@@ -1035,8 +1035,9 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ persistedDestinati
 
     // Restore nav-active class if navigation was already running when app resumes
     useEffect(() => {
-        if (sessionStorage.getItem('nav-active') === '1') {
+        if (localStorage.getItem('nav-active') === '1' || sessionStorage.getItem('nav-active') === '1') {
             document.body.classList.add('native-nav-active');
+            document.documentElement.classList.add('native-nav-active');
         }
     }, []);
 
@@ -1212,6 +1213,7 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ persistedDestinati
 
             await NavigationSDK.startGuidance({
                 destination: persistedDestination.formatted_address || persistedDestination.name,
+                placeId: persistedDestination.place_id,
                 lat: destLat,
                 lng: destLng,
                 travelMode: 'DRIVING', // Always force DRIVING to prevent native SDK walking ETA bugs
@@ -1219,7 +1221,11 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ persistedDestinati
             });
 
             // Hand off to App.tsx — it shows the transparent nav overlay
-            onNavStart(persistedDestination.name || persistedDestination.formatted_address?.split(',')[0] || 'Navigating', persistedDestination.formatted_address || '');
+            onNavStart(
+                persistedDestination.name || persistedDestination.formatted_address?.split(',')[0] || 'Navigating', 
+                persistedDestination.formatted_address || '',
+                { lat: destLat, lng: destLng, placeId: persistedDestination.place_id }
+            );
 
             // Voice Alert for hazard (delayed to prevent Google SDK overlap)
             if (hazardWarningText && Capacitor.isNativePlatform()) {

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+
+    <!-- blaze-out/k8-opt/genfiles/java/com/google/maps/api/android/lib6/res/values-es-rUS/maps_strings.xml -->
+    <eat-comment />
+
+    <string-array name="maps_compass_directions">
+        <item>"N"</item>
+        <item>"NE"</item>
+        <item>"E"</item>
+        <item>"SE"</item>
+        <item>"S"</item>
+        <item>"SO"</item>
+        <item>"O"</item>
+        <item>"NO"</item>
+    </string-array>
+    <string-array name="maps_full_compass_directions">
+        <item>"norte"</item>
+        <item>"nordeste"</item>
+        <item>"este"</item>
+        <item>"sureste"</item>
+        <item>"sur"</item>
+        <item>"suroeste"</item>
+        <item>"oeste"</item>
+        <item>"noroeste"</item>
+    </string-array>
+    <!-- blaze-out/k8-opt/bin/third_party/java/androidx/appcompat/hack_for_licenses/third_party/java/androidx/appcompat/hack_for_licenses/res/values-es-rUS/values-es-rUS.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/bin/third_party/java/androidx/appcompat/hack_for_licenses/blaze-out/k8-opt/bin/third_party/java/androidx/core/hack_for_licenses/third_party/java/androidx/core/hack_for_licenses/res/values-es-rUS/values-es-rUS.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/bin/third_party/java/androidx/preference/hack_for_licenses/third_party/java/androidx/preference/hack_for_licenses/res/values-es-rUS/values-es-rUS.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/genfiles/java/com/google/maps/api/android/lib6/res/values-es-rUS/maps_strings.xml -->
+    <eat-comment />
+
+    <string name="maps_API_OUTDATED_WARNING" msgid="9210820207514660247">"Esta app está usando una versión anterior de Maps. Por lo tanto, es posible que no funcione correctamente."</string>
+    <string name="maps_COMPASS_ALT_TEXT" msgid="6807007598222074916">"Brújula"</string>
+    <string name="maps_DIRECTIONS_ALT_TEXT" msgid="3371108618085690173">"Obtener instrucciones sobre cómo llegar"</string>
+    <string name="maps_GOOGLE_MAP" msgid="1189955191774927738">"Mapa de Google"</string>
+    <string name="maps_LEVEL_ALT_TEXT" msgid="2264878565827236979">"Nivel {0}"</string>
+    <string name="maps_MY_LOCATION_ALT_TEXT" msgid="6875584096776566703">"Mi ubicación"</string>
+    <string name="maps_NO_GMM" msgid="7383272971595812419">"Google Maps no está instalado o está inhabilitado"</string>
+    <string name="maps_OPEN_GMM_ALT_TEXT" msgid="1460559660387626258">"Abrir en Google Maps"</string>
+    <string name="maps_YOUR_LOCATION" msgid="175515198141357876">"Tu ubicación actual"</string>
+    <string name="maps_ZOOM_IN_ALT_TEXT" msgid="8499414555829263194">"Acercar"</string>
+    <string name="maps_ZOOM_OUT_ALT_TEXT" msgid="8347872495490681122">"Alejar"</string>
+    <string name="maps_default_user_error_message" msgid="7422837848992631163">"¡Uy! Se produjo un error."</string>
+    <string name="maps_invalid_panorama_data" msgid="2220756820707696446">"Panorámica no válida."</string>
+    <string name="maps_marker_default_on_select_content_description" msgid="2960355978460391458">"Marcador de mapa"</string>
+    <string name="maps_out_of_quota_user_error_message" msgid="3686449950764058744">"El mapa está inhabilitado porque el estado de Cuota es SUPERADA"</string>
+    <string name="maps_quota_blocked_user_error_message" msgid="5546437652211274896">"El mapa está inhabilitado porque el estado de Cuota es BLOQUEADA"</string>
+    <!-- blaze-out/k8-opt/bin/third_party/java/androidx/preference/hack_for_licenses/third_party/java/androidx/preference/hack_for_licenses/res/values-es-rUS/values-es-rUS.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/genfiles/java/com/google/maps/api/android/lib6/res/values-es-rUS/maps_strings.xml -->
+    <eat-comment />
+
+    <string name="report_a_problem" msgid="1660595293173844803">"Informar un problema"</string>
+    <!-- blaze-out/k8-opt/bin/third_party/java/androidx/appcompat/hack_for_licenses/third_party/java/androidx/appcompat/hack_for_licenses/res/values-es-rUS/values-es-rUS.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/bin/third_party/java/androidx/appcompat/hack_for_licenses/blaze-out/k8-opt/bin/third_party/java/androidx/core/hack_for_licenses/third_party/java/androidx/core/hack_for_licenses/res/values-es-rUS/values-es-rUS.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/bin/third_party/java/androidx/preference/hack_for_licenses/third_party/java/androidx/preference/hack_for_licenses/res/values-es-rUS/values-es-rUS.xml -->
+    <eat-comment />
+
+</resources>

@@ -13,7 +13,14 @@
 }
 
 /* Ensure children can still be interacted with */
-.map-screen>* {
+.map-inner-container,
+.map-header,
+.map-bottom-sheet,
+.recenter-btn,
+.add-poi-fab-map,
+.modal-content,
+.intelligence-card,
+.pip-streetview {
     pointer-events: auto;
 }
 

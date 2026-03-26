@@ -36,22 +36,26 @@ You MUST return your response as a JSON object:
   "action": { "type": "reroute", "stopId": "identifier" } // Optional. Use ONLY if the driver explicitly agrees to hit a nearby stop or change destination.
 }`;
 
-        const payload = {
+        const payload: any = {
             contents: [{
                 role: "user",
                 parts: [{ text: query }]
+            }],
+            tools: [{
+                googleMaps: {}
             }],
             systemInstruction: {
                 role: "system",
                 parts: [{ text: systemInstruction }]
             },
             generationConfig: {
-                temperature: 0.1, // Lower temperature for more reliable JSON
-                maxOutputTokens: 150,
+                temperature: 0.1,
+                maxOutputTokens: 250,
                 response_mime_type: "application/json",
             }
         };
 
+        // Simplified check for location to assist tool grounding
         const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
 
         const response = await fetch(url, {

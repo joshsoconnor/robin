@@ -1,0 +1,9 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" android:id="@+id/heads_up_notification_container" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="64dp" android:paddingTop="12dp" android:paddingBottom="24dp">
+    <ImageView android:id="@+id/heads_up_notification_icon" android:layout_width="@android:dimen/notification_large_icon_width" android:layout_height="@android:dimen/notification_large_icon_height" android:scaleType="center" android:paddingStart="24dp" android:paddingEnd="16dp"/>
+    <LinearLayout style="@style/NavNotificationContentContainer" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
+        <LinearLayout style="@style/NavNotificationContentLine" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
+            <TextView android:id="@+id/heads_up_distance" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="bottom" android:textColor="#FFFFFF" android:textSize="16dp" android:singleLine="true" android:ellipsize="marquee" android:textAlignment="viewStart" tools:ignore="RtlCompat"/>
+            <TextView android:id="@+id/heads_up_location" android:layout_width="match_parent" android:layout_height="wrap_content" android:maxLines="2" android:gravity="top" android:textColor="#FFFFFF" android:textSize="24dp" android:textAlignment="viewStart" tools:ignore="RtlCompat"/>
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

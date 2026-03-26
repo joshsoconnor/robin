@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- blaze-out/k8-opt/genfiles/java/com/google/android/apps/gmm/directions/resources/NAV_API_RELEASE/processed/res/values-night/bools.xml -->
+    <eat-comment />
+
+    <bool name="transit_line_span_dark_mode">true</bool>
+    <!-- blaze-out/k8-opt/genfiles/java/com/google/android/apps/gmm/base/styles/NAV_API_RELEASE/processed/res/values-night/colors.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/genfiles/java/com/google/android/apps/gmm/legacyresources/NAV_API_RELEASE/processed/res/values-night/quantum_gmm_colors.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/genfiles/java/com/google/android/apps/gmm/base/styles/NAV_API_RELEASE/processed/res/values-night/colors.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/genfiles/java/com/google/android/apps/gmm/directions/resources/NAV_API_RELEASE/processed/res/values-night/colors.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/genfiles/java/com/google/android/apps/gmm/base/styles/NAV_API_RELEASE/processed/res/values-night/colors.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/genfiles/java/com/google/android/apps/gmm/legacyresources/NAV_API_RELEASE/processed/res/values-night/quantum_gmm_colors.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/genfiles/java/com/google/android/apps/gmm/directions/resources/NAV_API_RELEASE/processed/res/values-night/colors.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/genfiles/java/com/google/android/apps/gmm/base/styles/NAV_API_RELEASE/processed/res/values-night/colors.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/genfiles/java/com/google/android/apps/gmm/base/mod/NAV_API_RELEASE/processed/res/values-night/colors.xml -->
+    <eat-comment />
+
+    <color name="mod_daynight_white">@color/mod_google_grey900</color>
+    <!-- blaze-out/k8-opt/genfiles/java/com/google/android/apps/gmm/navigation/resources/NAV_API_RELEASE/processed/res/values-night/colors.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/genfiles/java/com/google/android/apps/gmm/base/styles/NAV_API_RELEASE/processed/res/values-night/colors.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/genfiles/java/com/google/android/apps/gmm/place/resources/NAV_API_RELEASE/processed/res/values-night/colors.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/genfiles/java/com/google/android/apps/gmm/legacyresources/NAV_API_RELEASE/processed/res/values-night/quantum_gmm_colors.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/genfiles/java/com/google/android/apps/gmm/legacyresources/NAV_API_RELEASE/processed/res/values-night/quantum_colors.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/genfiles/java/com/google/android/apps/gmm/legacyresources/NAV_API_RELEASE/processed/res/values-night/quantum_gmm_colors.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/genfiles/java/com/google/android/apps/gmm/legacyresources/NAV_API_RELEASE/processed/res/values-night/quantum_colors.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/genfiles/java/com/google/android/apps/gmm/legacyresources/NAV_API_RELEASE/processed/res/values-night/quantum_gmm_colors.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/genfiles/java/com/google/android/apps/gmm/legacyresources/NAV_API_RELEASE/processed/res/values-night/quantum_colors.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/genfiles/java/com/google/android/apps/gmm/legacyresources/NAV_API_RELEASE/processed/res/values-night/quantum_gmm_colors.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/genfiles/java/com/google/android/apps/gmm/base/styles/NAV_API_RELEASE/processed/res/values-night/colors.xml -->
+    <eat-comment />
+    <!-- java/com/google/android/apps/gmm/gsashared/common/styles/shadows/res/values-night/colors.xml -->
+    <eat-comment />
+
+    <color name="shadow_background_end">#00000000</color>
+    <color name="shadow_background_start">#99000000</color>
+    <!-- blaze-out/k8-opt/genfiles/java/com/google/android/apps/gmm/base/styles/NAV_API_RELEASE/processed/res/values-night/colors.xml -->
+    <eat-comment />
+    <!-- blaze-out/k8-opt/genfiles/java/com/google/android/apps/gmm/directions/resources/NAV_API_RELEASE/processed/res/values-night/colors.xml -->
+    <eat-comment />
+
+    <color name="transit_line_span_default_stroke">@color/mod_grey200_alpha38</color>
+    <!-- blaze-out/k8-opt/bin/third_party/java/androidx/appcompat/hack_for_licenses/third_party/java/androidx/appcompat/hack_for_licenses/res/values-night-v8/values-night-v8.xml -->
+    <eat-comment />
+
+</resources>

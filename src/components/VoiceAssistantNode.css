@@ -19,15 +19,24 @@
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background: var(--primary-action);
+    background: linear-gradient(135deg, #1a73e8, #9b51e0, #e91e63);
+    background-size: 200% 200%;
+    animation: gemini-gradient 5s ease infinite;
     border: none;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 8px 16px rgba(26, 115, 232, 0.3);
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
+    overflow: hidden;
+}
+
+@keyframes gemini-gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 .mic-btn:active {
@@ -41,8 +50,8 @@
 }
 
 .voice-assistant-node.processing .mic-btn {
-    background: #5856D6;
-    /* iOS Indigo for processing */
+    background: linear-gradient(135deg, #5856D6, #AF52DE);
+    animation: gemini-gradient 2s linear infinite;
     cursor: wait;
 }
 

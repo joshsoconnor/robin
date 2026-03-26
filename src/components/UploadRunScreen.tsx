@@ -19,6 +19,9 @@ interface EnrichedStop extends ParsedStop {
     hasNotes: boolean;
     hasVideos: boolean;
     isCompleted?: boolean;
+    lat?: number;
+    lng?: number;
+    place_id?: string;
 }
 
 const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
@@ -232,13 +235,18 @@ export const UploadRunScreen: React.FC<UploadRunScreenProps> = ({ isDarkMode, on
     useEffect(() => {
         if (!places || !manualInputRef.current || phase !== 'capture') return;
         const autocomplete = new places.Autocomplete(manualInputRef.current, {
-            fields: ['formatted_address'],
+            fields: ['formatted_address', 'place_id', 'geometry'],
             componentRestrictions: { country: 'au' }
         });
         autocomplete.addListener('place_changed', () => {
             const place = autocomplete.getPlace();
             if (place.formatted_address) {
-                setManualStops(prev => [...prev, { address: place.formatted_address! }]);
+                setManualStops(prev => [...prev, { 
+                    address: place.formatted_address!,
+                    place_id: place.place_id,
+                    lat: place.geometry?.location?.lat(),
+                    lng: place.geometry?.location?.lng()
+                }]);
                 if (manualInputRef.current) manualInputRef.current.value = '';
             }
         });
@@ -331,7 +339,21 @@ export const UploadRunScreen: React.FC<UploadRunScreenProps> = ({ isDarkMode, on
             });
 
             setStops(enriched);
-            setPhase('review');
+            
+            // Bypass the manual review phase and go straight to navigation overview (MapScreen)
+            // Use the data just prepared to call the onFinalize callback from App.tsx
+            const routeStops = enriched.map((stop, i) => ({
+                id: String(Date.now() + i),
+                address: stop.address,
+                packages: 1,
+                status: (stop.isCompleted ? 'completed' : 'pending') as 'completed' | 'pending',
+                manifest_notes: stop.manifest_notes,
+                place_id: (stop as any).place_id,
+                lat: (stop as any).lat,
+                lng: (stop as any).lng
+            }));
+            onFinalize(routeStops);
+            
         } catch (err: any) {
             console.error('Processing failed:', err);
             setProcessingStatus(err.message || 'Something went wrong. Please try again.');
@@ -346,6 +368,9 @@ export const UploadRunScreen: React.FC<UploadRunScreenProps> = ({ isDarkMode, on
             packages: 1,
             status: (stop.isCompleted ? 'completed' : 'pending') as 'completed' | 'pending',
             manifest_notes: stop.manifest_notes,
+            place_id: (stop as any).place_id,
+            lat: (stop as any).lat,
+            lng: (stop as any).lng
         }));
         onFinalize(routeStops);
     };
@@ -545,14 +570,14 @@ export const UploadRunScreen: React.FC<UploadRunScreenProps> = ({ isDarkMode, on
                             <div className="next-stop-preview" onClick={() => onNavToStop(nextPending)}>
                                 <div className="next-stop-img-container">
                                     <img 
-                                        src={`https://maps.googleapis.com/maps/api/streetview?size=600x400&location=${encodeURIComponent(nextPending.address)}&key=AIzaSyB9id2lFl02rKAX2gf9qkiL24oEvhI__GU`} 
+                                        src={`https://maps.googleapis.com/maps/api/staticmap?size=600x400&center=${nextPending.lat},${nextPending.lng}&zoom=19&scale=2&maptype=roadmap&markers=color:red%7C${nextPending.lat},${nextPending.lng}&key=AIzaSyB9id2lFl02rKAX2gf9qkiL24oEvhI__GU`} 
                                         alt="Next Stop" 
                                         className="next-stop-img" 
                                     />
                                     <div className="next-stop-overlay">
-                                        <div className="next-stop-label">UP NEXT</div>
+                                        <div className="next-stop-label">UP NEXT · PINPOINT</div>
                                         <div className="next-stop-address">{nextPending.address.split(',')[0]}</div>
-                                        <div className="next-stop-hint">Tap photo to start navigation</div>
+                                        <div className="next-stop-hint">Tap map to start navigation</div>
                                     </div>
                                 </div>
                             </div>

@@ -1,0 +1,224 @@
+# Proguard file required for apps using Google Navigation API.
+# This file is embedded in the AAR, and automatically applied by build tools
+# like Gradle during a Proguard step.
+
+# NOTE: If your app makes use of proguard optimizations, you need to ensure that the following
+# config lines are set, otherwise the Navigation API will break. The default Android specs disable
+# this optimization, so unless you've customized those specs heavily, or written them from scratch,
+# you should be fine with the defaults.
+#
+#     -optimizations !class/merging/horizontal
+#     -optimizations !class/merging/vertical
+
+# The Navigation API has already been obfuscated. Setting everything to "keep"
+# here ensures that further obfuscation is not done, which will make
+# interpreting stack traces easier.
+-keep class com.google.android.libraries.navigation.** {
+    *;
+}
+
+# Implicitly disable obfuscation for mapcore classes by allowing everything else
+-keep,allowshrinking,allowoptimization class com.google.android.libraries.geo.mapcore.** {
+    *;
+}
+
+# Implicitly disable obfuscation for navcore classes by allowing everything else
+-keep,allowshrinking,allowoptimization class com.google.android.libraries.geo.navcore.** {
+    *;
+}
+
+-keepattributes Signature,*Annotation*
+
+-keepclassmembers class com.google.android.apps.gmm.systems.concurrent.Threads {
+    <fields>;
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+
+-keep class com.google.android.apps.gmm.jni.util.NativeHelper {
+    *;
+}
+
+# These methods are needed to ensure that serialization behaves as expected when
+# classes are obfuscated, shrunk, and/or optimized.
+-keepclassmembers class * implements java.io.Serializable {
+    static final long serialVersionUID;
+    private static final java.io.ObjectStreamField[] serialPersistentFields;
+    private void writeObject(java.io.ObjectOutputStream);
+    private void readObject(java.io.ObjectInputStream);
+    java.lang.Object writeReplace();
+    java.lang.Object readResolve();
+}
+
+# These fields are reflectively accessed.
+-keepclassmembers class * implements android.os.Parcelable {
+    public static *** CREATOR;
+}
+
+-keepclassmembers class com.google.android.apps.gmm.offline.** {
+    native <methods>;
+}
+-keepclassmembers class com.google.android.apps.gmm.location.navigation.** {
+  native <methods>;
+}
+-keepclassmembers class com.google.android.libraries.geo.navcore.** {
+  native <methods>;
+}
+-keepclassmembers class com.google.android.apps.navigation.ui.camera.** {
+  native <methods>;
+}
+
+-keepclasseswithmembers @com.google.android.apps.gmm.systems.eventbus.EventClass public class * {
+    public <init>(...);
+    public <methods>;
+}
+
+-keep class com.google.android.apps.gmm.shared.psd.api.PsdManager*
+
+# Constructors referred to by LayoutInflator in agmm.
+-keep,allowshrinking,allowoptimization class com.google.android.apps.gmm.** extends android.view.View {
+    public <init>(android.content.Context);
+    public <init>(android.content.Context, android.util.AttributeSet);
+    public <init>(android.content.Context, android.util.AttributeSet, int);
+    public void set*(...);
+}
+
+-keepclassmembers class com.google.android.apps.gmm.** extends android.view.View {
+    public <init>(android.content.Context, android.util.AttributeSet);
+    public <init>(android.content.Context, android.util.AttributeSet, int);
+}
+
+# Constructors referred to by LayoutInflator in geo/mapcore.
+-keep,allowshrinking,allowoptimization class com.google.android.libraries.geo.mapcore.** extends android.view.View {
+    public <init>(android.content.Context);
+    public <init>(android.content.Context, android.util.AttributeSet);
+    public <init>(android.content.Context, android.util.AttributeSet, int);
+    public void set*(...);
+}
+
+-keepclassmembers class com.google.android.libraries.geo.mapcore.** extends android.view.View {
+    public <init>(android.content.Context, android.util.AttributeSet);
+    public <init>(android.content.Context, android.util.AttributeSet, int);
+}
+
+# Constructors referred to by LayoutInflator in geo/navcore.
+-keep,allowshrinking,allowoptimization class com.google.android.libraries.geo.navcore.** extends android.view.View {
+    public <init>(android.content.Context);
+    public <init>(android.content.Context, android.util.AttributeSet);
+    public <init>(android.content.Context, android.util.AttributeSet, int);
+    public void set*(...);
+}
+
+-keepclassmembers class com.google.android.libraries.geo.navcore.** extends android.view.View {
+    public <init>(android.content.Context, android.util.AttributeSet);
+    public <init>(android.content.Context, android.util.AttributeSet, int);
+}
+
+-keepclassmembers class com.google.android.libraries.curvular.** extends android.view.View {
+    public <init>(android.content.Context, android.util.AttributeSet);
+}
+
+# Used to inflate traffic prompts.
+-keep class android.support.v7.widget.CardView {
+    *;
+}
+
+# Used to inflate traffic prompts.
+-keep class androidx.cardview.widget.CardView {
+    *;
+}
+
+# Support libraries used to monitor lifecycle events.
+-keep class android.arch.lifecycle.** { *; }
+-keep class androidx.lifecycle.** { *; }
+
+-dontwarn com.google.android.libraries.navigation.**
+-dontnote com.google.android.libraries.navigation.**
+-dontwarn com.google.android.apps.**
+-dontnote com.google.android.apps.**
+
+# Joda time. These are missing from the joda-time jar but they are only annotations so they are
+# safe to ignore.
+-dontwarn org.joda.convert.FromString
+-dontwarn org.joda.convert.ToString
+
+# The native methods in GeometryUtil should never be stripped even when unused.
+-keep class com.google.android.apps.gmm.map.internal.vector.gl.GeometryUtil {
+  *;
+}
+
+# The native methods in NativeVertexDataBuilder should never be stripped even when unused. Otherwise,
+# the app will crash at startup with a NoSuchMethodError while trying to register the native methods
+# that have been stripped.
+-keepclassmembers class com.google.android.apps.gmm.map.internal.vector.gl.NativeVertexDataBuilder {
+    private native void nativeFinalize(...);
+    private native void nativeSetCoordScale(...);
+}
+
+# We use @UsedByReflection and @UsedByNative annotations internally to guard
+# some classes/methods that Proguard should never optimize out.
+-keep class com.google.android.libraries.navigation.UsedBy*
+-keep @com.google.android.libraries.navigation.UsedBy* class *
+-keepclassmembers class * {
+    @com.google.android.libraries.navigation.UsedBy* *;
+}
+# These may be used internally to annotate classes which have a subclass with
+# .getClass() called on it. This tells ProGuard not to mangle these classes in
+# such a way that .getClass() would return a different result.
+-keep class com.google.android.libraries.navigation.SubclassesAreGetClassed
+-keep,allowobfuscation,allowshrinking class * extends @com.google.android.libraries.navigation.SubclassesAreGetClassed **
+
+# Support preferences are created via reflection; keep the necessary constructors.
+-keep public class android.support.v7.preference.Preference {
+    public <init>(android.content.Context, android.util.AttributeSet);
+}
+-keep public class android.support.v7.** extends android.support.v7.preference.Preference {
+    public <init>(android.content.Context, android.util.AttributeSet);
+}
+
+# Needed for RetryingFuture.
+-keepnames class com.google.common.logging.FormattingLogger { *; }
+-keepnames class com.google.common.util.CallerFinder { *; }
+-keep class com.google.common.logging.FormattingLogger$Record
+
+# The MessageSchema buffer is only written to in Java, but is accessed using
+# the native memory address via sun.misc.Unsafe or libcore.io.Memory.
+# Without this, the "field/removal/writeonly" optimization would remove the
+# field and cause the buffer to be deallocated prematurely.
+-keepclassmembers class com.google.protobuf.MessageSchema {
+  java.nio.ByteBuffer buffer;
+}
+
+# Avoids Proguard warning at build time due to Protobuf use of sun.misc.Unsafe
+# and libcore.io.Memory which are available at runtime.
+-dontwarn libcore.io.Memory
+-dontwarn sun.misc.Unsafe
+
+# loaded reflectively
+-keepclasseswithmembers,allowobfuscation class com.google.protobuf.BlazeGeneratedExtensionRegistryLiteLoader {}
+
+# We don't want to inline the FieldInfo initializers as that greatly bloats bytecode.
+-keepclassmembers,allowobfuscation,allowshrinking class com.google.protobuf.GeneratedMessageLite {
+  com.google.protobuf.FieldInfo *(...);
+  com.google.protobuf.MessageInfo *(...);
+}
+
+# Keep the SQLite cache native methods.
+-keepclassmembers class com.google.android.libraries.geo.mapcore.internal.store.diskcache.NativeSqliteDiskCacheImpl {
+  private static native <methods>;
+}
+
+# Avoid obfuscating name of developer-caused exceptions.
+-keepnames class com.google.maps.api.android.lib6.common.apiexception.*
+
+# R8 full mode is stripping out necessary andrdoix.car.app classes (b/357072608)
+# Keep everything androidx.car and androidx.car.app until we can narrow it down.
+-keep class androidx.car.**
+-keep class androidx.car.app.**
+# We keep all fields for every generated proto file as the runtime uses
+# reflection over them that ProGuard cannot detect. Without this keep
+# rule, fields may be removed that would cause runtime failures.
+-keepclassmembers class * extends com.google.android.libraries.navigation.internal.ael.bi {
+  <fields>;
+}
+

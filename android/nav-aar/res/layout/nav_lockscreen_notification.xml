@@ -1,0 +1,10 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/lockscreen_notification_container" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="64dp">
+    <ImageView android:id="@+id/lockscreen_notification_icon" android:layout_width="40dp" android:layout_height="40dp" android:scaleType="center" android:layout_marginLeft="12dp" android:layout_marginRight="12dp" android:layout_marginTop="12dp"/>
+    <LinearLayout style="@style/NavNotificationContentContainer" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:layout_marginEnd="@android:dimen/notification_large_icon_width" android:layout_marginRight="@android:dimen/notification_large_icon_width">
+        <LinearLayout style="@style/NavNotificationContentLine" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="64dp" android:orientation="vertical">
+            <TextView android:id="@+id/lockscreen_directions" android:layout_width="wrap_content" android:layout_height="0dp" android:layout_weight="1" android:paddingTop="8dp" android:gravity="bottom" android:textColor="#FFFFFF" android:textSize="16dp" android:textStyle="bold" android:singleLine="true"/>
+            <TextView android:id="@+id/lockscreen_eta" android:layout_width="wrap_content" android:layout_height="0dp" android:layout_weight="1" android:paddingBottom="12dp" android:gravity="top" android:textColor="#FFFFFF" android:textSize="14dp" android:singleLine="true"/>
+           <TextView android:id="@+id/lockscreen_oneliner" android:layout_width="wrap_content" android:layout_height="0dp" android:layout_weight="1" android:gravity="center" android:textColor="#FFFFFF" android:textSize="16dp" android:textStyle="bold" android:singleLine="true" android:visibility="gone"/>
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

@@ -21,6 +21,7 @@ interface Stop {
     stop_order?: number;
     lat?: number;
     lng?: number;
+    place_id?: string;
 }
 
 interface Cairn {
@@ -254,7 +255,7 @@ const MapInner: React.FC<{
     useEffect(() => {
         if (map && userLocation && !pannedRef.current) {
             map.panTo(userLocation as any);
-            map.setZoom(19);
+            // Removed hard zoom to allow directions to fit bounds initially
             pannedRef.current = true;
         }
     }, [map, userLocation]);
@@ -264,7 +265,7 @@ const MapInner: React.FC<{
         setDirectionsService(new routesLibrary.DirectionsService());
         setDirectionsRenderer(new routesLibrary.DirectionsRenderer({
             suppressMarkers: true,
-            preserveViewport: true,
+            preserveViewport: false, // Allow auto-zoom to fit the route overview
             polylineOptions: { strokeColor: '#FFA500', strokeWeight: 5 }
         }));
     }, [routesLibrary]);
@@ -444,7 +445,7 @@ export const MapScreen: React.FC<{
     stops: Stop[],
     onBack: () => void,
     isDarkMode: boolean,
-    onNavStart: (label: string, fullAddress?: string, coords?: { lat: number, lng: number }) => void,
+    onNavStart: (label: string, fullAddress?: string, coords?: { lat: number, lng: number, placeId?: string }) => void,
     onArrive: (address: string) => void,
     navActive?: boolean,
     vehicleProfile?: any
@@ -469,6 +470,7 @@ export const MapScreen: React.FC<{
     useEffect(() => {
         if (localStorage.getItem('nav-active') === '1') {
             document.body.classList.add('native-nav-active');
+            document.documentElement.classList.add('native-nav-active');
         }
     }, []);
 
@@ -540,7 +542,7 @@ export const MapScreen: React.FC<{
 
     return (
         <div className="map-screen">
-            <div style={{ height: '100%', width: '100%', position: 'absolute', top: 0, left: 0 }}>
+            <div className="map-inner-container" style={{ height: '100%', width: '100%', position: 'absolute', top: 0, left: 0 }}>
                 <MapInner
                     userLocation={userLocation}
                     cairns={cairns}
@@ -558,6 +560,7 @@ export const MapScreen: React.FC<{
                     onClick={() => {
                         if (Capacitor.isNativePlatform()) {
                             document.body.classList.remove('native-nav-active');
+                            document.documentElement.classList.remove('native-nav-active');
                             NavigationSDK.hideMap().catch(console.error);
                         }
                         onBack();
@@ -672,13 +675,14 @@ export const MapScreen: React.FC<{
 
                                 await NavigationSDK.startGuidance({
                                     destination: nextPending.address,
+                                    placeId: nextPending.place_id,
                                     lat,
                                     lng,
                                     travelMode: 'DRIVING',
                                     waypoints: waypoints.length > 0 ? waypoints : undefined
                                 });
                                 // Hand off to App.tsx to show the transparent nav overlay
-                                onNavStart(nextPending.address.split(',')[0], nextPending.address, { lat: lat!, lng: lng! });
+                                onNavStart(nextPending.address.split(',')[0], nextPending.address, { lat: lat!, lng: lng!, placeId: nextPending.place_id });
 
                                 // Compose and speak a custom guidance message
                                 if (Capacitor.isNativePlatform()) {

@@ -1,0 +1,222 @@
+﻿
+> Configure project :app
+WARNING: Using flatDir should be avoided because it doesn't support any meta-data formats.
+
+> Configure project :capacitor-cordova-android-plugins
+WARNING: Using flatDir should be avoided because it doesn't support any meta-data formats.
+
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:mergeDebugNativeDebugMetadata NO-SOURCE
+> Task :app:javaPreCompileDebug UP-TO-DATE
+> Task :capacitor-android:preBuild UP-TO-DATE
+> Task :capacitor-android:preDebugBuild UP-TO-DATE
+> Task :capacitor-android:writeDebugAarMetadata UP-TO-DATE
+> Task :capacitor-camera:preBuild UP-TO-DATE
+> Task :capacitor-camera:preDebugBuild UP-TO-DATE
+> Task :capacitor-camera:writeDebugAarMetadata UP-TO-DATE
+> Task :capacitor-community-speech-recognition:preBuild UP-TO-DATE
+> Task :capacitor-community-speech-recognition:preDebugBuild UP-TO-DATE
+> Task :capacitor-community-speech-recognition:writeDebugAarMetadata UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:preBuild UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:preDebugBuild UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:writeDebugAarMetadata UP-TO-DATE
+> Task :capacitor-geolocation:preBuild UP-TO-DATE
+> Task :capacitor-geolocation:preDebugBuild UP-TO-DATE
+> Task :capacitor-geolocation:writeDebugAarMetadata UP-TO-DATE
+> Task :app:checkDebugAarMetadata UP-TO-DATE
+> Task :capacitor-android:processDebugNavigationResources UP-TO-DATE
+> Task :capacitor-camera:processDebugNavigationResources UP-TO-DATE
+> Task :capacitor-community-speech-recognition:processDebugNavigationResources UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:processDebugNavigationResources UP-TO-DATE
+> Task :capacitor-geolocation:processDebugNavigationResources UP-TO-DATE
+> Task :app:processDebugNavigationResources UP-TO-DATE
+> Task :app:compileDebugNavigationResources UP-TO-DATE
+> Task :app:generateDebugResValues UP-TO-DATE
+> Task :capacitor-android:generateDebugResValues UP-TO-DATE
+> Task :capacitor-android:generateDebugResources UP-TO-DATE
+> Task :capacitor-android:packageDebugResources UP-TO-DATE
+> Task :capacitor-camera:generateDebugResValues UP-TO-DATE
+> Task :capacitor-camera:generateDebugResources UP-TO-DATE
+> Task :capacitor-camera:packageDebugResources UP-TO-DATE
+> Task :capacitor-community-speech-recognition:generateDebugResValues UP-TO-DATE
+> Task :capacitor-community-speech-recognition:generateDebugResources UP-TO-DATE
+> Task :capacitor-community-speech-recognition:packageDebugResources UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:generateDebugResValues UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:generateDebugResources UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:packageDebugResources UP-TO-DATE
+> Task :capacitor-geolocation:generateDebugResValues UP-TO-DATE
+> Task :capacitor-geolocation:generateDebugResources UP-TO-DATE
+> Task :capacitor-geolocation:packageDebugResources UP-TO-DATE
+> Task :app:mapDebugSourceSetPaths UP-TO-DATE
+> Task :app:generateDebugResources UP-TO-DATE
+> Task :app:mergeDebugResources UP-TO-DATE
+> Task :app:packageDebugResources UP-TO-DATE
+> Task :app:parseDebugLocalResources UP-TO-DATE
+> Task :app:createDebugCompatibleScreenManifests UP-TO-DATE
+> Task :app:extractDeepLinksDebug UP-TO-DATE
+> Task :capacitor-android:extractDeepLinksDebug UP-TO-DATE
+> Task :capacitor-android:processDebugManifest UP-TO-DATE
+> Task :capacitor-camera:extractDeepLinksDebug UP-TO-DATE
+> Task :capacitor-camera:processDebugManifest UP-TO-DATE
+> Task :capacitor-community-speech-recognition:extractDeepLinksDebug UP-TO-DATE
+> Task :capacitor-community-speech-recognition:processDebugManifest UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:extractDeepLinksDebug UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:processDebugManifest UP-TO-DATE
+> Task :capacitor-geolocation:extractDeepLinksDebug UP-TO-DATE
+> Task :capacitor-geolocation:processDebugManifest UP-TO-DATE
+> Task :app:processDebugMainManifest UP-TO-DATE
+> Task :app:processDebugManifest UP-TO-DATE
+> Task :app:processDebugManifestForPackage UP-TO-DATE
+> Task :capacitor-android:compileDebugLibraryResources UP-TO-DATE
+> Task :capacitor-android:parseDebugLocalResources UP-TO-DATE
+> Task :capacitor-android:generateDebugRFile UP-TO-DATE
+> Task :capacitor-camera:compileDebugLibraryResources UP-TO-DATE
+> Task :capacitor-camera:parseDebugLocalResources UP-TO-DATE
+> Task :capacitor-camera:generateDebugRFile UP-TO-DATE
+> Task :capacitor-community-speech-recognition:compileDebugLibraryResources UP-TO-DATE
+> Task :capacitor-community-speech-recognition:parseDebugLocalResources UP-TO-DATE
+> Task :capacitor-community-speech-recognition:generateDebugRFile UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:compileDebugLibraryResources UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:parseDebugLocalResources UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:generateDebugRFile UP-TO-DATE
+> Task :capacitor-geolocation:compileDebugLibraryResources UP-TO-DATE
+> Task :capacitor-geolocation:parseDebugLocalResources UP-TO-DATE
+> Task :capacitor-geolocation:generateDebugRFile UP-TO-DATE
+> Task :app:processDebugResources UP-TO-DATE
+> Task :capacitor-android:javaPreCompileDebug UP-TO-DATE
+> Task :capacitor-android:compileDebugJavaWithJavac UP-TO-DATE
+> Task :capacitor-android:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :capacitor-camera:javaPreCompileDebug UP-TO-DATE
+> Task :capacitor-camera:compileDebugJavaWithJavac UP-TO-DATE
+> Task :capacitor-camera:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :capacitor-community-speech-recognition:javaPreCompileDebug UP-TO-DATE
+> Task :capacitor-community-speech-recognition:compileDebugJavaWithJavac UP-TO-DATE
+> Task :capacitor-community-speech-recognition:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:javaPreCompileDebug UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:compileDebugJavaWithJavac NO-SOURCE
+> Task :capacitor-cordova-android-plugins:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :capacitor-geolocation:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :capacitor-geolocation:compileDebugKotlin UP-TO-DATE
+> Task :capacitor-geolocation:javaPreCompileDebug UP-TO-DATE
+> Task :capacitor-geolocation:compileDebugJavaWithJavac NO-SOURCE
+> Task :capacitor-geolocation:bundleLibCompileToJarDebug UP-TO-DATE
+
+> Task :app:compileDebugJavaWithJavac FAILED
+.\gradlew : C:\Users\joshs\OneDrive\Desktop\Apps\Robin\android\app\src\main\jav
+a\com\robin\app\NavigationPlugin.java:58: error: cannot find symbol
+At line:1 char:1
++ .\gradlew assembleDebug > build_log3.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (C:\Users\joshs\...not find symbol 
+   :String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+    private Navigator.NavInfoListener navInfoListener;
+                     ^
+  symbol:   class NavInfoListener
+  location: interface Navigator
+C:\Users\joshs\OneDrive\Desktop\Apps\Robin\android\app\src\main\java\com\robin\
+app\NavigationPlugin.java:59: error: cannot find symbol
+    private com.google.android.libraries.navigation.NavInfo lastNavInfo;
+                                                   ^
+  symbol:   class NavInfo
+  location: package com.google.android.libraries.navigation
+C:\Users\joshs\OneDrive\Desktop\Apps\Robin\android\app\src\main\java\com\robin\
+app\NavigationPlugin.java:314: error: cannot find symbol
+                            navInfoListener = new Navigator.NavInfoListener() {
+                                                           ^
+  symbol:   class NavInfoListener
+  location: interface Navigator
+C:\Users\joshs\OneDrive\Desktop\Apps\Robin\android\app\src\main\java\com\robin\
+app\NavigationPlugin.java:316: error: cannot find symbol
+                                public void 
+onNavInfoChanged(com.google.android.libraries.navigation.NavInfo navInfo) {
+                                                                               
+                     ^
+  symbol:   class NavInfo
+  location: package com.google.android.libraries.navigation
+C:\Users\joshs\OneDrive\Desktop\Apps\Robin\android\app\src\main\java\com\robin\
+app\NavigationPlugin.java:315: error: method does not override or implement a 
+method from a supertype
+                                @Override
+                                ^
+C:\Users\joshs\OneDrive\Desktop\Apps\Robin\android\app\src\main\java\com\robin\
+app\NavigationPlugin.java:340: error: cannot find symbol
+                                                
+com.google.android.libraries.navigation.StepInfo step = 
+lastNavInfo.getCurrentStep();
+                                                                               
+        ^
+  symbol:   class StepInfo
+  location: package com.google.android.libraries.navigation
+Note: C:\Users\joshs\OneDrive\Desktop\Apps\Robin\android\app\src\main\java\com\
+robin\app\NavigationPlugin.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+6 errors
+
+[Incubating] Problems report is available at: file:///C:/tmp/robin-build/android/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:compileDebugJavaWithJavac'.
+> Compilation failed; see the compiler output below.
+  Note: C:\Users\joshs\OneDrive\Desktop\Apps\Robin\android\app\src\main\java\co
+m\robin\app\NavigationPlugin.java uses or overrides a deprecated API.
+  Note: Recompile with -Xlint:deprecation for details.
+  C:\Users\joshs\OneDrive\Desktop\Apps\Robin\android\app\src\main\java\com\robi
+n\app\NavigationPlugin.java:58: error: cannot find symbol
+      private Navigator.NavInfoListener navInfoListener;
+                       ^
+    symbol:   class NavInfoListener
+    location: interface Navigator
+  C:\Users\joshs\OneDrive\Desktop\Apps\Robin\android\app\src\main\java\com\robi
+n\app\NavigationPlugin.java:59: error: cannot find symbol
+      private com.google.android.libraries.navigation.NavInfo lastNavInfo;
+                                                     ^
+    symbol:   class NavInfo
+    location: package com.google.android.libraries.navigation
+  C:\Users\joshs\OneDrive\Desktop\Apps\Robin\android\app\src\main\java\com\robi
+n\app\NavigationPlugin.java:314: error: cannot find symbol
+                              navInfoListener = new 
+Navigator.NavInfoListener() {
+                                                             ^
+    symbol:   class NavInfoListener
+    location: interface Navigator
+  C:\Users\joshs\OneDrive\Desktop\Apps\Robin\android\app\src\main\java\com\robi
+n\app\NavigationPlugin.java:316: error: cannot find symbol
+                                  public void 
+onNavInfoChanged(com.google.android.libraries.navigation.NavInfo navInfo) {
+                                                                               
+                       ^
+    symbol:   class NavInfo
+    location: package com.google.android.libraries.navigation
+  C:\Users\joshs\OneDrive\Desktop\Apps\Robin\android\app\src\main\java\com\robi
+n\app\NavigationPlugin.java:340: error: cannot find symbol
+                                                  
+com.google.android.libraries.navigation.StepInfo step = 
+lastNavInfo.getCurrentStep();
+                                                                               
+          ^
+    symbol:   class StepInfo
+    location: package com.google.android.libraries.navigation
+  C:\Users\joshs\OneDrive\Desktop\Apps\Robin\android\app\src\main\java\com\robi
+n\app\NavigationPlugin.java:315: error: method does not override or implement 
+a method from a supertype
+                                  @Override
+                                  ^
+  6 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.14.3/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD FAILED in 3s
+81 actionable tasks: 1 executed, 80 up-to-date

@@ -1,0 +1,7 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <com.google.android.apps.gmm.base.views.squeezedlabel.SqueezedLabelView android:id="@+id/navigation_stepcuefirstline_textbox" android:layout_width="match_parent" android:layout_height="wrap_content" android:textColor="@color/navigation_primary_text" android:ellipsize="end" android:layerType="software"/>
+
+  <com.google.android.apps.gmm.base.views.squeezedlabel.SqueezedLabelView android:id="@+id/navigation_stepcuesecondline_textbox" android:layout_width="match_parent" android:layout_height="wrap_content" android:textColor="@color/navigation_primary_text" android:ellipsize="end" android:layerType="software"/>
+
+</merge>

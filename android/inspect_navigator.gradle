@@ -1,0 +1,6 @@
+def url = new File("C:/Users/joshs/OneDrive/Desktop/Apps/Robin/android/nav-aar/classes.jar").toURI().toURL()
+def cl = new java.net.URLClassLoader([url] as java.net.URL[])
+def clazz = cl.loadClass("com.google.android.libraries.navigation.Navigator")
+clazz.getMethods().each { method ->
+    println "NAVIGATOR_METHOD: " + method.toString()
+}

@@ -1,0 +1,14 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" style="@style/QuNavigationDisclaimerDialog">
+
+    <LinearLayout style="@style/QuNavigationDialogContent">
+
+        <TextView style="@style/QuNavigationDialogTitleTextBox" android:id="@+id/disclaimer_title_text" android:text="@string/DISCLAIMER_TITLE"/>
+
+        <TextView style="@style/QuNavigationDialogTextBox" android:id="@+id/disclaimer_text" android:text="@string/DISCLAIMER"/>
+
+        <TextView style="@style/QuNavigationDialogTextBoxTabIndent" android:id="@+id/legal_text_tab_indent"/>
+
+        <TextView style="@style/QuNavigationDialogTextBoxAtEnd" android:id="@+id/legal_text"/>
+    </LinearLayout>
+
+</ScrollView>

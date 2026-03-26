@@ -7,10 +7,20 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Capacitor
 node_modules
 dist
 dist-ssr
 *.local
+
+# Android
+android/app/build
+android/build
+android/.gradle
+android/local.properties
+android/app/release
+android/app/debug
+*.apk
 
 # Editor directories and files
 .vscode/*

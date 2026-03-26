@@ -38,6 +38,10 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyB9id2lFl02rKAX2gf9qkiL24oEvhI__GU" />
+
+        <service
+            android:name=".NavUpdateService"
+            android:exported="false" />
     </application>
 
     <!-- Permissions -->
