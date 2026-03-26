@@ -4,7 +4,11 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.media.AudioAttributes;
 import android.media.AudioFocusRequest;
 import android.media.AudioManager;
@@ -25,7 +29,6 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -52,13 +55,20 @@ public class NavigationPlugin extends Plugin implements LocationListener {
     private AudioFocusRequest audioFocusRequest;
     private TextToSpeech tts;
     private boolean ttsReady = false;
-    private FloatingActionButton exitBtn;
 
     // Track if custom distance arrival listener is registered
     private Navigator.RemainingTimeOrDistanceChangedListener distanceListener;
     private boolean hasTriggeredArrivalForCurrentRoute = false;
+    private boolean navServiceRegistered = false;
+
+    // When followMyLocation() is called the SDK fires REASON_GESTURE internally.
+    // Suppress that first event so the Recenter button does not appear automatically.
+    private volatile boolean ignoreNextCameraMove = false;
 
     private LocationManager locationManager;
+
+    // Delivery stop markers overlaid on the native nav map
+    private final java.util.List<com.google.android.gms.maps.model.Marker> deliveryMarkers = new java.util.ArrayList<>();
 
     @PluginMethod
     public void initialize(PluginCall call) {
@@ -76,26 +86,6 @@ public class NavigationPlugin extends Plugin implements LocationListener {
                             ViewGroup.LayoutParams.MATCH_PARENT);
                     vg.addView(mapContainer, 0, lp);
 
-                    // Add a native exit button
-                    exitBtn = new FloatingActionButton(getContext());
-                    // Reddish color for exit
-                    exitBtn.setBackgroundTintList(
-                            android.content.res.ColorStateList.valueOf(Color.parseColor("#E53935")));
-                    exitBtn.setRippleColor(Color.parseColor("#B71C1C"));
-                    // We'll just use a text label or standard android close icon
-                    exitBtn.setImageResource(android.R.drawable.ic_menu_close_clear_cancel);
-                    exitBtn.setColorFilter(Color.WHITE);
-                    exitBtn.setOnClickListener(v -> hideMap(null));
-
-                    FrameLayout.LayoutParams btnLp = new FrameLayout.LayoutParams(
-                            ViewGroup.LayoutParams.WRAP_CONTENT,
-                            ViewGroup.LayoutParams.WRAP_CONTENT);
-                    btnLp.gravity = android.view.Gravity.BOTTOM | android.view.Gravity.END;
-                    // safe area padding (e.g. above system nav bar)
-                    int padding = (int) (32 * getContext().getResources().getDisplayMetrics().density);
-                    btnLp.setMargins(0, 0, padding, padding);
-                    mapContainer.addView(exitBtn, btnLp);
-
                     // Show immediately so the map renders before guidance starts
                     mapContainer.setVisibility(View.VISIBLE);
 
@@ -110,9 +100,21 @@ public class NavigationPlugin extends Plugin implements LocationListener {
                         return WindowInsetsCompat.CONSUMED;
                     });
 
-                    // Set background to white so the padded area at the bottom blends cleanly with
                     // the ETA bar
-                    mapContainer.setBackgroundColor(Color.WHITE);
+                    mapContainer.setBackgroundColor(Color.parseColor("#1c1c1c"));
+
+                    // Touch forwarding hack: pass touches through transparent WebView to the Map
+                    bridge.getWebView().setOnTouchListener(new View.OnTouchListener() {
+                        @Override
+                        public boolean onTouch(View v, android.view.MotionEvent event) {
+                            if (mapContainer != null && mapContainer.getVisibility() == View.VISIBLE) {
+                                android.view.MotionEvent copy = android.view.MotionEvent.obtain(event);
+                                mapContainer.dispatchTouchEvent(copy);
+                                copy.recycle();
+                            }
+                            return false; // let WebView process it so React buttons work
+                        }
+                    });
                 }
 
                 if (navFragment == null) {
@@ -127,6 +129,9 @@ public class NavigationPlugin extends Plugin implements LocationListener {
 
                 // Already have a working navigator — resolve immediately
                 if (mNavigator != null) {
+                    if (mapContainer != null) {
+                        mapContainer.setVisibility(View.VISIBLE);
+                    }
                     call.resolve();
                     return;
                 }
@@ -165,8 +170,10 @@ public class NavigationPlugin extends Plugin implements LocationListener {
         getActivity().runOnUiThread(() -> {
             if (navFragment != null) {
                 navFragment.getMapAsync(googleMap -> {
+                    // Suppress the SDK's internal camera-move that fires after followMyLocation
+                    ignoreNextCameraMove = true;
                     googleMap.followMyLocation(GoogleMap.CameraPerspective.TILTED);
-                    
+
                     JSObject ret = new JSObject();
                     ret.put("isDrifted", false);
                     notifyListeners("mapDrifted", ret);
@@ -217,52 +224,39 @@ public class NavigationPlugin extends Plugin implements LocationListener {
     @PluginMethod
     public void startGuidance(PluginCall call) {
         getActivity().runOnUiThread(() -> {
+            // Keep screen awake during active navigation
+            getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+            if (mapContainer != null) {
+                mapContainer.setVisibility(View.VISIBLE);
+            }
             if (mNavigator == null) {
                 call.reject("Navigator not initialized. Call initialize() first.");
                 return;
             }
 
-            String address = call.getString("destination");
-            Double lat = call.getDouble("lat");
-            Double lng = call.getDouble("lng");
-            String modeStr = call.getString("travelMode", "DRIVING");
-
-            if (lat == null || lng == null) {
-                call.reject("Must provide lat and lng of destination.");
-                return;
-            }
-
             try {
-                // Keep screen on during navigation
-                getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                String address = call.getString("destination");
+                Double lat = call.getDouble("lat");
+                Double lng = call.getDouble("lng");
+                String modeStr = call.getString("travelMode", "DRIVING");
 
-                // FIX: If the native map was previously hidden by an exit, show it again
-                if (mapContainer != null) {
-                    mapContainer.setVisibility(View.VISIBLE);
+                if (lat == null || lng == null) {
+                    call.reject("Must provide lat and lng of destination.");
+                    return;
                 }
-
-                if (exitBtn != null) {
-                    exitBtn.setVisibility(View.VISIBLE);
-                }
-
-                // Make WebView transparent so native map shows through
-                bridge.getWebView().setBackgroundColor(Color.TRANSPARENT);
-                // bridge.getWebView().setVisibility(View.INVISIBLE);
-
-                // Request audio focus so Android doesn't suppress voice guidance
-                requestAudioFocus();
-
-                // Clear any previous route/destinations before setting the new one.
-                // This MUST happen here (not in hideMap) because clearing on exit
-                // leaves the SDK in a persistent ROUTE_CANCELED state.
-                mNavigator.stopGuidance();
-                mNavigator.clearDestinations();
-                hasTriggeredArrivalForCurrentRoute = false;
 
                 Waypoint destination = Waypoint.builder()
                         .setLatLng(lat, lng)
                         .setTitle(address != null ? address : "Destination")
                         .build();
+
+                hasTriggeredArrivalForCurrentRoute = false; // Reset for new route
+
+                if (mNavigator != null) {
+                    mNavigator.stopGuidance();
+                    mNavigator.clearDestinations();
+                }
 
                 mNavigator.setAudioGuidance(Navigator.AudioGuidance.VOICE_ALERTS_AND_GUIDANCE);
 
@@ -315,6 +309,10 @@ public class NavigationPlugin extends Plugin implements LocationListener {
                             // Ensure camera is in following mode with a tight zoom for urban navigation
                             if (navFragment != null) {
                                 navFragment.getMapAsync(googleMap -> {
+                                    // Suppress the camera-move event the SDK fires as part of its
+                                    // own follow-animation so the Recenter button does not flash.
+                                    ignoreNextCameraMove = true;
+
                                     // Ensure camera is in following mode with a tight zoom for urban navigation
                                     googleMap.followMyLocation(
                                             GoogleMap.CameraPerspective.TILTED);
@@ -322,6 +320,11 @@ public class NavigationPlugin extends Plugin implements LocationListener {
                                     // Detect manual panning to show Recenter button in React
                                     googleMap.setOnCameraMoveStartedListener(reason -> {
                                         if (reason == GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE) {
+                                            if (ignoreNextCameraMove) {
+                                                // This is the SDK's own follow-camera animation; ignore it.
+                                                ignoreNextCameraMove = false;
+                                                return;
+                                            }
                                             JSObject ret = new JSObject();
                                             ret.put("isDrifted", true);
                                             notifyListeners("mapDrifted", ret);
@@ -330,19 +333,40 @@ public class NavigationPlugin extends Plugin implements LocationListener {
 
                                     // Also detect when map returns to following mode
                                     googleMap.setOnMyLocationClickListener(location -> {
+                                        ignoreNextCameraMove = true;
                                         googleMap.followMyLocation(GoogleMap.CameraPerspective.TILTED);
                                         JSObject ret = new JSObject();
                                         ret.put("isDrifted", false);
                                         notifyListeners("mapDrifted", ret);
                                     });
 
-                                    // Set a default higher zoom level to fix "too far away" on mobile
-                                    googleMap.setMaxZoomPreference(21f);
+                                    // Set a tight zoom level to fix "too far away" on mobile
+                                    googleMap.setMaxZoomPreference(20.0f);
+                                    googleMap.setMinZoomPreference(18.0f);
                                     // Ensure 3D buildings are visible to help the tilt perspective
                                     googleMap.setBuildingsEnabled(true);
-                                    // Allow manual tilt to assist the auto-tilt engine
+                                    // Enable ALL gesture inputs explicitly since we rely on them for custom controls
+                                    googleMap.getUiSettings().setScrollGesturesEnabled(true);
+                                    googleMap.getUiSettings().setScrollGesturesEnabledDuringRotateOrZoom(true);
+                                    googleMap.getUiSettings().setZoomGesturesEnabled(true);
+                                    googleMap.getUiSettings().setRotateGesturesEnabled(true);
                                     googleMap.getUiSettings().setTiltGesturesEnabled(true);
                                 });
+                            }
+
+                            // Register for turn-by-turn updates via TurnByTurnManager service
+                            try {
+                                if (navServiceRegistered) {
+                                    mNavigator.unregisterServiceForNavUpdates();
+                                }
+                                mNavigator.registerServiceForNavUpdates(
+                                    getContext().getPackageName(),
+                                    NavUpdateService.class.getName(),
+                                    1 // preview 1 upcoming step
+                                );
+                                navServiceRegistered = true;
+                            } catch (Exception e) {
+                                Log.e(TAG, "Failed to register NavUpdateService: " + e.getMessage());
                             }
 
                             // Implement custom Arrival Listener at exactly 100 meters
@@ -362,15 +386,16 @@ public class NavigationPlugin extends Plugin implements LocationListener {
                                             progress.put("meters", td.getMeters());
                                             progress.put("seconds", td.getSeconds());
 
-// Extract StepInfo for turn-by-turn instructions (Needs NavUpdates Service)
-/*
-StepInfo si = mNavigator.getCurrentStepInfo();
-if (si != null) {
-    progress.put("nextInstruction", si.getFullInstruction());
-    progress.put("nextManeuver", si.getManeuver());
-    progress.put("stepDistance", si.getDistanceToStepMeters());
-}
-*/
+                                            // Read turn-by-turn data from NavUpdateService
+                                            com.google.android.libraries.mapsplatform.turnbyturn.model.NavInfo navInfo = NavUpdateService.latestNavInfo;
+                                            if (navInfo != null && navInfo.getCurrentStep() != null) {
+                                                com.google.android.libraries.mapsplatform.turnbyturn.model.StepInfo step = navInfo.getCurrentStep();
+                                                int maneuverVal = step.getManeuver();
+                                                Log.d(TAG, "[TurnByTurn] maneuver=" + maneuverVal + " instruction=" + step.getFullInstructionText());
+                                                progress.put("nextManeuver", maneuverVal);
+                                                progress.put("nextInstruction", step.getFullInstructionText());
+                                                progress.put("stepDistance", navInfo.getDistanceToCurrentStepMeters());
+                                            }
 
                                             notifyListeners("tripProgress", progress);
 
@@ -404,9 +429,17 @@ if (si != null) {
                                             2500);
                         } else {
                             Log.e(TAG, "Failed to route: " + routeStatus);
+                            // Hide blank native map container so user doesn't see empty map
+                            if (mapContainer != null) {
+                                mapContainer.setVisibility(View.GONE);
+                            }
+                            // Remove screen keep-awake since navigation didn't start
+                            getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
                             // Make sure WebView is visible and non-transparent so user isn't stuck
                             bridge.getWebView().setVisibility(View.VISIBLE);
                             bridge.getWebView().setBackgroundColor(Color.WHITE);
+                            // Reject the JS call so the UI knows navigation failed
+                            call.reject("Route failed: " + routeStatus);
                         }
                     }
                 });
@@ -445,6 +478,98 @@ if (si != null) {
         }
     }
 
+    // ── Delivery Markers ─────────────────────────────────────────────────────
+
+    /**
+     * Draws numbered delivery markers on the active native nav map.
+     * JS passes an array of { lat, lng, stopNumber, status } objects.
+     * Call this right after startGuidance resolves.
+     */
+    @PluginMethod
+    public void setDeliveryMarkers(PluginCall call) {
+        com.getcapacitor.JSArray stops = call.getArray("stops");
+        if (stops == null || navFragment == null) {
+            call.resolve();
+            return;
+        }
+        getActivity().runOnUiThread(() -> {
+            navFragment.getMapAsync(googleMap -> {
+                // Clear any previous markers first
+                for (com.google.android.gms.maps.model.Marker m : deliveryMarkers) m.remove();
+                deliveryMarkers.clear();
+
+                try {
+                    for (int i = 0; i < stops.length(); i++) {
+                        org.json.JSONObject stop = stops.getJSONObject(i);
+                        double lat = stop.getDouble("lat");
+                        double lng = stop.getDouble("lng");
+                        int stopNumber = stop.getInt("stopNumber");
+                        boolean isCompleted = stop.optBoolean("isCompleted", false);
+
+                        Bitmap bmp = createNumberedMarkerBitmap(stopNumber, isCompleted);
+                        com.google.android.gms.maps.model.MarkerOptions opts =
+                            new com.google.android.gms.maps.model.MarkerOptions()
+                                .position(new com.google.android.gms.maps.model.LatLng(lat, lng))
+                                .icon(com.google.android.gms.maps.model.BitmapDescriptorFactory.fromBitmap(bmp))
+                                .anchor(0.5f, 0.5f)
+                                .zIndex(isCompleted ? 40 : 50 + stopNumber)
+                                .title("Stop " + stopNumber);
+
+                        com.google.android.gms.maps.model.Marker marker = googleMap.addMarker(opts);
+                        if (marker != null) deliveryMarkers.add(marker);
+                    }
+                } catch (Exception e) {
+                    Log.e(TAG, "Error adding delivery markers: " + e.getMessage());
+                }
+                call.resolve();
+            });
+        });
+    }
+
+    @PluginMethod
+    public void clearDeliveryMarkers(PluginCall call) {
+        getActivity().runOnUiThread(() -> {
+            for (com.google.android.gms.maps.model.Marker m : deliveryMarkers) m.remove();
+            deliveryMarkers.clear();
+            if (call != null) call.resolve();
+        });
+    }
+
+    /**
+     * Draws a circle with a number inside, matching the web map marker style.
+     * Pending = coral/red (#E53935), Completed = grey (#9E9E9E).
+     */
+    private Bitmap createNumberedMarkerBitmap(int number, boolean isCompleted) {
+        int sizePx = 80; // 80px = crisp on hdpi screens
+        Bitmap bmp = Bitmap.createBitmap(sizePx, sizePx, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bmp);
+
+        // Circle background
+        Paint circlePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        circlePaint.setColor(isCompleted ? Color.parseColor("#9E9E9E") : Color.parseColor("#E53935"));
+        circlePaint.setStyle(Paint.Style.FILL);
+        canvas.drawCircle(sizePx / 2f, sizePx / 2f, sizePx / 2f - 2, circlePaint);
+
+        // White border ring
+        Paint borderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        borderPaint.setColor(Color.WHITE);
+        borderPaint.setStyle(Paint.Style.STROKE);
+        borderPaint.setStrokeWidth(5);
+        canvas.drawCircle(sizePx / 2f, sizePx / 2f, sizePx / 2f - 4, borderPaint);
+
+        // Number label
+        Paint textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        textPaint.setColor(Color.WHITE);
+        textPaint.setTextSize(number >= 10 ? 28 : 34);
+        textPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+        textPaint.setTextAlign(Paint.Align.CENTER);
+        // Center vertically
+        float textY = sizePx / 2f - (textPaint.ascent() + textPaint.descent()) / 2f;
+        canvas.drawText(String.valueOf(number), sizePx / 2f, textY, textPaint);
+
+        return bmp;
+    }
+
     @PluginMethod
     public void hideMap(PluginCall call) {
         getActivity().runOnUiThread(() -> {
@@ -463,8 +588,22 @@ if (si != null) {
                     mNavigator.removeRemainingTimeOrDistanceChangedListener(distanceListener);
                     distanceListener = null;
                 }
+                // Unregister turn-by-turn service
+                if (navServiceRegistered) {
+                    try {
+                        mNavigator.unregisterServiceForNavUpdates();
+                    } catch (Exception e) {
+                        Log.e(TAG, "Error unregistering nav service: " + e.getMessage());
+                    }
+                    navServiceRegistered = false;
+                }
+                NavUpdateService.latestNavInfo = null;
             }
             abandonAudioFocus();
+
+            // Clear delivery markers when navigation ends
+            for (com.google.android.gms.maps.model.Marker m : deliveryMarkers) m.remove();
+            deliveryMarkers.clear();
 
             // IMPORTANT: Do NOT null mNavigator or destroy navFragment here.
             // The Navigator singleton is tightly coupled to its SupportNavigationFragment.
@@ -474,10 +613,6 @@ if (si != null) {
             // Hide the map container (don't destroy the fragment inside it)
             if (mapContainer != null) {
                 mapContainer.setVisibility(View.GONE);
-            }
-
-            if (exitBtn != null) {
-                exitBtn.setVisibility(View.GONE);
             }
 
             // Restore WebView background and visibility

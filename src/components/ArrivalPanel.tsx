@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { RefreshCw, Square, X, Plus, FileText, Image, ChevronRight, Camera, Video, Trash2 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { getSydneyDate } from '../lib/dateUtils';
@@ -94,7 +95,13 @@ export const ArrivalPanel: React.FC<ArrivalPanelProps> = ({
             .eq('address', address)
             .eq('delivery_date', today);
         if (!existing || existing.length === 0) {
-            await supabase.from('deliveries').insert([{ address, delivery_date: today }]);
+            const { data: userData } = await supabase.auth.getUser();
+            const userId = userData.user?.id;
+            await supabase.from('deliveries').upsert([{ 
+                address, 
+                delivery_date: today,
+                user_id: userId 
+            }], { onConflict: 'address,delivery_date,user_id' });
         }
 
         const newNote = { address, parking_instructions: parking, delivery_notes: deliveryNote };
@@ -136,7 +143,13 @@ export const ArrivalPanel: React.FC<ArrivalPanelProps> = ({
             const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Australia/Sydney', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
             const { data: existing } = await supabase.from('deliveries').select('id').eq('address', address).eq('delivery_date', today);
             if (!existing || existing.length === 0) {
-                await supabase.from('deliveries').insert([{ address, delivery_date: today }]);
+                const { data: userData } = await supabase.auth.getUser();
+                const userId = userData.user?.id;
+                await supabase.from('deliveries').upsert([{ 
+                    address, 
+                    delivery_date: today,
+                    user_id: userId
+                }], { onConflict: 'address,delivery_date,user_id' });
             }
 
             const photoRecord = { address, photo_url: photoUrl, category: 'delivery' };
@@ -163,9 +176,54 @@ export const ArrivalPanel: React.FC<ArrivalPanelProps> = ({
         try {
             const mimeType = file.type || 'video/mp4';
             const ext = mimeType.includes('webm') ? 'webm' : 'mp4';
-            const fileName = `${address.replace(/[^a-z0-9]/gi, '_')}_${Date.now()}.${ext}`;
+            const baseFileName = `${address.replace(/[^a-z0-9]/gi, '_')}_${Date.now()}`;
+            const fileName = `${baseFileName}.${ext}`;
             let videoUrl = URL.createObjectURL(file);
 
+            // 1. Generate and upload auto-thumbnail to storage (for future indexing)
+            try {
+                const canvas = document.createElement("canvas");
+                const video = document.createElement("video");
+                video.src = videoUrl;
+                video.crossOrigin = "anonymous";
+                video.muted = true;
+                video.playsInline = true;
+                
+                await new Promise((resolve, reject) => {
+                    const timeoutId = setTimeout(() => {
+                        video.currentTime = 0;
+                        resolve(true);
+                    }, 4000);
+
+                    video.onloadedmetadata = () => {
+                        const seekTime = Math.min(1.0, video.duration / 2 || 0);
+                        video.currentTime = seekTime;
+                    };
+                    
+                    video.onseeked = () => {
+                        clearTimeout(timeoutId);
+                        canvas.width = video.videoWidth || 640;
+                        canvas.height = video.videoHeight || 480;
+                        const ctx = canvas.getContext("2d");
+                        if (ctx) {
+                            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                            resolve(true);
+                        } else {
+                            reject('Canvas context failed');
+                        }
+                    };
+                    video.onerror = () => reject('Video Error');
+                });
+                
+                const blob = await new Promise<Blob | null>(r => canvas.toBlob(r, 'image/jpeg', 0.8));
+                if (blob) {
+                    const thumbName = `${baseFileName}_thumb.jpg`;
+                    const { error: tErr } = await supabase.storage.from('location-videos').upload(thumbName, blob, { contentType: 'image/jpeg' });
+                    if (tErr) console.warn("Thumbnail upload error", tErr);
+                }
+            } catch(e) { console.warn("Auto-thumbnail generation failed", e); }
+
+            // 2. Upload Video
             const { data: uploadData, error: upErr } = await supabase.storage
                 .from('location-videos')
                 .upload(fileName, file, { contentType: mimeType, upsert: false });
@@ -183,15 +241,25 @@ export const ArrivalPanel: React.FC<ArrivalPanelProps> = ({
             const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Australia/Sydney', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
             const { data: existing } = await supabase.from('deliveries').select('id').eq('address', address).eq('delivery_date', today);
             if (!existing || existing.length === 0) {
-                await supabase.from('deliveries').insert([{ address, delivery_date: today }]);
+                const { data: userData } = await supabase.auth.getUser();
+                const userId = userData.user?.id;
+                await supabase.from('deliveries').upsert([{ 
+                    address, 
+                    delivery_date: today,
+                    user_id: userId
+                }], { onConflict: 'address,delivery_date,user_id' });
             }
 
-            const videoRecord = { address, video_url: videoUrl, category: 'Delivery' };
+            const videoRecord = { 
+                address, 
+                video_url: videoUrl, 
+                category: 'Delivery'
+            };
             const { data, error } = await supabase.from('location_videos').insert([videoRecord]).select();
             if (!error && data) {
                 setVideos([data[0], ...videos]);
             } else {
-                setMediaError('Failed to save video.');
+                setMediaError('Failed to save video record.');
             }
         } catch (err: any) {
             setMediaError('Video capture failed: ' + err.message);
@@ -497,23 +565,24 @@ export const ArrivalPanel: React.FC<ArrivalPanelProps> = ({
                                     cursor: 'pointer'
                                 }}
                             >
+                                {/* Pinpointed Marker Map for Preview - Accuracy over Photography */}
                                 <img 
-                                    src={`https://maps.googleapis.com/maps/api/streetview?size=600x300&location=${encodeURIComponent(nextDeliveryAddress)}&key=AIzaSyB9id2lFl02rKAX2gf9qkiL24oEvhI__GU`} 
+                                    src={`https://maps.googleapis.com/maps/api/staticmap?size=600x300&center=${nextLat},${nextLng}&zoom=19&scale=2&maptype=roadmap&markers=color:red%7C${nextLat},${nextLng}&key=AIzaSyB9id2lFl02rKAX2gf9qkiL24oEvhI__GU`} 
                                     alt="Next Stop Preview"
                                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                                 />
                                 <div style={{
                                     position: 'absolute',
                                     inset: 0,
-                                    background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 60%)',
+                                    background: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%)',
                                     display: 'flex',
                                     flexDirection: 'column',
                                     justifyContent: 'flex-end',
                                     padding: '10px 14px'
                                 }}>
-                                    <div style={{ fontSize: 11, fontWeight: 800, color: '#81C784', letterSpacing: 1.2 }}>NEXT STOP PREVIEW</div>
+                                    <div style={{ fontSize: 11, fontWeight: 800, color: '#81C784', letterSpacing: 1.2 }}>NEXT STOP PINPOINT</div>
                                     <div style={{ color: 'white', fontSize: 14, fontWeight: 700 }}>{nextDeliveryAddress.split(',')[0]}</div>
-                                    <div style={{ color: 'rgba(255,255,255,0.8)', fontSize: 10, fontWeight: 500 }}>Tap to look around</div>
+                                    <div style={{ color: 'rgba(255,255,255,0.8)', fontSize: 10, fontWeight: 500 }}>Tap for Street View look-around</div>
                                 </div>
                             </div>
                         )}
@@ -585,34 +654,9 @@ export const ArrivalPanel: React.FC<ArrivalPanelProps> = ({
                     />
                 </div>
             )}
-
-            {/* Interactive Next Stop Look-Around */}
-            {showNextStopLookAround && nextLat !== undefined && nextLng !== undefined && (
-                <div className="lookaround-overlay">
-                    <div style={{
-                        position: 'absolute',
-                        top: 20,
-                        right: 20,
-                        zIndex: 10002
-                    }}>
-                        <button 
-                            onClick={() => setShowNextStopLookAround(false)}
-                            style={{
-                                background: 'white',
-                                border: 'none',
-                                borderRadius: '50%',
-                                width: 44,
-                                height: 44,
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
-                                color: 'black'
-                            }}
-                        >
-                            <X size={24} />
-                        </button>
-                    </div>
+            {/* Interactive Next Stop Look-Around using Portal to escape bounds */}
+            {showNextStopLookAround && nextLat !== undefined && nextLng !== undefined && createPortal(
+                <div className="lookaround-overlay" style={{ position: 'fixed', inset: 0, zIndex: 100000, background: '#000', pointerEvents: 'auto' }}>
                     <StreetViewWrapper
                         lat={nextLat}
                         lng={nextLng}
@@ -620,22 +664,14 @@ export const ArrivalPanel: React.FC<ArrivalPanelProps> = ({
                         onClose={() => setShowNextStopLookAround(false)}
                     />
                     <div style={{
-                        position: 'absolute',
-                        bottom: 40,
-                        left: 20,
-                        right: 20,
-                        background: 'rgba(0,0,0,0.7)',
-                        backdropFilter: 'blur(10px)',
-                        padding: '16px 20px',
-                        borderRadius: 20,
-                        color: 'white',
-                        zIndex: 10001,
-                        pointerEvents: 'none'
+                        position: 'absolute', bottom: 40, left: 20, right: 20, background: 'rgba(0,0,0,0.7)',
+                        backdropFilter: 'blur(10px)', padding: '16px 20px', borderRadius: 20, color: 'white', zIndex: 10001, pointerEvents: 'none'
                     }}>
                         <div style={{ fontSize: 12, fontWeight: 800, color: '#81C784', letterSpacing: 1.5, marginBottom: 4 }}>LOOKING AT</div>
                         <div style={{ fontSize: 18, fontWeight: 700 }}>{nextDeliveryAddress}</div>
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
         </div>
     );

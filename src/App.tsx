@@ -26,6 +26,7 @@ interface Stop {
   packages: number;
   status: 'pending' | 'completed';
   manifest_notes?: string;
+  place_id?: string;
   lat?: number;
   lng?: number;
 }
@@ -77,6 +78,9 @@ function App() {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
     return localStorage.getItem('robin_dark_mode') === 'true';
   });
+
+  const [activeNavLat, setActiveNavLat] = useState<number | null>(null);
+  const [activeNavLng, setActiveNavLng] = useState<number | null>(null);
 
   const [isDeliveryMode, setIsDeliveryMode] = useState<boolean>(() => {
     const stored = localStorage.getItem('robin_delivery_mode');
@@ -318,25 +322,57 @@ function App() {
     await supabase.auth.signOut();
   };
 
+  // Push numbered delivery markers to the native nav map for all geocoded stops.
+  // Only runs on native; silently no-ops on web. Skips stops missing coordinates.
+  const pushNativeDeliveryMarkers = useCallback((stops: Stop[]) => {
+    if (!Capacitor.isNativePlatform()) return;
+    const markerData = stops
+      .map((s, i) => ({ ...s, stopNumber: i + 1 }))
+      .filter(s => s.lat && s.lng)
+      .map(s => ({
+        lat: s.lat!,
+        lng: s.lng!,
+        stopNumber: s.stopNumber,
+        isCompleted: s.status === 'completed',
+      }));
+    if (markerData.length === 0) return;
+    NavigationSDK.setDeliveryMarkers({ stops: markerData }).catch(console.error);
+  }, []);
+
   // Called by ExploreScreen / MapScreen once navigation successfully starts
-  const handleNavStart = useCallback((label: string, fullAddress?: string, coords?: { lat: number, lng: number }) => {
+  const handleNavStart = useCallback((label: string, fullAddress?: string, coords?: { lat: number, lng: number, placeId?: string }) => {
     setNavActive(true);
-    setCurrentSpeed(0); // Initialize speedometer to 0 immediately
-    setArrivalAddress(null); // Clear any previous arrival
+    setCurrentSpeed(0);
+    setArrivalAddress(null);
+    setDistanceRemaining(999999);
     if (fullAddress) {
       setActiveNavAddress(fullAddress);
-      // If we got coordinates from geocoding in MapScreen, persist them back to routeStops
       if (coords) {
-        setRouteStops(prev => prev.map(s =>
-          s.address === fullAddress ? { ...s, lat: coords.lat, lng: coords.lng } : s
-        ));
+        setActiveNavLat(coords.lat);
+        setActiveNavLng(coords.lng);
+        setRouteStops(prev => {
+          const updated = prev.map(s =>
+            s.address === fullAddress ? { 
+              ...s, 
+              lat: coords.lat, 
+              lng: coords.lng,
+              place_id: coords.placeId || s.place_id 
+            } : s
+          );
+          pushNativeDeliveryMarkers(updated);
+          return updated;
+        });
+      } else {
+        setActiveNavLat(null);
+        setActiveNavLng(null);
+        pushNativeDeliveryMarkers(routeStops);
       }
     }
     localStorage.setItem('nav-active', '1');
     localStorage.setItem('nav-label', label);
     document.body.classList.add('native-nav-active');
     document.documentElement.classList.add('native-nav-active');
-  }, []);
+  }, [routeStops, pushNativeDeliveryMarkers]);
 
   // Called when user taps Exit Navigation in the overlay or native FAB
   const handleNavExit = useCallback(() => {
@@ -351,8 +387,8 @@ function App() {
   }, []);
 
   const handleManualArrive = useCallback((address: string | null) => {
-    if (!address) return;
     handleNavExit();
+    if (!address) return;
     setArrivalAddress(address);
     if (!activeNavAddress) {
       setActiveNavAddress(address);
@@ -424,6 +460,106 @@ function App() {
     };
   }, [handleNavExit, activeNavAddress]);
 
+  const syncRouteToSupabase = async (stops: Stop[], userId: string, runId: string, runDate: string) => {
+    try {
+      // 1. Clear and insert run_stops (these are the active stops for the current user)
+      // Note: run_stops is used for active run state restoration. 
+      // We delete all and re-insert to ensure the order and status are accurate.
+      const { error: delErr } = await supabase.from('run_stops').delete().eq('user_id', userId);
+      if (delErr) throw delErr;
+
+      if (stops.length > 0) {
+        const { error: insErr } = await supabase.from('run_stops').insert(
+          stops.map((s, i) => ({
+            user_id: userId,
+            run_id: runId,
+            address_text: s.address,
+            is_completed: s.status === 'completed',
+            stop_order: i,
+            manifest_notes: s.manifest_notes
+          }))
+        );
+        if (insErr) throw insErr;
+      }
+
+      // 2. Deliveries upsert (historical record of every delivery attempt)
+      if (stops.length > 0) {
+        const { error: delivErr } = await supabase.from('deliveries').upsert(
+          stops.map((s, i) => ({
+            user_id: userId, 
+            address: s.address, 
+            delivery_date: runDate, 
+            run_id: runId, 
+            status: s.status, 
+            stop_order: i, 
+            place_id: s.place_id
+          })),
+          { onConflict: 'address,delivery_date,user_id' }
+        );
+        if (delivErr) throw delivErr;
+      }
+
+      // 3. admin_runs (metadata for the specific run)
+      const completed = stops.filter(s => s.status === 'completed').length;
+      const { error: adminRunErr } = await supabase.from('admin_runs').upsert({
+        run_id: runId, 
+        user_id: userId, 
+        run_date: runDate, 
+        total_stops: stops.length, 
+        completed_stops: completed, 
+        created_at: new Date().toISOString()
+      }, { onConflict: 'run_id' });
+      if (adminRunErr) throw adminRunErr;
+
+      // 4. admin_run_routes (individual stop details for the run)
+      // Delete existing routes for THIS run_id only before re-inserting
+      const { error: routeDelErr } = await supabase.from('admin_run_routes').delete().eq('run_id', runId);
+      if (routeDelErr) throw routeDelErr;
+
+      if (stops.length > 0) {
+        const { error: routeInsErr } = await supabase.from('admin_run_routes').insert(
+          stops.map((s, i) => ({
+            run_id: runId, 
+            user_id: userId, 
+            address: s.address, 
+            stop_order: i, 
+            status: s.status, 
+            place_id: s.place_id, 
+            lat: s.lat, 
+            lng: s.lng
+          }))
+        );
+        if (routeInsErr) throw routeInsErr;
+      }
+
+      // 5. calendar_entries (entry for the user's dashboard calendar)
+      const { error: calErr } = await supabase.from('calendar_entries').upsert({
+        user_id: userId, 
+        entry_date: runDate, 
+        run_id: runId, 
+        total_stops: stops.length, 
+        title: `Run — ${stops.length} stop${stops.length !== 1 ? 's' : ''}`, 
+        created_at: new Date().toISOString()
+      }, { onConflict: 'user_id,entry_date,run_id' });
+      if (calErr) throw calErr;
+
+      console.log(`Sync successful for run ${runId} (${stops.length} stops)`);
+    } catch (err) {
+      console.error('Failed to sync run to Supabase:', err);
+    }
+  };
+
+  const handleUpdateStops = useCallback(async (newStops: Stop[]) => {
+    setRouteStops(newStops);
+    localStorage.setItem('robin_route_stops', JSON.stringify(newStops));
+    if (!isGuest && activeRunId && userEmail) {
+      const { data: userData } = await supabase.auth.getUser();
+      if (userData.user) {
+        await syncRouteToSupabase(newStops, userData.user.id, activeRunId, getSydneyDate());
+      }
+    }
+  }, [activeRunId, isGuest, userEmail]);
+
   const handleFinalize = async (stops: Stop[]) => {
     const runId = `run_${Date.now()}`;
     const today = getSydneyDate();
@@ -433,45 +569,10 @@ function App() {
     localStorage.setItem('robin_route_stops', JSON.stringify(stops));
     localStorage.setItem('robin_active_run_id', runId);
 
-    // Persist to Supabase so MapScreen loads the correct data
     if (!isGuest) {
-      try {
-        const { data: userData } = await supabase.auth.getUser();
-        const userId = userData.user?.id;
-
-        if (userId) {
-          // 1. Clear active run_stops for this user
-          await supabase.from('run_stops').delete().eq('user_id', userId);
-
-          // 2. Insert into active run_stops
-          const { error: runStopsErr } = await supabase.from('run_stops').insert(
-            stops.map((s, i) => ({
-              user_id: userId,
-              address: s.address,
-              status: s.status,
-              stop_order: i,
-              manifest_notes: s.manifest_notes,
-              lat: s.lat,
-              lng: s.lng
-            }))
-          );
-          if (runStopsErr) console.error('Error saving run_stops:', runStopsErr);
-
-          // 3. IMMEDIATELY save the whole run to deliveries with the same run_id
-          const { error: deliveriesErr } = await supabase.from('deliveries').insert(
-            stops.map((s, i) => ({
-              user_id: userId,
-              address: s.address,
-              delivery_date: today,
-              run_id: runId,
-              status: s.status,
-              stop_order: i
-            }))
-          );
-          if (deliveriesErr) console.error('Error saving deliveries:', deliveriesErr);
-        }
-      } catch (err) {
-        console.error('Failed to persist run to Supabase:', err);
+      const { data: userData } = await supabase.auth.getUser();
+      if (userData.user) {
+        await syncRouteToSupabase(stops, userData.user.id, runId, today);
       }
     }
 
@@ -487,46 +588,65 @@ function App() {
   const handleReRoute = useCallback(async () => {
     if (!activeNavAddress) return;
     setArrivalAddress(null);
+    
+    // Make WebView transparent immediately to prevent white screen while routing
+    setNavActive(true);
+    document.body.classList.add('native-nav-active');
+    document.documentElement.classList.add('native-nav-active');
+
     try {
-      // Re-initialize and start guidance to the same address
-      await NavigationSDK.initialize();
-      // Geocode the address to get coords
-      const geocoder = new (window as any).google.maps.Geocoder();
-      const result = await new Promise<any>((resolve, reject) => {
-        geocoder.geocode({ address: activeNavAddress, region: 'au' }, (results: any[], status: string) => {
-          if (status === 'OK' && results.length > 0) resolve(results[0]);
-          else reject(new Error('Geocode failed'));
+      const stop = routeStops.find(s => s.address === activeNavAddress);
+      const placeId = stop?.place_id;
+      const lat = stop?.lat;
+      const lng = stop?.lng;
+
+      if (!lat && !lng && !placeId) {
+        // Fallback geocode if we still have nothing
+        const geocoder = new (window as any).google.maps.Geocoder();
+        const result = await new Promise<any>((resolve, reject) => {
+          geocoder.geocode({ address: activeNavAddress, region: 'au' }, (results: any[], status: string) => {
+            if (status === 'OK' && results.length > 0) resolve(results[0]);
+            else reject(new Error('Geocode failed'));
+          });
         });
-      });
-      const lat = result.geometry.location.lat();
-      const lng = result.geometry.location.lng();
-      await NavigationSDK.startGuidance({ destination: activeNavAddress, lat, lng, travelMode: 'DRIVING' });
+        await NavigationSDK.startGuidance({ 
+          destination: activeNavAddress, 
+          placeId: result.place_id,
+          lat: result.geometry.location.lat(), 
+          lng: result.geometry.location.lng(), 
+          travelMode: 'DRIVING' 
+        });
+      } else {
+        await NavigationSDK.startGuidance({ 
+          destination: activeNavAddress, 
+          placeId,
+          lat, 
+          lng, 
+          travelMode: 'DRIVING' 
+        });
+      }
       handleNavStart(activeNavAddress.split(',')[0], activeNavAddress);
+      // Refresh markers after re-route
+      pushNativeDeliveryMarkers(routeStops);
     } catch (err) {
       console.error('Re-route failed:', err);
+      handleNavExit(); // UI recovery if route fails
     }
-  }, [activeNavAddress, handleNavStart]);
+  }, [activeNavAddress, routeStops, handleNavStart, pushNativeDeliveryMarkers, handleNavExit]);
+  
 
   const handleEndRoute = useCallback(async () => {
     // Mark current as completed if we reached it
     if (activeNavAddress) {
       const currentIdx = routeStops.findIndex(s => s.address === activeNavAddress);
       if (currentIdx >= 0) {
-        const stopId = routeStops[currentIdx].id;
-        setRouteStops(prev => prev.map((s, i) => i === currentIdx ? { ...s, status: 'completed' as const } : s));
-        if (!isGuest) {
-          if (stopId) await supabase.from('run_stops').update({ status: 'completed' }).eq('id', stopId);
-          // Update the existing delivery record
-          const today = getSydneyDate();
-          const query = supabase.from('deliveries')
-            .update({ status: 'completed' })
-            .eq('address', activeNavAddress)
-            .eq('delivery_date', today);
-
+        const updatedStops = routeStops.map((s, i) => i === currentIdx ? { ...s, status: 'completed' as const } : s);
+        setRouteStops(updatedStops);
+        if (!isGuest && activeRunId) {
           const { data: userData } = await supabase.auth.getUser();
-          if (userData.user) query.eq('user_id', userData.user.id);
-          if (activeRunId) query.eq('run_id', activeRunId);
-          await query;
+          if (userData.user) {
+            await syncRouteToSupabase(updatedStops, userData.user.id, activeRunId, getSydneyDate());
+          }
         }
       }
     }
@@ -535,54 +655,74 @@ function App() {
   }, [activeNavAddress, routeStops, isGuest, activeRunId]);
 
   const handleNextDelivery = useCallback(async () => {
-    // Find the current stop index and advance to next pending
     const currentIdx = routeStops.findIndex(s => s.address === activeNavAddress);
+    let currentStops = routeStops;
+    
     // Mark current as completed
     if (currentIdx >= 0) {
-      const stopId = routeStops[currentIdx].id;
-      setRouteStops(prev => prev.map((s, i) => i === currentIdx ? { ...s, status: 'completed' as const } : s));
-      if (!isGuest) {
-        // Persist to Supabase
-        if (stopId) await supabase.from('run_stops').update({ status: 'completed' }).eq('id', stopId);
-        // Update the existing delivery record rather than inserting a duplicate
-        const today = getSydneyDate();
-        const query = supabase.from('deliveries')
-          .update({ status: 'completed' })
-          .eq('address', activeNavAddress)
-          .eq('delivery_date', today);
-
+      currentStops = routeStops.map((s, i) => i === currentIdx ? { ...s, status: 'completed' as const } : s);
+      setRouteStops(currentStops);
+      if (!isGuest && activeRunId) {
         const { data: userData } = await supabase.auth.getUser();
-        if (userData.user) query.eq('user_id', userData.user.id);
-        if (activeRunId) query.eq('run_id', activeRunId);
-        await query;
+        if (userData.user) {
+          await syncRouteToSupabase(currentStops, userData.user.id, activeRunId, getSydneyDate());
+        }
       }
     }
+    
     // Find next pending stop
-    const nextStop = routeStops.find((s, i) => i > currentIdx && s.status === 'pending');
+    const nextStop = currentStops.find((s, i) => i > currentIdx && s.status === 'pending');
     if (!nextStop) {
       setArrivalAddress(null);
       setActiveNavAddress(null);
       return;
     }
     setArrivalAddress(null);
+    
+    // Make WebView transparent immediately to prevent white screen
+    setNavActive(true);
+    document.body.classList.add('native-nav-active');
+    document.documentElement.classList.add('native-nav-active');
+
     try {
       await NavigationSDK.initialize();
-      const geocoder = new (window as any).google.maps.Geocoder();
-      const result = await new Promise<any>((resolve, reject) => {
-        geocoder.geocode({ address: nextStop.address, region: 'au' }, (results: any[], status: string) => {
-          if (status === 'OK' && results.length > 0) resolve(results[0]);
-          else reject(new Error('Geocode failed'));
+      const lat = nextStop.lat;
+      const lng = nextStop.lng;
+      const placeId = nextStop.place_id;
+
+      if (!lat && !lng && !placeId) {
+        const geocoder = new (window as any).google.maps.Geocoder();
+        const result = await new Promise<any>((resolve, reject) => {
+          geocoder.geocode({ address: nextStop.address, region: 'au' }, (results: any[], status: string) => {
+            if (status === 'OK' && results.length > 0) resolve(results[0]);
+            else reject(new Error('Geocode failed'));
+          });
         });
-      });
-      const lat = result.geometry.location.lat();
-      const lng = result.geometry.location.lng();
-      await NavigationSDK.startGuidance({ destination: nextStop.address, lat, lng, travelMode: 'DRIVING' });
+        await NavigationSDK.startGuidance({ 
+          destination: nextStop.address, 
+          placeId: result.place_id,
+          lat: result.geometry.location.lat(), 
+          lng: result.geometry.location.lng(), 
+          travelMode: 'DRIVING' 
+        });
+      } else {
+        await NavigationSDK.startGuidance({ 
+          destination: nextStop.address, 
+          placeId,
+          lat, 
+          lng, 
+          travelMode: 'DRIVING' 
+        });
+      }
       setActiveNavAddress(nextStop.address);
       handleNavStart(nextStop.address.split(',')[0], nextStop.address);
+      // Refresh native markers now that one stop is completed
+      pushNativeDeliveryMarkers(currentStops);
     } catch (err) {
       console.error('Failed to start next delivery:', err);
+      handleNavExit(); // UI recovery
     }
-  }, [activeNavAddress, routeStops, handleNavStart, isGuest]);
+  }, [activeNavAddress, routeStops, handleNavStart, pushNativeDeliveryMarkers, isGuest, activeRunId, handleNavExit]);
 
   const handleClearRun = useCallback(() => {
     setRouteStops([]);
@@ -602,21 +742,13 @@ function App() {
     if (activeNavAddress) {
       const currentIdx = routeStops.findIndex(s => s.address === activeNavAddress);
       if (currentIdx >= 0) {
-        const stopId = routeStops[currentIdx].id;
-        setRouteStops(prev => prev.map((s, i) => i === currentIdx ? { ...s, status: 'completed' as const } : s));
-        if (!isGuest) {
-          if (stopId) await supabase.from('run_stops').update({ status: 'completed' }).eq('id', stopId);
-          // Update the existing delivery record
-          const today = getSydneyDate();
-          const query = supabase.from('deliveries')
-            .update({ status: 'completed' })
-            .eq('address', activeNavAddress)
-            .eq('delivery_date', today);
-
+        const updatedStops = routeStops.map((s, i) => i === currentIdx ? { ...s, status: 'completed' as const } : s);
+        setRouteStops(updatedStops);
+        if (!isGuest && activeRunId) {
           const { data: userData } = await supabase.auth.getUser();
-          if (userData.user) query.eq('user_id', userData.user.id);
-          if (activeRunId) query.eq('run_id', activeRunId);
-          await query;
+          if (userData.user) {
+            await syncRouteToSupabase(updatedStops, userData.user.id, activeRunId, getSydneyDate());
+          }
         }
       }
     }
@@ -650,7 +782,15 @@ function App() {
   const getTurnIcon = (maneuver: number | null) => {
     // Basic mapping based on Google Maps Maneuver constants
     // 0: Unknown, 1: Depart, 2: Destination, 3: Turn Slight Left, 4: Turn Sharp Left, 5: U-Turn Left, 6: Turn Left, ...
-    if (maneuver === null) return null;
+    
+    // Default straight arrow — used when maneuver is null or unrecognised so the header never appears empty
+    const straightArrow = (
+      <svg viewBox="0 0 24 24" width="48" height="48" fill="white">
+        <path d="M12 4L12 20M12 4L5 11M12 4L19 11" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    );
+
+    if (maneuver === null) return straightArrow;
     
     // Default turn icons using SVG paths
     switch(maneuver) {
@@ -659,41 +799,37 @@ function App() {
         return <div className="nav-arriving-label">ARRIVING AT</div>;
       case 3: // Slight Left
       case 4: // Sharp Left
+      case 5: // U-Turn Left
       case 6: // Left
         return (
-          <svg viewBox="0 0 24 24" width="32" height="32" fill="white" style={{ transform: 'rotate(-90deg)' }}>
+          <svg viewBox="0 0 24 24" width="48" height="48" fill="white" style={{ transform: 'rotate(-90deg)' }}>
             <path d="M12 4L12 20M12 4L5 11M12 4L19 11" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         );
       case 7: // Slight Right
       case 8: // Sharp Right
+      case 9: // Keep Right
       case 10: // Right
         return (
-          <svg viewBox="0 0 24 24" width="32" height="32" fill="white" style={{ transform: 'rotate(90deg)' }}>
+          <svg viewBox="0 0 24 24" width="48" height="48" fill="white" style={{ transform: 'rotate(90deg)' }}>
             <path d="M12 4L12 20M12 4L5 11M12 4L19 11" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         );
       case 11: // U-Turn Left
       case 12: // U-Turn Right
         return (
-          <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <path d="M10 9l-4 4 4 4"/><path d="M6 13h9a4 4 0 0 1 0 8H12"/>
           </svg>
         );
       case 13: // Straight
       case 14: // Name Change
-        return (
-          <svg viewBox="0 0 24 24" width="32" height="32" fill="white">
-            <path d="M12 4L12 20M12 4L5 11M12 4L19 11" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        );
+      case 15: // Stay on highway / Merge
+      case 16: // On ramp
+      case 17: // Off ramp
+        return straightArrow;
       default:
-        // Default straight or fallback
-        return (
-          <svg viewBox="0 0 24 24" width="32" height="32" fill="white">
-            <path d="M12 4L12 20M12 4L5 11M12 4L19 11" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        );
+        return straightArrow;
     }
   };
 
@@ -748,7 +884,7 @@ function App() {
             onNavigateToLogin={() => setActiveTab('explore')}
             routeStops={routeStops}
             activeAddress={activeNavAddress}
-            onUpdateStops={setRouteStops}
+            onUpdateStops={handleUpdateStops}
             onSwitchToIntel={handleSwitchToIntel}
           />
         );
@@ -785,8 +921,8 @@ function App() {
         />
       )}
 
-      {/* Global Voice Assistant - Always visible for UI consistency except on Explore screen where it's integrated */}
-      {activeTab !== 'explore' && (
+      {/* Global Voice Assistant - Hidden when navActive as it moves to sidebar */}
+      {activeTab !== 'explore' && !navActive && (
         <VoiceAssistantNode
           routeStops={routeStops}
           onAction={handleVoiceAction}
@@ -825,24 +961,9 @@ function App() {
                 </div>
               </div>
             </div>
-            <button className="nav-header-exit" onClick={handleNavExit}>
-              Exit
-            </button>
           </div>
 
-          {/* 50m Proximity Split-Screen Image View */}
-          {distanceRemaining <= 50 && (
-            <div className="proximity-split-view">
-              <div className="proximity-image-container">
-                {/* We'll use the static Street View API for the thumbnail here */}
-                <img
-                  src={`https://maps.googleapis.com/maps/api/streetview?size=600x400&location=${encodeURIComponent(activeNavAddress || '')}&key=AIzaSyB9id2lFl02rKAX2gf9qkiL24oEvhI__GU`}
-                  alt="Destination"
-                  className="proximity-image"
-                />
-              </div>
-            </div>
-          )}
+
 
           <div className="nav-overlay-content">
             {/* Left Side: Speedometer */}
@@ -871,7 +992,7 @@ function App() {
               </div>
             )}
 
-            {/* Right Side Stack: Thumbnail, Recenter, Arrive */}
+            {/* Right Side Stack: Thumbnail, Recenter, Voice, Arrive */}
             <div className="nav-right-stack">
               {/* Destination Preview Thumbnail */}
               {activeNavAddress && (
@@ -900,6 +1021,13 @@ function App() {
                 </button>
               )}
 
+              {/* Voice Assistant - Unified in stack */}
+              <VoiceAssistantNode
+                routeStops={routeStops}
+                onAction={handleVoiceAction}
+                isStatic={true}
+              />
+
               {/* Manual Arrival Button */}
               <button className="nav-arrive-fab" onClick={() => handleManualArrive(activeNavAddress)}>
                 <X size={28} />
@@ -908,21 +1036,10 @@ function App() {
             
             {/* Interactive Nav Look-Around */}
             {navLookAround && (
-              <div className="lookaround-overlay" style={{ zIndex: 10005, position: 'fixed', inset: 0, background: '#000' }}>
-                <div style={{ position: 'absolute', top: 20, right: 20, zIndex: 10007 }}>
-                  <button 
-                    onClick={() => setNavLookAround(false)}
-                    style={{
-                      background: 'white', border: 'none', borderRadius: '50%', width: 44, height: 44,
-                      display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 12px rgba(0,0,0,0.3)', color: 'black', cursor: 'pointer', pointerEvents: 'auto'
-                    }}
-                  >
-                    <X size={24} />
-                  </button>
-                </div>
+              <div className="lookaround-overlay" style={{ zIndex: 10005, position: 'fixed', inset: 0, background: '#000', pointerEvents: 'auto' }}>
                 <StreetViewWrapper
-                  lat={routeStops.find(s => s.address === activeNavAddress)?.lat || 0}
-                  lng={routeStops.find(s => s.address === activeNavAddress)?.lng || 0}
+                  lat={activeNavLat ?? (routeStops.find(s => s.address === activeNavAddress)?.lat || 0)}
+                  lng={activeNavLng ?? (routeStops.find(s => s.address === activeNavAddress)?.lng || 0)}
                   isFullscreen={true}
                   onClose={() => setNavLookAround(false)}
                 />
@@ -937,31 +1054,7 @@ function App() {
             )}
           </div>
 
-            {/* Manual Arrival Button (Red Circular FAB with X) */}
-            <button 
-              className="nav-arrive-fab"
-              onClick={() => handleManualArrive(activeNavAddress)}
-              style={{
-                position: 'absolute',
-                bottom: 'calc(100px + env(safe-area-inset-bottom))',
-                right: 20,
-                width: 56,
-                height: 56,
-                borderRadius: 28,
-                background: '#d93025',
-                color: 'white',
-                border: 'none',
-                boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                zIndex: 6000,
-                cursor: 'pointer',
-                pointerEvents: 'auto'
-              }}
-            >
-              <X size={28} />
-            </button>
+            {/* NEW: Custom Floating Footer to match top section */}
 
             {/* NEW: Custom Floating Footer to match top section */}
             <div className="nav-footer">
