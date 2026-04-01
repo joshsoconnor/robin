@@ -399,14 +399,9 @@ public class NavigationPlugin extends Plugin implements LocationListener {
 
                                             notifyListeners("tripProgress", progress);
 
-                                            if (td.getMeters() > 0 && td.getMeters() <= 50) {
-                                                Log.i(TAG, "Custom 50m arrival triggered! Distance: " + td.getMeters());
-                                                hasTriggeredArrivalForCurrentRoute = true;
-
-                                                JSObject ret = new JSObject();
-                                                ret.put("arrived", true);
-                                                notifyListeners("navArrived", ret);
-                                            }
+                                            // Removed the proactive 50m arrival trigger here.
+                                            // Web UI App.tsx already checks m <= 50 and handles manual arrival
+                                            // without forcing incomplete destinations to resolve.
                                         }
                                     } catch (Exception e) {
                                         Log.e(TAG, "Error checking distance for arrival: " + e.getMessage());
@@ -621,33 +616,8 @@ public class NavigationPlugin extends Plugin implements LocationListener {
 
             // Only notify JS if this was triggered natively (via FAB button).
             if (call == null) {
-                boolean isArrived = false;
-
-                // If we have an active navigator and a destination, check remaining distance
-                if (mNavigator != null) {
-                    try {
-                        com.google.android.libraries.navigation.TimeAndDistance timeAndDistance = mNavigator
-                                .getCurrentTimeAndDistance();
-                        if (timeAndDistance != null) {
-                            int metersRemaining = timeAndDistance.getMeters();
-                            Log.i(TAG, "User exited navigation. Distance remaining: " + metersRemaining + " meters");
-                            // If within 200 meters, treat manual exit as an Arrival
-                            if (metersRemaining > 0 && metersRemaining <= 200) {
-                                isArrived = true;
-                            }
-                        }
-                    } catch (Exception e) {
-                        Log.e(TAG, "Error getting time and distance on exit: " + e.getMessage());
-                    }
-                }
-
-                if (isArrived) {
-                    JSObject ret = new JSObject();
-                    ret.put("arrived", true);
-                    notifyListeners("navArrived", ret);
-                } else {
-                    notifyListeners("navExited", new JSObject());
-                }
+                // Manual cancellation of guidance never automatically considers as arrived.
+                notifyListeners("navExited", new JSObject());
             }
 
             if (call != null) {

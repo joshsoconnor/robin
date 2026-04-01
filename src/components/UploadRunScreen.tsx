@@ -339,20 +339,7 @@ export const UploadRunScreen: React.FC<UploadRunScreenProps> = ({ isDarkMode, on
             });
 
             setStops(enriched);
-            
-            // Bypass the manual review phase and go straight to navigation overview (MapScreen)
-            // Use the data just prepared to call the onFinalize callback from App.tsx
-            const routeStops = enriched.map((stop, i) => ({
-                id: String(Date.now() + i),
-                address: stop.address,
-                packages: 1,
-                status: (stop.isCompleted ? 'completed' : 'pending') as 'completed' | 'pending',
-                manifest_notes: stop.manifest_notes,
-                place_id: (stop as any).place_id,
-                lat: (stop as any).lat,
-                lng: (stop as any).lng
-            }));
-            onFinalize(routeStops);
+            setPhase('review');
             
         } catch (err: any) {
             console.error('Processing failed:', err);
@@ -521,7 +508,7 @@ export const UploadRunScreen: React.FC<UploadRunScreenProps> = ({ isDarkMode, on
                     {canProcess && (
                         <button className="process-btn" onClick={handleProcessRun}>
                             <CheckCircle size={20} />
-                            Generate Run
+                            Extract Addresses
                             {capturedImages.length > 0 && ` · ${capturedImages.length} page${capturedImages.length > 1 ? 's' : ''}`}
                             {manualStops.length > 0 && ` · ${manualStops.length} manual`}
                         </button>
@@ -665,7 +652,7 @@ export const UploadRunScreen: React.FC<UploadRunScreenProps> = ({ isDarkMode, on
                                 </button>
                             ) : (
                                 <button className="finalize-run-btn" onClick={handleFinalize}>
-                                    {stops.some(s => s.isCompleted) ? 'Resume Run' : 'Start Run'} → {stops.filter(s => !s.isCompleted).length} stops
+                                    {stops.some(s => s.isCompleted) ? 'Resume Run' : 'Generate Run'} → {stops.filter(s => !s.isCompleted).length} stops
                                 </button>
                             )}
                         </div>

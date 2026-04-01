@@ -1,0 +1,2642 @@
+{
+  "auth": {
+    "audit_log_entries": [
+      {
+        "col": "instance_id",
+        "type": "uuid",
+        "nullable": true
+      },
+      {
+        "col": "id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "payload",
+        "type": "json",
+        "nullable": true
+      },
+      {
+        "col": "created_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "ip_address",
+        "type": "character varying",
+        "nullable": false
+      }
+    ],
+    "custom_oauth_providers": [
+      {
+        "col": "id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "provider_type",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "identifier",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "name",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "client_id",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "client_secret",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "acceptable_client_ids",
+        "type": "ARRAY",
+        "nullable": false
+      },
+      {
+        "col": "scopes",
+        "type": "ARRAY",
+        "nullable": false
+      },
+      {
+        "col": "pkce_enabled",
+        "type": "boolean",
+        "nullable": false
+      },
+      {
+        "col": "attribute_mapping",
+        "type": "jsonb",
+        "nullable": false
+      },
+      {
+        "col": "authorization_params",
+        "type": "jsonb",
+        "nullable": false
+      },
+      {
+        "col": "enabled",
+        "type": "boolean",
+        "nullable": false
+      },
+      {
+        "col": "email_optional",
+        "type": "boolean",
+        "nullable": false
+      },
+      {
+        "col": "issuer",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "discovery_url",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "skip_nonce_check",
+        "type": "boolean",
+        "nullable": false
+      },
+      {
+        "col": "cached_discovery",
+        "type": "jsonb",
+        "nullable": true
+      },
+      {
+        "col": "discovery_cached_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "authorization_url",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "token_url",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "userinfo_url",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "jwks_uri",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "created_at",
+        "type": "timestamp with time zone",
+        "nullable": false
+      },
+      {
+        "col": "updated_at",
+        "type": "timestamp with time zone",
+        "nullable": false
+      }
+    ],
+    "flow_state": [
+      {
+        "col": "id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "user_id",
+        "type": "uuid",
+        "nullable": true
+      },
+      {
+        "col": "auth_code",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "code_challenge_method",
+        "type": "USER-DEFINED",
+        "nullable": true
+      },
+      {
+        "col": "code_challenge",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "provider_type",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "provider_access_token",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "provider_refresh_token",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "created_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "updated_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "authentication_method",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "auth_code_issued_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "invite_token",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "referrer",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "oauth_client_state_id",
+        "type": "uuid",
+        "nullable": true
+      },
+      {
+        "col": "linking_target_id",
+        "type": "uuid",
+        "nullable": true
+      },
+      {
+        "col": "email_optional",
+        "type": "boolean",
+        "nullable": false
+      }
+    ],
+    "identities": [
+      {
+        "col": "provider_id",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "user_id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "identity_data",
+        "type": "jsonb",
+        "nullable": false
+      },
+      {
+        "col": "provider",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "last_sign_in_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "created_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "updated_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "email",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "id",
+        "type": "uuid",
+        "nullable": false
+      }
+    ],
+    "instances": [
+      {
+        "col": "id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "uuid",
+        "type": "uuid",
+        "nullable": true
+      },
+      {
+        "col": "raw_base_config",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "created_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "updated_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      }
+    ],
+    "mfa_amr_claims": [
+      {
+        "col": "session_id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "created_at",
+        "type": "timestamp with time zone",
+        "nullable": false
+      },
+      {
+        "col": "updated_at",
+        "type": "timestamp with time zone",
+        "nullable": false
+      },
+      {
+        "col": "authentication_method",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "id",
+        "type": "uuid",
+        "nullable": false
+      }
+    ],
+    "mfa_challenges": [
+      {
+        "col": "id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "factor_id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "created_at",
+        "type": "timestamp with time zone",
+        "nullable": false
+      },
+      {
+        "col": "verified_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "ip_address",
+        "type": "inet",
+        "nullable": false
+      },
+      {
+        "col": "otp_code",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "web_authn_session_data",
+        "type": "jsonb",
+        "nullable": true
+      }
+    ],
+    "mfa_factors": [
+      {
+        "col": "id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "user_id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "friendly_name",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "factor_type",
+        "type": "USER-DEFINED",
+        "nullable": false
+      },
+      {
+        "col": "status",
+        "type": "USER-DEFINED",
+        "nullable": false
+      },
+      {
+        "col": "created_at",
+        "type": "timestamp with time zone",
+        "nullable": false
+      },
+      {
+        "col": "updated_at",
+        "type": "timestamp with time zone",
+        "nullable": false
+      },
+      {
+        "col": "secret",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "phone",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "last_challenged_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "web_authn_credential",
+        "type": "jsonb",
+        "nullable": true
+      },
+      {
+        "col": "web_authn_aaguid",
+        "type": "uuid",
+        "nullable": true
+      },
+      {
+        "col": "last_webauthn_challenge_data",
+        "type": "jsonb",
+        "nullable": true
+      }
+    ],
+    "oauth_authorizations": [
+      {
+        "col": "id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "authorization_id",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "client_id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "user_id",
+        "type": "uuid",
+        "nullable": true
+      },
+      {
+        "col": "redirect_uri",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "scope",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "state",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "resource",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "code_challenge",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "code_challenge_method",
+        "type": "USER-DEFINED",
+        "nullable": true
+      },
+      {
+        "col": "response_type",
+        "type": "USER-DEFINED",
+        "nullable": false
+      },
+      {
+        "col": "status",
+        "type": "USER-DEFINED",
+        "nullable": false
+      },
+      {
+        "col": "authorization_code",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "created_at",
+        "type": "timestamp with time zone",
+        "nullable": false
+      },
+      {
+        "col": "expires_at",
+        "type": "timestamp with time zone",
+        "nullable": false
+      },
+      {
+        "col": "approved_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "nonce",
+        "type": "text",
+        "nullable": true
+      }
+    ],
+    "oauth_client_states": [
+      {
+        "col": "id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "provider_type",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "code_verifier",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "created_at",
+        "type": "timestamp with time zone",
+        "nullable": false
+      }
+    ],
+    "oauth_clients": [
+      {
+        "col": "id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "client_secret_hash",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "registration_type",
+        "type": "USER-DEFINED",
+        "nullable": false
+      },
+      {
+        "col": "redirect_uris",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "grant_types",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "client_name",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "client_uri",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "logo_uri",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "created_at",
+        "type": "timestamp with time zone",
+        "nullable": false
+      },
+      {
+        "col": "updated_at",
+        "type": "timestamp with time zone",
+        "nullable": false
+      },
+      {
+        "col": "deleted_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "client_type",
+        "type": "USER-DEFINED",
+        "nullable": false
+      },
+      {
+        "col": "token_endpoint_auth_method",
+        "type": "text",
+        "nullable": false
+      }
+    ],
+    "oauth_consents": [
+      {
+        "col": "id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "user_id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "client_id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "scopes",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "granted_at",
+        "type": "timestamp with time zone",
+        "nullable": false
+      },
+      {
+        "col": "revoked_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      }
+    ],
+    "one_time_tokens": [
+      {
+        "col": "id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "user_id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "token_type",
+        "type": "USER-DEFINED",
+        "nullable": false
+      },
+      {
+        "col": "token_hash",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "relates_to",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "created_at",
+        "type": "timestamp without time zone",
+        "nullable": false
+      },
+      {
+        "col": "updated_at",
+        "type": "timestamp without time zone",
+        "nullable": false
+      }
+    ],
+    "refresh_tokens": [
+      {
+        "col": "instance_id",
+        "type": "uuid",
+        "nullable": true
+      },
+      {
+        "col": "id",
+        "type": "bigint",
+        "nullable": false
+      },
+      {
+        "col": "token",
+        "type": "character varying",
+        "nullable": true
+      },
+      {
+        "col": "user_id",
+        "type": "character varying",
+        "nullable": true
+      },
+      {
+        "col": "revoked",
+        "type": "boolean",
+        "nullable": true
+      },
+      {
+        "col": "created_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "updated_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "parent",
+        "type": "character varying",
+        "nullable": true
+      },
+      {
+        "col": "session_id",
+        "type": "uuid",
+        "nullable": true
+      }
+    ],
+    "saml_providers": [
+      {
+        "col": "id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "sso_provider_id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "entity_id",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "metadata_xml",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "metadata_url",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "attribute_mapping",
+        "type": "jsonb",
+        "nullable": true
+      },
+      {
+        "col": "created_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "updated_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "name_id_format",
+        "type": "text",
+        "nullable": true
+      }
+    ],
+    "saml_relay_states": [
+      {
+        "col": "id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "sso_provider_id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "request_id",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "for_email",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "redirect_to",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "created_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "updated_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "flow_state_id",
+        "type": "uuid",
+        "nullable": true
+      }
+    ],
+    "schema_migrations": [
+      {
+        "col": "version",
+        "type": "character varying",
+        "nullable": false
+      }
+    ],
+    "sessions": [
+      {
+        "col": "id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "user_id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "created_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "updated_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "factor_id",
+        "type": "uuid",
+        "nullable": true
+      },
+      {
+        "col": "aal",
+        "type": "USER-DEFINED",
+        "nullable": true
+      },
+      {
+        "col": "not_after",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "refreshed_at",
+        "type": "timestamp without time zone",
+        "nullable": true
+      },
+      {
+        "col": "user_agent",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "ip",
+        "type": "inet",
+        "nullable": true
+      },
+      {
+        "col": "tag",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "oauth_client_id",
+        "type": "uuid",
+        "nullable": true
+      },
+      {
+        "col": "refresh_token_hmac_key",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "refresh_token_counter",
+        "type": "bigint",
+        "nullable": true
+      },
+      {
+        "col": "scopes",
+        "type": "text",
+        "nullable": true
+      }
+    ],
+    "sso_domains": [
+      {
+        "col": "id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "sso_provider_id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "domain",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "created_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "updated_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      }
+    ],
+    "sso_providers": [
+      {
+        "col": "id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "resource_id",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "created_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "updated_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "disabled",
+        "type": "boolean",
+        "nullable": true
+      }
+    ],
+    "users": [
+      {
+        "col": "instance_id",
+        "type": "uuid",
+        "nullable": true
+      },
+      {
+        "col": "id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "aud",
+        "type": "character varying",
+        "nullable": true
+      },
+      {
+        "col": "role",
+        "type": "character varying",
+        "nullable": true
+      },
+      {
+        "col": "email",
+        "type": "character varying",
+        "nullable": true
+      },
+      {
+        "col": "encrypted_password",
+        "type": "character varying",
+        "nullable": true
+      },
+      {
+        "col": "email_confirmed_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "invited_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "confirmation_token",
+        "type": "character varying",
+        "nullable": true
+      },
+      {
+        "col": "confirmation_sent_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "recovery_token",
+        "type": "character varying",
+        "nullable": true
+      },
+      {
+        "col": "recovery_sent_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "email_change_token_new",
+        "type": "character varying",
+        "nullable": true
+      },
+      {
+        "col": "email_change",
+        "type": "character varying",
+        "nullable": true
+      },
+      {
+        "col": "email_change_sent_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "last_sign_in_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "raw_app_meta_data",
+        "type": "jsonb",
+        "nullable": true
+      },
+      {
+        "col": "raw_user_meta_data",
+        "type": "jsonb",
+        "nullable": true
+      },
+      {
+        "col": "is_super_admin",
+        "type": "boolean",
+        "nullable": true
+      },
+      {
+        "col": "created_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "updated_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "phone",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "phone_confirmed_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "phone_change",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "phone_change_token",
+        "type": "character varying",
+        "nullable": true
+      },
+      {
+        "col": "phone_change_sent_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "confirmed_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "email_change_token_current",
+        "type": "character varying",
+        "nullable": true
+      },
+      {
+        "col": "email_change_confirm_status",
+        "type": "smallint",
+        "nullable": true
+      },
+      {
+        "col": "banned_until",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "reauthentication_token",
+        "type": "character varying",
+        "nullable": true
+      },
+      {
+        "col": "reauthentication_sent_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "is_sso_user",
+        "type": "boolean",
+        "nullable": false
+      },
+      {
+        "col": "deleted_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "is_anonymous",
+        "type": "boolean",
+        "nullable": false
+      }
+    ],
+    "webauthn_challenges": [
+      {
+        "col": "id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "user_id",
+        "type": "uuid",
+        "nullable": true
+      },
+      {
+        "col": "challenge_type",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "session_data",
+        "type": "jsonb",
+        "nullable": false
+      },
+      {
+        "col": "created_at",
+        "type": "timestamp with time zone",
+        "nullable": false
+      },
+      {
+        "col": "expires_at",
+        "type": "timestamp with time zone",
+        "nullable": false
+      }
+    ],
+    "webauthn_credentials": [
+      {
+        "col": "id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "user_id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "credential_id",
+        "type": "bytea",
+        "nullable": false
+      },
+      {
+        "col": "public_key",
+        "type": "bytea",
+        "nullable": false
+      },
+      {
+        "col": "attestation_type",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "aaguid",
+        "type": "uuid",
+        "nullable": true
+      },
+      {
+        "col": "sign_count",
+        "type": "bigint",
+        "nullable": false
+      },
+      {
+        "col": "transports",
+        "type": "jsonb",
+        "nullable": false
+      },
+      {
+        "col": "backup_eligible",
+        "type": "boolean",
+        "nullable": false
+      },
+      {
+        "col": "backed_up",
+        "type": "boolean",
+        "nullable": false
+      },
+      {
+        "col": "friendly_name",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "created_at",
+        "type": "timestamp with time zone",
+        "nullable": false
+      },
+      {
+        "col": "updated_at",
+        "type": "timestamp with time zone",
+        "nullable": false
+      },
+      {
+        "col": "last_used_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      }
+    ]
+  },
+  "extensions": {
+    "pg_stat_statements": [
+      {
+        "col": "userid",
+        "type": "oid",
+        "nullable": true
+      },
+      {
+        "col": "dbid",
+        "type": "oid",
+        "nullable": true
+      },
+      {
+        "col": "toplevel",
+        "type": "boolean",
+        "nullable": true
+      },
+      {
+        "col": "queryid",
+        "type": "bigint",
+        "nullable": true
+      },
+      {
+        "col": "query",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "plans",
+        "type": "bigint",
+        "nullable": true
+      },
+      {
+        "col": "total_plan_time",
+        "type": "double precision",
+        "nullable": true
+      },
+      {
+        "col": "min_plan_time",
+        "type": "double precision",
+        "nullable": true
+      },
+      {
+        "col": "max_plan_time",
+        "type": "double precision",
+        "nullable": true
+      },
+      {
+        "col": "mean_plan_time",
+        "type": "double precision",
+        "nullable": true
+      },
+      {
+        "col": "stddev_plan_time",
+        "type": "double precision",
+        "nullable": true
+      },
+      {
+        "col": "calls",
+        "type": "bigint",
+        "nullable": true
+      },
+      {
+        "col": "total_exec_time",
+        "type": "double precision",
+        "nullable": true
+      },
+      {
+        "col": "min_exec_time",
+        "type": "double precision",
+        "nullable": true
+      },
+      {
+        "col": "max_exec_time",
+        "type": "double precision",
+        "nullable": true
+      },
+      {
+        "col": "mean_exec_time",
+        "type": "double precision",
+        "nullable": true
+      },
+      {
+        "col": "stddev_exec_time",
+        "type": "double precision",
+        "nullable": true
+      },
+      {
+        "col": "rows",
+        "type": "bigint",
+        "nullable": true
+      },
+      {
+        "col": "shared_blks_hit",
+        "type": "bigint",
+        "nullable": true
+      },
+      {
+        "col": "shared_blks_read",
+        "type": "bigint",
+        "nullable": true
+      },
+      {
+        "col": "shared_blks_dirtied",
+        "type": "bigint",
+        "nullable": true
+      },
+      {
+        "col": "shared_blks_written",
+        "type": "bigint",
+        "nullable": true
+      },
+      {
+        "col": "local_blks_hit",
+        "type": "bigint",
+        "nullable": true
+      },
+      {
+        "col": "local_blks_read",
+        "type": "bigint",
+        "nullable": true
+      },
+      {
+        "col": "local_blks_dirtied",
+        "type": "bigint",
+        "nullable": true
+      },
+      {
+        "col": "local_blks_written",
+        "type": "bigint",
+        "nullable": true
+      },
+      {
+        "col": "temp_blks_read",
+        "type": "bigint",
+        "nullable": true
+      },
+      {
+        "col": "temp_blks_written",
+        "type": "bigint",
+        "nullable": true
+      },
+      {
+        "col": "shared_blk_read_time",
+        "type": "double precision",
+        "nullable": true
+      },
+      {
+        "col": "shared_blk_write_time",
+        "type": "double precision",
+        "nullable": true
+      },
+      {
+        "col": "local_blk_read_time",
+        "type": "double precision",
+        "nullable": true
+      },
+      {
+        "col": "local_blk_write_time",
+        "type": "double precision",
+        "nullable": true
+      },
+      {
+        "col": "temp_blk_read_time",
+        "type": "double precision",
+        "nullable": true
+      },
+      {
+        "col": "temp_blk_write_time",
+        "type": "double precision",
+        "nullable": true
+      },
+      {
+        "col": "wal_records",
+        "type": "bigint",
+        "nullable": true
+      },
+      {
+        "col": "wal_fpi",
+        "type": "bigint",
+        "nullable": true
+      },
+      {
+        "col": "wal_bytes",
+        "type": "numeric",
+        "nullable": true
+      },
+      {
+        "col": "jit_functions",
+        "type": "bigint",
+        "nullable": true
+      },
+      {
+        "col": "jit_generation_time",
+        "type": "double precision",
+        "nullable": true
+      },
+      {
+        "col": "jit_inlining_count",
+        "type": "bigint",
+        "nullable": true
+      },
+      {
+        "col": "jit_inlining_time",
+        "type": "double precision",
+        "nullable": true
+      },
+      {
+        "col": "jit_optimization_count",
+        "type": "bigint",
+        "nullable": true
+      },
+      {
+        "col": "jit_optimization_time",
+        "type": "double precision",
+        "nullable": true
+      },
+      {
+        "col": "jit_emission_count",
+        "type": "bigint",
+        "nullable": true
+      },
+      {
+        "col": "jit_emission_time",
+        "type": "double precision",
+        "nullable": true
+      },
+      {
+        "col": "jit_deform_count",
+        "type": "bigint",
+        "nullable": true
+      },
+      {
+        "col": "jit_deform_time",
+        "type": "double precision",
+        "nullable": true
+      },
+      {
+        "col": "stats_since",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "minmax_stats_since",
+        "type": "timestamp with time zone",
+        "nullable": true
+      }
+    ],
+    "pg_stat_statements_info": [
+      {
+        "col": "dealloc",
+        "type": "bigint",
+        "nullable": true
+      },
+      {
+        "col": "stats_reset",
+        "type": "timestamp with time zone",
+        "nullable": true
+      }
+    ]
+  },
+  "public": {
+    "admin_run_routes": [
+      {
+        "col": "id",
+        "type": "bigint",
+        "nullable": false
+      },
+      {
+        "col": "run_id",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "user_id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "address",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "stop_order",
+        "type": "integer",
+        "nullable": false
+      },
+      {
+        "col": "status",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "place_id",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "lat",
+        "type": "double precision",
+        "nullable": true
+      },
+      {
+        "col": "lng",
+        "type": "double precision",
+        "nullable": true
+      }
+    ],
+    "admin_runs": [
+      {
+        "col": "run_id",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "user_id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "run_date",
+        "type": "date",
+        "nullable": false
+      },
+      {
+        "col": "total_stops",
+        "type": "integer",
+        "nullable": false
+      },
+      {
+        "col": "completed_stops",
+        "type": "integer",
+        "nullable": false
+      },
+      {
+        "col": "created_at",
+        "type": "timestamp with time zone",
+        "nullable": false
+      }
+    ],
+    "cairns": [
+      {
+        "col": "id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "created_by",
+        "type": "uuid",
+        "nullable": true
+      },
+      {
+        "col": "category",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "location",
+        "type": "USER-DEFINED",
+        "nullable": true
+      },
+      {
+        "col": "address_name",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "raw_note",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "media_urls",
+        "type": "ARRAY",
+        "nullable": true
+      },
+      {
+        "col": "has_time_rule",
+        "type": "boolean",
+        "nullable": true
+      },
+      {
+        "col": "start_time",
+        "type": "time without time zone",
+        "nullable": true
+      },
+      {
+        "col": "end_time",
+        "type": "time without time zone",
+        "nullable": true
+      },
+      {
+        "col": "is_verified",
+        "type": "boolean",
+        "nullable": true
+      },
+      {
+        "col": "created_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "active_window",
+        "type": "jsonb",
+        "nullable": true
+      },
+      {
+        "col": "days",
+        "type": "ARRAY",
+        "nullable": true
+      },
+      {
+        "col": "temporal_warnings",
+        "type": "jsonb",
+        "nullable": true
+      },
+      {
+        "col": "lat",
+        "type": "double precision",
+        "nullable": true
+      },
+      {
+        "col": "lng",
+        "type": "double precision",
+        "nullable": true
+      }
+    ],
+    "calendar_entries": [
+      {
+        "col": "id",
+        "type": "bigint",
+        "nullable": false
+      },
+      {
+        "col": "user_id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "entry_date",
+        "type": "date",
+        "nullable": false
+      },
+      {
+        "col": "run_id",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "total_stops",
+        "type": "integer",
+        "nullable": false
+      },
+      {
+        "col": "title",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "created_at",
+        "type": "timestamp with time zone",
+        "nullable": false
+      }
+    ],
+    "deliveries": [
+      {
+        "col": "id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "user_id",
+        "type": "uuid",
+        "nullable": true
+      },
+      {
+        "col": "address",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "delivery_date",
+        "type": "date",
+        "nullable": false
+      },
+      {
+        "col": "created_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      }
+    ],
+    "geography_columns": [
+      {
+        "col": "f_table_catalog",
+        "type": "name",
+        "nullable": true
+      },
+      {
+        "col": "f_table_schema",
+        "type": "name",
+        "nullable": true
+      },
+      {
+        "col": "f_table_name",
+        "type": "name",
+        "nullable": true
+      },
+      {
+        "col": "f_geography_column",
+        "type": "name",
+        "nullable": true
+      },
+      {
+        "col": "coord_dimension",
+        "type": "integer",
+        "nullable": true
+      },
+      {
+        "col": "srid",
+        "type": "integer",
+        "nullable": true
+      },
+      {
+        "col": "type",
+        "type": "text",
+        "nullable": true
+      }
+    ],
+    "geometry_columns": [
+      {
+        "col": "f_table_catalog",
+        "type": "character varying",
+        "nullable": true
+      },
+      {
+        "col": "f_table_schema",
+        "type": "name",
+        "nullable": true
+      },
+      {
+        "col": "f_table_name",
+        "type": "name",
+        "nullable": true
+      },
+      {
+        "col": "f_geometry_column",
+        "type": "name",
+        "nullable": true
+      },
+      {
+        "col": "coord_dimension",
+        "type": "integer",
+        "nullable": true
+      },
+      {
+        "col": "srid",
+        "type": "integer",
+        "nullable": true
+      },
+      {
+        "col": "type",
+        "type": "character varying",
+        "nullable": true
+      }
+    ],
+    "hazards": [
+      {
+        "col": "id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "created_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "lat",
+        "type": "double precision",
+        "nullable": false
+      },
+      {
+        "col": "lng",
+        "type": "double precision",
+        "nullable": false
+      },
+      {
+        "col": "restriction_type",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "max_height",
+        "type": "double precision",
+        "nullable": true
+      },
+      {
+        "col": "max_weight",
+        "type": "double precision",
+        "nullable": true
+      },
+      {
+        "col": "street_name",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "reported_by",
+        "type": "uuid",
+        "nullable": true
+      }
+    ],
+    "location_notes": [
+      {
+        "col": "id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "address",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "parking_instructions",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "delivery_notes",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "created_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "user_id",
+        "type": "uuid",
+        "nullable": true
+      }
+    ],
+    "location_photos": [
+      {
+        "col": "id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "address",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "photo_url",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "category",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "sign_data",
+        "type": "jsonb",
+        "nullable": true
+      },
+      {
+        "col": "created_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "user_id",
+        "type": "uuid",
+        "nullable": true
+      }
+    ],
+    "location_videos": [
+      {
+        "col": "id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "address",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "video_url",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "created_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "user_id",
+        "type": "uuid",
+        "nullable": true
+      },
+      {
+        "col": "category",
+        "type": "text",
+        "nullable": true
+      }
+    ],
+    "profiles": [
+      {
+        "col": "id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "nickname",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "avatar_url",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "updated_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      }
+    ],
+    "run_stops": [
+      {
+        "col": "id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "run_id",
+        "type": "uuid",
+        "nullable": true
+      },
+      {
+        "col": "stop_order",
+        "type": "integer",
+        "nullable": true
+      },
+      {
+        "col": "address_text",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "lat_lng",
+        "type": "USER-DEFINED",
+        "nullable": true
+      },
+      {
+        "col": "delivery_notes",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "is_completed",
+        "type": "boolean",
+        "nullable": true
+      },
+      {
+        "col": "manifest_notes",
+        "type": "text",
+        "nullable": true
+      }
+    ],
+    "runs": [
+      {
+        "col": "id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "user_id",
+        "type": "uuid",
+        "nullable": true
+      },
+      {
+        "col": "run_name",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "original_image_url",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "status",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "created_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      }
+    ],
+    "spatial_ref_sys": [
+      {
+        "col": "srid",
+        "type": "integer",
+        "nullable": false
+      },
+      {
+        "col": "auth_name",
+        "type": "character varying",
+        "nullable": true
+      },
+      {
+        "col": "auth_srid",
+        "type": "integer",
+        "nullable": true
+      },
+      {
+        "col": "srtext",
+        "type": "character varying",
+        "nullable": true
+      },
+      {
+        "col": "proj4text",
+        "type": "character varying",
+        "nullable": true
+      }
+    ],
+    "support_tickets": [
+      {
+        "col": "id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "user_email",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "comment",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "created_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      }
+    ]
+  },
+  "realtime": {
+    "messages": [
+      {
+        "col": "topic",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "extension",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "payload",
+        "type": "jsonb",
+        "nullable": true
+      },
+      {
+        "col": "event",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "private",
+        "type": "boolean",
+        "nullable": true
+      },
+      {
+        "col": "updated_at",
+        "type": "timestamp without time zone",
+        "nullable": false
+      },
+      {
+        "col": "inserted_at",
+        "type": "timestamp without time zone",
+        "nullable": false
+      },
+      {
+        "col": "id",
+        "type": "uuid",
+        "nullable": false
+      }
+    ],
+    "schema_migrations": [
+      {
+        "col": "version",
+        "type": "bigint",
+        "nullable": false
+      },
+      {
+        "col": "inserted_at",
+        "type": "timestamp without time zone",
+        "nullable": true
+      }
+    ],
+    "subscription": [
+      {
+        "col": "id",
+        "type": "bigint",
+        "nullable": false
+      },
+      {
+        "col": "subscription_id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "entity",
+        "type": "regclass",
+        "nullable": false
+      },
+      {
+        "col": "filters",
+        "type": "ARRAY",
+        "nullable": false
+      },
+      {
+        "col": "claims",
+        "type": "jsonb",
+        "nullable": false
+      },
+      {
+        "col": "claims_role",
+        "type": "regrole",
+        "nullable": false
+      },
+      {
+        "col": "created_at",
+        "type": "timestamp without time zone",
+        "nullable": false
+      },
+      {
+        "col": "action_filter",
+        "type": "text",
+        "nullable": true
+      }
+    ]
+  },
+  "storage": {
+    "buckets": [
+      {
+        "col": "id",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "name",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "owner",
+        "type": "uuid",
+        "nullable": true
+      },
+      {
+        "col": "created_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "updated_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "public",
+        "type": "boolean",
+        "nullable": true
+      },
+      {
+        "col": "avif_autodetection",
+        "type": "boolean",
+        "nullable": true
+      },
+      {
+        "col": "file_size_limit",
+        "type": "bigint",
+        "nullable": true
+      },
+      {
+        "col": "allowed_mime_types",
+        "type": "ARRAY",
+        "nullable": true
+      },
+      {
+        "col": "owner_id",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "type",
+        "type": "USER-DEFINED",
+        "nullable": false
+      }
+    ],
+    "buckets_analytics": [
+      {
+        "col": "name",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "type",
+        "type": "USER-DEFINED",
+        "nullable": false
+      },
+      {
+        "col": "format",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "created_at",
+        "type": "timestamp with time zone",
+        "nullable": false
+      },
+      {
+        "col": "updated_at",
+        "type": "timestamp with time zone",
+        "nullable": false
+      },
+      {
+        "col": "id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "deleted_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      }
+    ],
+    "buckets_vectors": [
+      {
+        "col": "id",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "type",
+        "type": "USER-DEFINED",
+        "nullable": false
+      },
+      {
+        "col": "created_at",
+        "type": "timestamp with time zone",
+        "nullable": false
+      },
+      {
+        "col": "updated_at",
+        "type": "timestamp with time zone",
+        "nullable": false
+      }
+    ],
+    "migrations": [
+      {
+        "col": "id",
+        "type": "integer",
+        "nullable": false
+      },
+      {
+        "col": "name",
+        "type": "character varying",
+        "nullable": false
+      },
+      {
+        "col": "hash",
+        "type": "character varying",
+        "nullable": false
+      },
+      {
+        "col": "executed_at",
+        "type": "timestamp without time zone",
+        "nullable": true
+      }
+    ],
+    "objects": [
+      {
+        "col": "id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "bucket_id",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "name",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "owner",
+        "type": "uuid",
+        "nullable": true
+      },
+      {
+        "col": "created_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "updated_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "last_accessed_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "metadata",
+        "type": "jsonb",
+        "nullable": true
+      },
+      {
+        "col": "path_tokens",
+        "type": "ARRAY",
+        "nullable": true
+      },
+      {
+        "col": "version",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "owner_id",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "user_metadata",
+        "type": "jsonb",
+        "nullable": true
+      }
+    ],
+    "s3_multipart_uploads": [
+      {
+        "col": "id",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "in_progress_size",
+        "type": "bigint",
+        "nullable": false
+      },
+      {
+        "col": "upload_signature",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "bucket_id",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "key",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "version",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "owner_id",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "created_at",
+        "type": "timestamp with time zone",
+        "nullable": false
+      },
+      {
+        "col": "user_metadata",
+        "type": "jsonb",
+        "nullable": true
+      }
+    ],
+    "s3_multipart_uploads_parts": [
+      {
+        "col": "id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "upload_id",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "size",
+        "type": "bigint",
+        "nullable": false
+      },
+      {
+        "col": "part_number",
+        "type": "integer",
+        "nullable": false
+      },
+      {
+        "col": "bucket_id",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "key",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "etag",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "owner_id",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "version",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "created_at",
+        "type": "timestamp with time zone",
+        "nullable": false
+      }
+    ],
+    "vector_indexes": [
+      {
+        "col": "id",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "name",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "bucket_id",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "data_type",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "dimension",
+        "type": "integer",
+        "nullable": false
+      },
+      {
+        "col": "distance_metric",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "metadata_configuration",
+        "type": "jsonb",
+        "nullable": true
+      },
+      {
+        "col": "created_at",
+        "type": "timestamp with time zone",
+        "nullable": false
+      },
+      {
+        "col": "updated_at",
+        "type": "timestamp with time zone",
+        "nullable": false
+      }
+    ]
+  },
+  "vault": {
+    "decrypted_secrets": [
+      {
+        "col": "id",
+        "type": "uuid",
+        "nullable": true
+      },
+      {
+        "col": "name",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "description",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "secret",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "decrypted_secret",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "key_id",
+        "type": "uuid",
+        "nullable": true
+      },
+      {
+        "col": "nonce",
+        "type": "bytea",
+        "nullable": true
+      },
+      {
+        "col": "created_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      },
+      {
+        "col": "updated_at",
+        "type": "timestamp with time zone",
+        "nullable": true
+      }
+    ],
+    "secrets": [
+      {
+        "col": "id",
+        "type": "uuid",
+        "nullable": false
+      },
+      {
+        "col": "name",
+        "type": "text",
+        "nullable": true
+      },
+      {
+        "col": "description",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "secret",
+        "type": "text",
+        "nullable": false
+      },
+      {
+        "col": "key_id",
+        "type": "uuid",
+        "nullable": true
+      },
+      {
+        "col": "nonce",
+        "type": "bytea",
+        "nullable": true
+      },
+      {
+        "col": "created_at",
+        "type": "timestamp with time zone",
+        "nullable": false
+      },
+      {
+        "col": "updated_at",
+        "type": "timestamp with time zone",
+        "nullable": false
+      }
+    ]
+  }
+}

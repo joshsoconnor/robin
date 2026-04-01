@@ -451,17 +451,41 @@ function App() {
       setIsMapDrifted(data.isDrifted);
     });
 
+    const speedAlertListener = NavigationSDK.addListener('speedAlert', (data: any) => {
+      if (data.isSpeeding) {
+        // Debounce ping to once every 10 seconds to avoid spam
+        const now = Date.now();
+        const lastPingStr = localStorage.getItem('robin_last_speeding_ping');
+        const lastPing = lastPingStr ? parseInt(lastPingStr) : 0;
+        
+        if (now - lastPing > 10000) {
+          try {
+            const utterance = new SpeechSynthesisUtterance("Speed limit exceeded");
+            utterance.rate = 1.1;
+            window.speechSynthesis.speak(utterance);
+            localStorage.setItem('robin_last_speeding_ping', now.toString());
+          } catch(e) {}
+        }
+      }
+    });
+
     return () => {
       arrivalListener.remove();
       exitListener.remove();
       speedListener.remove();
       progressListener.remove();
       driftListener.remove();
+      speedAlertListener.remove();
     };
   }, [handleNavExit, activeNavAddress]);
 
   const syncRouteToSupabase = async (stops: Stop[], userId: string, runId: string, runDate: string) => {
     try {
+      if (stops.length === 1 && stops[0].id && stops[0].id.startsWith('explore-')) {
+        console.log('Skipping sync for ad-hoc explore navigation');
+        return;
+      }
+
       // 1. Clear and insert run_stops (these are the active stops for the current user)
       // Note: run_stops is used for active run state restoration. 
       // We delete all and re-insert to ensure the order and status are accurate.
@@ -792,41 +816,41 @@ function App() {
 
     if (maneuver === null) return straightArrow;
     
-    // Default turn icons using SVG paths
+    // Default turn icons based loosely on Android Nav SDK maneuvers:
+    // 3=Slight Left, 4=Left, 5=Sharp Left, 6=UTurn Left
+    // 7=Slight Right, 8=Right, 9=Sharp Right, 10=UTurn Right
     switch(maneuver) {
       case 1: // Depart
       case 2: // Arriving
         return <div className="nav-arriving-label">ARRIVING AT</div>;
       case 3: // Slight Left
-      case 4: // Sharp Left
-      case 5: // U-Turn Left
-      case 6: // Left
+      case 4: // Left
+      case 5: // Sharp Left
         return (
           <svg viewBox="0 0 24 24" width="48" height="48" fill="white" style={{ transform: 'rotate(-90deg)' }}>
             <path d="M12 4L12 20M12 4L5 11M12 4L19 11" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         );
       case 7: // Slight Right
-      case 8: // Sharp Right
-      case 9: // Keep Right
-      case 10: // Right
+      case 8: // Right
+      case 9: // Sharp Right
         return (
           <svg viewBox="0 0 24 24" width="48" height="48" fill="white" style={{ transform: 'rotate(90deg)' }}>
             <path d="M12 4L12 20M12 4L5 11M12 4L19 11" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         );
-      case 11: // U-Turn Left
-      case 12: // U-Turn Right
+      case 6: // U-Turn Left
+      case 10: // U-Turn Right
         return (
           <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <path d="M10 9l-4 4 4 4"/><path d="M6 13h9a4 4 0 0 1 0 8H12"/>
           </svg>
         );
-      case 13: // Straight
-      case 14: // Name Change
-      case 15: // Stay on highway / Merge
-      case 16: // On ramp
-      case 17: // Off ramp
+      case 11: // Straight
+      case 12: // Ramp Left
+      case 13: // Ramp Right
+      case 14: // Merge Left
+      case 15: // Merge Right
         return straightArrow;
       default:
         return straightArrow;
