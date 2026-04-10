@@ -152,22 +152,24 @@
     position: fixed;
     inset: 0;
     z-index: 700;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
     background: rgba(0, 0, 0, 0.5);
     animation: fadeIn 0.2s ease;
 }
 
 .delivery-slideup {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
     background: var(--bg-card);
     border-top-left-radius: 28px;
     border-top-right-radius: 28px;
-    max-height: 80vh;
+    max-height: 52vh;
     display: flex;
     flex-direction: column;
     animation: slideUp 0.35s cubic-bezier(0.22, 1, 0.36, 1);
     padding-bottom: env(safe-area-inset-bottom);
+    overflow: hidden;
 }
 
 .delivery-slideup-handle {
@@ -243,8 +245,7 @@
     flex: 1;
     overflow-y: auto;
     padding: 16px 20px;
-    min-height: 200px;
-    max-height: 50vh;
+    min-height: 0;
 }
 
 /* Notes list */
@@ -504,13 +505,38 @@
     animation: fadeIn 0.3s ease;
 }
 
-/* Split-screen StreetView header inside delivery slide-up panel */
+/* Split-screen map header — pinned to top half of screen, absolutely positioned */
 .arrival-streetview-header {
-    width: 100%;
-    height: 50vh;
-    flex-shrink: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
     overflow: hidden;
     border-radius: 0 0 20px 20px;
     background: #1a1a2e;
-    order: -1; /* Renders above the handle/header inside the flex column */
+    cursor: pointer;
+    transition: opacity 0.15s;
+}
+
+.arrival-streetview-header:active {
+    opacity: 0.92;
+}
+
+/* Top half preview in initial arrival action bar state */
+.arrival-top-preview {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    overflow: hidden;
+    border-radius: 0 0 20px 20px;
+    background: #1a1a2e;
+    cursor: pointer;
+    transition: opacity 0.15s;
+}
+
+.arrival-top-preview:active {
+    opacity: 0.92;
 }

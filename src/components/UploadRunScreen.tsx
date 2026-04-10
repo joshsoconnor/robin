@@ -220,6 +220,15 @@ export const UploadRunScreen: React.FC<UploadRunScreenProps> = ({ isDarkMode, on
     useEffect(() => { localStorage.setItem('upload_run_stops', JSON.stringify(stops)); }, [stops]);
     useEffect(() => { localStorage.setItem('upload_run_phase', phase); }, [phase]);
 
+    // Force clear internal state when App.tsx signals a cleared run
+    useEffect(() => {
+        if (routeStops && routeStops.length === 0) {
+            setStops([]);
+            setPhase('capture');
+            setCapturedImages([]);
+        }
+    }, [routeStops]);
+
     // Manual entry state
     const [manualStops, setManualStops] = useState<ParsedStop[]>([]);
 
@@ -557,7 +566,7 @@ export const UploadRunScreen: React.FC<UploadRunScreenProps> = ({ isDarkMode, on
                             <div className="next-stop-preview" onClick={() => onNavToStop(nextPending)}>
                                 <div className="next-stop-img-container">
                                     <img 
-                                        src={`https://maps.googleapis.com/maps/api/staticmap?size=600x400&center=${nextPending.lat},${nextPending.lng}&zoom=19&scale=2&maptype=roadmap&markers=color:red%7C${nextPending.lat},${nextPending.lng}&key=AIzaSyB9id2lFl02rKAX2gf9qkiL24oEvhI__GU`} 
+                                        src={`https://maps.googleapis.com/maps/api/streetview?size=600x400&location=${nextPending.lat},${nextPending.lng}&fov=110&pitch=0&key=AIzaSyB9id2lFl02rKAX2gf9qkiL24oEvhI__GU`} 
                                         alt="Next Stop" 
                                         className="next-stop-img" 
                                     />

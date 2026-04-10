@@ -13,7 +13,7 @@ import { ArrivalPanel } from './components/ArrivalPanel';
 import { VoiceAssistantNode } from './components/VoiceAssistantNode';
 import { IntelligenceFeed } from './components/IntelligenceFeed';
 import { StreetViewWrapper } from './components/StreetViewWrapper';
-import { X } from 'lucide-react';
+import { X, Volume2, VolumeX } from 'lucide-react';
 import { supabase } from './lib/supabase';
 import { registerPlugin, Capacitor } from '@capacitor/core';
 import { getSydneyDate } from './lib/dateUtils';
@@ -29,6 +29,7 @@ interface Stop {
   place_id?: string;
   lat?: number;
   lng?: number;
+  completed_at?: string;
 }
 
 
@@ -74,6 +75,12 @@ function App() {
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [isGuest, setIsGuest] = useState(false);
   const [showDeliveryToast, setShowDeliveryToast] = useState(false);
+
+  const [isMuted, setIsMuted] = useState(() => localStorage.getItem('robin_is_muted') === 'true');
+  
+  useEffect(() => {
+    localStorage.setItem('robin_is_muted', isMuted ? 'true' : 'false');
+  }, [isMuted]);
 
   const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
     return localStorage.getItem('robin_dark_mode') === 'true';
@@ -248,32 +255,51 @@ function App() {
         } catch { }
       }
 
-      // If user is logged in, we should sync our local state with the cloud state
-      // This ensures if they force closed the app, they can resume their run.
-      // We only restore from cloud if the user DOES NOT have an active local run currently
+      // If user already has pending stops in local storage, don't overwrite from cloud
       if (hasLocalPendingStops) {
         return;
       }
 
       try {
-        const { data: runStopsData, error } = await supabase
-          .from('run_stops')
+        // Restore from admin_runs + admin_run_routes (most recent run with pending stops)
+        // This replaces the old run_stops query which had no user_id column
+        const { data: recentRuns, error: runsErr } = await supabase
+          .from('admin_runs')
+          .select('run_id, run_date')
+          .eq('user_id', uid)
+          .order('run_date', { ascending: false })
+          .limit(1);
+
+        if (runsErr || !recentRuns || recentRuns.length === 0) return;
+
+        const latestRunId = recentRuns[0].run_id;
+
+        const { data: routeData, error: routeErr } = await supabase
+          .from('admin_run_routes')
           .select('*')
+          .eq('run_id', latestRunId)
           .eq('user_id', uid)
           .order('stop_order', { ascending: true });
-        
-        if (runStopsData && runStopsData.length > 0 && !error) {
-          // If the cloud run has pending stops, restore it
-          const hasPending = runStopsData.some(s => s.status === 'pending');
-          if (hasPending) {
-            setRouteStops(runStopsData as Stop[]);
-            localStorage.setItem('robin_route_stops', JSON.stringify(runStopsData));
-            // Assuming active runs are always routed in MapScreen or UploadRunScreen
-            if (!localStorage.getItem('robin_active_run_id')) {
-               const generatedRunId = `run_restored_${Date.now()}`;
-               setActiveRunId(generatedRunId);
-               localStorage.setItem('robin_active_run_id', generatedRunId);
-            }
+
+        if (routeErr || !routeData || routeData.length === 0) return;
+
+        // Only restore if there are pending stops — a completed run should not be re-loaded
+        const hasPending = routeData.some((s: any) => s.status === 'pending');
+        if (hasPending) {
+          const stops: Stop[] = routeData.map((s: any) => ({
+            id: String(s.id),
+            address: s.address,
+            packages: 1,
+            status: s.status as 'pending' | 'completed',
+            place_id: s.place_id,
+            lat: s.lat,
+            lng: s.lng,
+          }));
+          setRouteStops(stops);
+          localStorage.setItem('robin_route_stops', JSON.stringify(stops));
+          if (!localStorage.getItem('robin_active_run_id')) {
+            setActiveRunId(latestRunId);
+            localStorage.setItem('robin_active_run_id', latestRunId);
           }
         }
       } catch (err) {
@@ -486,92 +512,70 @@ function App() {
         return;
       }
 
-      // 1. Clear and insert run_stops (these are the active stops for the current user)
-      // Note: run_stops is used for active run state restoration. 
-      // We delete all and re-insert to ensure the order and status are accurate.
-      const { error: delErr } = await supabase.from('run_stops').delete().eq('user_id', userId);
-      if (delErr) throw delErr;
-
-      if (stops.length > 0) {
-        const { error: insErr } = await supabase.from('run_stops').insert(
-          stops.map((s, i) => ({
-            user_id: userId,
-            run_id: runId,
-            address_text: s.address,
-            is_completed: s.status === 'completed',
-            stop_order: i,
-            manifest_notes: s.manifest_notes
-          }))
-        );
-        if (insErr) throw insErr;
-      }
-
-      // 2. Deliveries upsert (historical record of every delivery attempt)
+      // 1. Deliveries upsert — only columns that exist: user_id, address, delivery_date
+      // (run_id, status, stop_order, place_id do NOT exist in this table)
       if (stops.length > 0) {
         const { error: delivErr } = await supabase.from('deliveries').upsert(
-          stops.map((s, i) => ({
-            user_id: userId, 
-            address: s.address, 
-            delivery_date: runDate, 
-            run_id: runId, 
-            status: s.status, 
-            stop_order: i, 
-            place_id: s.place_id
+          stops.map((s) => ({
+            user_id: userId,
+            address: s.address,
+            delivery_date: runDate,
           })),
           { onConflict: 'address,delivery_date,user_id' }
         );
-        if (delivErr) throw delivErr;
+        if (delivErr) console.warn('deliveries upsert failed:', delivErr.message);
       }
 
-      // 3. admin_runs (metadata for the specific run)
+      // 2. admin_runs — columns: run_id (text PK), user_id, run_date, total_stops, completed_stops, created_at
       const completed = stops.filter(s => s.status === 'completed').length;
       const { error: adminRunErr } = await supabase.from('admin_runs').upsert({
-        run_id: runId, 
-        user_id: userId, 
-        run_date: runDate, 
-        total_stops: stops.length, 
-        completed_stops: completed, 
+        run_id: runId,
+        user_id: userId,
+        run_date: runDate,
+        total_stops: stops.length,
+        completed_stops: completed,
         created_at: new Date().toISOString()
       }, { onConflict: 'run_id' });
-      if (adminRunErr) throw adminRunErr;
+      if (adminRunErr) console.warn('admin_runs upsert failed:', adminRunErr.message);
 
-      // 4. admin_run_routes (individual stop details for the run)
-      // Delete existing routes for THIS run_id only before re-inserting
+      // 3. admin_run_routes — delete and re-insert for this run
       const { error: routeDelErr } = await supabase.from('admin_run_routes').delete().eq('run_id', runId);
-      if (routeDelErr) throw routeDelErr;
+      if (routeDelErr) console.warn('admin_run_routes delete failed:', routeDelErr.message);
 
       if (stops.length > 0) {
         const { error: routeInsErr } = await supabase.from('admin_run_routes').insert(
           stops.map((s, i) => ({
-            run_id: runId, 
-            user_id: userId, 
-            address: s.address, 
-            stop_order: i, 
-            status: s.status, 
-            place_id: s.place_id, 
-            lat: s.lat, 
-            lng: s.lng
+            run_id: runId,
+            user_id: userId,
+            address: s.address,
+            stop_order: i,
+            status: s.status,
+            place_id: s.place_id,
+            lat: s.lat,
+            lng: s.lng,
+            completed_at: s.status === 'completed' ? (s.completed_at || new Date().toISOString()) : null,
           }))
         );
-        if (routeInsErr) throw routeInsErr;
+        if (routeInsErr) console.warn('admin_run_routes insert failed:', routeInsErr.message);
       }
 
-      // 5. calendar_entries (entry for the user's dashboard calendar)
+      // 4. calendar_entries — columns: user_id, entry_date, run_id, total_stops, title, created_at
       const { error: calErr } = await supabase.from('calendar_entries').upsert({
-        user_id: userId, 
-        entry_date: runDate, 
-        run_id: runId, 
-        total_stops: stops.length, 
-        title: `Run — ${stops.length} stop${stops.length !== 1 ? 's' : ''}`, 
+        user_id: userId,
+        entry_date: runDate,
+        run_id: runId,
+        total_stops: stops.length,
+        title: `Run — ${stops.length} stop${stops.length !== 1 ? 's' : ''}`,
         created_at: new Date().toISOString()
       }, { onConflict: 'user_id,entry_date,run_id' });
-      if (calErr) throw calErr;
+      if (calErr) console.warn('calendar_entries upsert failed:', calErr.message);
 
       console.log(`Sync successful for run ${runId} (${stops.length} stops)`);
     } catch (err) {
       console.error('Failed to sync run to Supabase:', err);
     }
   };
+
 
   const handleUpdateStops = useCallback(async (newStops: Stop[]) => {
     setRouteStops(newStops);
@@ -611,9 +615,8 @@ function App() {
   // ── Arrival Panel callbacks ──
   const handleReRoute = useCallback(async () => {
     if (!activeNavAddress) return;
-    setArrivalAddress(null);
-    
-    // Make WebView transparent immediately to prevent white screen while routing
+
+    // Make WebView transparent FIRST — native map renders behind before panel is dismissed
     setNavActive(true);
     document.body.classList.add('native-nav-active');
     document.documentElement.classList.add('native-nav-active');
@@ -649,6 +652,8 @@ function App() {
           travelMode: 'DRIVING' 
         });
       }
+      // Dismiss panel AFTER nav is confirmed started — prevents white screen gap
+      setArrivalAddress(null);
       handleNavStart(activeNavAddress.split(',')[0], activeNavAddress);
       // Refresh markers after re-route
       pushNativeDeliveryMarkers(routeStops);
@@ -664,7 +669,10 @@ function App() {
     if (activeNavAddress) {
       const currentIdx = routeStops.findIndex(s => s.address === activeNavAddress);
       if (currentIdx >= 0) {
-        const updatedStops = routeStops.map((s, i) => i === currentIdx ? { ...s, status: 'completed' as const } : s);
+        const completedAt = new Date().toISOString();
+        const updatedStops = routeStops.map((s, i) =>
+          i === currentIdx ? { ...s, status: 'completed' as const, completed_at: completedAt } : s
+        );
         setRouteStops(updatedStops);
         if (!isGuest && activeRunId) {
           const { data: userData } = await supabase.auth.getUser();
@@ -684,7 +692,10 @@ function App() {
     
     // Mark current as completed
     if (currentIdx >= 0) {
-      currentStops = routeStops.map((s, i) => i === currentIdx ? { ...s, status: 'completed' as const } : s);
+      const completedAt = new Date().toISOString();
+      currentStops = routeStops.map((s, i) =>
+        i === currentIdx ? { ...s, status: 'completed' as const, completed_at: completedAt } : s
+      );
       setRouteStops(currentStops);
       if (!isGuest && activeRunId) {
         const { data: userData } = await supabase.auth.getUser();
@@ -701,9 +712,7 @@ function App() {
       setActiveNavAddress(null);
       return;
     }
-    setArrivalAddress(null);
-    
-    // Make WebView transparent immediately to prevent white screen
+    // Make WebView transparent FIRST — native map renders behind before panel is dismissed
     setNavActive(true);
     document.body.classList.add('native-nav-active');
     document.documentElement.classList.add('native-nav-active');
@@ -738,6 +747,8 @@ function App() {
           travelMode: 'DRIVING' 
         });
       }
+      // Dismiss arrival panel AFTER nav started — prevents white screen gap
+      setArrivalAddress(null);
       setActiveNavAddress(nextStop.address);
       handleNavStart(nextStop.address.split(',')[0], nextStop.address);
       // Refresh native markers now that one stop is completed
@@ -869,6 +880,8 @@ function App() {
             vehicleProfile={vehicleProfile}
             routeStops={routeStops}
             userEmail={userEmail}
+            isMuted={isMuted}
+            setIsMuted={setIsMuted}
           />
         );
       case 'route':
@@ -881,6 +894,8 @@ function App() {
             onArrive={handleManualArrive}
             navActive={navActive}
             vehicleProfile={vehicleProfile}
+            isMuted={isMuted}
+            setIsMuted={setIsMuted}
           />
         ) : (
           <UploadRunScreen
@@ -904,6 +919,8 @@ function App() {
             setDarkMode={setIsDarkMode}
             isDeliveryMode={isDeliveryMode}
             setDeliveryMode={setIsDeliveryMode}
+            isMuted={isMuted}
+            setIsMuted={setIsMuted}
             handleLogout={handleLogout}
             onNavigateToLogin={() => setActiveTab('explore')}
             routeStops={routeStops}
@@ -921,6 +938,8 @@ function App() {
             onNavStart={handleNavStart}
             userEmail={userEmail}
             routeStops={routeStops}
+            isMuted={isMuted}
+            setIsMuted={setIsMuted}
           />
         );
     }
@@ -1050,7 +1069,29 @@ function App() {
                 routeStops={routeStops}
                 onAction={handleVoiceAction}
                 isStatic={true}
+                isMuted={isMuted}
               />
+
+              {/* Mute/Unmute FAB - Native Overlay Context */}
+              <button 
+                className="nav-mute-fab" 
+                onClick={() => setIsMuted(!isMuted)}
+                style={{
+                  background: 'var(--bg-card)',
+                  width: '56px',
+                  height: '56px',
+                  borderRadius: '28px',
+                  border: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+                  marginBottom: '10px',
+                  color: isMuted ? '#ff3b30' : 'var(--primary-action)'
+                }}
+              >
+                {isMuted ? <VolumeX size={24} /> : <Volume2 size={24} />}
+              </button>
 
               {/* Manual Arrival Button */}
               <button className="nav-arrive-fab" onClick={() => handleManualArrive(activeNavAddress)}>
@@ -1076,11 +1117,7 @@ function App() {
                 </div>
               </div>
             )}
-          </div>
-
-            {/* NEW: Custom Floating Footer to match top section */}
-
-            {/* NEW: Custom Floating Footer to match top section */}
+            {/* Custom Floating Footer to match top section */}
             <div className="nav-footer">
               <div className="nav-footer-main">
                 <div className="nav-footer-time">{remainingTimeText}</div>
@@ -1091,7 +1128,8 @@ function App() {
               </div>
             </div>
           </div>
-        )}
+        </div>
+      )}
 
       {!isNavigating && !navActive && !arrivalAddress && (
         <BottomNavBar

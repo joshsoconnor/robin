@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Map, Marker, useMap, useMapsLibrary } from '@vis.gl/react-google-maps';
 import { registerPlugin, Capacitor } from '@capacitor/core';
 import { Geolocation } from '@capacitor/geolocation';
-import { Navigation, Plus, X, AlertTriangle } from 'lucide-react';
+import { Navigation, Plus, X, AlertTriangle, Volume2, VolumeX } from 'lucide-react';
 
 const NavigationSDK = registerPlugin<any>('NavigationSDK');
 import { supabase } from '../lib/supabase';
@@ -448,8 +448,10 @@ export const MapScreen: React.FC<{
     onNavStart: (label: string, fullAddress?: string, coords?: { lat: number, lng: number, placeId?: string }) => void,
     onArrive: (address: string) => void,
     navActive?: boolean,
-    vehicleProfile?: any
-}> = ({ stops, onBack, isDarkMode, onNavStart, onArrive, navActive = false, vehicleProfile }) => {
+    vehicleProfile?: any,
+    isMuted?: boolean,
+    setIsMuted?: (m: boolean) => void
+}> = ({ stops, onBack, isDarkMode, onNavStart, onArrive, navActive = false, vehicleProfile, isMuted, setIsMuted }) => {
     const [userLocation, setUserLocation] = useState<{ lat: number, lng: number } | null>(null);
     const [cairns, setCairns] = useState<Cairn[]>([]);
     const [runStops, setRunStops] = useState<Stop[]>([]);
@@ -730,9 +732,11 @@ export const MapScreen: React.FC<{
                                     }
 
                                     // Delay Robin's speech by 5 seconds so it doesn't overlap with Google's default "Head North on..."
-                                    setTimeout(() => {
-                                        NavigationSDK.speakText({ text: speech }).catch(console.error);
-                                    }, 5000);
+                                    if (!isMuted) {
+                                        setTimeout(() => {
+                                            NavigationSDK.speakText({ text: speech }).catch(console.error);
+                                        }, 5000);
+                                    }
                                 }
                             } catch (err: any) {
                                 console.error('NavigationSDK failed:', err);
@@ -753,9 +757,17 @@ export const MapScreen: React.FC<{
                 </div>
             )}
 
-            {/* FAB — Add POI */}
+            {/* FAB — Add POI & Mute */}
             {!navActive && (
-                <div style={{ position: 'fixed', bottom: '185px', right: '20px', display: 'flex', flexDirection: 'column', gap: '5px', zIndex: 100 }}>
+                <div style={{ position: 'fixed', bottom: '185px', right: '20px', display: 'flex', flexDirection: 'column', gap: '8px', zIndex: 100 }}>
+                    <button
+                        className="add-poi-fab-map"
+                        onClick={() => setIsMuted?.(!isMuted)}
+                        title={isMuted ? "Unmute Navigation" : "Mute Navigation"}
+                        style={{ background: isMuted ? '#ff3b30' : 'var(--primary-action)', width: '60px', height: '60px', borderRadius: '30px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
+                    >
+                        {isMuted ? <VolumeX size={24} color="white" /> : <Volume2 size={24} color="white" />}
+                    </button>
                     <button
                         className="add-poi-fab-map"
                         onClick={() => setShowAddHazard(true)}

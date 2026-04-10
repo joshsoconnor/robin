@@ -11,10 +11,11 @@ const NavigationSDK = registerPlugin<any>('NavigationSDK');
 interface VoiceAssistantProps {
     routeStops: any[];
     isStatic?: boolean;
+    isMuted?: boolean;
     onAction?: (action: any) => void;
 }
 
-export const VoiceAssistantNode: React.FC<VoiceAssistantProps> = ({ routeStops, isStatic, onAction }) => {
+export const VoiceAssistantNode: React.FC<VoiceAssistantProps> = ({ routeStops, isStatic, onAction, isMuted }) => {
     const [isListening, setIsListening] = useState(false);
     const [isProcessing, setIsProcessing] = useState(false);
     const [supported, setSupported] = useState(false);
@@ -161,17 +162,23 @@ export const VoiceAssistantNode: React.FC<VoiceAssistantProps> = ({ routeStops, 
                     window.localStorage.setItem('robin_expect_response', 'true');
                 }
 
-                await NavigationSDK.speakText({ text: data.response });
+                if (!isMuted) {
+                    await NavigationSDK.speakText({ text: data.response });
+                }
 
                 if (data.action && onAction) {
                     onAction(data.action);
                 }
             } else {
-                await NavigationSDK.speakText({ text: "Sorry, I didn't quite get that." });
+                if (!isMuted) {
+                    await NavigationSDK.speakText({ text: "Sorry, I didn't quite get that." });
+                }
             }
         } catch (err) {
             console.error('LLM Processing Error:', err);
-            await NavigationSDK.speakText({ text: 'I am having trouble connecting right now.' });
+            if (!isMuted) {
+                await NavigationSDK.speakText({ text: 'I am having trouble connecting right now.' });
+            }
         } finally {
             setIsProcessing(false);
         }
@@ -186,12 +193,12 @@ export const VoiceAssistantNode: React.FC<VoiceAssistantProps> = ({ routeStops, 
     return (
         <div className={`voice-assistant-node ${isListening ? 'listening' : ''} ${isProcessing ? 'processing' : ''} ${isStatic ? 'static' : ''}`}>
             <button
-                className="mic-btn"
+                className={`mic-btn ${isMuted ? 'muted' : ''}`}
                 onClick={isNative ? toggleListening : handleWebClick}
-                title={isListening ? "Tap to Stop" : "Tap to Speak"}
+                title={isMuted ? "Robin is Muted" : (isListening ? "Tap to Stop" : "Tap to Speak")}
             >
                 {isProcessing ? <Loader className="spin" size={24} color="white" /> :
-                    <Mic size={24} color="white" />}
+                    <Mic size={24} color={isMuted ? "#ff3b30" : "white"} />}
             </button>
         </div>
     );

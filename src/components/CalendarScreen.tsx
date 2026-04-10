@@ -58,7 +58,8 @@ export const CalendarScreen: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode }
             .from('deliveries')
             .select('*')
             .gte('delivery_date', startOfMonth)
-            .lte('delivery_date', endOfMonth);
+            .lte('delivery_date', endOfMonth)
+            .order('created_at', { ascending: true });
 
         if (error) {
             console.error('Error fetching deliveries:', error);
@@ -273,12 +274,22 @@ export const CalendarScreen: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode }
                                             </div>
                                         </div>
 
-                                        <span className="entry-time">
-                                            <span style={{ fontSize: '10px', display: 'block', opacity: 0.6, fontWeight: 400 }}>Logged at</span>
-                                            {new Date(d.created_at).toLocaleTimeString('en-AU', { timeZone: 'Australia/Sydney', hour: 'numeric', minute: '2-digit' }) !== 'Invalid Date'
-                                                ? new Date(d.created_at).toLocaleTimeString('en-AU', { timeZone: 'Australia/Sydney', hour: 'numeric', minute: '2-digit' })
-                                                : '7:00 AM'}
-                                        </span>
+                                        {(() => {
+                                            if (!d.created_at) return null;
+                                            const timeStr = new Date(d.created_at).toLocaleTimeString('en-AU', { timeZone: 'Australia/Sydney', hour: 'numeric', minute: '2-digit' });
+                                            if (timeStr === 'Invalid Date') return null;
+                                            // Only show if this entry has a unique timestamp (not a batch-sync artifact)
+                                            const sameMinuteCount = activeListDeliveries.filter(other =>
+                                                other.created_at && new Date(other.created_at).toLocaleTimeString('en-AU', { timeZone: 'Australia/Sydney', hour: 'numeric', minute: '2-digit' }) === timeStr
+                                            ).length;
+                                            if (sameMinuteCount >= activeListDeliveries.length) return null; // all same — hide
+                                            return (
+                                                <span className="entry-time">
+                                                    <span style={{ fontSize: '10px', display: 'block', opacity: 0.6, fontWeight: 400 }}>Logged at</span>
+                                                    {timeStr}
+                                                </span>
+                                            );
+                                        })()}
                                     </div>
 
                                     {expandedId === d.id && (

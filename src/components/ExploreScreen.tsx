@@ -4,7 +4,7 @@ import { Geolocation } from '@capacitor/geolocation';
 // Camera import removed — video capture now uses a file input with accept="video/*"
 import { registerPlugin, Capacitor } from '@capacitor/core';
 import { getSydneyDate } from '../lib/dateUtils';
-import { Camera, Navigation, Coffee, MapPin, Search, Plus, X, Video, Car, Footprints, FileText, Loader, AlertTriangle, Trash2 } from 'lucide-react';
+import { Camera, Navigation, Coffee, MapPin, Search, Plus, X, Video, Car, Footprints, FileText, Loader, AlertTriangle, Trash2, Volume2, VolumeX } from 'lucide-react';
 import { silverMapStyle, darkMapStyle } from '../lib/mapStyles';
 import { supabase } from '../lib/supabase';
 import { analyzeSignPhoto } from '../lib/signAnalyzer';
@@ -950,9 +950,11 @@ interface ExploreScreenProps {
     vehicleProfile?: any;
     routeStops?: any[];
     userEmail?: string | null;
+    isMuted: boolean;
+    setIsMuted: (muted: boolean) => void;
 }
 
-export const ExploreScreen: React.FC<ExploreScreenProps> = ({ persistedDestination, setPersistedDestination, isDarkMode, onNavStart, vehicleProfile, routeStops, userEmail }) => {
+export const ExploreScreen: React.FC<ExploreScreenProps> = ({ persistedDestination, setPersistedDestination, isDarkMode, onNavStart, vehicleProfile, routeStops, userEmail, isMuted, setIsMuted }) => {
     const [userLocation, setUserLocation] = useState<{ lat: number, lng: number } | null>(null);
     const [routeInfo, setRouteInfo] = useState<{ driving: any, walking: any }>(() => {
         try {
@@ -1228,7 +1230,7 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ persistedDestinati
             );
 
             // Voice Alert for hazard (delayed to prevent Google SDK overlap)
-            if (hazardWarningText && Capacitor.isNativePlatform()) {
+            if (hazardWarningText && Capacitor.isNativePlatform() && !isMuted) {
                 setTimeout(() => {
                     NavigationSDK.speakText({ text: hazardWarningText }).catch(console.error);
                 }, 5000);
@@ -1593,7 +1595,15 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ persistedDestinati
                 alignItems: 'center',
                 transition: 'bottom 0.3s ease-out'
             }}>
-                <VoiceAssistantNode routeStops={routeStops || []} isStatic={true} />
+                <VoiceAssistantNode routeStops={routeStops || []} isStatic={true} isMuted={isMuted} />
+                <button
+                    className="add-poi-fab"
+                    onClick={() => setIsMuted(!isMuted)}
+                    title={isMuted ? "Unmute Navigation" : "Mute Navigation"}
+                    style={{ background: isMuted ? '#ff3b30' : 'var(--primary-action)', width: '60px', height: '60px', borderRadius: '30px', border: 'none', boxShadow: '0 4px 16px rgba(0,0,0,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
+                >
+                    {isMuted ? <VolumeX size={24} color="white" /> : <Volume2 size={24} color="white" />}
+                </button>
                 <button
                     className="add-poi-fab"
                     onClick={() => setShowAddHazard(true)}

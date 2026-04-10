@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Truck, LogOut, ChevronRight, User, HelpCircle, MapPin, BarChart3, Sun, Moon, Package, AlertTriangle, Check, MoreVertical, FileText, Map } from 'lucide-react';
+import { Truck, LogOut, ChevronRight, User, HelpCircle, MapPin, BarChart3, Sun, Moon, Package, AlertTriangle, Check, MoreVertical, FileText, Map, Volume2, VolumeX } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { getSydneyDate, formatDisplayDate } from '../lib/dateUtils';
 import './SettingsScreen.css';
@@ -13,6 +13,8 @@ interface SettingsScreenProps {
     setDarkMode: (val: boolean) => void;
     isDeliveryMode: boolean;
     setDeliveryMode: (val: boolean) => void;
+    isMuted: boolean;
+    setIsMuted: (val: boolean) => void;
     handleLogout: () => void;
     onNavigateToLogin: () => void;
     routeStops?: any[];
@@ -170,9 +172,10 @@ const RunsSection = ({ routeStops, activeAddress, onUpdateStops, onSwitchToIntel
     const [menuOpen, setMenuOpen] = useState<number | null>(null);
     const [editingIdx, setEditingIdx] = useState<number | null>(null);
     const [editAddress, setEditAddress] = useState('');
+    const [deleteConfirmIdx, setDeleteConfirmIdx] = useState<number | null>(null);
 
     useEffect(() => {
-        supabase.from('deliveries').select('*').order('delivery_date', { ascending: false }).then(({ data }) => {
+        supabase.from('deliveries').select('*').order('delivery_date', { ascending: false }).order('created_at', { ascending: true }).then(({ data }) => {
             setDeliveries(data || []);
             setLoading(false);
         });
@@ -211,12 +214,21 @@ const RunsSection = ({ routeStops, activeAddress, onUpdateStops, onSwitchToIntel
                 if (onSwitchToIntel) onSwitchToIntel(stop.address);
                 break;
             case 'delete':
-                if (confirm('Delete this delivery from the run?')) {
-                    const filtered = newStops.filter((_, i) => i !== idx);
-                    onUpdateStops(filtered);
-                    if (stop.id) await supabase.from('run_stops').delete().eq('id', stop.id);
-                }
+                setDeleteConfirmIdx(idx);
                 break;
+        }
+    };
+
+    const performDelete = async () => {
+        if (deleteConfirmIdx === null || !routeStops || !onUpdateStops) return;
+        const newStops = [...routeStops];
+        const stop = newStops[deleteConfirmIdx];
+        const filtered = newStops.filter((_, i) => i !== deleteConfirmIdx);
+        onUpdateStops(filtered);
+        setDeleteConfirmIdx(null);
+        // Also delete from admin_run_routes if the stop has a DB id
+        if (stop.id) {
+            await supabase.from('admin_run_routes').delete().eq('id', stop.id);
         }
     };
 
@@ -356,6 +368,28 @@ const RunsSection = ({ routeStops, activeAddress, onUpdateStops, onSwitchToIntel
                         <div className="edit-modal-actions">
                             <button className="edit-cancel-btn" onClick={() => setEditingIdx(null)}>Cancel</button>
                             <button className="edit-save-btn" onClick={saveEditSettings}>Save Changes</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {deleteConfirmIdx !== null && (
+                <div className="edit-modal-overlay" onClick={() => setDeleteConfirmIdx(null)}>
+                    <div className="edit-modal-content" style={{ textAlign: 'center' }} onClick={e => e.stopPropagation()}>
+                        <div style={{ fontSize: '2rem', marginBottom: '8px' }}>🗑️</div>
+                        <h3 style={{ marginBottom: '6px' }}>Remove Stop?</h3>
+                        <p style={{ fontSize: '13px', color: 'var(--text-secondary, #888)', marginBottom: '20px', lineHeight: 1.4 }}>
+                            {routeStops?.[deleteConfirmIdx]?.address}
+                        </p>
+                        <div className="edit-modal-actions">
+                            <button className="edit-cancel-btn" onClick={() => setDeleteConfirmIdx(null)}>Cancel</button>
+                            <button
+                                className="edit-save-btn"
+                                style={{ background: '#e53e3e' }}
+                                onClick={performDelete}
+                            >
+                                Remove
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -681,7 +715,7 @@ const VehicleSection = ({ isGuest }: { isGuest: boolean }) => {
 // ================================================
 
 export const SettingsScreen: React.FC<SettingsScreenProps> = ({
-    isGuest, userEmail, isDarkMode, setDarkMode, isDeliveryMode, setDeliveryMode, handleLogout, onNavigateToLogin, routeStops, activeAddress
+    isGuest, userEmail, isDarkMode, setDarkMode, isDeliveryMode, setDeliveryMode, isMuted, setIsMuted, handleLogout, onNavigateToLogin, routeStops, activeAddress, onUpdateStops, onSwitchToIntel
 }) => {
     const [activeSection, setActiveSection] = useState<Section>('main');
 
@@ -706,7 +740,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
         switch (activeSection) {
             case 'account': return <AccountSection userEmail={userEmail} isGuest={isGuest} onNavigateToLogin={onNavigateToLogin} />;
             case 'entries': return <EntriesSection />;
-            case 'runs': return <RunsSection routeStops={routeStops} activeAddress={activeAddress} />;
+            case 'runs': return <RunsSection routeStops={routeStops} activeAddress={activeAddress} onUpdateStops={onUpdateStops} onSwitchToIntel={onSwitchToIntel} />;
             case 'support': return <SupportSection userEmail={userEmail} isGuest={isGuest} />;
             case 'addresses': return <AddressesSection />;
             case 'analytics': return <AnalyticsSection />;
@@ -766,6 +800,13 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
                         <span className="settings-label">Dark Mode</span>
                     </div>
                     <Toggle isActive={isDarkMode} onToggle={() => setDarkMode(!isDarkMode)} />
+                </div>
+                <div className="settings-item">
+                    <div className="settings-item-left">
+                        {isMuted ? <VolumeX size={20} className="settings-icon" /> : <Volume2 size={20} className="settings-icon" />}
+                        <span className="settings-label">Mute Navigation</span>
+                    </div>
+                    <Toggle isActive={isMuted} onToggle={() => setIsMuted(!isMuted)} />
                 </div>
                 <div className="settings-item">
                     <div className="settings-item-left">

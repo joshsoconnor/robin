@@ -56,6 +56,7 @@ export const ArrivalPanel: React.FC<ArrivalPanelProps> = ({
     const [previewPhotoUrl, setPreviewPhotoUrl] = useState<string | null>(null);
     const [previewVideoUrl, setPreviewVideoUrl] = useState<string | null>(null);
     const [showNextStopLookAround, setShowNextStopLookAround] = useState(false);
+    const [showCurrentLookAround, setShowCurrentLookAround] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -277,65 +278,112 @@ export const ArrivalPanel: React.FC<ArrivalPanelProps> = ({
     // ── Arrival Action Bar (Re-route + End Route) ──
     if (!showDeliveryPanel) {
         return (
-            <div className="arrival-overlay" onClick={(e) => { if ((e.target as HTMLElement) === e.currentTarget) onEndRoute?.(); }}>
-                <div className="arrival-action-bar">
-                    <div className="arrival-arrived-label">✓ Arrived at {shortAddress}</div>
-                    
-                    {/* Delivery Details Preview */}
-                    {(notes.length > 0 || photos.length > 0 || videos.length > 0) && (
-                        <div className="arrival-data-preview">
-                            {notes.length > 0 && (
-                                <div 
-                                    className="arrival-notes-preview clickable"
-                                    onClick={() => { setShowDeliveryPanel(true); setActiveTab('instructions'); }}
-                                >
-                                    {notes[0].parking_instructions && (
-                                        <div className="preview-note">🅿️ {notes[0].parking_instructions}</div>
-                                    )}
-                                    {notes[0].delivery_notes && (
-                                        <div className="preview-note">📋 {notes[0].delivery_notes}</div>
-                                    )}
-                                    {notes.length > 1 && (
-                                        <div className="preview-more">+{notes.length - 1} more instruction{notes.length > 2 ? 's' : ''}</div>
-                                    )}
-                                </div>
-                            )}
-                            {(photos.length > 0 || videos.length > 0) && (
-                                <div className="arrival-media-preview-row">
-                                    {photos.map((p, i) => (
-                                        <img 
-                                            key={`pre-p-${i}`} 
-                                            src={p.photo_url} 
-                                            className="media-preview-thumb clickable" 
-                                            alt="Preview" 
-                                            onClick={() => setPreviewPhotoUrl(p.photo_url)}
-                                        />
-                                    ))}
-                                    {videos.map((v, i) => (
-                                        <div 
-                                            key={`pre-v-${i}`} 
-                                            className="media-preview-thumb video clickable"
-                                            onClick={() => setPreviewVideoUrl(v.video_url)}
-                                        >
-                                            <Video size={20} color="white" />
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
+            <>
+                <div className="arrival-overlay" onClick={(e) => { if ((e.target as HTMLElement) === e.currentTarget) onEndRoute?.(); }}>
+                    {/* Top half: Destination pinpoint map with building marker */}
+                    {lat !== undefined && lng !== undefined && (
+                        <div
+                            className="arrival-top-preview"
+                            onClick={() => setShowCurrentLookAround(true)}
+                        >
+                            <img
+                                src={`https://maps.googleapis.com/maps/api/streetview?size=600x400&location=${lat},${lng}&key=AIzaSyB9id2lFl02rKAX2gf9qkiL24oEvhI__GU`}
+                                alt="Destination Street View"
+                                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                            />
+                            <div style={{
+                                position: 'absolute', bottom: 0, left: 0, right: 0,
+                                padding: '12px 14px',
+                                background: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%)'
+                            }}>
+                                <div style={{ fontSize: 10, fontWeight: 800, color: '#81C784', letterSpacing: 1.2 }}>DESTINATION PINPOINT</div>
+                                <div style={{ color: 'white', fontSize: 14, fontWeight: 700 }}>{shortAddress}</div>
+                                <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: 10 }}>Tap for Street View look-around</div>
+                            </div>
                         </div>
                     )}
 
-                    <div style={{ display: 'flex', gap: '12px', width: '100%' }}>
-                        <button className="arrival-reroute-btn" onClick={onReRoute} title="Re-route">
-                            <RefreshCw size={22} color="var(--primary-action)" />
-                        </button>
-                        <button className="arrival-end-btn" onClick={handleEndRoute}>
-                            <Square size={18} />
-                            End Route
-                        </button>
+                    <div className="arrival-action-bar">
+                        <div className="arrival-arrived-label">✓ Arrived at {shortAddress}</div>
+                        
+                        {/* Delivery Details Preview */}
+                        {(notes.length > 0 || photos.length > 0 || videos.length > 0) && (
+                            <div className="arrival-data-preview">
+                                {notes.length > 0 && (
+                                    <div 
+                                        className="arrival-notes-preview clickable"
+                                        onClick={() => { setShowDeliveryPanel(true); setActiveTab('instructions'); }}
+                                    >
+                                        {notes[0].parking_instructions && (
+                                            <div className="preview-note">🅿️ {notes[0].parking_instructions}</div>
+                                        )}
+                                        {notes[0].delivery_notes && (
+                                            <div className="preview-note">📋 {notes[0].delivery_notes}</div>
+                                        )}
+                                        {notes.length > 1 && (
+                                            <div className="preview-more">+{notes.length - 1} more instruction{notes.length > 2 ? 's' : ''}</div>
+                                        )}
+                                    </div>
+                                )}
+                                {(photos.length > 0 || videos.length > 0) && (
+                                    <div className="arrival-media-preview-row">
+                                        {photos.map((p, i) => (
+                                            <img 
+                                                key={`pre-p-${i}`} 
+                                                src={p.photo_url} 
+                                                className="media-preview-thumb clickable" 
+                                                alt="Preview" 
+                                                onClick={() => setPreviewPhotoUrl(p.photo_url)}
+                                            />
+                                        ))}
+                                        {videos.map((v, i) => (
+                                            <div 
+                                                key={`pre-v-${i}`} 
+                                                className="media-preview-thumb video clickable"
+                                                onClick={() => setPreviewVideoUrl(v.video_url)}
+                                            >
+                                                <Video size={20} color="white" />
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        )}
+
+                        <div style={{ display: 'flex', gap: '12px', width: '100%' }}>
+                            <button className="arrival-reroute-btn" onClick={onReRoute} title="Re-route">
+                                <RefreshCw size={22} color="var(--primary-action)" />
+                            </button>
+                            <button className="arrival-end-btn" onClick={handleEndRoute}>
+                                <Square size={18} />
+                                End Route
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
+
+                {/* Current Stop Street View Look-Around */}
+                {showCurrentLookAround && lat !== undefined && lng !== undefined && createPortal(
+                    <div className="lookaround-overlay" style={{ position: 'fixed', inset: 0, zIndex: 100000, background: '#000', pointerEvents: 'auto' }}>
+                        <StreetViewWrapper
+                            lat={lat}
+                            lng={lng}
+                            isFullscreen={true}
+                            onClose={() => setShowCurrentLookAround(false)}
+                        />
+                        <div style={{
+                            position: 'absolute', bottom: 40, left: 20, right: 20,
+                            background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(10px)',
+                            padding: '16px 20px', borderRadius: 20, color: 'white',
+                            zIndex: 10001, pointerEvents: 'none'
+                        }}>
+                            <div style={{ fontSize: 12, fontWeight: 800, color: '#81C784', letterSpacing: 1.5, marginBottom: 4 }}>CURRENT STOP</div>
+                            <div style={{ fontSize: 18, fontWeight: 700 }}>{address}</div>
+                        </div>
+                    </div>,
+                    document.body
+                )}
+            </>
         );
     }
 
@@ -550,43 +598,6 @@ export const ArrivalPanel: React.FC<ArrivalPanelProps> = ({
                 {/* Next Delivery / End Run button */}
                 {hasNextDelivery ? (
                     <div style={{ padding: '0 20px 16px' }}>
-                        {/* Next Stop Image Preview - Clickable for Look Around */}
-                        {nextDeliveryAddress && nextLat !== undefined && nextLng !== undefined && (
-                            <div 
-                                className="arrival-next-preview" 
-                                onClick={() => setShowNextStopLookAround(true)}
-                                style={{
-                                    marginBottom: 12,
-                                    borderRadius: 16,
-                                    overflow: 'hidden',
-                                    position: 'relative',
-                                    height: 120,
-                                    border: '1px solid var(--border-subtle)',
-                                    cursor: 'pointer'
-                                }}
-                            >
-                                {/* Pinpointed Marker Map for Preview - Accuracy over Photography */}
-                                <img 
-                                    src={`https://maps.googleapis.com/maps/api/staticmap?size=600x300&center=${nextLat},${nextLng}&zoom=19&scale=2&maptype=roadmap&markers=color:red%7C${nextLat},${nextLng}&key=AIzaSyB9id2lFl02rKAX2gf9qkiL24oEvhI__GU`} 
-                                    alt="Next Stop Preview"
-                                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                                />
-                                <div style={{
-                                    position: 'absolute',
-                                    inset: 0,
-                                    background: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%)',
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    justifyContent: 'flex-end',
-                                    padding: '10px 14px'
-                                }}>
-                                    <div style={{ fontSize: 11, fontWeight: 800, color: '#81C784', letterSpacing: 1.2 }}>NEXT STOP PINPOINT</div>
-                                    <div style={{ color: 'white', fontSize: 14, fontWeight: 700 }}>{nextDeliveryAddress.split(',')[0]}</div>
-                                    <div style={{ color: 'rgba(255,255,255,0.8)', fontSize: 10, fontWeight: 500 }}>Tap for Street View look-around</div>
-                                </div>
-                            </div>
-                        )}
-
                         <button className="delivery-next-btn" onClick={onNextDelivery}>
                             <ChevronRight size={20} />
                             Next Delivery
@@ -611,21 +622,58 @@ export const ArrivalPanel: React.FC<ArrivalPanelProps> = ({
                 )}
             </div>
 
-            {/* Split Screen Street View Header */}
-            <div className="arrival-streetview-header">
-                <div style={{ position: 'relative', width: '100%', height: '100%', borderRadius: '0 0 24px 24px', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0,0,0,0.3)', background: '#222' }}>
-                    {lat !== undefined && lng !== undefined ? (
-                        <StreetViewWrapper
-                            lat={lat}
-                            lng={lng}
-                            embedded={true}
+            {/* Split Screen Map Header — static map with building pin, tap for look-around */}
+            <div 
+                className="arrival-streetview-header" 
+                onClick={() => {
+                    if (showDeliveryPanel && hasNextDelivery) {
+                        setShowNextStopLookAround(true);
+                    } else {
+                        setShowCurrentLookAround(true);
+                    }
+                }}
+            >
+                {showDeliveryPanel && hasNextDelivery && nextLat !== undefined && nextLng !== undefined ? (
+                    <>
+                        <img
+                            src={`https://maps.googleapis.com/maps/api/streetview?size=600x400&location=${nextLat},${nextLng}&fov=110&pitch=0&key=AIzaSyB9id2lFl02rKAX2gf9qkiL24oEvhI__GU`}
+                            alt="Next Destination"
+                            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                         />
-                    ) : (
-                        <div className="streetview-loading-bg" style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#666', fontSize: 13, zIndex: 0 }}>
-                            Loading Street View...
+                        <div style={{
+                            position: 'absolute', bottom: 0, left: 0, right: 0,
+                            padding: '12px 14px',
+                            background: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%)',
+                            pointerEvents: 'none'
+                        }}>
+                            <div style={{ fontSize: 10, fontWeight: 800, color: '#81C784', letterSpacing: 1.2 }}>NEXT STOP PINPOINT</div>
+                            <div style={{ color: 'white', fontSize: 14, fontWeight: 700 }}>{nextDeliveryAddress?.split(',')[0]}</div>
+                            <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: 10 }}>Tap for Street View look-around</div>
                         </div>
-                    )}
-                </div>
+                    </>
+                ) : lat !== undefined && lng !== undefined ? (
+                    <>
+                        <img
+                            src={`https://maps.googleapis.com/maps/api/streetview?size=600x400&location=${lat},${lng}&fov=110&pitch=0&key=AIzaSyB9id2lFl02rKAX2gf9qkiL24oEvhI__GU`}
+                            alt="Destination"
+                            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                        />
+                        <div style={{
+                            position: 'absolute', bottom: 0, left: 0, right: 0,
+                            padding: '12px 14px',
+                            background: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%)',
+                            pointerEvents: 'none'
+                        }}>
+                            <div style={{ fontSize: 10, fontWeight: 800, color: '#81C784', letterSpacing: 1.2 }}>CURRENT STOP</div>
+                            <div style={{ color: 'white', fontSize: 14, fontWeight: 700 }}>{shortAddress}</div>
+                            <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: 10 }}>Tap for Street View look-around</div>
+                        </div>
+                    </>
+                ) : (
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#666', fontSize: 13 }}>
+                        Loading preview...
+                    </div>
+                )}
             </div>
 
             {/* Photo Preview Overlay */}
@@ -654,6 +702,26 @@ export const ArrivalPanel: React.FC<ArrivalPanelProps> = ({
                     />
                 </div>
             )}
+            {/* Current Stop Street View Look-Around */}
+            {showCurrentLookAround && lat !== undefined && lng !== undefined && createPortal(
+                <div className="lookaround-overlay" style={{ position: 'fixed', inset: 0, zIndex: 100000, background: '#000', pointerEvents: 'auto' }}>
+                    <StreetViewWrapper
+                        lat={lat}
+                        lng={lng}
+                        isFullscreen={true}
+                        onClose={() => setShowCurrentLookAround(false)}
+                    />
+                    <div style={{
+                        position: 'absolute', bottom: 40, left: 20, right: 20, background: 'rgba(0,0,0,0.7)',
+                        backdropFilter: 'blur(10px)', padding: '16px 20px', borderRadius: 20, color: 'white', zIndex: 10001, pointerEvents: 'none'
+                    }}>
+                        <div style={{ fontSize: 12, fontWeight: 800, color: '#81C784', letterSpacing: 1.5, marginBottom: 4 }}>CURRENT STOP</div>
+                        <div style={{ fontSize: 18, fontWeight: 700 }}>{address}</div>
+                    </div>
+                </div>,
+                document.body
+            )}
+
             {/* Interactive Next Stop Look-Around using Portal to escape bounds */}
             {showNextStopLookAround && nextLat !== undefined && nextLng !== undefined && createPortal(
                 <div className="lookaround-overlay" style={{ position: 'fixed', inset: 0, zIndex: 100000, background: '#000', pointerEvents: 'auto' }}>

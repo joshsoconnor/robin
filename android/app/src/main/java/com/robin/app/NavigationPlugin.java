@@ -43,6 +43,10 @@ import com.getcapacitor.annotation.CapacitorPlugin;
 
 import com.google.android.libraries.navigation.*;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 @CapacitorPlugin(name = "NavigationSDK")
 public class NavigationPlugin extends Plugin implements LocationListener {
@@ -68,7 +72,7 @@ public class NavigationPlugin extends Plugin implements LocationListener {
     private LocationManager locationManager;
 
     // Delivery stop markers overlaid on the native nav map
-    private final java.util.List<com.google.android.gms.maps.model.Marker> deliveryMarkers = new java.util.ArrayList<>();
+    private final java.util.List<Marker> deliveryMarkers = new java.util.ArrayList<>();
 
     @PluginMethod
     public void initialize(PluginCall call) {
@@ -490,7 +494,7 @@ public class NavigationPlugin extends Plugin implements LocationListener {
         getActivity().runOnUiThread(() -> {
             navFragment.getMapAsync(googleMap -> {
                 // Clear any previous markers first
-                for (com.google.android.gms.maps.model.Marker m : deliveryMarkers) m.remove();
+                for (Marker m : deliveryMarkers) m.remove();
                 deliveryMarkers.clear();
 
                 try {
@@ -502,15 +506,15 @@ public class NavigationPlugin extends Plugin implements LocationListener {
                         boolean isCompleted = stop.optBoolean("isCompleted", false);
 
                         Bitmap bmp = createNumberedMarkerBitmap(stopNumber, isCompleted);
-                        com.google.android.gms.maps.model.MarkerOptions opts =
-                            new com.google.android.gms.maps.model.MarkerOptions()
-                                .position(new com.google.android.gms.maps.model.LatLng(lat, lng))
-                                .icon(com.google.android.gms.maps.model.BitmapDescriptorFactory.fromBitmap(bmp))
+                        MarkerOptions opts =
+                            new MarkerOptions()
+                                .position(new LatLng(lat, lng))
+                                .icon(BitmapDescriptorFactory.fromBitmap(bmp))
                                 .anchor(0.5f, 0.5f)
                                 .zIndex(isCompleted ? 40 : 50 + stopNumber)
                                 .title("Stop " + stopNumber);
 
-                        com.google.android.gms.maps.model.Marker marker = googleMap.addMarker(opts);
+                        Marker marker = googleMap.addMarker(opts);
                         if (marker != null) deliveryMarkers.add(marker);
                     }
                 } catch (Exception e) {
@@ -524,7 +528,7 @@ public class NavigationPlugin extends Plugin implements LocationListener {
     @PluginMethod
     public void clearDeliveryMarkers(PluginCall call) {
         getActivity().runOnUiThread(() -> {
-            for (com.google.android.gms.maps.model.Marker m : deliveryMarkers) m.remove();
+            for (Marker m : deliveryMarkers) m.remove();
             deliveryMarkers.clear();
             if (call != null) call.resolve();
         });
@@ -597,7 +601,7 @@ public class NavigationPlugin extends Plugin implements LocationListener {
             abandonAudioFocus();
 
             // Clear delivery markers when navigation ends
-            for (com.google.android.gms.maps.model.Marker m : deliveryMarkers) m.remove();
+            for (Marker m : deliveryMarkers) m.remove();
             deliveryMarkers.clear();
 
             // IMPORTANT: Do NOT null mNavigator or destroy navFragment here.

@@ -7,8 +7,8 @@ android {
         applicationId "com.robin.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 7
-        versionName "4.8.1"
+        versionCode 12
+        versionName "1.9.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
@@ -24,22 +24,36 @@ android {
     }
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
-            output.outputFileName = "Robin v4.8.1.apk"
+            output.outputFileName = "Robin-staging.apk"
         }
     }
 }
 
 tasks.register("copyApkToDesktop") {
     doLast {
-        def fromFile = file("${project.buildDir}/outputs/apk/debug/Robin v4.8.1.apk")
-        if (fromFile.exists()) {
-            copy {
-                from fromFile
-                into "C:/Users/joshs/OneDrive/Desktop"
+        def desktopDir = new File("C:/Users/joshs/OneDrive/Desktop")
+
+        // Scan Desktop for existing Robin V*.apk files and find the highest version
+        def maxVersion = new BigDecimal("1.1")  // floor — next build will be at least 1.2
+        desktopDir.listFiles()?.each { f ->
+            def m = f.name =~ /^Robin V(\d+\.\d+)\.apk$/
+            if (m.matches()) {
+                def v = new BigDecimal(m[0][1])
+                if (v > maxVersion) maxVersion = v
             }
-            println "APK successfully copied to Desktop: C:/Users/joshs/OneDrive/Desktop/Robin v4.8.1.apk"
+        }
+
+        // Increment by 0.1
+        def nextVersion = maxVersion.add(new BigDecimal("0.1")).setScale(1)
+        def apkName = "Robin V${nextVersion}.apk"
+
+        def fromFile = file("${project.buildDir}/outputs/apk/debug/Robin-staging.apk")
+        if (fromFile.exists()) {
+            def destFile = new File(desktopDir, apkName)
+            fromFile.withInputStream { is -> destFile.bytes = is.bytes }
+            println "APK successfully copied to Desktop: ${destFile.absolutePath}"
         } else {
-            println "Warning: Source APK not found for copying: ${fromFile.absolutePath}"
+            println "Warning: Staging APK not found: ${fromFile.absolutePath}"
         }
     }
 }
@@ -52,6 +66,8 @@ afterEvaluate {
 }
 
 repositories {
+    google()
+    mavenCentral()
     flatDir{
         dirs '../capacitor-cordova-android-plugins/src/main/libs', 'libs'
     }

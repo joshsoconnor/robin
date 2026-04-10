@@ -22,6 +22,8 @@ export const StreetViewWrapper: React.FC<StreetViewWrapperProps> = ({
 }) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const streetViewLibrary = useMapsLibrary('streetView');
+    const markerLibrary = useMapsLibrary('marker');
+    const geometryLibrary = useMapsLibrary('geometry');
     const [panorama, setPanorama] = useState<any>(null);
 
     useEffect(() => {
@@ -55,6 +57,39 @@ export const StreetViewWrapper: React.FC<StreetViewWrapperProps> = ({
             panorama.setPosition({ lat, lng });
         }
     }, [lat, lng, panorama]);
+
+    // Handle marker injection and automatic POV alignment
+    useEffect(() => {
+        if (!panorama || !markerLibrary || !geometryLibrary) return;
+
+        // Add a pin at the exact destination coordinates
+        const marker = new markerLibrary.Marker({
+            position: { lat, lng },
+            map: panorama,
+            title: 'Destination'
+        });
+
+        // Auto-point camera towards the pin when the panorama location resolves
+        const listener = panorama.addListener('position_changed', () => {
+            const panoPos = panorama.getPosition();
+            if (panoPos) {
+                const heading = geometryLibrary.spherical.computeHeading(panoPos, { lat, lng });
+                panorama.setPov({ heading, pitch: 0 });
+                
+                // Only auto-aim once so we don't fight the user's manual panning
+                if ((window as any).google?.maps?.event) {
+                    (window as any).google.maps.event.removeListener(listener);
+                }
+            }
+        });
+
+        return () => {
+            marker.setMap(null);
+            if (listener && (window as any).google?.maps?.event) {
+                (window as any).google.maps.event.removeListener(listener);
+            }
+        };
+    }, [panorama, markerLibrary, geometryLibrary, lat, lng]);
 
     return (
         <div className={`street-view-container ${embedded ? 'embedded' : 'modal'} ${isFullscreen ? 'fullscreen' : ''}`}>
