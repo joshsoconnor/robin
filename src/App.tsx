@@ -255,9 +255,28 @@ function App() {
         } catch { }
       }
 
-      // If user already has pending stops in local storage, don't overwrite from cloud
+      // If user already has pending stops in local storage, verify the cloud hasn't
+      // already marked the run as fully completed (i.e. app was force-killed after
+      // sync but before localStorage was cleared — causing stale "incomplete" state).
       if (hasLocalPendingStops) {
-        return;
+        const storedRunId = localStorage.getItem('robin_active_run_id');
+        if (storedRunId) {
+          try {
+            const { data: runCheck } = await supabase
+              .from('admin_runs')
+              .select('total_stops, completed_stops')
+              .eq('run_id', storedRunId)
+              .eq('user_id', uid)
+              .single();
+            // If cloud says all stops completed, the local state is stale — clear it
+            if (runCheck && runCheck.total_stops > 0 && runCheck.completed_stops >= runCheck.total_stops) {
+              localStorage.removeItem('robin_route_stops');
+              localStorage.removeItem('robin_active_run_id');
+              return; // Run is done — don't restore stale local state
+            }
+          } catch { /* ignore — fall through to local restoration */ }
+        }
+        return; // Local pending stops are legitimately in-progress
       }
 
       try {
@@ -652,8 +671,8 @@ function App() {
           travelMode: 'DRIVING' 
         });
       }
-      // Dismiss panel AFTER nav is confirmed started — prevents white screen gap
-      setArrivalAddress(null);
+      // Delay panel dismissal so native map has time to render — prevents white screen flash
+      setTimeout(() => setArrivalAddress(null), 350);
       handleNavStart(activeNavAddress.split(',')[0], activeNavAddress);
       // Refresh markers after re-route
       pushNativeDeliveryMarkers(routeStops);
@@ -773,18 +792,17 @@ function App() {
   }, []);
 
   const handleEndRun = useCallback(async () => {
-    // Treat the final stop as completed if we reached it
-    if (activeNavAddress) {
-      const currentIdx = routeStops.findIndex(s => s.address === activeNavAddress);
-      if (currentIdx >= 0) {
-        const updatedStops = routeStops.map((s, i) => i === currentIdx ? { ...s, status: 'completed' as const } : s);
-        setRouteStops(updatedStops);
-        if (!isGuest && activeRunId) {
-          const { data: userData } = await supabase.auth.getUser();
-          if (userData.user) {
-            await syncRouteToSupabase(updatedStops, userData.user.id, activeRunId, getSydneyDate());
-          }
-        }
+    // Mark ALL remaining pending stops as completed so the cloud record is fully accurate
+    // This prevents the "18/21" stale state bug on app reopen after force-close
+    const completedAt = new Date().toISOString();
+    const fullyCompletedStops = routeStops.map(s =>
+      s.status === 'pending' ? { ...s, status: 'completed' as const, completed_at: completedAt } : s
+    );
+    setRouteStops(fullyCompletedStops);
+    if (!isGuest && activeRunId) {
+      const { data: userData } = await supabase.auth.getUser();
+      if (userData.user) {
+        await syncRouteToSupabase(fullyCompletedStops, userData.user.id, activeRunId, getSydneyDate());
       }
     }
     setArrivalAddress(null);
@@ -793,7 +811,7 @@ function App() {
     
     // Auto-clear the run screen after finishing the final route
     handleClearRun();
-  }, [activeNavAddress, routeStops, isGuest, activeRunId, handleClearRun]);
+  }, [routeStops, isGuest, activeRunId, handleClearRun]);
 
 
 
@@ -1152,6 +1170,7 @@ function App() {
             onEndRoute={handleEndRoute}
             onNextDelivery={handleNextDelivery}
             onEndRun={handleEndRun}
+            onExitNav={handleNavExit}
             hasNextDelivery={!!nextStop}
             nextDeliveryAddress={nextStop?.address}
             nextLat={nextStop?.lat}

@@ -175,10 +175,40 @@ const RunsSection = ({ routeStops, activeAddress, onUpdateStops, onSwitchToIntel
     const [deleteConfirmIdx, setDeleteConfirmIdx] = useState<number | null>(null);
 
     useEffect(() => {
-        supabase.from('deliveries').select('*').order('delivery_date', { ascending: false }).order('created_at', { ascending: true }).then(({ data }) => {
-            setDeliveries(data || []);
+        const fetchData = async () => {
+            const { data: deliveriesData } = await supabase
+                .from('deliveries')
+                .select('*')
+                .order('delivery_date', { ascending: false })
+                .order('created_at', { ascending: true });
+
+            // Fetch run routes so we can sort items within each run by stop_order
+            const { data: routeData } = await supabase
+                .from('admin_run_routes')
+                .select('address, stop_order, run_id')
+                .order('stop_order', { ascending: true });
+
+            // Build run_id -> { address -> stop_order } lookup
+            const runStopOrderMap: Record<string, Record<string, number>> = {};
+            if (routeData) {
+                for (const r of routeData) {
+                    if (!runStopOrderMap[r.run_id]) runStopOrderMap[r.run_id] = {};
+                    runStopOrderMap[r.run_id][r.address] = r.stop_order;
+                }
+            }
+
+            // Attach _stopOrder to each delivery
+            const enriched = (deliveriesData || []).map((d: any) => ({
+                ...d,
+                _stopOrder: d.run_id && runStopOrderMap[d.run_id]
+                    ? (runStopOrderMap[d.run_id][d.address] ?? 9999)
+                    : 9999,
+            }));
+
+            setDeliveries(enriched);
             setLoading(false);
-        });
+        };
+        fetchData();
     }, []);
 
 
@@ -253,6 +283,11 @@ const RunsSection = ({ routeStops, activeAddress, onUpdateStops, onSwitchToIntel
         const runId = d.run_id || d.delivery_date;
         if (!groupedRuns[runId]) groupedRuns[runId] = { date: d.delivery_date, items: [] };
         groupedRuns[runId].items.push(d);
+    });
+
+    // Sort items within each run by stop_order
+    Object.values(groupedRuns).forEach(run => {
+        run.items.sort((a, b) => (a._stopOrder ?? 9999) - (b._stopOrder ?? 9999));
     });
 
     const runList = Object.entries(groupedRuns)

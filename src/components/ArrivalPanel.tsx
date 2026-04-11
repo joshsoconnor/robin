@@ -14,6 +14,7 @@ interface ArrivalPanelProps {
     onEndRoute?: () => void;
     onNextDelivery?: () => void;
     onEndRun?: () => void;
+    onExitNav?: () => void;
     hasNextDelivery?: boolean;
     nextDeliveryAddress?: string;
     nextLat?: number;
@@ -30,6 +31,7 @@ export const ArrivalPanel: React.FC<ArrivalPanelProps> = ({
     onEndRoute,
     onNextDelivery,
     onEndRun,
+    onExitNav,
     hasNextDelivery = false,
     nextDeliveryAddress,
     nextLat,
@@ -291,6 +293,23 @@ export const ArrivalPanel: React.FC<ArrivalPanelProps> = ({
                                 alt="Destination Street View"
                                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                             />
+                            {/* Exit Navigation button — always visible above map preview */}
+                            {onExitNav && (
+                                <button
+                                    onClick={(e) => { e.stopPropagation(); onExitNav(); }}
+                                    style={{
+                                        position: 'absolute', top: 'max(env(safe-area-inset-top, 16px), 52px)', left: 16,
+                                        zIndex: 20, background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(8px)',
+                                        WebkitBackdropFilter: 'blur(8px)', border: '1px solid rgba(255,255,255,0.25)',
+                                        borderRadius: 20, padding: '8px 16px', color: 'white',
+                                        fontSize: 13, fontWeight: 700, cursor: 'pointer',
+                                        display: 'flex', alignItems: 'center', gap: 6,
+                                        boxShadow: '0 4px 12px rgba(0,0,0,0.3)'
+                                    }}
+                                >
+                                    ← Exit Navigation
+                                </button>
+                            )}
                             <div style={{
                                 position: 'absolute', bottom: 0, left: 0, right: 0,
                                 padding: '12px 14px',
