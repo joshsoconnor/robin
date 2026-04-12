@@ -242,29 +242,44 @@ export const UploadRunScreen: React.FC<UploadRunScreenProps> = ({ isDarkMode, on
     // Google Places autocomplete on the manual input
     // Re-bind whenever phase returns to 'capture' (e.g. after rescan)
     useEffect(() => {
-        if (!places || !manualInputRef.current || phase !== 'capture') return;
+        if (!places || !manualInputRef.current) return;
         const autocomplete = new places.Autocomplete(manualInputRef.current, {
             fields: ['formatted_address', 'place_id', 'geometry'],
             componentRestrictions: { country: 'au' }
         });
-        autocomplete.addListener('place_changed', () => {
+        autocomplete.addListener('place_changed', async () => {
             const place = autocomplete.getPlace();
             if (place.formatted_address) {
-                setManualStops(prev => [...prev, { 
+                const stopData = { 
                     address: place.formatted_address!,
                     place_id: place.place_id,
                     lat: place.geometry?.location?.lat(),
                     lng: place.geometry?.location?.lng()
-                }]);
+                };
+                if (phase === 'capture') {
+                    setManualStops(prev => [...prev, stopData]);
+                } else if (phase === 'review') {
+                    const { data: { user } } = await supabase.auth.getUser();
+                    const history = await checkAddressHistory([stopData.address], user?.id || null);
+                    const hist = history.get(stopData.address) || { status: 'new', hasNotes: false, hasVideos: false };
+                    setStops(prev => [...prev, { ...stopData, ...hist }]);
+                }
                 if (manualInputRef.current) manualInputRef.current.value = '';
             }
         });
     }, [places, phase]);
 
-    const addManualStop = () => {
+    const addManualStop = async () => {
         const addr = manualInputRef.current?.value.trim();
         if (!addr) return;
-        setManualStops(prev => [...prev, { address: addr }]);
+        if (phase === 'capture') {
+            setManualStops(prev => [...prev, { address: addr }]);
+        } else if (phase === 'review') {
+            const { data: { user } } = await supabase.auth.getUser();
+            const history = await checkAddressHistory([addr], user?.id || null);
+            const hist = history.get(addr) || { status: 'new', hasNotes: false, hasVideos: false };
+            setStops(prev => [...prev, { address: addr, ...hist }]);
+        }
         if (manualInputRef.current) manualInputRef.current.value = '';
     };
 
@@ -585,6 +600,20 @@ export const UploadRunScreen: React.FC<UploadRunScreenProps> = ({ isDarkMode, on
                         <span className="legend-item mine">● You&apos;ve been here</span>
                         <span className="legend-item others">● Team visited</span>
                         <span className="legend-item new">● New stop</span>
+                    </div>
+
+                    {/* Manual Address Entry - Active Run */}
+                    <div className="manual-entry-row" style={{ marginTop: 12, marginBottom: 12 }}>
+                        <input
+                            ref={manualInputRef}
+                            type="text"
+                            className="manual-address-input"
+                            placeholder="Add a stop to this run..."
+                            onKeyDown={e => { if (e.key === 'Enter') addManualStop(); }}
+                        />
+                        <button className="manual-add-btn" onClick={addManualStop}>
+                            <Plus size={20} />
+                        </button>
                     </div>
 
                     <p className="upload-subtitle" style={{ marginBottom: 6 }}>

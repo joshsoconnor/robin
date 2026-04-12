@@ -4,13 +4,15 @@ import { Geolocation } from '@capacitor/geolocation';
 // Camera import removed — video capture now uses a file input with accept="video/*"
 import { registerPlugin, Capacitor } from '@capacitor/core';
 import { getSydneyDate } from '../lib/dateUtils';
-import { Camera, Navigation, Coffee, MapPin, Search, Plus, X, Video, Car, Footprints, FileText, Loader, AlertTriangle, Trash2, Volume2, VolumeX } from 'lucide-react';
+import { Camera, Navigation, MapPin, Search, Plus, X, Video, Car, Footprints, FileText, Loader, AlertTriangle, Trash2, Volume2, VolumeX } from 'lucide-react';
 import { silverMapStyle, darkMapStyle } from '../lib/mapStyles';
 import { supabase } from '../lib/supabase';
 import { analyzeSignPhoto } from '../lib/signAnalyzer';
 import { Toast } from './Toast';
 import { VoiceAssistantNode } from './VoiceAssistantNode';
 import { StreetViewWrapper } from './StreetViewWrapper';
+import { AddCairnModal, AddHazardModal } from './NavigationModals';
+import type { Cairn } from './NavigationModals';
 import './ExploreScreen.css';
 
 const NavigationSDK = registerPlugin<any>('NavigationSDK');
@@ -466,22 +468,9 @@ const ExtrasModal = ({ address, onClose, userEmail }: { address: string, onClose
 };
 
 // --- CAIRN TYPES ---
-interface Cairn {
-    id: string;
-    lat: number;
-    lng: number;
-    category: 'parking' | 'toilet' | 'food' | 'loading_zone' | 'eating_spot' | 'clearway' | 'school_zone';
-    raw_note: string;
-    gate_code: string;
-}
+// CAIRN_CATEGORIES removed — now using imports
 
-const CAIRN_CATEGORIES = [
-    { key: 'toilet', label: 'Public Toilet', icon: '🚾' },
-    { key: 'parking', label: 'Parking', icon: '🅿️' },
-    { key: 'food', label: 'Coffee / Food', icon: '☕' },
-    { key: 'loading_zone', label: 'Loading Zone', icon: '🚚' },
-    { key: 'eating_spot', label: 'Eating Spot', icon: '🍕' },
-] as const;
+
 
 const renderCairnIconDataUri = (category: string) => {
     if (category === 'loading_zone') {
@@ -551,200 +540,7 @@ const renderCairnIcon = (category: string) => {
                     <path d="M239.761,43.925c-7.969,0-14.43,6.46-14.43,14.43v395.282c0,7.969,6.46,14.429,14.43,14.429c7.97,0,14.43-6.459,14.43-14.429V58.355C254.191,50.385,247.73,43.925,239.761,43.925z" />
                 </svg>
             );
-        case 'food': return <Coffee size={20} color="#8D6E63" />;
-        case 'loading_zone': return <span style={{ fontSize: '20px' }}>🚚</span>;
-        case 'eating_spot': return <span style={{ fontSize: '20px' }}>🍕</span>;
-        case 'clearway': return <span style={{ fontSize: '20px' }}>🚫</span>;
-        case 'school_zone': return <span style={{ fontSize: '20px' }}>🏫</span>;
-        default: return <MapPin size={20} color="gray" />;
     }
-};
-
-// --- ADD CAIRN MODAL ---
-const AddCairnModal = ({ lat, lng, onClose, onSaved }: { lat: number, lng: number, onClose: () => void, onSaved: (cairn: Cairn | null, error?: string) => void }) => {
-    const [category, setCategory] = useState('toilet');
-    const [note, setNote] = useState('');
-    const [saving, setSaving] = useState(false);
-
-    const handleSave = async () => {
-        setSaving(true);
-        try {
-            const { data, error } = await supabase.from('cairns').insert([{
-                lat, lng, category, raw_note: note
-            }]).select();
-            if (error) {
-                onSaved(null, error.message);
-                return;
-            }
-            if (data) {
-                onSaved(data[0] as Cairn);
-                onClose();
-            }
-        } catch (err: any) {
-            console.error('Failed to save cairn:', err);
-            onSaved(null, err?.message || 'Unknown error');
-        } finally {
-            setSaving(false);
-        }
-    };
-
-    return (
-        <div className="modal-overlay">
-            <div className="modal-content">
-                <div className="modal-header">
-                    <h3>Add Point of Interest</h3>
-                    <button className="close-btn" onClick={onClose}><X size={20} /></button>
-                </div>
-                <p style={{ color: 'var(--text-secondary)', fontSize: 13, margin: '0 0 16px' }}>Dropping pin at your current location</p>
-                <div className="category-select" style={{ flexWrap: 'wrap', gap: 8, marginBottom: 16 }}>
-                    {CAIRN_CATEGORIES.map(cat => (
-                        <button
-                            key={cat.key}
-                            className={`cat-btn ${category === cat.key ? 'active' : ''}`}
-                            onClick={() => setCategory(cat.key)}
-                            style={{ display: 'flex', alignItems: 'center', gap: 6 }}
-                        >
-                            <span>{cat.icon}</span> {cat.label}
-                        </button>
-                    ))}
-                </div>
-                <textarea
-                    className="input-field"
-                    placeholder="Optional note (e.g. 'Behind the petrol station')"
-                    rows={2}
-                    value={note}
-                    onChange={e => setNote(e.target.value)}
-                />
-                <button className="action-btn primary" onClick={handleSave} disabled={saving} style={{ marginTop: 8, width: '100%' }}>
-                    {saving ? 'Saving...' : 'Save'}
-                </button>
-            </div>
-        </div>
-    );
-};
-
-const AddHazardModal = ({ lat, lng, onClose, onSaved }: { lat: number, lng: number, onClose: () => void, onSaved: (hazard: any | null, error?: string) => void }) => {
-    const [restrictionType, setRestrictionType] = useState('low_bridge');
-    const [maxHeight, setMaxHeight] = useState('');
-    const [maxWeight, setMaxWeight] = useState('');
-    const [streetName, setStreetName] = useState('');
-    const [saving, setSaving] = useState(false);
-
-    const HAZARD_TYPES = [
-        { key: 'low_bridge', label: 'Low Bridge' },
-        { key: 'weight_limit', label: 'Weight Limit' },
-        { key: 'no_trucks', label: 'No Heavy Vehicles' },
-        { key: 'tight_turn', label: 'Tight Turn' },
-    ];
-
-    const handleSave = async () => {
-        setSaving(true);
-        try {
-            const { data: user } = await supabase.auth.getUser();
-            const { data, error } = await supabase.from('hazards').insert([{
-                lat, lng,
-                restriction_type: restrictionType,
-                max_height: maxHeight ? parseFloat(maxHeight) : null,
-                max_weight: maxWeight ? parseFloat(maxWeight) : null,
-                street_name: streetName.trim() || null,
-                reported_by: user.user?.id
-            }]).select();
-
-            if (error) {
-                onSaved(null, error.message);
-                return;
-            }
-            if (data) {
-                onSaved(data[0]);
-                onClose();
-            }
-        } catch (err: any) {
-            console.error('Failed to save hazard:', err);
-            onSaved(null, err?.message || 'Unknown error');
-        } finally {
-            setSaving(false);
-        }
-    };
-
-    return (
-        <div className="modal-overlay">
-            <div className="modal-content">
-                <div className="modal-header">
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                        <AlertTriangle size={24} color="#ff3b30" />
-                        <h3 style={{ margin: 0 }}>Report Hazard</h3>
-                    </div>
-                    <button className="close-btn" onClick={onClose}><X size={20} /></button>
-                </div>
-
-                <p style={{ color: 'var(--text-secondary)', fontSize: 13, margin: '0 0 16px' }}>Share a road restriction at your location</p>
-
-                <div className="category-select" style={{ flexWrap: 'wrap', gap: 8, marginBottom: 16 }}>
-                    {HAZARD_TYPES.map(type => (
-                        <button
-                            key={type.key}
-                            className={`cat-btn ${restrictionType === type.key ? 'active' : ''}`}
-                            onClick={() => setRestrictionType(type.key)}
-                            style={{
-                                background: restrictionType === type.key ? '#ff3b30' : 'var(--bg-main)',
-                                borderColor: restrictionType === type.key ? '#ff3b30' : 'var(--border-subtle)',
-                                color: restrictionType === type.key ? 'white' : 'var(--text-main)',
-                            }}
-                        >
-                            {type.label}
-                        </button>
-                    ))}
-                </div>
-
-                <div style={{ marginBottom: 16 }}>
-                    <label style={{ display: 'block', fontSize: 12, color: 'var(--text-secondary)', marginBottom: 4 }}>Street Name (Optional)</label>
-                    <input
-                        className="input-field"
-                        value={streetName}
-                        onChange={e => setStreetName(e.target.value)}
-                        placeholder="e.g. Montague St"
-                    />
-                </div>
-
-                {(restrictionType === 'low_bridge') && (
-                    <div style={{ marginBottom: 16 }}>
-                        <label style={{ display: 'block', fontSize: 12, color: 'var(--text-secondary)', marginBottom: 4 }}>Max Height Clearance (meters)</label>
-                        <input
-                            className="input-field"
-                            type="number"
-                            step="0.1"
-                            value={maxHeight}
-                            onChange={e => setMaxHeight(e.target.value)}
-                            placeholder="e.g. 3.2"
-                        />
-                    </div>
-                )}
-
-                {(restrictionType === 'weight_limit') && (
-                    <div style={{ marginBottom: 16 }}>
-                        <label style={{ display: 'block', fontSize: 12, color: 'var(--text-secondary)', marginBottom: 4 }}>Max Weight Limit (tonnes)</label>
-                        <input
-                            className="input-field"
-                            type="number"
-                            step="0.1"
-                            value={maxWeight}
-                            onChange={e => setMaxWeight(e.target.value)}
-                            placeholder="e.g. 15.0"
-                        />
-                    </div>
-                )}
-
-                <button
-                    className="action-btn primary"
-                    onClick={handleSave}
-                    disabled={saving}
-                    style={{ background: '#ff3b30', borderColor: '#ff3b30', marginTop: 8, width: '100%', justifyContent: 'center' }}
-                >
-                    {saving ? 'Reporting...' : 'Publish Hazard Report'}
-                </button>
-            </div>
-        </div>
-    );
 };
 
 // --- MAP & EXPLORE SCREEN ---
@@ -826,6 +622,17 @@ const ExploreInner = ({ userLocation, persistedDestination, initialCenter, onRou
         computeAll();
     }, [directionsService, directionsRenderer, persistedDestination, userLocation, map]);
 
+    // Explicitly pan to selected destination when it changes
+    useEffect(() => {
+        if (!map || !persistedDestination || !persistedDestination.geometry) return;
+        if (persistedDestination.geometry.viewport) {
+            map.fitBounds(persistedDestination.geometry.viewport);
+        } else if (persistedDestination.geometry.location) {
+            map.panTo(persistedDestination.geometry.location);
+            map.setZoom(18);
+        }
+    }, [map, persistedDestination]);
+
     return (
         <>
             <Map
@@ -866,6 +673,9 @@ const ExploreInner = ({ userLocation, persistedDestination, initialCenter, onRou
                         url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent('<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" fill="#4285F4" stroke="white" stroke-width="3"/></svg>'),
                         scaledSize: new (window as any).google.maps.Size(24, 24)
                     }} />
+                )}
+                {persistedDestination && persistedDestination.geometry?.location && (
+                    <Marker position={persistedDestination.geometry.location} zIndex={110} />
                 )}
                 {/* Cairn markers */}
                 {cairns && cairns.filter((c: Cairn) => {

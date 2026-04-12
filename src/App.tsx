@@ -13,7 +13,8 @@ import { ArrivalPanel } from './components/ArrivalPanel';
 import { VoiceAssistantNode } from './components/VoiceAssistantNode';
 import { IntelligenceFeed } from './components/IntelligenceFeed';
 import { StreetViewWrapper } from './components/StreetViewWrapper';
-import { X, Volume2, VolumeX } from 'lucide-react';
+import { X, Volume2, VolumeX, Plus, AlertTriangle, MapPin, Package } from 'lucide-react';
+import { AddCairnModal, AddHazardModal } from './components/NavigationModals';
 import { supabase } from './lib/supabase';
 import { registerPlugin, Capacitor } from '@capacitor/core';
 import { getSydneyDate } from './lib/dateUtils';
@@ -100,6 +101,13 @@ function App() {
     vehicle_weight?: number;
     vehicle_length?: number;
   } | null>(null);
+
+  const [hazards, setHazards] = useState<any[]>([]);
+  const [showNavActionMenu, setShowNavActionMenu] = useState(false);
+  const [showAddHazard, setShowAddHazard] = useState(false);
+  const [showAddCairn, setShowAddCairn] = useState(false);
+  const [lastHazardWarningAt, setLastHazardWarningAt] = useState<number>(0);
+  const [proximityHazard, setProximityHazard] = useState<any | null>(null);
 
   useEffect(() => {
     if (isDarkMode) {
@@ -431,17 +439,71 @@ function App() {
     }
   }, []);
 
-  const handleManualArrive = useCallback((address: string | null) => {
-    handleNavExit();
+  const handleManualArrive = (address: string | null) => {
     if (!address) return;
     setArrivalAddress(address);
-    if (!activeNavAddress) {
-      setActiveNavAddress(address);
+    setNavLookAround(false);
+  };
+
+  const handleUpdatePin = async () => {
+    if (!activeNavAddress || !activeRunId) return;
+    
+    try {
+      // Get current location from browser/plugin
+      const pos = await Geolocation.getCurrentPosition();
+      const { latitude: lat, longitude: lng } = pos.coords;
+
+      // Update the stop's coordinates in Supabase
+      const { error } = await supabase
+        .from('admin_run_routes')
+        .update({ lat, lng })
+        .eq('run_id', activeRunId)
+        .eq('address', activeNavAddress);
+
+      if (error) throw error;
+
+      // Update local state if needed
+      const updatedStops = routeStops.map(s => 
+        s.address === activeNavAddress ? { ...s, lat, lng } : s
+      );
+      setRouteStops(updatedStops);
+      localStorage.setItem('robin_route_stops', JSON.stringify(updatedStops));
+
+      NavigationSDK.speakText({ text: "Destination pin updated to your current location." }).catch(console.error);
+      setShowNavActionMenu(false);
+    } catch (err) {
+      console.error('Failed to update pin:', err);
     }
-  }, [handleNavExit, activeNavAddress]);
+  };
+
+  // Haversine distance in meters
+  const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number) => {
+    const R = 6371e3; // metres
+    const φ1 = lat1 * Math.PI/180;
+    const φ2 = lat2 * Math.PI/180;
+    const Δφ = (lat2-lat1) * Math.PI/180;
+    const Δλ = (lon2-lon1) * Math.PI/180;
+    const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+              Math.cos(φ1) * Math.cos(φ2) *
+              Math.sin(Δλ/2) * Math.sin(Δλ/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    return R * c;
+  };
 
   // Listeners for native SDK events
   useEffect(() => {
+    // Fetch vehicle profile and hazards
+    const initializeNavData = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { data: profile } = await supabase.from('profiles').select('*').eq('id', user.id).single();
+        if (profile) setVehicleProfile(profile);
+      }
+      const { data: hazardsData } = await supabase.from('hazards').select('*');
+      if (hazardsData) setHazards(hazardsData);
+    };
+    initializeNavData();
+
     const arrivalListener = NavigationSDK.addListener('navArrived', () => {
       handleNavExit();
       setArrivalAddress(activeNavAddress || localStorage.getItem('nav-label') || 'Destination');
@@ -485,10 +547,48 @@ function App() {
         if (typeof data.stepDistance === 'number') setDistanceToNextTurn(data.stepDistance);
 
         // Proactive Arrival Logic: If within 50m, trigger arrival panel
-        // This helps when the user is roadside but not exactly on the pin.
         if (m <= 50) {
           handleManualArrive(activeNavAddress);
         }
+
+        // Hazard Proximity Detection
+        const checkHazards = () => {
+          if (!hazards.length || !activeNavLat || !activeNavLng) return;
+          
+          const now = Date.now();
+          // Find closest relevant hazard
+          let found: any = null;
+          let minDist = 300; // 300m threshold
+
+          for (const h of hazards) {
+            const dist = calculateDistance(activeNavLat, activeNavLng, h.lat, h.lng);
+            if (dist < minDist) {
+              // Only warn about height if we have a vehicle height and hazard has max_height
+              if (h.restriction_type === 'low_bridge' && h.max_height && vehicleProfile?.vehicle_height) {
+                if (vehicleProfile.vehicle_height >= h.max_height) {
+                  found = h;
+                  minDist = dist;
+                }
+              } else if (h.restriction_type === 'road_closure') {
+                found = h;
+                minDist = dist;
+              }
+            }
+          }
+
+          if (found && now - lastHazardWarningAt > 30000) { // Warn every 30s max
+            setProximityHazard(found);
+            setLastHazardWarningAt(now);
+            const speech = found.restriction_type === 'low_bridge' 
+              ? `Warning: Low bridge ahead, ${found.max_height} meters. Your truck is ${vehicleProfile?.vehicle_height} meters.`
+              : "Warning: Road closure ahead.";
+            NavigationSDK.speakText({ text: speech }).catch(console.error);
+            
+            // Clear visual alert after 10s
+            setTimeout(() => setProximityHazard(null), 10000);
+          }
+        };
+        checkHazards();
       }
     });
 
@@ -920,7 +1020,7 @@ function App() {
             isDarkMode={isDarkMode}
             onFinalize={handleFinalize}
             routeStops={routeStops}
-            onClearRun={handleClearRun}
+            onClearRun={handleEndRun}
             onNavToStop={(stop) => handleNavStart(stop.address.split(',')[0], stop.address)}
           />
         );
@@ -1090,6 +1190,28 @@ function App() {
                 isMuted={isMuted}
               />
 
+              {/* Add Action Button - NEW (+) */}
+              <button 
+                className="nav-add-fab" 
+                onClick={() => setShowNavActionMenu(!showNavActionMenu)}
+                style={{
+                  background: 'var(--bg-card)',
+                  width: '56px',
+                  height: '56px',
+                  borderRadius: '28px',
+                  border: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+                  marginBottom: '10px',
+                  color: 'var(--primary-action)',
+                  pointerEvents: 'auto'
+                }}
+              >
+                <Plus size={28} />
+              </button>
+
               {/* Mute/Unmute FAB - Native Overlay Context */}
               <button 
                 className="nav-mute-fab" 
@@ -1105,17 +1227,83 @@ function App() {
                   justifyContent: 'center',
                   boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
                   marginBottom: '10px',
-                  color: isMuted ? '#ff3b30' : 'var(--primary-action)'
+                  color: isMuted ? '#ff3b30' : 'var(--primary-action)',
+                  pointerEvents: 'auto'
                 }}
               >
                 {isMuted ? <VolumeX size={24} /> : <Volume2 size={24} />}
               </button>
 
               {/* Manual Arrival Button */}
-              <button className="nav-arrive-fab" onClick={() => handleManualArrive(activeNavAddress)}>
+              <button className="nav-arrive-fab" onClick={() => handleManualArrive(activeNavAddress)} style={{ pointerEvents: 'auto' }}>
                 <X size={28} />
               </button>
             </div>
+
+            {/* Nav Action Menu Popup */}
+            {showNavActionMenu && (
+              <div className="nav-action-overlay" style={{ position: 'fixed', inset: 0, zIndex: 10000, pointerEvents: 'auto' }} onClick={() => setShowNavActionMenu(false)}>
+                <div 
+                  className="nav-action-menu" 
+                  style={{ 
+                    position: 'absolute', bottom: 100, right: 85, background: 'var(--bg-card)', 
+                    borderRadius: 20, width: 200, padding: 8, boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
+                    border: '1px solid var(--border-color)', animation: 'proximitySlideDown 0.3s'
+                  }}
+                  onClick={e => e.stopPropagation()}
+                >
+                  <button className="menu-item" onClick={() => { setShowAddHazard(true); setShowNavActionMenu(false); }} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 16px', width: '100%', background: 'none', border: 'none', color: 'var(--text-main)', fontSize: 14, fontWeight: 600 }}>
+                    <AlertTriangle size={20} color="#ff3b30" /> Report Hazard
+                  </button>
+                  <div style={{ height: 1, background: 'var(--border-color)', margin: '0 8px' }} />
+                  <button className="menu-item" onClick={handleUpdatePin} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 16px', width: '100%', background: 'none', border: 'none', color: 'var(--text-main)', fontSize: 14, fontWeight: 600 }}>
+                    <MapPin size={20} color="var(--primary-action)" /> Update Pin
+                  </button>
+                  <div style={{ height: 1, background: 'var(--border-color)', margin: '0 8px' }} />
+                  <button className="menu-item" onClick={() => { setShowAddCairn(true); setShowNavActionMenu(false); }} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 16px', width: '100%', background: 'none', border: 'none', color: 'var(--text-main)', fontSize: 14, fontWeight: 600 }}>
+                    <Package size={20} color="var(--secondary-action)" /> Add Item
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Proximity Hazard Warning Banner */}
+            {proximityHazard && (
+              <div className="hazard-warning-banner" style={{ position: 'absolute', top: 120, left: 20, right: 20, background: '#ff3b30', borderRadius: 16, padding: '16px 20px', color: 'white', display: 'flex', alignItems: 'center', gap: 16, boxShadow: '0 8px 32px rgba(255, 59, 48, 0.4)', zIndex: 7000, pointerEvents: 'auto' }}>
+                <AlertTriangle size={32} />
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: 12, fontWeight: 800, opacity: 0.8, textTransform: 'uppercase', letterSpacing: 1.2 }}>Hazard Warning</div>
+                  <div style={{ fontSize: 18, fontWeight: 700 }}>
+                    {proximityHazard.restriction_type === 'low_bridge' ? `Low Bridge (${proximityHazard.max_height}m)` : proximityHazard.restriction_type.replace('_', ' ')}
+                  </div>
+                </div>
+                <button onClick={() => setProximityHazard(null)} style={{ background: 'rgba(255,255,255,0.2)', border: 'none', borderRadius: '50%', width: 28, height: 28, color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><X size={16} /></button>
+              </div>
+            )}
+
+            {showAddHazard && (
+              <AddHazardModal 
+                lat={activeNavLat || 0} 
+                lng={activeNavLng || 0} 
+                onClose={() => setShowAddHazard(false)}
+                onSaved={(h) => {
+                  if (h) setHazards(prev => [h, ...prev]);
+                  setShowAddHazard(false);
+                }}
+              />
+            )}
+
+            {showAddCairn && (
+              <AddCairnModal 
+                lat={activeNavLat || 0} 
+                lng={activeNavLng || 0} 
+                onClose={() => setShowAddCairn(false)}
+                onSaved={() => {
+                  setShowAddCairn(false);
+                }}
+              />
+            )}
+
             
             {/* Interactive Nav Look-Around */}
             {navLookAround && (

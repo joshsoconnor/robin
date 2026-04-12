@@ -7,8 +7,8 @@ android {
         applicationId "com.robin.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 13
-        versionName "2.0.0"
+        versionCode 21
+        versionName "2.1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
@@ -32,7 +32,7 @@ android {
 tasks.register("copyApkToDesktop") {
     doLast {
         def desktopDir = new File("C:/Users/joshs/OneDrive/Desktop")
-        def apkName = "Robin V2.0.apk"
+        def apkName = "Robin V2.1.apk"
 
         def fromFile = file("${project.buildDir}/outputs/apk/debug/Robin-staging.apk")
         if (fromFile.exists()) {

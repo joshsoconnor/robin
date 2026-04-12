@@ -70,17 +70,18 @@ export const CalendarScreen: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode }
         // This fixes: batch-inserted deliveries all have identical created_at and appear random
         const { data: runRoutes } = await supabase
             .from('admin_run_routes')
-            .select('address, stop_order, run_id')
+            .select('address, stop_order, run_id, completed_at')
             .gte('created_at', startOfMonth + 'T00:00:00')
             .lte('created_at', endOfMonth + 'T23:59:59')
             .order('stop_order', { ascending: true });
 
-        // Build a lookup: address -> stop_order (lowest value wins if address appears in multiple runs)
-        const stopOrderMap: Record<string, number> = {};
+        // Build a lookup: address -> { stop_order, completed_at }
+        const routeDataMap: Record<string, { stop_order: number, completed_at: string | null }> = {};
         if (runRoutes) {
             for (const r of runRoutes) {
-                if (!(r.address in stopOrderMap) || r.stop_order < stopOrderMap[r.address]) {
-                    stopOrderMap[r.address] = r.stop_order;
+                const existing = routeDataMap[r.address];
+                if (!existing || (r.completed_at && (!existing.completed_at || r.completed_at > existing.completed_at))) {
+                    routeDataMap[r.address] = { stop_order: r.stop_order, completed_at: r.completed_at };
                 }
             }
         }
@@ -91,18 +92,22 @@ export const CalendarScreen: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode }
         const { data: videosData } = await supabase.from('location_videos').select('*').in('address', addrs);
         const { data: photosData } = await supabase.from('location_photos').select('*').in('address', addrs);
 
-        const enrichedDeliveries = routeData.map(d => ({
-            ...d,
-            notes: notesData?.filter(n => n.address === d.address) || [],
-            videos: videosData?.filter(v => v.address === d.address) || [],
-            photos: photosData?.filter(p => p.address === d.address) || [],
-            // Attach stop_order for sorting (fallback to high number so non-run deliveries go last)
-            _stopOrder: stopOrderMap[d.address] ?? 9999,
-        }));
+        const enrichedDeliveries = routeData.map(d => {
+            const rd = routeDataMap[d.address];
+            return {
+                ...d,
+                notes: notesData?.filter(n => n.address === d.address) || [],
+                videos: videosData?.filter(v => v.address === d.address) || [],
+                photos: photosData?.filter(p => p.address === d.address) || [],
+                _stopOrder: rd?.stop_order ?? 9999,
+                _completedAt: rd?.completed_at || d.created_at,
+            };
+        });
 
-        // Sort by date then stop_order within each day
+        // Sort by date then _completedAt
         enrichedDeliveries.sort((a, b) => {
             if (a.delivery_date !== b.delivery_date) return a.delivery_date.localeCompare(b.delivery_date);
+            if (a._completedAt && b._completedAt) return a._completedAt.localeCompare(b._completedAt);
             return a._stopOrder - b._stopOrder;
         });
 

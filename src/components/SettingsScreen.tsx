@@ -182,28 +182,33 @@ const RunsSection = ({ routeStops, activeAddress, onUpdateStops, onSwitchToIntel
                 .order('delivery_date', { ascending: false })
                 .order('created_at', { ascending: true });
 
-            // Fetch run routes so we can sort items within each run by stop_order
+            // Fetch run routes so we can sort items within each run by completed_at
             const { data: routeData } = await supabase
                 .from('admin_run_routes')
-                .select('address, stop_order, run_id')
+                .select('address, stop_order, run_id, completed_at')
                 .order('stop_order', { ascending: true });
 
-            // Build run_id -> { address -> stop_order } lookup
-            const runStopOrderMap: Record<string, Record<string, number>> = {};
+            // Build run_id -> { address -> { stop_order, completed_at } } lookup
+            const runStopOrderMap: Record<string, Record<string, { stop_order: number, completed_at: string | null }>> = {};
             if (routeData) {
                 for (const r of routeData) {
                     if (!runStopOrderMap[r.run_id]) runStopOrderMap[r.run_id] = {};
-                    runStopOrderMap[r.run_id][r.address] = r.stop_order;
+                    const existing = runStopOrderMap[r.run_id][r.address];
+                    if (!existing || (r.completed_at && (!existing.completed_at || r.completed_at > existing.completed_at))) {
+                        runStopOrderMap[r.run_id][r.address] = { stop_order: r.stop_order, completed_at: r.completed_at };
+                    }
                 }
             }
 
-            // Attach _stopOrder to each delivery
-            const enriched = (deliveriesData || []).map((d: any) => ({
-                ...d,
-                _stopOrder: d.run_id && runStopOrderMap[d.run_id]
-                    ? (runStopOrderMap[d.run_id][d.address] ?? 9999)
-                    : 9999,
-            }));
+            // Attach _stopOrder and _completedAt to each delivery
+            const enriched = (deliveriesData || []).map((d: any) => {
+                const mapData = d.run_id && runStopOrderMap[d.run_id] ? runStopOrderMap[d.run_id][d.address] : null;
+                return {
+                    ...d,
+                    _stopOrder: mapData ? mapData.stop_order : 9999,
+                    _completedAt: mapData && mapData.completed_at ? mapData.completed_at : d.created_at,
+                };
+            });
 
             setDeliveries(enriched);
             setLoading(false);
@@ -285,9 +290,12 @@ const RunsSection = ({ routeStops, activeAddress, onUpdateStops, onSwitchToIntel
         groupedRuns[runId].items.push(d);
     });
 
-    // Sort items within each run by stop_order
+    // Sort items within each run by completed_at and then stop_order
     Object.values(groupedRuns).forEach(run => {
-        run.items.sort((a, b) => (a._stopOrder ?? 9999) - (b._stopOrder ?? 9999));
+        run.items.sort((a, b) => {
+            if (a._completedAt && b._completedAt) return a._completedAt.localeCompare(b._completedAt);
+            return (a._stopOrder ?? 9999) - (b._stopOrder ?? 9999);
+        });
     });
 
     const runList = Object.entries(groupedRuns)

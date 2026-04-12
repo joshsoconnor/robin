@@ -243,17 +243,22 @@ public class NavigationPlugin extends Plugin implements LocationListener {
                 String address = call.getString("destination");
                 Double lat = call.getDouble("lat");
                 Double lng = call.getDouble("lng");
+                String placeId = call.getString("placeId");
                 String modeStr = call.getString("travelMode", "DRIVING");
 
-                if (lat == null || lng == null) {
-                    call.reject("Must provide lat and lng of destination.");
+                Waypoint.Builder builder = Waypoint.builder()
+                        .setTitle(address != null ? address : "Destination");
+
+                if (placeId != null && !placeId.isEmpty()) {
+                    builder.setPlaceIdString(placeId);
+                } else if (lat != null && lng != null) {
+                    builder.setLatLng(lat, lng);
+                } else {
+                    call.reject("Must provide a placeId or lat and lng of destination.");
                     return;
                 }
 
-                Waypoint destination = Waypoint.builder()
-                        .setLatLng(lat, lng)
-                        .setTitle(address != null ? address : "Destination")
-                        .build();
+                Waypoint destination = builder.build();
 
                 hasTriggeredArrivalForCurrentRoute = false; // Reset for new route
 
