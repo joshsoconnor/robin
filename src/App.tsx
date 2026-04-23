@@ -140,11 +140,19 @@ function App() {
           try {
             const result: any = await new Promise((resolve, reject) => {
               geocoder.geocode({ address: stop.address, region: 'au' }, (results: any, status: string) => {
-                if (status === 'OK' && results[0]) resolve(results[0].geometry.location);
+                if (status === 'OK' && results[0]) {
+                  const rooftop = results.find((r: any) => r.geometry.location_type === 'ROOFTOP') || results[0];
+                  resolve(rooftop);
+                }
                 else reject(status);
               });
             });
-            resolved[i] = { ...stop, lat: result.lat(), lng: result.lng() };
+            resolved[i] = { 
+              ...stop, 
+              lat: result.geometry.location.lat(), 
+              lng: result.geometry.location.lng(),
+              place_id: result.place_id
+            };
             changed = true;
           } catch (e) { console.warn(`Geocoding failed for ${stop.address}`, e); }
         }
@@ -547,7 +555,9 @@ function App() {
         if (typeof data.stepDistance === 'number') setDistanceToNextTurn(data.stepDistance);
 
         // Proactive Arrival Logic: If within 50m, trigger arrival panel
-        if (m <= 50) {
+        // Proactive Arrival Logic: If within 20m, trigger arrival panel.
+        // Threshold reduced from 50m to avoid false triggers on main roads for back-on properties.
+        if (m <= 20) {
           handleManualArrive(activeNavAddress);
         }
 
@@ -631,14 +641,15 @@ function App() {
         return;
       }
 
-      // 1. Deliveries upsert — only columns that exist: user_id, address, delivery_date
-      // (run_id, status, stop_order, place_id do NOT exist in this table)
-      if (stops.length > 0) {
+      // 1. Deliveries upsert — ensures completed stops show in history
+      const completedStops = stops.filter(s => s.status === 'completed');
+      if (completedStops.length > 0) {
         const { error: delivErr } = await supabase.from('deliveries').upsert(
-          stops.map((s) => ({
-            user_id: userId,
+          completedStops.map(s => ({
             address: s.address,
             delivery_date: runDate,
+            user_id: userId,
+            run_id: runId
           })),
           { onConflict: 'address,delivery_date,user_id' }
         );
@@ -1154,9 +1165,9 @@ function App() {
             )}
 
             {/* Right Side Stack: Thumbnail, Recenter, Voice, Arrive */}
-            <div className="nav-right-stack">
-              {/* Destination Preview Thumbnail */}
-              {activeNavAddress && (
+            {activeNavAddress && !arrivalAddress && (
+              <div className="nav-right-stack">
+                {/* Destination Preview Thumbnail */}
                 <div 
                   className="nav-destination-preview" 
                   onClick={() => setNavLookAround(true)}
@@ -1168,19 +1179,17 @@ function App() {
                     </svg>
                   </div>
                 </div>
-              )}
-
-              {/* Recenter Button - Appears when map is drifted */}
-              {isMapDrifted && (
-                <button className="nav-recenter-btn" onClick={() => NavigationSDK.recenter()}>
-                  <div className="recenter-content">
-                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                      <path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06C6.83 3.52 3.52 6.83 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c4.17-.46 7.48-3.77 7.94-7.94H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/>
-                    </svg>
-                    <span>Recenter</span>
-                  </div>
-                </button>
-              )}
+                {/* Recenter Button - Appears when map is drifted */}
+                {isMapDrifted && (
+                  <button className="nav-recenter-btn" onClick={() => NavigationSDK.recenter()}>
+                    <div className="recenter-content">
+                      <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                        <path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06C6.83 3.52 3.52 6.83 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c4.17-.46 7.48-3.77 7.94-7.94H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/>
+                      </svg>
+                      <span>Recenter</span>
+                    </div>
+                  </button>
+                )}
 
               {/* Voice Assistant - Unified in stack */}
               <VoiceAssistantNode
@@ -1239,6 +1248,7 @@ function App() {
                 <X size={28} />
               </button>
             </div>
+          )}
 
             {/* Nav Action Menu Popup */}
             {showNavActionMenu && (
@@ -1324,15 +1334,17 @@ function App() {
               </div>
             )}
             {/* Custom Floating Footer to match top section */}
-            <div className="nav-footer">
-              <div className="nav-footer-main">
-                <div className="nav-footer-time">{remainingTimeText}</div>
-                <div className="nav-footer-dots">•</div>
-                <div className="nav-footer-distance">{remainingDistanceText}</div>
-                <div className="nav-footer-dots">•</div>
-                <div className="nav-footer-arrival">{etaText}</div>
+            {!arrivalAddress && (
+              <div className="nav-footer">
+                <div className="nav-footer-main">
+                  <div className="nav-footer-time">{remainingTimeText}</div>
+                  <div className="nav-footer-dots">•</div>
+                  <div className="nav-footer-distance">{remainingDistanceText}</div>
+                  <div className="nav-footer-dots">•</div>
+                  <div className="nav-footer-arrival">{etaText}</div>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       )}

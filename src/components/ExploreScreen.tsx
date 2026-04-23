@@ -4,7 +4,7 @@ import { Geolocation } from '@capacitor/geolocation';
 // Camera import removed — video capture now uses a file input with accept="video/*"
 import { registerPlugin, Capacitor } from '@capacitor/core';
 import { getSydneyDate } from '../lib/dateUtils';
-import { Camera, Navigation, MapPin, Search, Plus, X, Video, Car, Footprints, FileText, Loader, AlertTriangle, Trash2, Volume2, VolumeX } from 'lucide-react';
+import { Camera, Navigation, Search, Plus, X, Video, Car, Footprints, FileText, Loader, AlertTriangle, Trash2, Volume2, VolumeX } from 'lucide-react';
 import { silverMapStyle, darkMapStyle } from '../lib/mapStyles';
 import { supabase } from '../lib/supabase';
 import { analyzeSignPhoto } from '../lib/signAnalyzer';
@@ -19,7 +19,7 @@ const NavigationSDK = registerPlugin<any>('NavigationSDK');
 const STREETVIEW_API_KEY = "AIzaSyB9id2lFl02rKAX2gf9qkiL24oEvhI__GU";
 
 const getStreetViewUrl = (lat: number, lng: number) =>
-    `https://maps.googleapis.com/maps/api/streetview?size=400x200&location=${lat},${lng}&key=${STREETVIEW_API_KEY}`;
+    `https://maps.googleapis.com/maps/api/streetview?size=400x200&location=${lat},${lng}&source=outdoor&key=${STREETVIEW_API_KEY}`;
 
 // --- MODALS ---
 
@@ -889,11 +889,19 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ persistedDestinati
                     try {
                         const result: any = await new Promise((resolve, reject) => {
                             geocoder.geocode({ address: stop.address, region: 'au' }, (results: any, status: string) => {
-                                if (status === 'OK' && results[0]) resolve(results[0].geometry.location);
+                                if (status === 'OK' && results[0]) {
+                                    const rooftop = results.find((r: any) => r.geometry.location_type === 'ROOFTOP') || results[0];
+                                    resolve(rooftop);
+                                }
                                 else reject(status);
                             });
                         });
-                        resolved[i] = { ...stop, lat: result.lat(), lng: result.lng() };
+                        resolved[i] = { 
+                            ...stop, 
+                            lat: result.geometry.location.lat(), 
+                            lng: result.geometry.location.lng(),
+                            place_id: result.place_id
+                        };
                         changed = true;
                     } catch (e) {
                         console.warn(`Geocoding failed for ${stop.address}:`, e);

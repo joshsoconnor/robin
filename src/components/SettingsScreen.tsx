@@ -290,11 +290,11 @@ const RunsSection = ({ routeStops, activeAddress, onUpdateStops, onSwitchToIntel
         groupedRuns[runId].items.push(d);
     });
 
-    // Sort items within each run by completed_at and then stop_order
+    // Sort items within each run by stop_order (primary) and then completed_at (secondary)
     Object.values(groupedRuns).forEach(run => {
         run.items.sort((a, b) => {
-            if (a._completedAt && b._completedAt) return a._completedAt.localeCompare(b._completedAt);
-            return (a._stopOrder ?? 9999) - (b._stopOrder ?? 9999);
+            if (a._stopOrder !== b._stopOrder) return (a._stopOrder ?? 9999) - (b._stopOrder ?? 9999);
+            return (a._completedAt || "").localeCompare(b._completedAt || "");
         });
     });
 

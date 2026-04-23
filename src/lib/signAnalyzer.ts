@@ -5,6 +5,8 @@
 
 const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 
+import { checkCircuitBreaker, setRequestInProgress, executeWithBackoff } from './circuitBreaker';
+
 export interface SignData {
     category: 'clearway' | 'school_zone' | 'parking' | 'loading_zone' | 'other';
     description: string;
@@ -51,27 +53,39 @@ Rules:
 - If you cannot determine times or days, omit those fields
 - If the photo is not a street sign, return {"category": "other", "description": "Not a recognizable street sign"}`;
 
-    try {
-        const response = await fetch(
-            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`,
-            {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    contents: [{
-                        parts: [
-                            { text: prompt },
-                            { inline_data: { mime_type: mimeType, data: base64 } }
-                        ]
-                    }]
-                })
-            }
-        );
+    const isSafe = await checkCircuitBreaker();
+    if (!isSafe) {
+        console.warn('CircuitBreaker blocked sign analysis call.');
+        return null;
+    }
 
-        if (!response.ok) {
-            console.error('Gemini sign analysis API error:', response.statusText);
-            return null;
-        }
+    setRequestInProgress(true);
+
+    try {
+        const response = await executeWithBackoff(async () => {
+            const res = await fetch(
+                `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`,
+                {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [
+                                { text: prompt },
+                                { inline_data: { mime_type: mimeType, data: base64 } }
+                            ]
+                        }]
+                    })
+                }
+            );
+            if (!res.ok) {
+                // Determine if we should throw for retry
+                const error = new Error(`Gemini sign analysis API error: ${res.statusText}`);
+                (error as any).status = res.status;
+                throw error;
+            }
+            return res;
+        });
 
         const data = await response.json();
         const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
@@ -80,5 +94,7 @@ Rules:
     } catch (err) {
         console.error('Failed to analyze sign photo:', err);
         return null;
+    } finally {
+        setRequestInProgress(false);
     }
 }

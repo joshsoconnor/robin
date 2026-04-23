@@ -477,16 +477,23 @@ export const MapScreen: React.FC<{
     }, []);
 
     // Geocode a stop address using the Google Maps Geocoder (already loaded via @vis.gl/react-google-maps)
-    const geocodeStop = (address: string): Promise<{ lat: number, lng: number } | null> => {
+    // Geocode a stop address using the Google Maps Geocoder (already loaded via @vis.gl/react-google-maps)
+    const geocodeStop = (address: string): Promise<{ lat: number, lng: number, placeId?: string } | null> => {
         return new Promise((resolve) => {
             try {
                 const geocoder = new (window as any).google.maps.Geocoder();
                 geocoder.geocode(
                     { address, region: 'au' },
-                    (results: any[], status: string) => {
+                     (results: any[], status: string) => {
                         if (status === 'OK' && results.length > 0) {
-                            const loc = results[0].geometry.location;
-                            resolve({ lat: loc.lat(), lng: loc.lng() });
+                            // Prefer ROOFTOP logic to avoid backstreet snapping
+                            const rooftop = results.find(r => r.geometry.location_type === 'ROOFTOP') || results[0];
+                            const loc = rooftop.geometry.location;
+                            resolve({ 
+                                lat: loc.lat(), 
+                                lng: loc.lng(), 
+                                placeId: rooftop.place_id 
+                            });
                         } else {
                             resolve(null);
                         }
@@ -638,7 +645,7 @@ export const MapScreen: React.FC<{
                                         lng = coords.lng;
                                         // Cache back onto the stop so future calls are instant
                                         setRunStops(prev => prev.map(s =>
-                                            s.id === nextPending.id ? { ...s, lat: coords.lat, lng: coords.lng } : s
+                                            s.id === nextPending.id ? { ...s, lat: coords.lat, lng: coords.lng, place_id: coords.placeId } : s
                                         ));
                                     } else {
                                         setNavError('Could not find coordinates for this address. Check the address is correct.');

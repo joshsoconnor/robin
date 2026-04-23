@@ -104,11 +104,11 @@ export const CalendarScreen: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode }
             };
         });
 
-        // Sort by date then _completedAt
+        // Sort by date, then stop_order (primary), then _completedAt (secondary)
         enrichedDeliveries.sort((a, b) => {
             if (a.delivery_date !== b.delivery_date) return a.delivery_date.localeCompare(b.delivery_date);
-            if (a._completedAt && b._completedAt) return a._completedAt.localeCompare(b._completedAt);
-            return a._stopOrder - b._stopOrder;
+            if (a._stopOrder !== b._stopOrder) return a._stopOrder - b._stopOrder;
+            return (a._completedAt || "").localeCompare(b._completedAt || "");
         });
 
         setDeliveries(enrichedDeliveries);

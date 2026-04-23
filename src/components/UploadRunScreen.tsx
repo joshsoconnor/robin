@@ -4,6 +4,7 @@ import { useMapsLibrary } from '@vis.gl/react-google-maps';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import type { DropResult } from '@hello-pangea/dnd';
 import { supabase } from '../lib/supabase';
+import { executeWithBackoff } from '../lib/circuitBreaker';
 import './UploadRunScreen.css';
 
 interface ParsedStop {
@@ -95,25 +96,31 @@ Rules:
         ...images.map(img => ({ inline_data: { mime_type: img.mimeType, data: img.base64 } }))
     ];
 
-    const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`,
-        {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ contents: [{ parts }] })
-        }
-    );
+    const response = await executeWithBackoff(async () => {
+        const res = await fetch(
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`,
+            {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ contents: [{ parts }] })
+            }
+        );
 
-    if (!response.ok) {
-        let errorDetail = response.statusText;
-        try {
-            const errorJson = await response.json();
-            errorDetail = errorJson.error?.message || JSON.stringify(errorJson);
-        } catch {
-            // Fallback if not JSON
+        if (!res.ok) {
+            let errorDetail = res.statusText;
+            try {
+                const errorJson = await res.json();
+                errorDetail = errorJson.error?.message || JSON.stringify(errorJson);
+            } catch {
+                // Fallback if not JSON
+            }
+            const error = new Error(`Google API limit or error: ${errorDetail} (${res.status})`);
+            (error as any).status = res.status;
+            throw error;
         }
-        throw new Error(`Google API limit or error: ${errorDetail} (${response.status})`);
-    }
+        return res;
+    });
+
     const data = await response.json();
     const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
 
@@ -212,7 +219,9 @@ export const UploadRunScreen: React.FC<UploadRunScreenProps> = ({ isDarkMode, on
     });
     const [phase, setPhase] = useState<'capture' | 'processing' | 'review'>(() => {
         if (routeStops && routeStops.length > 0) return 'review';
-        return (localStorage.getItem('upload_run_phase') as any) || 'capture';
+        const saved = localStorage.getItem('upload_run_phase');
+        if (saved === 'processing') return 'capture';
+        return (saved as any) || 'capture';
     });
     const [processingStatus, setProcessingStatus] = useState('');
 

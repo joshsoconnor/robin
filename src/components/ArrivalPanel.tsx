@@ -306,7 +306,7 @@ export const ArrivalPanel: React.FC<ArrivalPanelProps> = ({
                             onClick={() => setShowCurrentLookAround(true)}
                         >
                             <img
-                                src={`https://maps.googleapis.com/maps/api/streetview?size=600x400&location=${lat},${lng}&key=AIzaSyB9id2lFl02rKAX2gf9qkiL24oEvhI__GU`}
+                                src={`https://maps.googleapis.com/maps/api/streetview?size=600x400&location=${lat},${lng}&source=outdoor&key=AIzaSyB9id2lFl02rKAX2gf9qkiL24oEvhI__GU`}
                                 alt="Destination Street View"
                                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                             />

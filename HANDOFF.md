@@ -1,11 +1,31 @@
 # Robin App - Project Handoff & Status
 
-## Current Application State (April 12, 2026 - V2.1.0)
-This update introduces the Navigation Action Menu and Truck-Aware Hazard Alerts. It significantly improves safety and pin accuracy by allowing real-time hazard reporting and coordinate correction directly from the guidance screen.
+## Current Application State (April 23, 2026 - V3.3.0)
+This update restores OCR functionality after the deprecation of the Gemini-Lite model and resolves a critical UI occlusion bug in the Arrival Panel where buttons became unresponsive over the native map. It also hardens the state machine to prevent "white screen" locks on startup.
 
 ---
 
-## ✅ What's New & Fixed (V1.5.0 - V1.9.0)
+## ✅ What's New & Fixed (V3.0.0 - V3.3.0)
+
+### 🚀 OCR Model Recovery & UI Harden (V3.3.0)
+- **Issue**: `gemini-2.0-flash-lite` was deprecated for new integrations, causing a 404 API error during photo uploads.
+- **Fix**: Migrated `UploadRunScreen.tsx` to use the generally available `gemini-2.0-flash` model.
+- **Issue**: Arrival Panel buttons ("End Route", "Exit Nav") were unclickable because the native navigation's `pointer-events: none` on the app container was inherited without override.
+- **Fix**: Added explicit `pointer-events: auto` to all `ArrivalPanel.css` overlays, restoring interaction during active navigation.
+- **Issue**: A "white screen" lock occurred if the app was closed during the processing phase, as it would try to restore a stale `processing` state on reload without an active request.
+- **Fix**: Implemented a state-machine reset that forces the app back to the `capture` phase if it detects an interrupted `processing` state on startup.
+
+
+### 🛡️ API Circuit Breaker & Rate Limiting (V3.0.0)
+- **Issue**: A "death loop" or unthrottled rapid tapping event caused Robin to execute ~300,000 uncontrolled Gemini API requests, creating a massive billing spike.
+- **Fix**: Created a unified `circuitBreaker.ts` architecture handling:
+  - **Hard Rate Throttling:** Global Gemini triggers cannot fire more frequently than once every 60 seconds OR 500 meters of geographical movement (using native geolocation tracking).
+  - **Concurrency Drops:** Built a `requestInProgress` mutex to permanently drop parallel execution requests.
+  - **Exponential Backoff:** If the AI throws a rate-limit (429) or server drop (500), it enters an exponentially decaying retry queue (2s -> 4s -> 8s -> 16s) to aggressively blunt runaway scripts.
+
+### 🧠 Model Optimization & Cost Scaling (V3.0.0)
+- **Issue**: Standard tasks were relying exclusively on `gemini-2.0-flash` or outdated equivalents without acknowledging per-usage expense ratio.
+- **Fix**: Downgraded simple background processes (e.g. `UploadRunScreen.tsx` OCR) and the voice assistant endpoint (`robin-chat` edge function) to use `gemini-2.0-flash-lite`. This slashes token pricing drastically while dedicating the heavy-weight `flash` model solely to complex visual recognition tasks like Sign Analyzer.
 
 ### 🔇 Global Navigation Mute
 - **Issue**: Wanted the ability to silence turn-by-turn guidance, hazard warnings, and voice assistant responses without muting the entire OS volume.
@@ -74,14 +94,20 @@ cd android
 
 ---
 
-## 🛑 Status: V2.1.0 — PRODUCTION STABLE
+## 🛑 Status: V3.3.0 — PRODUCTION STABLE
 - Build: ✅ PASSED
-- APK on Desktop: ✅ `Robin V2.1.apk` (Apr 12 2026)
-- Action Menu (+): ✅ Align and functional
+- APK on Desktop: ✅ `Robin V3.3.apk` (Apr 23 2026)
+- OCR Recovery: ✅ Verified (gemini-2.0-flash)
+- UI Responsiveness: ✅ Fixed (pointer-events: auto)
+- White Screen Protection: ✅ Active
+- API Circuit Breaker: ✅ Active (60s/500m limits enforced)
+- Exponential Backoff: ✅ Functioning on 429/5xx responses
+- Navigation Exit Visibility: ✅ Fixed
+- Action Menu (+): ✅ Functional
 - Truck Hazard Alerts: ✅ Voice and Visual alerts verified
 - Pin Correction: ✅ Database update logic verified
-- Run/Calendar Sync: ✅ TS build errors cleared
-- Global Voice Navigation Mute: ✅ Code is correct
+- Run/Calendar Sync: ✅ Stable
+- Global Voice Navigation Mute: ✅ Functional
 
 ---
 
@@ -105,8 +131,13 @@ A silent failure was reported where runs are not saving to the database or showi
 
 ## Previous Updates (Archived)
 
-### ✅ April 10, 2026 - V1.9.0
-Resolves navigation UI issues by migrating to Street View imagery, dynamic next-stop anticipation, and forced run state clearing.
+### ✅ April 20, 2026 - V2.5.0
+- **Navigation Exit Visibility Fix**: Resolved issue where the 'End Run' button was unclickable behind the navigation footer.
+- **Z-Index Optimization**: Increased `ArrivalPanel` z-index to 9000+.
+- **UI Auto-Cleanup**: Navigation footer and right-side action stack are now automatically hidden when the Arrival Panel is active to prevent clutter and overlap.
+
+### ✅ April 12, 2026 - V2.1.0
+Introduced the Navigation Action Menu and Truck-Aware Hazard Alerts.
 
 ### ✅ April 02, 2026 - V1.0.1 Patch
 Resolves two root-cause issues that were preventing the V1.0 APK from working correctly: a Java compilation error that had been silently blocking all builds, and a Supabase schema mismatch that caused all database sync to fail silently (`run_stops` schema mismatch).

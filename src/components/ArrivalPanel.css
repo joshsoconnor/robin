@@ -1,12 +1,13 @@
 .arrival-overlay {
     position: fixed;
     inset: 0;
-    z-index: 600;
+    z-index: 9000;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     background: rgba(0, 0, 0, 0.35);
     animation: fadeIn 0.25s ease;
+    pointer-events: auto;
 }
 
 @keyframes fadeIn {
@@ -151,9 +152,10 @@
 .delivery-slideup-overlay {
     position: fixed;
     inset: 0;
-    z-index: 700;
+    z-index: 9100;
     background: rgba(0, 0, 0, 0.5);
     animation: fadeIn 0.2s ease;
+    pointer-events: auto;
 }
 
 .delivery-slideup {
@@ -503,6 +505,7 @@
     z-index: 10000;
     background: #000;
     animation: fadeIn 0.3s ease;
+    pointer-events: auto;
 }
 
 /* Split-screen map header — pinned to top half of screen, absolutely positioned */
