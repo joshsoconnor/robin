@@ -247,6 +247,13 @@ function App() {
 
   // Restore nav overlay if navigation was still running when app resumed from background
   useEffect(() => {
+    // Fresh install cleanup: ensure no stale navigation state exists from previous installations or interrupted builds
+    if (!localStorage.getItem('robin_initialized')) {
+      localStorage.removeItem('nav-active');
+      localStorage.removeItem('nav-label');
+      localStorage.setItem('robin_initialized', 'true');
+    }
+
     if (localStorage.getItem('nav-active') === '1') {
       setNavActive(true);
       document.body.classList.add('native-nav-active');
@@ -342,7 +349,17 @@ function App() {
       }
     };
 
+    // Safety timeout for auth: if Supabase doesn't respond in 6s, default to login screen
+    // to prevent the "Loading..." white screen hang on poor connections.
+    const authTimeout = setTimeout(() => {
+      if (isAuthenticated === null) {
+        console.warn('Auth session check timed out, defaulting to guest/login.');
+        setIsAuthenticated(false);
+      }
+    }, 6000);
+
     supabase.auth.getSession().then(({ data: { session } }) => {
+      clearTimeout(authTimeout);
       setIsAuthenticated(!!session);
       setUserEmail(session?.user?.email || null);
       if (session) {
@@ -353,6 +370,10 @@ function App() {
         fetchProfile(session.user.id);
         fetchRunState(session.user.id);
       }
+    }).catch(err => {
+      clearTimeout(authTimeout);
+      console.error('Supabase session fetch error:', err);
+      setIsAuthenticated(false);
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
@@ -814,7 +835,8 @@ function App() {
     }
     setArrivalAddress(null);
     setActiveNavAddress(null);
-  }, [activeNavAddress, routeStops, isGuest, activeRunId]);
+    handleNavExit();
+  }, [activeNavAddress, routeStops, isGuest, activeRunId, handleNavExit]);
 
   const handleNextDelivery = useCallback(async () => {
     const currentIdx = routeStops.findIndex(s => s.address === activeNavAddress);
@@ -895,6 +917,7 @@ function App() {
     setActiveNavAddress(null);
     setArrivalAddress(null);
     setIsNavigating(false);
+    setPersistedDestination(null);
     localStorage.removeItem('robin_route_stops');
     localStorage.removeItem('robin_active_run_id');
     localStorage.removeItem('upload_run_stops');
@@ -922,7 +945,8 @@ function App() {
     
     // Auto-clear the run screen after finishing the final route
     handleClearRun();
-  }, [routeStops, isGuest, activeRunId, handleClearRun]);
+    handleNavExit();
+  }, [routeStops, isGuest, activeRunId, handleClearRun, handleNavExit]);
 
 
 
@@ -1075,7 +1099,31 @@ function App() {
   };
 
   if (isAuthenticated === null) {
-    return <div style={{ display: 'flex', height: '100vh', alignItems: 'center', justifyContent: 'center' }}>Loading...</div>;
+    return (
+      <div style={{ 
+        display: 'flex', 
+        height: '100vh', 
+        alignItems: 'center', 
+        justifyContent: 'center',
+        backgroundColor: 'var(--bg-main, #F5F5F7)',
+        color: 'var(--text-main, #1A1A1A)',
+        flexDirection: 'column',
+        gap: '16px'
+      }}>
+        <div className="loading-spinner" style={{ 
+          width: '40px', 
+          height: '40px', 
+          border: '3px solid var(--border-subtle, #E5E5E7)', 
+          borderTop: '3px solid var(--primary-action, #E65C3E)', 
+          borderRadius: '50%',
+          animation: 'spin 1s linear infinite'
+        }} />
+        <span style={{ fontWeight: 600, fontSize: '15px', opacity: 0.8 }}>Loading Robin...</span>
+        <style>{`
+          @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        `}</style>
+      </div>
+    );
   }
 
   if (!isAuthenticated && !isGuest) {

@@ -10,12 +10,13 @@ public class MainActivity extends BridgeActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         try {
-            Log.e(TAG, "Attempting to register NavigationPlugin BEFORE super.onCreate...");
+            Log.e(TAG, "Attempting to register NavigationPlugin...");
             registerPlugin(NavigationPlugin.class);
             Log.e(TAG, "NavigationPlugin registered successfully!");
         } catch (Throwable t) {
             Log.e(TAG, "FAILED to register NavigationPlugin!", t);
         }
+
         super.onCreate(savedInstanceState);
     }
 }

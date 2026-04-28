@@ -1,11 +1,17 @@
 # Robin App - Project Handoff & Status
 
-## Current Application State (April 23, 2026 - V3.3.0)
-This update restores OCR functionality after the deprecation of the Gemini-Lite model and resolves a critical UI occlusion bug in the Arrival Panel where buttons became unresponsive over the native map. It also hardens the state machine to prevent "white screen" locks on startup.
+## Current Application State (April 28, 2026 - V3.6.0)
+This update fixes a critical navigation lifecycle bug where ending a run failed to tear down the native map overlay, resulting in a persistent white screen on app restart. It also ensures Explore mode properly clears destination pins when finishing a route.
 
 ---
 
-## ✅ What's New & Fixed (V3.0.0 - V3.3.0)
+## ✅ What's New & Fixed (V3.0.0 - V3.6.0)
+
+### 🗺️ Navigation Lifecycle & UI Recovery (V3.6.0)
+- **Issue**: Tapping "End Run" or "End Route" cleared the React UI state but failed to call `handleNavExit()` to shut down the Native Navigation SDK. This caused a permanent white screen over an empty map when the app was closed and reopened, as the `nav-active` flag remained stuck.
+- **Fix**: Added explicit `handleNavExit()` teardown calls to `handleEndRun` and `handleEndRoute` to properly destroy the navigation session and clear `localStorage`.
+- **Issue**: Explore Mode runs were not clearing the destination pin when finishing, preventing the map from cleanly resetting to the user's current location.
+- **Fix**: Injected `setPersistedDestination(null)` into the `handleClearRun()` pipeline so the Explore map always returns to a fresh state.
 
 ### 🚀 OCR Model Recovery & UI Harden (V3.3.0)
 - **Issue**: `gemini-2.0-flash-lite` was deprecated for new integrations, causing a 404 API error during photo uploads.
@@ -94,9 +100,11 @@ cd android
 
 ---
 
-## 🛑 Status: V3.3.0 — PRODUCTION STABLE
+## 🛑 Status: V3.6.0 — PRODUCTION STABLE
 - Build: ✅ PASSED
-- APK on Desktop: ✅ `Robin V3.3.apk` (Apr 23 2026)
+- APK on Desktop: ✅ `Robin V3.6.apk` (Apr 28 2026)
+- Navigation Teardown: ✅ Fixed (handleNavExit called on end run/route)
+- Explore Map Reset: ✅ Fixed (persisted destination cleared)
 - OCR Recovery: ✅ Verified (gemini-2.0-flash)
 - UI Responsiveness: ✅ Fixed (pointer-events: auto)
 - White Screen Protection: ✅ Active
