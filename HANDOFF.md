@@ -1,11 +1,22 @@
 # Robin App - Project Handoff & Status
 
-## Current Application State (April 28, 2026 - V3.6.0)
-This update fixes a critical navigation lifecycle bug where ending a run failed to tear down the native map overlay, resulting in a persistent white screen on app restart. It also ensures Explore mode properly clears destination pins when finishing a route.
+## Current Application State (May 06, 2026 - V4.0.0)
+This update hardens the application against API failures and security risks. It implements a robust AI model fallback chain to bypass persistent Google 429/404 errors and fully sanitizes the codebase by moving all hardcoded API keys to environment variables and securing the repository's Git tree.
 
 ---
 
-## ✅ What's New & Fixed (V3.0.0 - V3.6.0)
+## ✅ What's New & Fixed (V4.0.0)
+
+### 🛡️ Security Hardening & Bot Protection (V4.0.0)
+- **Issue**: Multiple API keys (Google Maps) were hardcoded in the source code, and the `.env` file was being tracked by Git, exposing the app to scraping and billing risks.
+- **Fix**: 
+  - Sanitized the codebase by moving all hardcoded Google Maps keys to `VITE_GOOGLE_MAPS_API_KEY` in `.env`.
+  - Updated `.gitignore` to include `.env` and performed a "tree clear" (`git rm --cached .env`) to permanently remove sensitive files from the GitHub history.
+  - Secured the Android Native Maps key by moving it to `strings.xml` and referencing it via `@string/google_maps_key` in the manifest.
+
+### 🔄 AI Model Reliability & Fallback Chain (V4.0.0)
+- **Issue**: Google API quota limits (429) and region-specific model deprecations (404) were causing OCR and Sign Analysis to fail frequently.
+- **Fix**: Implemented a resilient fallback architecture in `UploadRunScreen.tsx` and `signAnalyzer.ts`. The app now defaults to `gemini-2.0-flash` but automatically failsover to `gemini-flash-latest` if it encounters 429, 404, or 503 errors.
 
 ### 🗺️ Navigation Lifecycle & UI Recovery (V3.6.0)
 - **Issue**: Tapping "End Run" or "End Route" cleared the React UI state but failed to call `handleNavExit()` to shut down the Native Navigation SDK. This caused a permanent white screen over an empty map when the app was closed and reopened, as the `nav-active` flag remained stuck.
@@ -100,10 +111,13 @@ cd android
 
 ---
 
-## 🛑 Status: V3.6.0 — PRODUCTION STABLE
+## 🛑 Status: V4.0.0 — PRODUCTION STABLE
 - Build: ✅ PASSED
-- APK on Desktop: ✅ `Robin V3.6.apk` (Apr 28 2026)
-- Navigation Teardown: ✅ Fixed (handleNavExit called on end run/route)
+- APK on Desktop: ✅ `Robin V4.0.apk` (May 06 2026)
+- AI Reliability: ✅ Fallback Chain Active (Flash 2.0 -> Flash Latest)
+- Security: ✅ All API keys moved to .env / secured
+- GitHub Tree: ✅ Sanitized (.env removed from tracking)
+- Navigation Teardown: ✅ Fixed
 - Explore Map Reset: ✅ Fixed (persisted destination cleared)
 - OCR Recovery: ✅ Verified (gemini-2.0-flash)
 - UI Responsiveness: ✅ Fixed (pointer-events: auto)
