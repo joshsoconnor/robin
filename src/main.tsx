@@ -6,7 +6,7 @@ import App from './App.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <APIProvider apiKey="AIzaSyB9id2lFl02rKAX2gf9qkiL24oEvhI__GU">
+    <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
       <App />
     </APIProvider>
   </StrictMode>,

@@ -306,7 +306,7 @@ export const ArrivalPanel: React.FC<ArrivalPanelProps> = ({
                             onClick={() => setShowCurrentLookAround(true)}
                         >
                             <img
-                                src={`https://maps.googleapis.com/maps/api/streetview?size=600x400&location=${lat},${lng}&source=outdoor&key=AIzaSyB9id2lFl02rKAX2gf9qkiL24oEvhI__GU`}
+                                src={`https://maps.googleapis.com/maps/api/streetview?size=600x400&location=${lat},${lng}&source=outdoor&key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}`}
                                 alt="Destination Street View"
                                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                             />
@@ -655,7 +655,7 @@ export const ArrivalPanel: React.FC<ArrivalPanelProps> = ({
                 {showDeliveryPanel && hasNextDelivery && nextLat !== undefined && nextLng !== undefined ? (
                     <>
                         <img
-                            src={`https://maps.googleapis.com/maps/api/streetview?size=600x400&location=${nextLat},${nextLng}&fov=110&pitch=0&key=AIzaSyB9id2lFl02rKAX2gf9qkiL24oEvhI__GU`}
+                            src={`https://maps.googleapis.com/maps/api/streetview?size=600x400&location=${nextLat},${nextLng}&fov=110&pitch=0&key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}`}
                             alt="Next Destination"
                             style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                         />
@@ -673,7 +673,7 @@ export const ArrivalPanel: React.FC<ArrivalPanelProps> = ({
                 ) : lat !== undefined && lng !== undefined ? (
                     <>
                         <img
-                            src={`https://maps.googleapis.com/maps/api/streetview?size=600x400&location=${lat},${lng}&fov=110&pitch=0&key=AIzaSyB9id2lFl02rKAX2gf9qkiL24oEvhI__GU`}
+                            src={`https://maps.googleapis.com/maps/api/streetview?size=600x400&location=${lat},${lng}&fov=110&pitch=0&key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}`}
                             alt="Destination"
                             style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                         />

@@ -657,8 +657,10 @@ function App() {
 
   const syncRouteToSupabase = async (stops: Stop[], userId: string, runId: string, runDate: string) => {
     try {
-      if (stops.length === 1 && stops[0].id && stops[0].id.startsWith('explore-')) {
-        console.log('Skipping sync for ad-hoc explore navigation');
+      // Allow ad-hoc exploration stops to be saved ONLY if Delivery Mode is explicitly ON.
+      // This ensures ad-hoc deliveries show up in the calendar/admin for today.
+      if (stops.length === 1 && stops[0].id && stops[0].id.startsWith('explore-') && !isDeliveryMode) {
+        console.log('Skipping sync for ad-hoc explore navigation (Delivery Mode is OFF)');
         return;
       }
 
@@ -731,13 +733,15 @@ function App() {
   const handleUpdateStops = useCallback(async (newStops: Stop[]) => {
     setRouteStops(newStops);
     localStorage.setItem('robin_route_stops', JSON.stringify(newStops));
-    if (!isGuest && activeRunId && userEmail) {
+    // Save to cloud if logged in AND (we have an active run OR delivery mode is on)
+    if (!isGuest && userEmail && (activeRunId || isDeliveryMode)) {
       const { data: userData } = await supabase.auth.getUser();
       if (userData.user) {
-        await syncRouteToSupabase(newStops, userData.user.id, activeRunId, getSydneyDate());
+        const runId = activeRunId || `adhoc_${getSydneyDate()}`;
+        await syncRouteToSupabase(newStops, userData.user.id, runId, getSydneyDate());
       }
     }
-  }, [activeRunId, isGuest, userEmail]);
+  }, [activeRunId, isGuest, userEmail, isDeliveryMode]);
 
   const handleFinalize = async (stops: Stop[]) => {
     const runId = `run_${Date.now()}`;
@@ -824,11 +828,12 @@ function App() {
         const updatedStops = routeStops.map((s, i) =>
           i === currentIdx ? { ...s, status: 'completed' as const, completed_at: completedAt } : s
         );
+        const targetRunId = activeRunId || `adhoc_${getSydneyDate()}`;
         setRouteStops(updatedStops);
-        if (!isGuest && activeRunId) {
+        if (!isGuest) {
           const { data: userData } = await supabase.auth.getUser();
           if (userData.user) {
-            await syncRouteToSupabase(updatedStops, userData.user.id, activeRunId, getSydneyDate());
+            await syncRouteToSupabase(updatedStops, userData.user.id, targetRunId, getSydneyDate());
           }
         }
       }
@@ -848,11 +853,12 @@ function App() {
       currentStops = routeStops.map((s, i) =>
         i === currentIdx ? { ...s, status: 'completed' as const, completed_at: completedAt } : s
       );
+      const targetRunId = activeRunId || `adhoc_${getSydneyDate()}`;
       setRouteStops(currentStops);
-      if (!isGuest && activeRunId) {
+      if (!isGuest) {
         const { data: userData } = await supabase.auth.getUser();
         if (userData.user) {
-          await syncRouteToSupabase(currentStops, userData.user.id, activeRunId, getSydneyDate());
+          await syncRouteToSupabase(currentStops, userData.user.id, targetRunId, getSydneyDate());
         }
       }
     }
@@ -933,10 +939,11 @@ function App() {
       s.status === 'pending' ? { ...s, status: 'completed' as const, completed_at: completedAt } : s
     );
     setRouteStops(fullyCompletedStops);
-    if (!isGuest && activeRunId) {
+    if (!isGuest) {
       const { data: userData } = await supabase.auth.getUser();
       if (userData.user) {
-        await syncRouteToSupabase(fullyCompletedStops, userData.user.id, activeRunId, getSydneyDate());
+        const targetRunId = activeRunId || `adhoc_${getSydneyDate()}`;
+        await syncRouteToSupabase(fullyCompletedStops, userData.user.id, targetRunId, getSydneyDate());
       }
     }
     setArrivalAddress(null);

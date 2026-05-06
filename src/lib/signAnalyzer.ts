@@ -63,21 +63,38 @@ Rules:
 
     try {
         const response = await executeWithBackoff(async () => {
-            const res = await fetch(
+            const payload = JSON.stringify({
+                contents: [{
+                    parts: [
+                        { text: prompt },
+                        { inline_data: { mime_type: mimeType, data: base64 } }
+                    ]
+                }]
+            });
+            
+            let res = await fetch(
                 `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`,
                 {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{
-                            parts: [
-                                { text: prompt },
-                                { inline_data: { mime_type: mimeType, data: base64 } }
-                            ]
-                        }]
-                    })
+                    body: payload
                 }
             );
+
+            if (!res.ok) {
+                if (res.status === 429 || res.status === 404 || res.status === 503) {
+                    console.log("Primary model failed, falling back to gemini-flash-latest...");
+                    res = await fetch(
+                        `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${GEMINI_API_KEY}`,
+                        {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: payload
+                        }
+                    );
+                }
+            }
+
             if (!res.ok) {
                 // Determine if we should throw for retry
                 const error = new Error(`Gemini sign analysis API error: ${res.statusText}`);

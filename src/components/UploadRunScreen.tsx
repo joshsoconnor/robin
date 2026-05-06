@@ -97,14 +97,29 @@ Rules:
     ];
 
     const response = await executeWithBackoff(async () => {
-        const res = await fetch(
+        const payload = JSON.stringify({ contents: [{ parts }] });
+        let res = await fetch(
             `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`,
             {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ contents: [{ parts }] })
+                body: payload
             }
         );
+
+        if (!res.ok) {
+            if (res.status === 429 || res.status === 404 || res.status === 503) {
+                console.log("Primary model failed, falling back to gemini-flash-latest...");
+                res = await fetch(
+                    `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${GEMINI_API_KEY}`,
+                    {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: payload
+                    }
+                );
+            }
+        }
 
         if (!res.ok) {
             let errorDetail = res.statusText;
@@ -590,7 +605,7 @@ export const UploadRunScreen: React.FC<UploadRunScreenProps> = ({ isDarkMode, on
                             <div className="next-stop-preview" onClick={() => onNavToStop(nextPending)}>
                                 <div className="next-stop-img-container">
                                     <img 
-                                        src={`https://maps.googleapis.com/maps/api/streetview?size=600x400&location=${nextPending.lat},${nextPending.lng}&fov=110&pitch=0&key=AIzaSyB9id2lFl02rKAX2gf9qkiL24oEvhI__GU`} 
+                                        src={`https://maps.googleapis.com/maps/api/streetview?size=600x400&location=${nextPending.lat},${nextPending.lng}&fov=110&pitch=0&key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}`} 
                                         alt="Next Stop" 
                                         className="next-stop-img" 
                                     />
